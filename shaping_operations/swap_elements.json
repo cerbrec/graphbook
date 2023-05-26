@@ -1,0 +1,100 @@
+{
+    "name": "swap_elements",
+    "primitive_name": "swap_elements",
+    "aliases": [
+        "swap_elements",
+        "swap_indices",
+        "change_elements",
+        "exchange_elements"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "array",
+        "dimension_index",
+        "index_1",
+        "index_2"
+    ],
+    "outputs": [
+        "swapped_array"
+    ],
+    "assertions": [
+        "{array}_is_array",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_scalar",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{dimension_index}_is_less_than_{array}_number_of_dimensions",
+        "{index_1}_is_not_equal_to_{index_2}",
+        "{index_1}_is_less_than_size_of_{array}_at_dimension_index_{dimension_index}",
+        "{index_2}_is_less_than_size_of_{array}_at_dimension_index_{dimension_index}",
+        "{swapped_array}_is_array",
+        "{swapped_array}_data_type_is_the_same_as_{array}",
+        "{swapped_array}_shape_is_the_same_as_{array}"
+    ],
+    "description": [
+        "Swap elements over two indices  (`index_1` and `index_2`) of `array` on dimension `dimension_index`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        [
+                            1,
+                            2,
+                            3,
+                            4
+                        ],
+                        [
+                            5,
+                            6,
+                            7,
+                            8
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 1,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "index_1",
+                    "data": 0,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "index_2",
+                    "data": 1,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "swapped_array",
+                    "primitive_name": "swapped_array",
+                    "data": [
+                        [
+                            2,
+                            1,
+                            3,
+                            4
+                        ],
+                        [
+                            6,
+                            5,
+                            7,
+                            8
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        4
+                    ]
+                }
+            ]
+        }
+    ]
+}

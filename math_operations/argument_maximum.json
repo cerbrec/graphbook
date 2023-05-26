@@ -1,0 +1,193 @@
+{
+    "name": "argument_maximum",
+    "primitive_name": "argument_maximum",
+    "aliases": [
+        "argmax"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "array",
+        "dimension_index",
+        "keep_dimension"
+    ],
+    "outputs": [
+        "argument"
+    ],
+    "assertions": [
+        "{array}_data_type_is_integer_or_decimal",
+        "{array}_is_array",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_scalar",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{dimension_index}_is_less_than_{array}_number_of_dimensions",
+        "{keep_dimension}_data_type_is_boolean",
+        "{keep_dimension}_is_scalar",
+        "{argument}_data_type_is_integer"
+    ],
+    "description": [
+        "Return the indices of the maximum values of `array` across `dimension_index`",
+        "If `keep_dimension` is true, then `argument` will keep the dimension at `dimension_index"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        21,
+                        3,
+                        1,
+                        -1,
+                        -5,
+                        7
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "keep_dimension",
+                    "data": true,
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "argument",
+                    "primitive_name": "argument",
+                    "data": [
+                        0
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        [
+                            1,
+                            -2,
+                            3,
+                            7,
+                            14
+                        ],
+                        [
+                            -4,
+                            5,
+                            6,
+                            13,
+                            1
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 1,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "keep_dimension",
+                    "data": false,
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "argument",
+                    "primitive_name": "argument",
+                    "data": [
+                        4,
+                        3
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        [
+                            [
+                                -0.1,
+                                2.03,
+                                5.2,
+                                1.4,
+                                7.7
+                            ],
+                            [
+                                4.5,
+                                6.7,
+                                1.4,
+                                -7.3,
+                                9.01
+                            ]
+                        ],
+                        [
+                            [
+                                8.9,
+                                -9.0,
+                                11.9,
+                                2.03,
+                                5.1
+                            ],
+                            [
+                                -1.2,
+                                3.4,
+                                1.1,
+                                8.1,
+                                30.5
+                            ]
+                        ]
+                    ],
+                    "type": "DECIMAL"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 2,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "keep_dimension",
+                    "data": false,
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "argument",
+                    "primitive_name": "argument",
+                    "data": [
+                        [
+                            4,
+                            4
+                        ],
+                        [
+                            2,
+                            4
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        2
+                    ]
+                }
+            ]
+        }
+    ]
+}

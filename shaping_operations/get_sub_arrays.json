@@ -1,0 +1,151 @@
+{
+    "name": "get_sub_arrays",
+    "primitive_name": "get_sub_arrays",
+    "aliases": [
+        "get_subarrays",
+        "batch_get_sub_arrays",
+        "batch_get_subarrays",
+        "get_sub_arrays_by_batch",
+        "get_subarrays_by_batch",
+        "get_elements",
+        "get_sub_elements"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "input",
+        "dimension_index",
+        "selected_indices"
+    ],
+    "outputs": [
+        "output"
+    ],
+    "assertions": [
+        "{input}_is_array",
+        "{dimension_index}_is_scalar",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{dimension_index}_is_less_than_{input}_number_of_dimensions",
+        "{selected_indices}_is_array",
+        "{selected_indices}_data_type_is_integer",
+        "{selected_indices}_is_greater_than_or_equal_to_zero"
+    ],
+    "description": [
+        "Get sub-arrays from `input` across `dimension_index` selecting each index of `selected_indices`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
+                        [
+                            10,
+                            20,
+                            30,
+                            40,
+                            50
+                        ],
+                        [
+                            100,
+                            200,
+                            300,
+                            400,
+                            500
+                        ],
+                        [
+                            1000,
+                            2000,
+                            3000,
+                            4000,
+                            5000
+                        ],
+                        [
+                            11,
+                            22,
+                            33,
+                            44,
+                            55
+                        ],
+                        [
+                            110,
+                            220,
+                            330,
+                            440,
+                            550
+                        ],
+                        [
+                            1100,
+                            2200,
+                            3300,
+                            4400,
+                            5500
+                        ],
+                        [
+                            111000,
+                            222000,
+                            333000,
+                            444000,
+                            555000
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "selected_indices",
+                    "data": [
+                        3,
+                        4,
+                        6
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "shape": [
+                        3,
+                        5
+                    ],
+                    "data": [
+                        [
+                            1000,
+                            2000,
+                            3000,
+                            4000,
+                            5000
+                        ],
+                        [
+                            11,
+                            22,
+                            33,
+                            44,
+                            55
+                        ],
+                        [
+                            1100,
+                            2200,
+                            3300,
+                            4400,
+                            5500
+                        ]
+                    ],
+                    "type": "INTEGER"
+                }
+            ]
+        }
+    ]
+}

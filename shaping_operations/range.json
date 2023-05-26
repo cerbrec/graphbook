@@ -1,0 +1,131 @@
+{
+    "name": "range",
+    "primitive_name": "range",
+    "aliases": [],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "start_value",
+        "end_value",
+        "step_value"
+    ],
+    "outputs": [
+        "vector"
+    ],
+    "assertions": [
+        "{start_value}_data_type_is_integer_or_decimal",
+        "{start_value}_is_scalar",
+        "{end_value}_data_type_is_the_same_as_{start_value}",
+        "{end_value}_is_scalar",
+        "{start_value}_is_not_equal_to_{end_value}",
+        "{step_value}_data_type_is_the_same_as_{end_value}",
+        "{step_value}_is_scalar",
+        "{step_value}_is_greater_than_zero_if_{start_value}_is_less_than_{end_value}_else_is_less_than_zero",
+        "{vector}_data_type_is_the_same_as_{step_value}",
+        "{vector}_has_one_dimension"
+    ],
+    "description": [
+        "Return a one-dimensional `vector` with values from `start_value` (inclusive) to `end_value` (exclusive)",
+        "Use `step_value` as the distance between each adjacent point"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "start_value",
+                    "data": 0,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "end_value",
+                    "data": 100,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "step_value",
+                    "data": 5,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "vector",
+                    "primitive_name": "vector",
+                    "data": [
+                        0,
+                        5,
+                        10,
+                        15,
+                        20,
+                        25,
+                        30,
+                        35,
+                        40,
+                        45,
+                        50,
+                        55,
+                        60,
+                        65,
+                        70,
+                        75,
+                        80,
+                        85,
+                        90,
+                        95
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        20
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "start_value",
+                    "data": -20.5,
+                    "type": "DECIMAL"
+                },
+                {
+                    "name": "end_value",
+                    "data": 20.5,
+                    "type": "DECIMAL"
+                },
+                {
+                    "name": "step_value",
+                    "data": 2.5,
+                    "type": "DECIMAL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "vector",
+                    "primitive_name": "vector",
+                    "data": [
+                        -20.5,
+                        -18.0,
+                        -15.5,
+                        -13.0,
+                        -10.5,
+                        -8.0,
+                        -5.5,
+                        -3.0,
+                        -0.5,
+                        2.0,
+                        4.5,
+                        7.0,
+                        9.5,
+                        12.0,
+                        14.5,
+                        17.0,
+                        19.5
+                    ],
+                    "type": "DECIMAL",
+                    "shape": [
+                        17
+                    ]
+                }
+            ]
+        }
+    ]
+}

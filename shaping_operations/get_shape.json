@@ -1,0 +1,139 @@
+{
+    "name": "get_shape",
+    "primitive_name": "get_shape",
+    "aliases": [
+        "shape",
+        "size",
+        "get_size"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "input"
+    ],
+    "outputs": [
+        "shape"
+    ],
+    "assertions": [
+        "{input}_is_array",
+        "{shape}_data_type_is_integer",
+        "{shape}_is_greater_than_or_equal_to_zero",
+        "{shape}_has_one_dimension",
+        "{input}_shape_is_{shape}"
+    ],
+    "description": [
+        "Get the `shape` (i.e. size of each dimension) of `input`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "shape",
+                    "primitive_name": "shape",
+                    "data": [
+                        5
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            0.1,
+                            2.3,
+                            4.5
+                        ],
+                        [
+                            6.7,
+                            8.9,
+                            10.0
+                        ]
+                    ],
+                    "type": "DECIMAL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "shape",
+                    "primitive_name": "shape",
+                    "data": [
+                        2,
+                        3
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            [
+                                true,
+                                false,
+                                true
+                            ],
+                            [
+                                true,
+                                false,
+                                true
+                            ]
+                        ],
+                        [
+                            [
+                                false,
+                                true,
+                                false
+                            ],
+                            [
+                                false,
+                                true,
+                                false
+                            ]
+                        ]
+                    ],
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "shape",
+                    "primitive_name": "shape",
+                    "data": [
+                        2,
+                        2,
+                        3
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        3
+                    ]
+                }
+            ]
+        }
+    ]
+}

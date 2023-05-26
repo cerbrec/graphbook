@@ -1,0 +1,146 @@
+{
+    "name": "count_occurrences",
+    "primitive_name": "count_occurrences",
+    "aliases": [
+        "count"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "target",
+        "count_against"
+    ],
+    "outputs": [
+        "occurrences"
+    ],
+    "assertions": [
+        "{target}_data_type_is_the_same_as_{count_against}",
+        "{count_against}_is_array",
+        "{occurrences}_data_type_is_integer",
+        "{occurrences}_is_greater_than_or_equal_to_zero",
+        "{target}_shape_is_the_same_as_{occurrences}"
+    ],
+    "description": [
+        "Count and return the occurrences of each element of `target` in `count_against`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "target",
+                    "data": [
+                        2,
+                        28,
+                        34
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "count_against",
+                    "data": [
+                        1,
+                        2,
+                        34,
+                        28,
+                        9,
+                        21,
+                        28,
+                        2,
+                        2,
+                        34
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "occurrences",
+                    "primitive_name": "occurrences",
+                    "data": [
+                        3,
+                        2,
+                        2
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        3
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "target",
+                    "data": [
+                        "foo",
+                        "bar2"
+                    ],
+                    "type": "TEXT"
+                },
+                {
+                    "name": "count_against",
+                    "data": [
+                        "foo",
+                        "bar",
+                        "foo1",
+                        "bar1",
+                        "foo",
+                        "foo",
+                        "foo"
+                    ],
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "occurrences",
+                    "primitive_name": "occurrences",
+                    "data": [
+                        4,
+                        0
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "target",
+                    "data": [
+                        true
+                    ],
+                    "type": "BOOLEAN"
+                },
+                {
+                    "name": "count_against",
+                    "data": [
+                        true,
+                        false,
+                        true,
+                        true,
+                        false,
+                        true
+                    ],
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "occurrences",
+                    "primitive_name": "occurrences",
+                    "data": [
+                        4
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        1
+                    ]
+                }
+            ]
+        }
+    ]
+}

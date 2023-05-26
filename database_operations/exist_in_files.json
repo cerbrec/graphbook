@@ -1,0 +1,24 @@
+{
+    "name": "exist_in_files",
+    "primitive_name": "exist_in_files",
+    "aliases": [],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "dir_path",
+        "file_name"
+    ],
+    "outputs": [
+        "is_exist"
+    ],
+    "assertions": [
+        "{dir_path}_data_type_is_text",
+        "{dir_path}_is_scalar_or_has_one_dimension",
+        "{file_name}_data_type_is_text",
+        "{dir_path}_shape_is_the_same_as_{file_name}",
+        "{is_exist}_data_type_is_boolean",
+        "{is_exist}_shape_is_the_same_as_{file_name}"
+    ],
+    "description": [
+        "Return true if `file_name` exists in `dir_path`, otherwise return false"
+    ]
+}

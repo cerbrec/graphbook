@@ -1,0 +1,35 @@
+## Ignore temporary files
+*.tmp
+*.swp
+*~
+
+## Ignore build files
+*.o
+*.a
+*.so
+*.dll
+*.lib
+
+## Ignore IDE files
+*.idea
+*.iml
+*.pyc
+*.csproj
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vssscc
+
+## Ignore virtual environment files
+.env
+.venv
+
+## Ignore npm package files
+node_modules
+
+## Ignore Docker files
+Dockerfile
+.dockerignore
+
+## Ignore other files
+*.DS_Store

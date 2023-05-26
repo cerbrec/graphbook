@@ -1,0 +1,79 @@
+{
+    "name": "get_text_length",
+    "primitive_name": "get_text_length",
+    "aliases": [
+        "get_text_size",
+        "get_string_length",
+        "get_string_size",
+        "get_word_length",
+        "get_word_size",
+        "get_num_characters",
+        "get_num_chars",
+        "get_num_of_characters",
+        "get_num_of_chars"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "input"
+    ],
+    "outputs": [
+        "output"
+    ],
+    "assertions": [
+        "{input}_data_type_is_text",
+        "{output}_shape_is_the_same_as_{input}",
+        "{output}_data_type_is_integer",
+        "{output}_is_greater_than_or_equal_to_zero"
+    ],
+    "description": [
+        "Get the text length of each element in `input`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": "test test",
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": 9,
+                    "type": "INTEGER",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        "test test",
+                        "uwei jw",
+                        "fnwi weu"
+                    ],
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": [
+                        9,
+                        7,
+                        8
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        3
+                    ]
+                }
+            ]
+        }
+    ]
+}

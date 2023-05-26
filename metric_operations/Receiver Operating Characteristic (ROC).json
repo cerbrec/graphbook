@@ -1,0 +1,2093 @@
+{
+    "name": "Receiver Operating Characteristic (ROC)",
+    "type": "COMPOSITE_OPERATION",
+    "inputs": [
+        {
+            "name": "Probabilities",
+            "primitive_name": "new_inp",
+            "is_latex": false
+        },
+        {
+            "name": "Actuals",
+            "primitive_name": "i_0_INPUT",
+            "is_latex": false
+        },
+        {
+            "name": "Label Name",
+            "primitive_name": "i_1_INPUT",
+            "is_latex": false
+        },
+        {
+            "name": "Conf Thresholds",
+            "primitive_name": "i_3_INPUT",
+            "is_latex": false
+        }
+    ],
+    "input_order": [
+        0,
+        1,
+        2,
+        3
+    ],
+    "subgraph_input_order": [
+        3,
+        0,
+        2,
+        1
+    ],
+    "outputs": [
+        {
+            "name": "True Pos",
+            "primitive_name": "new_out",
+            "is_latex": false
+        },
+        {
+            "name": "False Pos",
+            "primitive_name": "o_1_Get_ROC_Confidence_Values",
+            "is_latex": false
+        }
+    ],
+    "output_order": [
+        0,
+        1
+    ],
+    "subgraph_output_order": [
+        0,
+        1
+    ],
+    "operations": [
+        {
+            "name": "element_wise_divide",
+            "primitive_name": "divide",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 3177,
+                "y": 171,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "left_array",
+                    "primitive_name": "left_operand",
+                    "is_latex": false
+                },
+                {
+                    "name": "right_array",
+                    "primitive_name": "right_operand",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "divided_array",
+                    "primitive_name": "divided_result",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "greater_than",
+            "primitive_name": "greater_than",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 1215,
+                "y": 258,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "primitive_name": "left_operand",
+                    "is_latex": false
+                },
+                {
+                    "name": "right_operand",
+                    "primitive_name": "right_operand",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "is_greater_than",
+                    "primitive_name": "is_greater_than",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "logical_and",
+            "primitive_name": "logical_and",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 1548,
+                "y": 232,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "condition_1",
+                    "primitive_name": "condition_1",
+                    "is_latex": false
+                },
+                {
+                    "name": "condition_2",
+                    "primitive_name": "condition_2",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "new_condition",
+                    "primitive_name": "new_condition",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "sum",
+            "primitive_name": "sum",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 2310,
+                "y": 137,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "array",
+                    "primitive_name": "array",
+                    "is_latex": false
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 1,
+                    "shape": [],
+                    "type": "INTEGER",
+                    "primitive_name": "dimension_index",
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                },
+                {
+                    "name": "keep_dimension",
+                    "primitive_name": "keep_dimension",
+                    "type": "BOOLEAN",
+                    "shape": [],
+                    "data": false,
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "sum_result",
+                    "primitive_name": "sum_result",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "tiled_actuals_where_Label",
+            "primitive_name": "equal",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 1192,
+                "y": 402,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "primitive_name": "left_operand",
+                    "is_latex": false
+                },
+                {
+                    "name": "right_operand",
+                    "primitive_name": "right_operand",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "is_equal",
+                    "primitive_name": "is_equal",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "transpose_2",
+            "primitive_name": "transpose",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 345,
+                "y": 292,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "array",
+                    "primitive_name": "array",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0
+            ],
+            "outputs": [
+                {
+                    "name": "probs",
+                    "primitive_name": "transposed_array",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "transpose_1",
+            "primitive_name": "transpose",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 350,
+                "y": 429,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "array",
+                    "primitive_name": "array",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0
+            ],
+            "outputs": [
+                {
+                    "name": "transposed_array",
+                    "primitive_name": "transposed_array",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "X by Y Shape",
+            "type": "COMPOSITE_OPERATION",
+            "position": {
+                "x": 521,
+                "y": 37,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "X",
+                    "primitive_name": "new_inp",
+                    "is_latex": false
+                },
+                {
+                    "name": "Y",
+                    "primitive_name": "i_0_INPUT",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "subgraph_input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "[X, Y]",
+                    "primitive_name": "new_out",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "subgraph_output_order": [
+                0
+            ],
+            "operations": [
+                {
+                    "name": "get_shape_1",
+                    "primitive_name": "get_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 588,
+                        "y": 161,
+                        "graph_type_containing_position": "DEFAULT",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "input",
+                            "primitive_name": "input",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0
+                    ],
+                    "outputs": [
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ]
+                },
+                {
+                    "name": "concatenate",
+                    "primitive_name": "concatenate",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 905,
+                        "y": 174,
+                        "graph_type_containing_position": "DEFAULT",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "array_1",
+                            "primitive_name": "array_1",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "array_2",
+                            "primitive_name": "array_2",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "dimension_index",
+                            "data": 0,
+                            "shape": [],
+                            "type": "INTEGER",
+                            "primitive_name": "dimension_index",
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0,
+                        1,
+                        2
+                    ],
+                    "outputs": [
+                        {
+                            "name": "concatenated_array",
+                            "primitive_name": "concatenated_array",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ]
+                },
+                {
+                    "name": "get_shape",
+                    "primitive_name": "get_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 596,
+                        "y": 250,
+                        "graph_type_containing_position": "DEFAULT",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "input",
+                            "primitive_name": "input",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0
+                    ],
+                    "outputs": [
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "source": {
+                        "operation": "get_shape_1",
+                        "data": "shape"
+                    },
+                    "sink": {
+                        "operation": "concatenate",
+                        "data": "array_1"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "get_shape",
+                        "data": "shape"
+                    },
+                    "sink": {
+                        "operation": "concatenate",
+                        "data": "array_2"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "concatenate",
+                        "data": "concatenated_array"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "[X, Y]"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "X"
+                    },
+                    "sink": {
+                        "operation": "get_shape_1",
+                        "data": "input"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Y"
+                    },
+                    "sink": {
+                        "operation": "get_shape",
+                        "data": "input"
+                    },
+                    "control_points": []
+                }
+            ]
+        },
+        {
+            "name": "Tile to [X, Y]",
+            "type": "COMPOSITE_OPERATION",
+            "position": {
+                "x": 816,
+                "y": 236,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "Thresholds",
+                    "primitive_name": "new_inp",
+                    "is_latex": false
+                },
+                {
+                    "name": "Label Id",
+                    "primitive_name": "i_0_INPUT",
+                    "is_latex": false
+                },
+                {
+                    "name": "Actual Labels",
+                    "primitive_name": "i_2_INPUT",
+                    "is_latex": false
+                },
+                {
+                    "name": "[X, Y] Shape",
+                    "primitive_name": "i_3_INPUT",
+                    "is_latex": false
+                },
+                {
+                    "name": "Probabilities",
+                    "primitive_name": "i_4_INPUT",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                3,
+                0,
+                1,
+                4,
+                2
+            ],
+            "subgraph_input_order": [
+                3,
+                0,
+                1,
+                2,
+                4
+            ],
+            "outputs": [
+                {
+                    "name": "Tiled Thresh",
+                    "primitive_name": "new_out",
+                    "is_latex": false
+                },
+                {
+                    "name": "Tiled Label Id ",
+                    "primitive_name": "o_0_Tile to [X, Y]",
+                    "is_latex": false
+                },
+                {
+                    "name": "Tiled Actual Label",
+                    "primitive_name": "o_2_Tile to [X, Y]",
+                    "is_latex": false
+                },
+                {
+                    "name": "tiled probs",
+                    "primitive_name": "o_3_Tile to [X, Y]",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                3,
+                0,
+                1,
+                2
+            ],
+            "subgraph_output_order": [
+                0,
+                1,
+                2,
+                3
+            ],
+            "operations": [
+                {
+                    "name": "broadcast_to_shape",
+                    "primitive_name": "broadcast_to_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 483,
+                        "y": 41,
+                        "graph_type_containing_position": "DEFAULT",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "target",
+                            "primitive_name": "target",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        1,
+                        0
+                    ],
+                    "outputs": [
+                        {
+                            "name": "tiled",
+                            "primitive_name": "result",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ]
+                },
+                {
+                    "name": "broadcast_to_shape_1",
+                    "primitive_name": "broadcast_to_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 479,
+                        "y": 174,
+                        "graph_type_containing_position": "DEFAULT",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "target",
+                            "primitive_name": "target",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        1,
+                        0
+                    ],
+                    "outputs": [
+                        {
+                            "name": "tiled",
+                            "primitive_name": "result",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ]
+                },
+                {
+                    "name": "broadcast_to_shape_3",
+                    "primitive_name": "broadcast_to_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 504,
+                        "y": 334,
+                        "graph_type_containing_position": "DEFAULT",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "target",
+                            "primitive_name": "target",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        1,
+                        0
+                    ],
+                    "outputs": [
+                        {
+                            "name": "tiled",
+                            "primitive_name": "result",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ]
+                },
+                {
+                    "name": "broadcast_to_shape_4",
+                    "primitive_name": "broadcast_to_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 482,
+                        "y": 475,
+                        "graph_type_containing_position": "DEFAULT",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "target",
+                            "primitive_name": "target",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        1,
+                        0
+                    ],
+                    "outputs": [
+                        {
+                            "name": "tiled",
+                            "primitive_name": "result",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Thresholds"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape",
+                        "data": "target"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "[X, Y] Shape"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape",
+                        "data": "shape"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "[X, Y] Shape"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape_1",
+                        "data": "shape"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "[X, Y] Shape"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape_3",
+                        "data": "shape"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Label Id"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape_1",
+                        "data": "target"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "broadcast_to_shape_3",
+                        "data": "tiled"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Tiled Actual Label"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "broadcast_to_shape_1",
+                        "data": "tiled"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Tiled Label Id "
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "broadcast_to_shape",
+                        "data": "tiled"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Tiled Thresh"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "[X, Y] Shape"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape_4",
+                        "data": "shape"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Probabilities"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape_4",
+                        "data": "target"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "broadcast_to_shape_4",
+                        "data": "tiled"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "tiled probs"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Actual Labels"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape_3",
+                        "data": "target"
+                    },
+                    "control_points": []
+                }
+            ]
+        },
+        {
+            "name": "Get Number of Label Id",
+            "type": "COMPOSITE_OPERATION",
+            "position": {
+                "x": 385,
+                "y": 578,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "Labels",
+                    "primitive_name": "new_inp",
+                    "is_latex": false
+                },
+                {
+                    "name": "Label ID",
+                    "primitive_name": "i_0_INPUT",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "subgraph_input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "denom label",
+                    "primitive_name": "new_out",
+                    "is_latex": false
+                },
+                {
+                    "name": "denom not label",
+                    "primitive_name": "o_0_Get Number of Label Id",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0,
+                1
+            ],
+            "subgraph_output_order": [
+                0,
+                1
+            ],
+            "operations": [
+                {
+                    "name": "parse_decimal_2",
+                    "primitive_name": "parse_decimal",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 1029,
+                        "y": 223,
+                        "graph_type_containing_position": "DEFAULT",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "input",
+                            "primitive_name": "input",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0
+                    ],
+                    "outputs": [
+                        {
+                            "name": "output",
+                            "primitive_name": "output",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ]
+                },
+                {
+                    "name": "sum_1",
+                    "primitive_name": "sum",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 1494,
+                        "y": 208,
+                        "graph_type_containing_position": "DEFAULT",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "array",
+                            "primitive_name": "array",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "dimension_index",
+                            "data": 0,
+                            "shape": [],
+                            "type": "INTEGER",
+                            "primitive_name": "dimension_index",
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "keep_dimension",
+                            "primitive_name": "keep_dimension",
+                            "type": "BOOLEAN",
+                            "shape": [],
+                            "data": false,
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0,
+                        1
+                    ],
+                    "outputs": [
+                        {
+                            "name": "sum_result",
+                            "primitive_name": "sum_result",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ]
+                },
+                {
+                    "name": "broadcast_to_shape_5",
+                    "primitive_name": "broadcast_to_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 403,
+                        "y": 279,
+                        "graph_type_containing_position": "DEFAULT",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "target",
+                            "primitive_name": "target",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0,
+                        1
+                    ],
+                    "outputs": [
+                        {
+                            "name": "result",
+                            "primitive_name": "result",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ]
+                },
+                {
+                    "name": "equal",
+                    "primitive_name": "equal",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 716,
+                        "y": 208,
+                        "graph_type_containing_position": "DEFAULT",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "left_operand",
+                            "primitive_name": "left_operand",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "right_operand",
+                            "primitive_name": "right_operand",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0,
+                        1
+                    ],
+                    "outputs": [
+                        {
+                            "name": "is_equal",
+                            "primitive_name": "is_equal",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ]
+                },
+                {
+                    "name": "get_shape_2",
+                    "primitive_name": "get_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 98,
+                        "y": 318,
+                        "graph_type_containing_position": "DEFAULT",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "input",
+                            "primitive_name": "input",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0
+                    ],
+                    "outputs": [
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ]
+                },
+                {
+                    "name": "logical_not",
+                    "primitive_name": "logical_not",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 932,
+                        "y": 385,
+                        "graph_type_containing_position": "DEFAULT",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "condition",
+                            "primitive_name": "condition",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0
+                    ],
+                    "outputs": [
+                        {
+                            "name": "new_condition",
+                            "primitive_name": "new_condition",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ]
+                },
+                {
+                    "name": "parse_decimal",
+                    "primitive_name": "parse_decimal",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 1225,
+                        "y": 395,
+                        "graph_type_containing_position": "DEFAULT",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "input",
+                            "primitive_name": "input",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0
+                    ],
+                    "outputs": [
+                        {
+                            "name": "output",
+                            "primitive_name": "output",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ]
+                },
+                {
+                    "name": "sum_2",
+                    "primitive_name": "sum",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 1582,
+                        "y": 387,
+                        "graph_type_containing_position": "DEFAULT",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "array",
+                            "primitive_name": "array",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "dimension_index",
+                            "data": 0,
+                            "shape": [],
+                            "type": "INTEGER",
+                            "primitive_name": "dimension_index",
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "keep_dimension",
+                            "primitive_name": "keep_dimension",
+                            "type": "BOOLEAN",
+                            "shape": [],
+                            "data": false,
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0,
+                        1
+                    ],
+                    "outputs": [
+                        {
+                            "name": "sum_result",
+                            "primitive_name": "sum_result",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "source": {
+                        "operation": "get_shape_2",
+                        "data": "shape"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape_5",
+                        "data": "shape"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "broadcast_to_shape_5",
+                        "data": "result"
+                    },
+                    "sink": {
+                        "operation": "equal",
+                        "data": "right_operand"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "equal",
+                        "data": "is_equal"
+                    },
+                    "sink": {
+                        "operation": "parse_decimal_2",
+                        "data": "input"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "parse_decimal_2",
+                        "data": "output"
+                    },
+                    "sink": {
+                        "operation": "sum_1",
+                        "data": "array"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "sum_1",
+                        "data": "sum_result"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "denom label"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Label ID"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape_5",
+                        "data": "target"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Labels"
+                    },
+                    "sink": {
+                        "operation": "get_shape_2",
+                        "data": "input"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Labels"
+                    },
+                    "sink": {
+                        "operation": "equal",
+                        "data": "left_operand"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "equal",
+                        "data": "is_equal"
+                    },
+                    "sink": {
+                        "operation": "logical_not",
+                        "data": "condition"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "logical_not",
+                        "data": "new_condition"
+                    },
+                    "sink": {
+                        "operation": "parse_decimal",
+                        "data": "input"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "parse_decimal",
+                        "data": "output"
+                    },
+                    "sink": {
+                        "operation": "sum_2",
+                        "data": "array"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "sum_2",
+                        "data": "sum_result"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "denom not label"
+                    },
+                    "control_points": []
+                }
+            ]
+        },
+        {
+            "name": "Label and Above Thresh",
+            "primitive_name": "parse_decimal",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 1826,
+                "y": 252,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "input",
+                    "primitive_name": "input",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "broadcast_to_shape",
+            "primitive_name": "broadcast_to_shape",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 2916,
+                "y": 415,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "target",
+                    "primitive_name": "target",
+                    "is_latex": false
+                },
+                {
+                    "name": "shape",
+                    "primitive_name": "shape",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                1,
+                0
+            ],
+            "outputs": [
+                {
+                    "name": "result",
+                    "primitive_name": "result",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "get_shape",
+            "primitive_name": "get_shape",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 2625,
+                "y": 250,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "input",
+                    "primitive_name": "input",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0
+            ],
+            "outputs": [
+                {
+                    "name": "shape",
+                    "primitive_name": "shape",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "broadcast_to_shape_1",
+            "primitive_name": "broadcast_to_shape",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 2918,
+                "y": 548,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "target",
+                    "primitive_name": "target",
+                    "is_latex": false
+                },
+                {
+                    "name": "shape",
+                    "primitive_name": "shape",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                1,
+                0
+            ],
+            "outputs": [
+                {
+                    "name": "result",
+                    "primitive_name": "result",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "element_wise_divide_1",
+            "primitive_name": "divide",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 3188,
+                "y": 309,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "left_array",
+                    "primitive_name": "left_operand",
+                    "is_latex": false
+                },
+                {
+                    "name": "right_array",
+                    "primitive_name": "right_operand",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "divided_array",
+                    "primitive_name": "divided_result",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "logical_not",
+            "primitive_name": "logical_not",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 1495,
+                "y": 441,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "condition",
+                    "primitive_name": "condition",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0
+            ],
+            "outputs": [
+                {
+                    "name": "new_condition",
+                    "primitive_name": "new_condition",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "logical_and_1",
+            "primitive_name": "logical_and",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 1797,
+                "y": 390,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "condition_1",
+                    "primitive_name": "condition_1",
+                    "is_latex": false
+                },
+                {
+                    "name": "condition_2",
+                    "primitive_name": "condition_2",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "new_condition",
+                    "primitive_name": "new_condition",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "Not Label and Above Thresh_1",
+            "primitive_name": "parse_decimal",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 2081,
+                "y": 384,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "input",
+                    "primitive_name": "input",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "sum_1",
+            "primitive_name": "sum",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 2390,
+                "y": 379,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "array",
+                    "primitive_name": "array",
+                    "is_latex": false
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 1,
+                    "shape": [],
+                    "type": "INTEGER",
+                    "primitive_name": "dimension_index",
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                },
+                {
+                    "name": "keep_dimension",
+                    "primitive_name": "keep_dimension",
+                    "type": "BOOLEAN",
+                    "shape": [],
+                    "data": false,
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "sum_result",
+                    "primitive_name": "sum_result",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        }
+    ],
+    "links": [
+        {
+            "source": {
+                "operation": "tiled_actuals_where_Label",
+                "data": "is_equal"
+            },
+            "sink": {
+                "operation": "logical_and",
+                "data": "condition_2"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "greater_than",
+                "data": "is_greater_than"
+            },
+            "sink": {
+                "operation": "logical_and",
+                "data": "condition_1"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Probabilities"
+            },
+            "sink": {
+                "operation": "transpose_2",
+                "data": "array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Actuals"
+            },
+            "sink": {
+                "operation": "transpose_1",
+                "data": "array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "element_wise_divide",
+                "data": "divided_array"
+            },
+            "sink": {
+                "operation": "this",
+                "data": "True Pos"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Conf Thresholds"
+            },
+            "sink": {
+                "operation": "X by Y Shape",
+                "data": "X"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Probabilities"
+            },
+            "sink": {
+                "operation": "X by Y Shape",
+                "data": "Y"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Conf Thresholds"
+            },
+            "sink": {
+                "operation": "Tile to [X, Y]",
+                "data": "Thresholds"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "transpose_2",
+                "data": "probs"
+            },
+            "sink": {
+                "operation": "Tile to [X, Y]",
+                "data": "Probabilities"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "transpose_1",
+                "data": "transposed_array"
+            },
+            "sink": {
+                "operation": "Tile to [X, Y]",
+                "data": "Actual Labels"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Label Name"
+            },
+            "sink": {
+                "operation": "Tile to [X, Y]",
+                "data": "Label Id"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Actuals"
+            },
+            "sink": {
+                "operation": "Get Number of Label Id",
+                "data": "Labels"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Label Name"
+            },
+            "sink": {
+                "operation": "Get Number of Label Id",
+                "data": "Label ID"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Tile to [X, Y]",
+                "data": "Tiled Thresh"
+            },
+            "sink": {
+                "operation": "greater_than",
+                "data": "right_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Tile to [X, Y]",
+                "data": "tiled probs"
+            },
+            "sink": {
+                "operation": "greater_than",
+                "data": "left_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Tile to [X, Y]",
+                "data": "Tiled Label Id "
+            },
+            "sink": {
+                "operation": "tiled_actuals_where_Label",
+                "data": "left_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Tile to [X, Y]",
+                "data": "Tiled Actual Label"
+            },
+            "sink": {
+                "operation": "tiled_actuals_where_Label",
+                "data": "right_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Label and Above Thresh",
+                "data": "output"
+            },
+            "sink": {
+                "operation": "sum",
+                "data": "array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "sum",
+                "data": "sum_result"
+            },
+            "sink": {
+                "operation": "element_wise_divide",
+                "data": "left_array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Get Number of Label Id",
+                "data": "denom label"
+            },
+            "sink": {
+                "operation": "broadcast_to_shape",
+                "data": "target"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "logical_and",
+                "data": "new_condition"
+            },
+            "sink": {
+                "operation": "Label and Above Thresh",
+                "data": "input"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "sum",
+                "data": "sum_result"
+            },
+            "sink": {
+                "operation": "get_shape",
+                "data": "input"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "get_shape",
+                "data": "shape"
+            },
+            "sink": {
+                "operation": "broadcast_to_shape",
+                "data": "shape"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "broadcast_to_shape",
+                "data": "result"
+            },
+            "sink": {
+                "operation": "element_wise_divide",
+                "data": "right_array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Get Number of Label Id",
+                "data": "denom not label"
+            },
+            "sink": {
+                "operation": "broadcast_to_shape_1",
+                "data": "target"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "get_shape",
+                "data": "shape"
+            },
+            "sink": {
+                "operation": "broadcast_to_shape_1",
+                "data": "shape"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "broadcast_to_shape_1",
+                "data": "result"
+            },
+            "sink": {
+                "operation": "element_wise_divide_1",
+                "data": "right_array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "tiled_actuals_where_Label",
+                "data": "is_equal"
+            },
+            "sink": {
+                "operation": "logical_not",
+                "data": "condition"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "greater_than",
+                "data": "is_greater_than"
+            },
+            "sink": {
+                "operation": "logical_and_1",
+                "data": "condition_1"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "logical_not",
+                "data": "new_condition"
+            },
+            "sink": {
+                "operation": "logical_and_1",
+                "data": "condition_2"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "logical_and_1",
+                "data": "new_condition"
+            },
+            "sink": {
+                "operation": "Not Label and Above Thresh_1",
+                "data": "input"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Not Label and Above Thresh_1",
+                "data": "output"
+            },
+            "sink": {
+                "operation": "sum_1",
+                "data": "array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "sum_1",
+                "data": "sum_result"
+            },
+            "sink": {
+                "operation": "element_wise_divide_1",
+                "data": "left_array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "element_wise_divide_1",
+                "data": "divided_array"
+            },
+            "sink": {
+                "operation": "this",
+                "data": "False Pos"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "X by Y Shape",
+                "data": "[X, Y]"
+            },
+            "sink": {
+                "operation": "Tile to [X, Y]",
+                "data": "[X, Y] Shape"
+            },
+            "control_points": []
+        }
+    ]
+}

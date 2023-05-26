@@ -1,0 +1,88 @@
+{
+    "name": "parse_text",
+    "primitive_name": "parse_text",
+    "aliases": [
+        "parse_to_text",
+        "convert_to_text",
+        "parse_string",
+        "parse_to_string",
+        "convert_to_string"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "input"
+    ],
+    "outputs": [
+        "output"
+    ],
+    "assertions": [
+        "{output}_data_type_is_text",
+        "{output}_shape_is_the_same_as_{input}"
+    ],
+    "description": [
+        "Convert `input` into text data type"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": 100,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": "100",
+                    "type": "TEXT",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            true,
+                            true,
+                            false
+                        ],
+                        [
+                            false,
+                            true,
+                            true
+                        ]
+                    ],
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": [
+                        [
+                            "true",
+                            "true",
+                            "false"
+                        ],
+                        [
+                            "false",
+                            "true",
+                            "true"
+                        ]
+                    ],
+                    "type": "TEXT",
+                    "shape": [
+                        2,
+                        3
+                    ]
+                }
+            ]
+        }
+    ]
+}

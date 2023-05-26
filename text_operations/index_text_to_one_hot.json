@@ -1,0 +1,113 @@
+{
+    "name": "index_text_to_one_hot",
+    "primitive_name": "index_text_to_one_hot",
+    "aliases": [
+        "index_string_to_one_hot",
+        "index_str_to_one_hot",
+        "index_word_to_one_hot",
+        "index_one_hot"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "text",
+        "vocabulary"
+    ],
+    "outputs": [
+        "one_hot_index"
+    ],
+    "assertions": [
+        "{text}_data_type_is_text",
+        "{vocabulary}_data_type_is_text",
+        "{vocabulary}_has_one_dimension",
+        "{one_hot_index}_data_type_is_integer",
+        "{one_hot_index}_is_greater_than_or_equal_to_zero",
+        "{one_hot_index}_has_one_more_dimension_than_{text}"
+    ],
+    "description": [
+        "Encode `text` into one hot against `vocabulary`",
+        "If an element of `text` is not found in `vocabulary`, then it will be given the index equal to the size of `vocabulary`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "text",
+                    "data": [
+                        "cerbrec",
+                        "is",
+                        "great"
+                    ],
+                    "type": "TEXT"
+                },
+                {
+                    "name": "vocabulary",
+                    "data": [
+                        "this",
+                        "is",
+                        "the",
+                        "vocab",
+                        "for",
+                        "testing",
+                        "cerbrec",
+                        "filler",
+                        "words",
+                        "great"
+                    ],
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "one_hot_index",
+                    "primitive_name": "one_hot_index",
+                    "data": [
+                        [
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        [
+                            0,
+                            1,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        [
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            1,
+                            0
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        3,
+                        11
+                    ]
+                }
+            ]
+        }
+    ]
+}

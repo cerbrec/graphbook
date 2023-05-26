@@ -1,0 +1,104 @@
+{
+    "name": "insert_text",
+    "primitive_name": "insert_text",
+    "aliases": [
+        "insert_texts",
+        "insert_strings",
+        "insert_strs",
+        "insert_words"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "text",
+        "search_regex",
+        "inserted_text"
+    ],
+    "outputs": [
+        "processed_text"
+    ],
+    "assertions": [
+        "{text}_data_type_is_text",
+        "{search_regex}_data_type_is_text",
+        "{search_regex}_conforms_to_regular_expression",
+        "{text}_shape_is_the_same_as_{search_regex}",
+        "{inserted_text}_data_type_is_text",
+        "{inserted_text}_shape_is_the_same_as_{search_regex}",
+        "{processed_text}_data_type_is_text",
+        "{processed_text}_shape_is_the_same_as_{inserted_text}"
+    ],
+    "description": [
+        "Element-wise insert `inserted_text` into `text` based on regular expression `search_regex`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "text",
+                    "data": "hello there world",
+                    "type": "TEXT"
+                },
+                {
+                    "name": "search_regex",
+                    "data": "\\s+",
+                    "type": "TEXT"
+                },
+                {
+                    "name": "inserted_text",
+                    "data": "_",
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "processed_text",
+                    "primitive_name": "processed_text",
+                    "data": "hello _there _world",
+                    "type": "TEXT",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "text",
+                    "data": [
+                        "hello there world",
+                        "foo1, bar1, foobar1"
+                    ],
+                    "type": "TEXT"
+                },
+                {
+                    "name": "search_regex",
+                    "data": [
+                        "\\s+",
+                        "\\d,\\s+"
+                    ],
+                    "type": "TEXT"
+                },
+                {
+                    "name": "inserted_text",
+                    "data": [
+                        "_",
+                        "__"
+                    ],
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "processed_text",
+                    "primitive_name": "processed_text",
+                    "data": [
+                        "hello _there _world",
+                        "foo1, __bar1, __foobar1"
+                    ],
+                    "type": "TEXT",
+                    "shape": [
+                        2
+                    ]
+                }
+            ]
+        }
+    ]
+}

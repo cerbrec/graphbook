@@ -1,0 +1,367 @@
+{
+    "name": "Multi-Class Accuracy",
+    "type": "COMPOSITE_OPERATION",
+    "inputs": [
+        {
+            "name": "Predictions",
+            "primitive_name": "new_inp",
+            "is_latex": false
+        },
+        {
+            "name": "Actuals",
+            "primitive_name": "i_0_INPUT",
+            "is_latex": false
+        }
+    ],
+    "input_order": [
+        0,
+        1
+    ],
+    "subgraph_input_order": [
+        0,
+        1
+    ],
+    "outputs": [
+        {
+            "name": "ACC",
+            "primitive_name": "new_out",
+            "is_latex": false
+        }
+    ],
+    "output_order": [
+        0
+    ],
+    "subgraph_output_order": [
+        0
+    ],
+    "operations": [
+        {
+            "name": "equal",
+            "primitive_name": "equal",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 472,
+                "y": 36,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "primitive_name": "left_operand",
+                    "is_latex": false
+                },
+                {
+                    "name": "right_operand",
+                    "primitive_name": "right_operand",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "is_equal",
+                    "primitive_name": "is_equal",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "sum",
+            "primitive_name": "sum",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 1081,
+                "y": 70,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "array",
+                    "primitive_name": "array",
+                    "is_latex": false
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "shape": [],
+                    "type": "INTEGER",
+                    "primitive_name": "dimension_index",
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                },
+                {
+                    "name": "keep_dimension",
+                    "primitive_name": "keep_dimension",
+                    "type": "BOOLEAN",
+                    "shape": [],
+                    "data": false,
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "sum_result",
+                    "primitive_name": "sum_result",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "get_dimension_size",
+            "primitive_name": "get_dimension_size",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 790,
+                "y": 207,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "array",
+                    "primitive_name": "array",
+                    "is_latex": false
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "shape": [],
+                    "type": "INTEGER",
+                    "primitive_name": "dimension_index",
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "dimension_size",
+                    "primitive_name": "dimension_size",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "divide",
+            "primitive_name": "divide",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 1521,
+                "y": 32,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "primitive_name": "left_operand",
+                    "is_latex": false
+                },
+                {
+                    "name": "right_operand",
+                    "primitive_name": "right_operand",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "divided_result",
+                    "primitive_name": "divided_result",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "parse_decimal",
+            "primitive_name": "parse_decimal",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 780,
+                "y": 73,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "input",
+                    "primitive_name": "input",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        },
+        {
+            "name": "parse_decimal_1",
+            "primitive_name": "parse_decimal",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 1068,
+                "y": 238,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "input",
+                    "primitive_name": "input",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ]
+        }
+    ],
+    "links": [
+        {
+            "source": {
+                "operation": "this",
+                "data": "Predictions"
+            },
+            "sink": {
+                "operation": "equal",
+                "data": "left_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Actuals"
+            },
+            "sink": {
+                "operation": "equal",
+                "data": "right_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Actuals"
+            },
+            "sink": {
+                "operation": "get_dimension_size",
+                "data": "array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "sum",
+                "data": "sum_result"
+            },
+            "sink": {
+                "operation": "divide",
+                "data": "left_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "parse_decimal",
+                "data": "output"
+            },
+            "sink": {
+                "operation": "sum",
+                "data": "array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "equal",
+                "data": "is_equal"
+            },
+            "sink": {
+                "operation": "parse_decimal",
+                "data": "input"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "get_dimension_size",
+                "data": "dimension_size"
+            },
+            "sink": {
+                "operation": "parse_decimal_1",
+                "data": "input"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "parse_decimal_1",
+                "data": "output"
+            },
+            "sink": {
+                "operation": "divide",
+                "data": "right_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "divide",
+                "data": "divided_result"
+            },
+            "sink": {
+                "operation": "this",
+                "data": "ACC"
+            },
+            "control_points": []
+        }
+    ]
+}

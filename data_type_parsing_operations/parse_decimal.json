@@ -1,0 +1,99 @@
+{
+    "name": "parse_decimal",
+    "primitive_name": "parse_decimal",
+    "aliases": [
+        "parse_to_decimal",
+        "convert_to_decimal",
+        "parse_float",
+        "parse_to_float",
+        "convert_to_float",
+        "parse_double",
+        "parse_to_double",
+        "convert_to_double"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "input"
+    ],
+    "outputs": [
+        "output"
+    ],
+    "assertions": [
+        "{output}_data_type_is_decimal",
+        "{output}_shape_is_the_same_as_{input}"
+    ],
+    "description": [
+        "Convert `input` into decimal data type"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": "123",
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": 123.0,
+                    "type": "DECIMAL",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            true,
+                            true,
+                            false,
+                            false,
+                            true
+                        ],
+                        [
+                            false,
+                            true,
+                            true,
+                            false,
+                            false
+                        ]
+                    ],
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": [
+                        [
+                            1.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        [
+                            0.0,
+                            1.0,
+                            1.0,
+                            0.0,
+                            0.0
+                        ]
+                    ],
+                    "type": "DECIMAL",
+                    "shape": [
+                        2,
+                        5
+                    ]
+                }
+            ]
+        }
+    ]
+}

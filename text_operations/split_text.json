@@ -1,0 +1,117 @@
+{
+    "name": "split_text",
+    "primitive_name": "split_text",
+    "aliases": [
+        "split_texts",
+        "split_strings",
+        "split_strs"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "text",
+        "regex",
+        "pad_tag"
+    ],
+    "outputs": [
+        "split_text"
+    ],
+    "assertions": [
+        "{text}_data_type_is_text",
+        "{regex}_data_type_is_text",
+        "{regex}_conforms_to_regular_expression",
+        "{text}_shape_is_the_same_as_{regex}",
+        "{pad_tag}_data_type_is_text",
+        "{pad_tag}_shape_is_the_same_as_{regex}",
+        "{split_text}_data_type_is_text",
+        "{split_text}_has_one_more_dimension_than_{text}"
+    ],
+    "description": [
+        "Split `text` based on regular expression `regex`, padding with `pad_tag`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "text",
+                    "data": [
+                        [
+                            "hello world"
+                        ],
+                        [
+                            "hello"
+                        ],
+                        [
+                            "foobar foo bar"
+                        ]
+                    ],
+                    "type": "TEXT"
+                },
+                {
+                    "name": "regex",
+                    "data": [
+                        [
+                            "\\s+"
+                        ],
+                        [
+                            "\\s+"
+                        ],
+                        [
+                            "\\s+"
+                        ]
+                    ],
+                    "type": "TEXT"
+                },
+                {
+                    "name": "pad_tag",
+                    "data": [
+                        [
+                            "xxx"
+                        ],
+                        [
+                            "xxx"
+                        ],
+                        [
+                            "xxx"
+                        ]
+                    ],
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "split_text",
+                    "primitive_name": "split_text",
+                    "data": [
+                        [
+                            [
+                                "hello",
+                                "world",
+                                "xxx"
+                            ]
+                        ],
+                        [
+                            [
+                                "hello",
+                                "xxx",
+                                "xxx"
+                            ]
+                        ],
+                        [
+                            [
+                                "foobar",
+                                "foo",
+                                "bar"
+                            ]
+                        ]
+                    ],
+                    "type": "TEXT",
+                    "shape": [
+                        3,
+                        1,
+                        3
+                    ]
+                }
+            ]
+        }
+    ]
+}

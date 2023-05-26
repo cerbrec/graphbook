@@ -1,0 +1,30 @@
+{
+    "name": "read_from_file",
+    "primitive_name": "read_from_file",
+    "aliases": [
+        "fetch_from_file",
+        "get_from_file",
+        "load_from_file"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "dir_path",
+        "file_name",
+        "extraction_schema"
+    ],
+    "outputs": [
+        "output"
+    ],
+    "assertions": [
+        "{dir_path}_data_type_is_text",
+        "{dir_path}_is_scalar",
+        "{file_name}_data_type_is_text",
+        "{file_name}_is_scalar",
+        "{dir_path}_{file_name}_exists_in_files",
+        "{extraction_schema}_data_type_is_text",
+        "{extraction_schema}_is_scalar"
+    ],
+    "description": [
+        "Read from `file_name` in `dir_path` using `extraction_schema`"
+    ]
+}

@@ -1,0 +1,146 @@
+{
+    "name": "deduplicate_to_vector",
+    "primitive_name": "deduplicate_to_vector",
+    "aliases": [
+        "dedup",
+        "deduplicate"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "array"
+    ],
+    "outputs": [
+        "deduped_vector"
+    ],
+    "assertions": [
+        "{array}_is_array",
+        "{deduped_vector}_has_one_dimension",
+        "{deduped_vector}_data_type_is_the_same_as_{array}"
+    ],
+    "description": [
+        "Deduplicate `array` into a one-dimensional `deduped_vector` with all the unique elements"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        11,
+                        11,
+                        5,
+                        7,
+                        11,
+                        9,
+                        9,
+                        9,
+                        5,
+                        35,
+                        27
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "deduped_vector",
+                    "primitive_name": "deduped_vector",
+                    "data": [
+                        27,
+                        35,
+                        9,
+                        7,
+                        5,
+                        11
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        6
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        [
+                            0.1,
+                            0.1,
+                            2.2,
+                            3.5,
+                            3.5
+                        ],
+                        [
+                            3.5,
+                            8.9,
+                            8.9,
+                            0.1,
+                            2.2
+                        ]
+                    ],
+                    "type": "DECIMAL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "deduped_vector",
+                    "primitive_name": "deduped_vector",
+                    "data": [
+                        2.2,
+                        8.9,
+                        3.5,
+                        0.1
+                    ],
+                    "type": "DECIMAL",
+                    "shape": [
+                        4
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        [
+                            "foo",
+                            "foo",
+                            "foo1",
+                            "bar",
+                            "bar"
+                        ],
+                        [
+                            "foobar",
+                            "bar1",
+                            "foo",
+                            "foo",
+                            "barbar"
+                        ]
+                    ],
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "deduped_vector",
+                    "primitive_name": "deduped_vector",
+                    "data": [
+                        "foo1",
+                        "bar1",
+                        "barbar",
+                        "bar",
+                        "foobar",
+                        "foo"
+                    ],
+                    "type": "TEXT",
+                    "shape": [
+                        6
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,128 @@
+{
+    "name": "slice_text",
+    "primitive_name": "slice_text",
+    "aliases": [
+        "slice_texts",
+        "slice_strings",
+        "slice_strs",
+        "slice_words"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "text",
+        "start_index",
+        "end_index"
+    ],
+    "outputs": [
+        "sliced_text"
+    ],
+    "assertions": [
+        "{text}_data_type_is_text",
+        "{start_index}_data_type_is_integer",
+        "{start_index}_shape_is_the_same_as_{text}",
+        "{end_index}_data_type_is_integer",
+        "{end_index}_shape_is_the_same_as_{start_index}",
+        "{sliced_text}_data_type_is_text",
+        "{sliced_text}_shape_is_the_same_as_{end_index}"
+    ],
+    "description": [
+        "Slice `text` from `start_index` (inclusive) to `end_index` (exclusive)"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "text",
+                    "data": "foobar",
+                    "type": "TEXT"
+                },
+                {
+                    "name": "start_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "end_index",
+                    "data": 4,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "sliced_text",
+                    "primitive_name": "sliced_text",
+                    "data": "foob",
+                    "type": "TEXT",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "text",
+                    "data": [
+                        [
+                            "testing",
+                            "slicingtext"
+                        ],
+                        [
+                            "hello",
+                            "world"
+                        ]
+                    ],
+                    "type": "TEXT"
+                },
+                {
+                    "name": "start_index",
+                    "data": [
+                        [
+                            0,
+                            4
+                        ],
+                        [
+                            1,
+                            2
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "end_index",
+                    "data": [
+                        [
+                            4,
+                            10
+                        ],
+                        [
+                            5,
+                            4
+                        ]
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "sliced_text",
+                    "primitive_name": "sliced_text",
+                    "data": [
+                        [
+                            "test",
+                            "ingtex"
+                        ],
+                        [
+                            "ello",
+                            "rl"
+                        ]
+                    ],
+                    "type": "TEXT",
+                    "shape": [
+                        2,
+                        2
+                    ]
+                }
+            ]
+        }
+    ]
+}

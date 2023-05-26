@@ -1,0 +1,125 @@
+{
+    "name": "differentiate",
+    "primitive_name": "differentiate",
+    "aliases": [
+        "auto gradients",
+        "autogradients",
+        "derivatives"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "wrt_input",
+        "function_output",
+        {
+            "name": "order",
+            "data": 1,
+            "shape": [],
+            "type": "INTEGER",
+            "flow_state": "BOOT_SOURCE"
+        }
+    ],
+    "outputs": [
+        "derivative"
+    ],
+    "assertions": [
+        "{wrt_input}_data_type_is_text",
+        "{wrt_input}_has_one_dimension",
+        "{wrt_input}_globally_accesses_operation_input",
+        "{wrt_input}_globally_accesses_data_type_decimal",
+        "{function_output}_data_type_is_text",
+        "{function_output}_has_one_dimension",
+        "{function_output}_globally_accesses_operation_output",
+        "{function_output}_globally_accesses_data_type_decimal",
+        "{order}_data_type_is_integer",
+        "{order}_is_scalar",
+        "{order}_is_greater_than_zero",
+        "{derivative}_data_type_is_decimal",
+        "{derivative}_shape_is_the_same_as_{wrt_input}_globally_accessed_data"
+    ],
+    "description": [
+        "Calculate the `derivative` of `function_output` with respect to `wrt_input` parameter",
+        "Currently, only 1st `order` derivative is supported"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "data": [
+                        "Add test cases",
+                        "add scalar integer",
+                        "left_operand"
+                    ],
+                    "name": "wrt_input",
+                    "type": "TEXT"
+                },
+                {
+                    "data": [
+                        "Add test cases",
+                        "add scalar integer",
+                        "added_result"
+                    ],
+                    "name": "function_output",
+                    "type": "TEXT"
+                },
+                {
+                    "data": 1,
+                    "name": "order",
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "data": 1.0,
+                    "name": "derivative",
+                    "primitive_name": "derivative",
+                    "shape": [],
+                    "type": "DECIMAL"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "data": [
+                        "Add test cases",
+                        "add 1D integer",
+                        "left_operand"
+                    ],
+                    "name": "wrt_input",
+                    "type": "TEXT"
+                },
+                {
+                    "data": [
+                        "Add test cases",
+                        "add 1D integer",
+                        "added_result"
+                    ],
+                    "name": "function_output",
+                    "type": "TEXT"
+                },
+                {
+                    "data": 1,
+                    "name": "order",
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "data": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "name": "derivative",
+                    "primitive_name": "derivative",
+                    "shape": [
+                        5
+                    ],
+                    "type": "DECIMAL"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,280 @@
+{
+    "name": "split",
+    "primitive_name": "split",
+    "aliases": [],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "array",
+        "dimension_index",
+        "element_index"
+    ],
+    "outputs": [
+        "split_array_left",
+        "split_array_right"
+    ],
+    "assertions": [
+        "{array}_is_array",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{dimension_index}_is_less_than_{array}_number_of_dimensions",
+        "{dimension_index}_is_scalar",
+        "{element_index}_data_type_is_integer",
+        "{element_index}_is_greater_than_or_equal_to_zero",
+        "{element_index}_is_less_than_size_of_{array}_at_dimension_index_{dimension_index}",
+        "{element_index}_is_scalar",
+        "{split_array_left}_is_array",
+        "{split_array_left}_data_type_is_the_same_as_{array}",
+        "{split_array_right}_is_array",
+        "{split_array_right}_data_type_is_the_same_as_{split_array_left}"
+    ],
+    "description": [
+        "Split `array` at `element_index` across `dimension_index`",
+        "`split_array_left` excludes data at `element_index` and `split_array_right` includes data at `element_index`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "data": [
+                        0,
+                        5,
+                        10,
+                        15,
+                        20,
+                        25,
+                        30,
+                        35,
+                        40,
+                        45,
+                        50
+                    ],
+                    "name": "array",
+                    "type": "INTEGER"
+                },
+                {
+                    "data": 0,
+                    "name": "dimension_index",
+                    "type": "INTEGER"
+                },
+                {
+                    "data": 6,
+                    "name": "element_index",
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "data": [
+                        0,
+                        5,
+                        10,
+                        15,
+                        20,
+                        25
+                    ],
+                    "name": "split_array_left",
+                    "primitive_name": "split_array_left",
+                    "shape": [
+                        6
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "data": [
+                        30,
+                        35,
+                        40,
+                        45,
+                        50
+                    ],
+                    "name": "split_array_right",
+                    "primitive_name": "split_array_right",
+                    "shape": [
+                        5
+                    ],
+                    "type": "INTEGER"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "data": [
+                        [
+                            0.1,
+                            0.2,
+                            0.3,
+                            0.4
+                        ],
+                        [
+                            0.5,
+                            0.6,
+                            0.7,
+                            0.8
+                        ],
+                        [
+                            0.9,
+                            1.0,
+                            1.1,
+                            1.2
+                        ]
+                    ],
+                    "name": "array",
+                    "type": "DECIMAL"
+                },
+                {
+                    "data": 1,
+                    "name": "dimension_index",
+                    "type": "INTEGER"
+                },
+                {
+                    "data": 2,
+                    "name": "element_index",
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "data": [
+                        [
+                            0.1,
+                            0.2
+                        ],
+                        [
+                            0.5,
+                            0.6
+                        ],
+                        [
+                            0.9,
+                            1.0
+                        ]
+                    ],
+                    "name": "split_array_left",
+                    "primitive_name": "split_array_left",
+                    "shape": [
+                        3,
+                        2
+                    ],
+                    "type": "DECIMAL"
+                },
+                {
+                    "data": [
+                        [
+                            0.3,
+                            0.4
+                        ],
+                        [
+                            0.7,
+                            0.8
+                        ],
+                        [
+                            1.1,
+                            1.2
+                        ]
+                    ],
+                    "name": "split_array_right",
+                    "primitive_name": "split_array_right",
+                    "shape": [
+                        3,
+                        2
+                    ],
+                    "type": "DECIMAL"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "data": [
+                        [
+                            [
+                                true,
+                                true,
+                                true,
+                                true,
+                                false,
+                                false
+                            ]
+                        ],
+                        [
+                            [
+                                true,
+                                true,
+                                false,
+                                true,
+                                false,
+                                false
+                            ]
+                        ]
+                    ],
+                    "name": "array",
+                    "type": "BOOLEAN"
+                },
+                {
+                    "data": 2,
+                    "name": "dimension_index",
+                    "type": "INTEGER"
+                },
+                {
+                    "data": 1,
+                    "name": "element_index",
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "data": [
+                        [
+                            [
+                                true
+                            ]
+                        ],
+                        [
+                            [
+                                true
+                            ]
+                        ]
+                    ],
+                    "name": "split_array_left",
+                    "primitive_name": "split_array_left",
+                    "shape": [
+                        2,
+                        1,
+                        1
+                    ],
+                    "type": "BOOLEAN"
+                },
+                {
+                    "data": [
+                        [
+                            [
+                                true,
+                                true,
+                                true,
+                                false,
+                                false
+                            ]
+                        ],
+                        [
+                            [
+                                true,
+                                false,
+                                true,
+                                false,
+                                false
+                            ]
+                        ]
+                    ],
+                    "name": "split_array_right",
+                    "primitive_name": "split_array_right",
+                    "shape": [
+                        2,
+                        1,
+                        5
+                    ],
+                    "type": "BOOLEAN"
+                }
+            ]
+        }
+    ]
+}

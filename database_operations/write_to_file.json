@@ -1,0 +1,28 @@
+{
+    "name": "write_to_file",
+    "primitive_name": "write_to_file",
+    "aliases": [
+        "save_to_file"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "dir_path",
+        "file_name",
+        "is_overwrite",
+        "data"
+    ],
+    "outputs": [],
+    "assertions": [
+        "{dir_path}_data_type_is_text",
+        "{dir_path}_is_scalar",
+        "{file_name}_data_type_is_text",
+        "{file_name}_is_scalar",
+        "{is_overwrite}_data_type_is_boolean",
+        "{is_overwrite}_is_scalar"
+    ],
+    "description": [
+        "Write `data` to `file_name` in `dir_path`",
+        "Overwrite any existing file with the same name if `is_overwrite` is set to true,",
+        "otherwise `data` won't overwrite the existing file"
+    ]
+}

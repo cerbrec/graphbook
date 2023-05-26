@@ -1,0 +1,119 @@
+{
+    "name": "concatenate_text",
+    "primitive_name": "concatenate_text",
+    "aliases": [
+        "concatenate_texts",
+        "concatenate_strings",
+        "concat_texts",
+        "concat_strings",
+        "concat_words"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "text_1",
+        "text_2"
+    ],
+    "outputs": [
+        "concatenated_text"
+    ],
+    "assertions": [
+        "{text_1}_data_type_is_text",
+        "{text_2}_data_type_is_text",
+        "{text_1}_shape_is_the_same_as_{text_2}",
+        "{concatenated_text}_data_type_is_text",
+        "{concatenated_text}_shape_is_the_same_as_{text_2}"
+    ],
+    "description": [
+        "Element-wise concatenate `text_1` and `text_2`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "text_1",
+                    "data": "foo",
+                    "type": "TEXT"
+                },
+                {
+                    "name": "text_2",
+                    "data": "bar",
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "concatenated_text",
+                    "primitive_name": "concatenated_text",
+                    "data": "foobar",
+                    "type": "TEXT",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "text_1",
+                    "data": [
+                        [
+                            "foo",
+                            "foo1"
+                        ],
+                        [
+                            "foo2",
+                            "foo3"
+                        ],
+                        [
+                            "foo4",
+                            "foo5"
+                        ]
+                    ],
+                    "type": "TEXT"
+                },
+                {
+                    "name": "text_2",
+                    "data": [
+                        [
+                            "bar",
+                            "bar1"
+                        ],
+                        [
+                            "bar2",
+                            "bar3"
+                        ],
+                        [
+                            "bar4",
+                            "bar5"
+                        ]
+                    ],
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "concatenated_text",
+                    "primitive_name": "concatenated_text",
+                    "data": [
+                        [
+                            "foobar",
+                            "foo1bar1"
+                        ],
+                        [
+                            "foo2bar2",
+                            "foo3bar3"
+                        ],
+                        [
+                            "foo4bar4",
+                            "foo5bar5"
+                        ]
+                    ],
+                    "type": "TEXT",
+                    "shape": [
+                        3,
+                        2
+                    ]
+                }
+            ]
+        }
+    ]
+}

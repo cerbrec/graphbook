@@ -1,0 +1,89 @@
+{
+    "name": "parse_boolean",
+    "primitive_name": "parse_boolean",
+    "aliases": [
+        "parse_to_boolean",
+        "convert_to_boolean"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "input"
+    ],
+    "outputs": [
+        "output"
+    ],
+    "assertions": [
+        "{output}_data_type_is_boolean",
+        "{output}_shape_is_the_same_as_{input}"
+    ],
+    "description": [
+        "Convert `input` into boolean data type"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": "true",
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": true,
+                    "type": "BOOLEAN",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            "true",
+                            "false",
+                            "true",
+                            "false"
+                        ],
+                        [
+                            "false",
+                            "false",
+                            "true",
+                            "true"
+                        ]
+                    ],
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": [
+                        [
+                            true,
+                            false,
+                            true,
+                            false
+                        ],
+                        [
+                            false,
+                            false,
+                            true,
+                            true
+                        ]
+                    ],
+                    "type": "BOOLEAN",
+                    "shape": [
+                        2,
+                        4
+                    ]
+                }
+            ]
+        }
+    ]
+}

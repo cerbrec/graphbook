@@ -1,0 +1,78 @@
+{
+    "name": "join_text",
+    "primitive_name": "join_text",
+    "aliases": [
+        "join_texts",
+        "join_strings",
+        "join_strs"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "text",
+        "text_separator",
+        "dimension_index",
+        "keep_dimension"
+    ],
+    "outputs": [
+        "output"
+    ],
+    "assertions": [
+        "{text}_data_type_is_text",
+        "{text}_is_array",
+        "{text_separator}_data_type_is_text",
+        "{text_separator}_is_scalar",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_scalar",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{dimension_index}_is_less_than_{text}_number_of_dimensions",
+        "{keep_dimension}_data_type_is_boolean",
+        "{keep_dimension}_is_scalar",
+        "{output}_data_type_is_text"
+    ],
+    "description": [
+        "Return the joined values of `text` with separator of `text_separator` across `dimension_index`",
+        "If `keep_dimension` is true, then `output` will keep the dimension at `dimension_index`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "text",
+                    "data": [
+                        "hello",
+                        "world"
+                    ],
+                    "type": "text"
+                },
+                {
+                    "name": "text_separator",
+                    "data": " ",
+                    "type": "TEXT"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "keep_dimension",
+                    "data": true,
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": [
+                        "hello world"
+                    ],
+                    "type": "TEXT",
+                    "shape": [
+                        1
+                    ]
+                }
+            ]
+        }
+    ]
+}

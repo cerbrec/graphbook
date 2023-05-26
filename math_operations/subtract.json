@@ -1,0 +1,124 @@
+{
+    "name": "subtract",
+    "primitive_name": "subtract",
+    "aliases": [
+        "minus",
+        "decrement"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "left_operand",
+        "right_operand"
+    ],
+    "outputs": [
+        "subtracted_result"
+    ],
+    "assertions": [
+        "{left_operand}_data_type_is_integer_or_decimal",
+        "{left_operand}_shape_is_the_same_as_{right_operand}",
+        "{right_operand}_data_type_is_the_same_as_{left_operand}",
+        "{subtracted_result}_data_type_is_the_same_as_{right_operand}",
+        "{subtracted_result}_shape_is_the_same_as_{right_operand}"
+    ],
+    "description": [
+        "Subtract `right_operand` from `left_operand`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "data": [
+                        93,
+                        9,
+                        35,
+                        14,
+                        23
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "right_operand",
+                    "data": [
+                        24,
+                        54,
+                        49,
+                        11,
+                        3
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "subtracted_result",
+                    "primitive_name": "subtracted_result",
+                    "data": [
+                        69,
+                        -45,
+                        -14,
+                        3,
+                        20
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        5
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "data": [
+                        [
+                            22.2,
+                            13.04
+                        ],
+                        [
+                            -5.6,
+                            7.98
+                        ]
+                    ],
+                    "type": "DECIMAL"
+                },
+                {
+                    "name": "right_operand",
+                    "data": [
+                        [
+                            9.1,
+                            -2.3
+                        ],
+                        [
+                            4.5,
+                            -6.7
+                        ]
+                    ],
+                    "type": "DECIMAL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "subtracted_result",
+                    "primitive_name": "subtracted_result",
+                    "data": [
+                        [
+                            13.1,
+                            15.34
+                        ],
+                        [
+                            -10.1,
+                            14.68
+                        ]
+                    ],
+                    "type": "DECIMAL",
+                    "shape": [
+                        2,
+                        2
+                    ]
+                }
+            ]
+        }
+    ]
+}

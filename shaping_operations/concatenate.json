@@ -1,0 +1,210 @@
+{
+    "name": "concatenate",
+    "primitive_name": "concatenate",
+    "aliases": [
+        "concat",
+        "join",
+        "merge"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "array_1",
+        "array_2",
+        "dimension_index"
+    ],
+    "outputs": [
+        "concatenated_array"
+    ],
+    "assertions": [
+        "{array_1}_is_array",
+        "{array_2}_is_array",
+        "{array_1}_data_type_is_the_same_as_{array_2}",
+        "{array_1}_number_of_dimensions_is_the_same_as_{array_2}",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{dimension_index}_is_less_than_{array_1}_number_of_dimensions",
+        "{dimension_index}_is_scalar",
+        "every_dimension_size_of_{array_1}_is_equal_to_the_corresponding_dimension_size_of_{array_2}_except_on_dimension_{dimension_index}",
+        "{concatenated_array}_data_type_is_the_same_as_{array_2}",
+        "{concatenated_array}_is_array",
+        "{concatenated_array}_number_of_dimensions_is_the_same_as_{array_2}"
+    ],
+    "description": [
+        "Concatenate `array_1` and `array_2` on `dimension_index`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "array_1",
+                    "data": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "array_2",
+                    "data": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "concatenated_array",
+                    "primitive_name": "concatenated_array",
+                    "data": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        10
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "array_1",
+                    "data": [
+                        [
+                            true,
+                            true
+                        ],
+                        [
+                            false,
+                            true
+                        ]
+                    ],
+                    "type": "BOOLEAN"
+                },
+                {
+                    "name": "array_2",
+                    "data": [
+                        [
+                            true,
+                            false
+                        ],
+                        [
+                            false,
+                            false
+                        ]
+                    ],
+                    "type": "BOOLEAN"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 1,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "concatenated_array",
+                    "primitive_name": "concatenated_array",
+                    "data": [
+                        [
+                            true,
+                            true,
+                            true,
+                            false
+                        ],
+                        [
+                            false,
+                            true,
+                            false,
+                            false
+                        ]
+                    ],
+                    "type": "BOOLEAN",
+                    "shape": [
+                        2,
+                        4
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "array_1",
+                    "data": [
+                        [
+                            "foo",
+                            "bar",
+                            "foo_bar",
+                            "bar_foo"
+                        ]
+                    ],
+                    "type": "TEXT"
+                },
+                {
+                    "name": "array_2",
+                    "data": [
+                        [
+                            "foo1",
+                            "bar1",
+                            "foo2",
+                            "bar2"
+                        ]
+                    ],
+                    "type": "TEXT"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "concatenated_array",
+                    "primitive_name": "concatenated_array",
+                    "data": [
+                        [
+                            "foo",
+                            "bar",
+                            "foo_bar",
+                            "bar_foo"
+                        ],
+                        [
+                            "foo1",
+                            "bar1",
+                            "foo2",
+                            "bar2"
+                        ]
+                    ],
+                    "type": "TEXT",
+                    "shape": [
+                        2,
+                        4
+                    ]
+                }
+            ]
+        }
+    ]
+}

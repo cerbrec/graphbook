@@ -1,0 +1,78 @@
+{
+    "name": "error_function",
+    "primitive_name": "error_function",
+    "aliases": [
+        "erf"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "input"
+    ],
+    "outputs": [
+        "output"
+    ],
+    "assertions": [
+        "{input}_data_type_is_decimal",
+        "{output}_data_type_is_the_same_as_{input}",
+        "{output}_shape_is_the_same_as_{input}"
+    ],
+    "description": [
+        "Compute the Gauss error function of each element in `input`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": 1.5,
+                    "type": "DECIMAL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "data": 0.9661051464753108,
+                    "type": "DECIMAL",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        1.0,
+                        2.0,
+                        2.5,
+                        3.5,
+                        -1.0,
+                        -2.0,
+                        -2.5,
+                        -3.5
+                    ],
+                    "type": "DECIMAL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "data": [
+                        0.8427007929497149,
+                        0.9953222650189527,
+                        0.999593047982555,
+                        0.9999992569016276,
+                        -0.8427007929497149,
+                        -0.9953222650189527,
+                        -0.999593047982555,
+                        -0.9999992569016276
+                    ],
+                    "type": "DECIMAL",
+                    "shape": [
+                        8
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,309 @@
+{
+    "name": "swap_dimensions",
+    "primitive_name": "swap_dimensions",
+    "aliases": [
+        "swap_axis",
+        "swap_axes",
+        "change_dimensions",
+        "exchange_dimensions",
+        "transpose",
+        "permute"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "array",
+        "dimension_index_1",
+        "dimension_index_2"
+    ],
+    "outputs": [
+        "swapped_array"
+    ],
+    "assertions": [
+        "{array}_is_array",
+        "{array}_has_more_than_one_dimension",
+        "{dimension_index_1}_data_type_is_integer",
+        "{dimension_index_1}_is_scalar",
+        "{dimension_index_1}_is_greater_than_or_equal_to_zero",
+        "{dimension_index_1}_is_less_than_{array}_number_of_dimensions",
+        "{dimension_index_2}_data_type_is_integer",
+        "{dimension_index_2}_is_scalar",
+        "{dimension_index_2}_is_greater_than_or_equal_to_zero",
+        "{dimension_index_2}_is_less_than_{array}_number_of_dimensions",
+        "{dimension_index_1}_is_not_equal_to_{dimension_index_2}",
+        "{swapped_array}_is_array",
+        "{swapped_array}_data_type_is_the_same_as_{array}",
+        "{array}_dimension_size_at_{dimension_index_1}_is_equal_to_{swapped_array}_dimension_size_at_{dimension_index_2}",
+        "{array}_dimension_size_at_{dimension_index_2}_is_equal_to_{swapped_array}_dimension_size_at_{dimension_index_1}"
+    ],
+    "description": [
+        "Swap two dimensions (`dimension_index_1` and `dimension_index_2`) of `array`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        [
+                            1,
+                            2,
+                            3,
+                            4
+                        ],
+                        [
+                            5,
+                            6,
+                            7,
+                            8
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index_1",
+                    "data": 0,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index_2",
+                    "data": 1,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "swapped_array",
+                    "primitive_name": "swapped_array",
+                    "data": [
+                        [
+                            1,
+                            5
+                        ],
+                        [
+                            2,
+                            6
+                        ],
+                        [
+                            3,
+                            7
+                        ],
+                        [
+                            4,
+                            8
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        4,
+                        2
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        [
+                            [
+                                0.1,
+                                0.2
+                            ],
+                            [
+                                0.3,
+                                0.4
+                            ],
+                            [
+                                0.5,
+                                0.6
+                            ]
+                        ],
+                        [
+                            [
+                                0.7,
+                                0.8
+                            ],
+                            [
+                                0.9,
+                                1.0
+                            ],
+                            [
+                                1.1,
+                                1.2
+                            ]
+                        ]
+                    ],
+                    "type": "DECIMAL"
+                },
+                {
+                    "name": "dimension_index_1",
+                    "data": 1,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index_2",
+                    "data": 2,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "swapped_array",
+                    "primitive_name": "swapped_array",
+                    "data": [
+                        [
+                            [
+                                0.1,
+                                0.3,
+                                0.5
+                            ],
+                            [
+                                0.2,
+                                0.4,
+                                0.6
+                            ]
+                        ],
+                        [
+                            [
+                                0.7,
+                                0.9,
+                                1.1
+                            ],
+                            [
+                                0.8,
+                                1.0,
+                                1.2
+                            ]
+                        ]
+                    ],
+                    "type": "DECIMAL",
+                    "shape": [
+                        2,
+                        2,
+                        3
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        [
+                            [
+                                [
+                                    0.1,
+                                    0.2
+                                ],
+                                [
+                                    0.3,
+                                    0.4
+                                ]
+                            ],
+                            [
+                                [
+                                    0.5,
+                                    0.6
+                                ],
+                                [
+                                    0.7,
+                                    0.8
+                                ]
+                            ],
+                            [
+                                [
+                                    0.9,
+                                    1.0
+                                ],
+                                [
+                                    1.1,
+                                    1.2
+                                ]
+                            ]
+                        ]
+                    ],
+                    "type": "DECIMAL"
+                },
+                {
+                    "name": "dimension_index_1",
+                    "data": 0,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index_2",
+                    "data": 3,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "swapped_array",
+                    "primitive_name": "swapped_array",
+                    "data": [
+                        [
+                            [
+                                [
+                                    0.1
+                                ],
+                                [
+                                    0.3
+                                ]
+                            ],
+                            [
+                                [
+                                    0.5
+                                ],
+                                [
+                                    0.7
+                                ]
+                            ],
+                            [
+                                [
+                                    0.9
+                                ],
+                                [
+                                    1.1
+                                ]
+                            ]
+                        ],
+                        [
+                            [
+                                [
+                                    0.2
+                                ],
+                                [
+                                    0.4
+                                ]
+                            ],
+                            [
+                                [
+                                    0.6
+                                ],
+                                [
+                                    0.8
+                                ]
+                            ],
+                            [
+                                [
+                                    1.0
+                                ],
+                                [
+                                    1.2
+                                ]
+                            ]
+                        ]
+                    ],
+                    "type": "DECIMAL",
+                    "shape": [
+                        2,
+                        3,
+                        2,
+                        1
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,200 @@
+{
+    "name": "mean",
+    "primitive_name": "mean",
+    "aliases": [
+        "avg",
+        "average",
+        "get_expected_value"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "array",
+        "dimension_index",
+        "keep_dimension"
+    ],
+    "outputs": [
+        "mean_result"
+    ],
+    "assertions": [
+        "{array}_data_type_is_integer_or_decimal",
+        "{array}_is_array",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_scalar",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{dimension_index}_is_less_than_{array}_number_of_dimensions",
+        "{keep_dimension}_data_type_is_boolean",
+        "{keep_dimension}_is_scalar",
+        "{mean_result}_data_type_is_the_same_as_{array}"
+    ],
+    "description": [
+        "Return the mean values of `array` across `dimension_index`",
+        "If `keep_dimension` is true, then `output` will keep the dimension at `dimension_index`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        1,
+                        24,
+                        2,
+                        6,
+                        11
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "keep_dimension",
+                    "data": true,
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "mean_result",
+                    "primitive_name": "mean_result",
+                    "data": [
+                        8
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        [
+                            22,
+                            11,
+                            6,
+                            -3,
+                            13
+                        ],
+                        [
+                            7,
+                            5,
+                            31,
+                            8,
+                            31
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 1,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "keep_dimension",
+                    "data": false,
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "mean_result",
+                    "primitive_name": "mean_result",
+                    "data": [
+                        9,
+                        16
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        [
+                            [
+                                11,
+                                2,
+                                3,
+                                6,
+                                8
+                            ],
+                            [
+                                4,
+                                6,
+                                21,
+                                8,
+                                5
+                            ]
+                        ],
+                        [
+                            [
+                                9,
+                                1,
+                                4,
+                                26,
+                                7
+                            ],
+                            [
+                                2,
+                                0,
+                                31,
+                                11,
+                                12
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "keep_dimension",
+                    "data": false,
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "mean_result",
+                    "primitive_name": "mean_result",
+                    "data": [
+                        [
+                            10,
+                            1,
+                            3,
+                            16,
+                            7
+                        ],
+                        [
+                            3,
+                            3,
+                            26,
+                            9,
+                            8
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        5
+                    ]
+                }
+            ]
+        }
+    ]
+}

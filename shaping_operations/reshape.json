@@ -1,0 +1,300 @@
+{
+    "name": "reshape",
+    "primitive_name": "reshape",
+    "aliases": [
+        "shape",
+        "view"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "input",
+        "new_shape"
+    ],
+    "outputs": [
+        "output"
+    ],
+    "assertions": [
+        "{new_shape}_data_type_is_integer",
+        "{new_shape}_is_greater_than_or_equal_to_zero",
+        "{new_shape}_has_one_dimension",
+        "{input}_data_type_is_the_same_as_{output}",
+        "{input}_number_of_elements_is_equal_to_{output}_number_of_elements",
+        "{input}_number_of_elements_is_equal_to_number_of_elements_specified_by_shape_{new_shape}",
+        "{output}_shape_is_{new_shape}"
+    ],
+    "description": [
+        "Reshape `input` into `output` with the same data and number of elements"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "new_shape",
+                    "data": [
+                        5,
+                        1
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": [
+                        [
+                            1
+                        ],
+                        [
+                            2
+                        ],
+                        [
+                            3
+                        ],
+                        [
+                            4
+                        ],
+                        [
+                            5
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        5,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            0.1,
+                            0.2
+                        ],
+                        [
+                            0.3,
+                            0.4
+                        ],
+                        [
+                            0.5,
+                            0.6
+                        ]
+                    ],
+                    "type": "DECIMAL"
+                },
+                {
+                    "name": "new_shape",
+                    "data": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": [
+                        [
+                            [
+                                0.1,
+                                0.2,
+                                0.3
+                            ],
+                            [
+                                0.4,
+                                0.5,
+                                0.6
+                            ]
+                        ]
+                    ],
+                    "type": "DECIMAL",
+                    "shape": [
+                        1,
+                        2,
+                        3
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            [
+                                true,
+                                false,
+                                true,
+                                true
+                            ],
+                            [
+                                false,
+                                true,
+                                false,
+                                false
+                            ],
+                            [
+                                false,
+                                true,
+                                false,
+                                true
+                            ]
+                        ]
+                    ],
+                    "type": "BOOLEAN"
+                },
+                {
+                    "name": "new_shape",
+                    "data": [
+                        3,
+                        2,
+                        2
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": [
+                        [
+                            [
+                                true,
+                                false
+                            ],
+                            [
+                                true,
+                                true
+                            ]
+                        ],
+                        [
+                            [
+                                false,
+                                true
+                            ],
+                            [
+                                false,
+                                false
+                            ]
+                        ],
+                        [
+                            [
+                                false,
+                                true
+                            ],
+                            [
+                                false,
+                                true
+                            ]
+                        ]
+                    ],
+                    "type": "BOOLEAN",
+                    "shape": [
+                        3,
+                        2,
+                        2
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            [
+                                "foo",
+                                "bar",
+                                "foo1"
+                            ],
+                            [
+                                "bar1",
+                                "foo2",
+                                "bar2"
+                            ]
+                        ],
+                        [
+                            [
+                                "foo3",
+                                "bar3",
+                                "foo4"
+                            ],
+                            [
+                                "bar4",
+                                "foo5",
+                                "bar5"
+                            ]
+                        ]
+                    ],
+                    "type": "TEXT"
+                },
+                {
+                    "name": "new_shape",
+                    "data": [
+                        6,
+                        2
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": [
+                        [
+                            "foo",
+                            "bar"
+                        ],
+                        [
+                            "foo1",
+                            "bar1"
+                        ],
+                        [
+                            "foo2",
+                            "bar2"
+                        ],
+                        [
+                            "foo3",
+                            "bar3"
+                        ],
+                        [
+                            "foo4",
+                            "bar4"
+                        ],
+                        [
+                            "foo5",
+                            "bar5"
+                        ]
+                    ],
+                    "type": "TEXT",
+                    "shape": [
+                        6,
+                        2
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,315 @@
+{
+    "name": "ReLU",
+    "title_is_latex": false,
+    "type": "COMPOSITE_OPERATION",
+    "inputs": [
+        {
+            "name": "Input",
+            "primitive_name": "Input",
+            "is_latex": false
+        }
+    ],
+    "input_order": [
+        0
+    ],
+    "subgraph_input_order": [
+        0
+    ],
+    "outputs": [
+        {
+            "name": "Output",
+            "primitive_name": "Output",
+            "is_latex": false
+        }
+    ],
+    "output_order": [
+        0
+    ],
+    "subgraph_output_order": [
+        0
+    ],
+    "operations": [
+        {
+            "name": "get_shape",
+            "title_is_latex": false,
+            "primitive_name": "get_shape",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 376,
+                "y": 434,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "input",
+                    "primitive_name": "input",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0
+            ],
+            "outputs": [
+                {
+                    "name": "shape",
+                    "primitive_name": "shape",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "{input}_shape_is_{shape}",
+                "{shape}_has_one_dimension",
+                "{shape}_is_greater_than_or_equal_to_zero",
+                "{shape}_data_type_is_integer"
+            ]
+        },
+        {
+            "name": "broadcast_to_shape",
+            "title_is_latex": false,
+            "primitive_name": "broadcast_to_shape",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 796,
+                "y": 393,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "target",
+                    "data": 0.0,
+                    "shape": [],
+                    "type": "DECIMAL",
+                    "primitive_name": "target",
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                },
+                {
+                    "name": "shape",
+                    "primitive_name": "shape",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "result",
+                    "primitive_name": "result",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "every_dimension_size_of_{target}_is_less_than_or_equal_to_the_corresponding_dimension_size_of_{result}",
+                "{target}_shape_size_is_less_than_or_equal_to_{result}_shape_size",
+                "{result}_shape_is_{shape}",
+                "{result}_data_type_is_the_same_as_{target}",
+                "every_dimension_size_of_{target}_is_less_than_or_equal_to_the_corresponding_value_of_array_{shape}",
+                "{target}_shape_size_is_less_than_or_equal_to_{shape}_size",
+                "{shape}_has_one_dimension",
+                "{shape}_data_type_is_integer"
+            ]
+        },
+        {
+            "name": "greater_than",
+            "title_is_latex": false,
+            "primitive_name": "greater_than",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 1198,
+                "y": 229,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "primitive_name": "left_operand",
+                    "is_latex": false
+                },
+                {
+                    "name": "right_operand",
+                    "primitive_name": "right_operand",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "is_greater_than",
+                    "primitive_name": "is_greater_than",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "{is_greater_than}_shape_is_the_same_as_{right_operand}",
+                "{right_operand}_data_type_is_the_same_as_{left_operand}",
+                "{left_operand}_shape_is_the_same_as_{right_operand}",
+                "{is_greater_than}_data_type_is_boolean",
+                "{left_operand}_data_type_is_integer_or_decimal"
+            ]
+        },
+        {
+            "name": "conditional_filter",
+            "title_is_latex": false,
+            "primitive_name": "conditional_filter",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 1967,
+                "y": 41,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "condition",
+                    "primitive_name": "condition",
+                    "is_latex": false
+                },
+                {
+                    "name": "data_if_true",
+                    "primitive_name": "data_if_true",
+                    "is_latex": false
+                },
+                {
+                    "name": "data_if_false",
+                    "primitive_name": "data_if_false",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                1,
+                2,
+                0
+            ],
+            "outputs": [
+                {
+                    "name": "output_data",
+                    "primitive_name": "output_data",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "{output_data}_shape_is_the_same_as_{data_if_false}",
+                "{output_data}_data_type_is_the_same_as_{data_if_false}",
+                "{data_if_true}_shape_is_the_same_as_{data_if_false}",
+                "{data_if_true}_data_type_is_the_same_as_{data_if_false}",
+                "{condition}_shape_is_the_same_as_{data_if_true}",
+                "{condition}_data_type_is_boolean"
+            ]
+        }
+    ],
+    "links": [
+        {
+            "source": {
+                "operation": "this",
+                "data": "Input"
+            },
+            "sink": {
+                "operation": "get_shape",
+                "data": "input"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "get_shape",
+                "data": "shape"
+            },
+            "sink": {
+                "operation": "broadcast_to_shape",
+                "data": "shape"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "broadcast_to_shape",
+                "data": "result"
+            },
+            "sink": {
+                "operation": "greater_than",
+                "data": "right_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Input"
+            },
+            "sink": {
+                "operation": "greater_than",
+                "data": "left_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "greater_than",
+                "data": "is_greater_than"
+            },
+            "sink": {
+                "operation": "conditional_filter",
+                "data": "condition"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Input"
+            },
+            "sink": {
+                "operation": "conditional_filter",
+                "data": "data_if_true"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "broadcast_to_shape",
+                "data": "result"
+            },
+            "sink": {
+                "operation": "conditional_filter",
+                "data": "data_if_false"
+            },
+            "control_points": [
+                {
+                    "x": 1707,
+                    "y": 447
+                }
+            ]
+        },
+        {
+            "source": {
+                "operation": "conditional_filter",
+                "data": "output_data"
+            },
+            "sink": {
+                "operation": "this",
+                "data": "Output"
+            },
+            "control_points": []
+        }
+    ]
+}

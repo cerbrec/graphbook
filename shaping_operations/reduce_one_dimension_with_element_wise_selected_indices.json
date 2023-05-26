@@ -1,0 +1,195 @@
+{
+    "name": "reduce_one_dimension_with_element_wise_selected_indices",
+    "primitive_name": "reduce_one_dimension_with_element_wise_selected_indices",
+    "aliases": [
+        "element_wise_reduce_one_dimension"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "array",
+        "dimension_index",
+        "selected_indices"
+    ],
+    "outputs": [
+        "elements"
+    ],
+    "assertions": [
+        "{array}_is_array",
+        "{dimension_index}_is_scalar",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{dimension_index}_is_less_than_{array}_number_of_dimensions",
+        "{selected_indices}_data_type_is_integer",
+        "{selected_indices}_is_greater_than_or_equal_to_zero",
+        "{selected_indices}_is_less_than_size_of_{array}_at_dimension_index_{dimension_index}",
+        "{selected_indices}_shape_is_the_same_as_{array}_shape_with_dimension_at_index_{dimension_index}_removed",
+        "{elements}_data_type_is_the_same_as_{array}",
+        "{elements}_shape_is_the_same_as_{selected_indices}"
+    ],
+    "description": [
+        "Get `elements` in `array` across `dimension_index` specified by `selected_indices`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "selected_indices",
+                    "data": 3,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "elements",
+                    "primitive_name": "elements",
+                    "data": 4,
+                    "type": "INTEGER",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        [
+                            10,
+                            20,
+                            30
+                        ],
+                        [
+                            1,
+                            2,
+                            3
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 1,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "selected_indices",
+                    "data": [
+                        0,
+                        1
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "elements",
+                    "primitive_name": "elements",
+                    "data": [
+                        10,
+                        2
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        [
+                            [
+                                10,
+                                20,
+                                30
+                            ],
+                            [
+                                40,
+                                50,
+                                60
+                            ]
+                        ],
+                        [
+                            [
+                                1,
+                                2,
+                                3
+                            ],
+                            [
+                                4,
+                                5,
+                                6
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "selected_indices",
+                    "data": [
+                        [
+                            0,
+                            0,
+                            0
+                        ],
+                        [
+                            1,
+                            1,
+                            1
+                        ]
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "elements",
+                    "primitive_name": "elements",
+                    "data": [
+                        [
+                            10,
+                            20,
+                            30
+                        ],
+                        [
+                            4,
+                            5,
+                            6
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        3
+                    ]
+                }
+            ]
+        }
+    ]
+}

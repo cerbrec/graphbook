@@ -1,0 +1,160 @@
+{
+    "name": "greater_than",
+    "primitive_name": "greater_than",
+    "aliases": [
+        "gt",
+        "greater",
+        "larger",
+        "larger_than",
+        "bigger",
+        "bigger_than"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "left_operand",
+        "right_operand"
+    ],
+    "outputs": [
+        "is_greater_than"
+    ],
+    "assertions": [
+        "{left_operand}_data_type_is_integer_or_decimal",
+        "{left_operand}_shape_is_the_same_as_{right_operand}",
+        "{right_operand}_data_type_is_the_same_as_{left_operand}",
+        "{is_greater_than}_data_type_is_boolean",
+        "{is_greater_than}_shape_is_the_same_as_{right_operand}"
+    ],
+    "description": [
+        "Element-wise check whether each element of `left_operand` is greater than the corresponding element of `right_operand`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "data": 99,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "right_operand",
+                    "data": 59,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "is_greater_than",
+                    "primitive_name": "is_greater_than",
+                    "data": true,
+                    "type": "BOOLEAN",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "data": [
+                        0.01,
+                        0.1,
+                        -3.2,
+                        5.2,
+                        12.8,
+                        5.7
+                    ],
+                    "type": "DECIMAL"
+                },
+                {
+                    "name": "right_operand",
+                    "data": [
+                        0.1,
+                        0.01,
+                        3.2,
+                        3.2,
+                        8.1,
+                        8.9
+                    ],
+                    "type": "DECIMAL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "is_greater_than",
+                    "primitive_name": "is_greater_than",
+                    "data": [
+                        false,
+                        true,
+                        false,
+                        true,
+                        true,
+                        false
+                    ],
+                    "type": "BOOLEAN",
+                    "shape": [
+                        6
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "data": [
+                        [
+                            0.01,
+                            0.1,
+                            -3.2
+                        ],
+                        [
+                            5.2,
+                            12.8,
+                            5.7
+                        ]
+                    ],
+                    "type": "DECIMAL"
+                },
+                {
+                    "name": "right_operand",
+                    "data": [
+                        [
+                            0.1,
+                            0.01,
+                            3.2
+                        ],
+                        [
+                            3.2,
+                            8.1,
+                            8.9
+                        ]
+                    ],
+                    "type": "DECIMAL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "is_greater_than",
+                    "primitive_name": "is_greater_than",
+                    "data": [
+                        [
+                            false,
+                            true,
+                            false
+                        ],
+                        [
+                            true,
+                            true,
+                            false
+                        ]
+                    ],
+                    "type": "BOOLEAN",
+                    "shape": [
+                        2,
+                        3
+                    ]
+                }
+            ]
+        }
+    ]
+}

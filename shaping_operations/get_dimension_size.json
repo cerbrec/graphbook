@@ -1,0 +1,160 @@
+{
+    "name": "get_dimension_size",
+    "primitive_name": "get_dimension_size",
+    "aliases": [
+        "get_dim_size",
+        "get_dimensional_size",
+        "get_dim_length",
+        "get_dimension_length",
+        "get_dimensional_length"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "array",
+        "dimension_index"
+    ],
+    "outputs": [
+        "dimension_size"
+    ],
+    "assertions": [
+        "{array}_is_array",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{dimension_index}_is_less_than_{array}_number_of_dimensions",
+        "{dimension_index}_is_scalar",
+        "{dimension_size}_data_type_is_integer",
+        "{dimension_size}_is_scalar",
+        "{dimension_size}_is_greater_than_or_equal_to_zero"
+    ],
+    "description": [
+        "Get size of dimension of `array` at `dimension_index`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "dimension_size",
+                    "primitive_name": "dimension_size",
+                    "data": 10,
+                    "type": "INTEGER",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        [
+                            [
+                                0.1,
+                                2.3
+                            ],
+                            [
+                                4.5,
+                                6.7
+                            ]
+                        ],
+                        [
+                            [
+                                8.9,
+                                10.1
+                            ],
+                            [
+                                11.2,
+                                12.3
+                            ]
+                        ]
+                    ],
+                    "type": "DECIMAL"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 1,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "dimension_size",
+                    "primitive_name": "dimension_size",
+                    "data": 2,
+                    "type": "INTEGER",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        [
+                            [
+                                true,
+                                true,
+                                false,
+                                true
+                            ]
+                        ],
+                        [
+                            [
+                                true,
+                                false,
+                                false,
+                                false
+                            ]
+                        ],
+                        [
+                            [
+                                false,
+                                true,
+                                true,
+                                false
+                            ]
+                        ]
+                    ],
+                    "type": "BOOLEAN"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 2,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "dimension_size",
+                    "primitive_name": "dimension_size",
+                    "data": 4,
+                    "type": "INTEGER",
+                    "shape": []
+                }
+            ]
+        }
+    ]
+}

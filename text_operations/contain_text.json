@@ -1,0 +1,114 @@
+{
+    "name": "contain_text",
+    "primitive_name": "contain_text",
+    "aliases": [
+        "contain_texts",
+        "contain_strings",
+        "contain_words",
+        "find_texts",
+        "find_strings",
+        "find_words"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "text",
+        "search_regex"
+    ],
+    "outputs": [
+        "is_contain"
+    ],
+    "assertions": [
+        "{text}_data_type_is_text",
+        "{search_regex}_data_type_is_text",
+        "{search_regex}_conforms_to_regular_expression",
+        "{text}_shape_is_the_same_as_{search_regex}",
+        "{is_contain}_data_type_is_boolean",
+        "{is_contain}_shape_is_the_same_as_{search_regex}"
+    ],
+    "description": [
+        "Element-wise check whether regular expression in `search_regex` is contained in `text`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "text",
+                    "data": [
+                        "this is my email helloworld@gmail.com",
+                        "check for numbers"
+                    ],
+                    "type": "TEXT"
+                },
+                {
+                    "name": "search_regex",
+                    "data": [
+                        "([a-zA-Z0-9+._-]+@[a-zA-Z0-9._-]+\\.[a-zA-Z0-9_-]+)",
+                        "\\d"
+                    ],
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "is_contain",
+                    "primitive_name": "is_contain",
+                    "data": [
+                        true,
+                        false
+                    ],
+                    "type": "BOOLEAN",
+                    "shape": [
+                        2
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "text",
+                    "data": [
+                        [
+                            "this is my email helloworld@gmail.com"
+                        ],
+                        [
+                            "check for numbers"
+                        ]
+                    ],
+                    "type": "TEXT"
+                },
+                {
+                    "name": "search_regex",
+                    "data": [
+                        [
+                            "\\d"
+                        ],
+                        [
+                            "[[:punct:]]+"
+                        ]
+                    ],
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "is_contain",
+                    "primitive_name": "is_contain",
+                    "data": [
+                        [
+                            false
+                        ],
+                        [
+                            false
+                        ]
+                    ],
+                    "type": "BOOLEAN",
+                    "shape": [
+                        2,
+                        1
+                    ]
+                }
+            ]
+        }
+    ]
+}

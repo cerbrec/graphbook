@@ -1,0 +1,3283 @@
+{
+    "name": "3D Linear Layer",
+    "title_is_latex": false,
+    "type": "COMPOSITE_OPERATION",
+    "aliases": [
+        "3D Dense Layer"
+    ],
+    "inputs": [
+        {
+            "name": "Input",
+            "primitive_name": "new_inp",
+            "is_latex": false
+        },
+        {
+            "name": "Hidden Size",
+            "primitive_name": "New Input",
+            "is_latex": false
+        },
+        {
+            "name": "Weights Dir Path",
+            "primitive_name": "New Input (1)",
+            "is_latex": false
+        }
+    ],
+    "input_order": [
+        0,
+        1,
+        2
+    ],
+    "subgraph_input_order": [
+        0,
+        1,
+        2
+    ],
+    "outputs": [
+        {
+            "name": "Output",
+            "primitive_name": "new_out",
+            "is_latex": false
+        }
+    ],
+    "output_order": [
+        0
+    ],
+    "subgraph_output_order": [
+        0,
+        1,
+        2
+    ],
+    "operations": [
+        {
+            "name": "Calculate Multiply Weight Shape",
+            "title_is_latex": false,
+            "type": "COMPOSITE_OPERATION",
+            "position": {
+                "x": 595,
+                "y": 287
+            },
+            "inputs": [
+                {
+                    "name": "Input",
+                    "primitive_name": "Input",
+                    "is_latex": false
+                },
+                {
+                    "name": "Hidden Size",
+                    "primitive_name": "New Input",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "subgraph_input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "Output",
+                    "primitive_name": "Output",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "subgraph_output_order": [
+                0,
+                1
+            ],
+            "operations": [
+                {
+                    "name": "get_shape",
+                    "title_is_latex": false,
+                    "primitive_name": "get_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 580,
+                        "y": 44
+                    },
+                    "inputs": [
+                        {
+                            "name": "input",
+                            "primitive_name": "input",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0
+                    ],
+                    "outputs": [
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ],
+                    "assertions": [
+                        "{input}_is_array",
+                        "{shape}_data_type_is_integer",
+                        "{shape}_is_greater_than_or_equal_to_zero",
+                        "{shape}_has_one_dimension",
+                        "{input}_shape_is_{shape}"
+                    ]
+                },
+                {
+                    "name": "slice_2",
+                    "title_is_latex": false,
+                    "primitive_name": "slice",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 1158,
+                        "y": 348
+                    },
+                    "inputs": [
+                        {
+                            "name": "array",
+                            "primitive_name": "array",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "dimension_index",
+                            "data": 0,
+                            "shape": [],
+                            "type": "INTEGER",
+                            "primitive_name": "dimension_index",
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "start_index",
+                            "data": 2,
+                            "shape": [],
+                            "type": "INTEGER",
+                            "primitive_name": "start_index",
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "end_index",
+                            "data": 3,
+                            "shape": [],
+                            "type": "INTEGER",
+                            "primitive_name": "end_index",
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0,
+                        1,
+                        2,
+                        3
+                    ],
+                    "outputs": [
+                        {
+                            "name": "sliced_array",
+                            "primitive_name": "sliced_array",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ],
+                    "assertions": [
+                        "{array}_is_array",
+                        "{dimension_index}_data_type_is_integer",
+                        "{dimension_index}_is_scalar",
+                        "{start_index}_data_type_is_integer",
+                        "{start_index}_is_scalar",
+                        "{start_index}_is_greater_than_or_equal_to_zero",
+                        "{end_index}_data_type_is_integer",
+                        "{end_index}_is_scalar",
+                        "{end_index}_is_greater_than_zero",
+                        "{sliced_array}_is_array",
+                        "{start_index}_is_less_than_{end_index}",
+                        "{sliced_array}_data_type_is_the_same_as_{array}"
+                    ]
+                },
+                {
+                    "name": "expand_one_dimension",
+                    "title_is_latex": false,
+                    "primitive_name": "expand_one_dimension",
+                    "type": "PRIMITIVE_OPERATION",
+                    "aliases": [
+                        "expand",
+                        "expand_dimension",
+                        "extend",
+                        "extend_dimension",
+                        "extend_one_dimension",
+                        "increase_dimension",
+                        "increase_one_dimension"
+                    ],
+                    "position": {
+                        "x": 718,
+                        "y": 688
+                    },
+                    "inputs": [
+                        {
+                            "name": "input",
+                            "primitive_name": "input",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "dimension_index",
+                            "data": 0,
+                            "shape": [],
+                            "type": "INTEGER",
+                            "primitive_name": "dimension_index",
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0,
+                        1
+                    ],
+                    "outputs": [
+                        {
+                            "name": "output",
+                            "primitive_name": "output",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ],
+                    "assertions": [
+                        "{dimension_index}_is_scalar",
+                        "{dimension_index}_data_type_is_integer",
+                        "{dimension_index}_is_greater_than_or_equal_to_zero",
+                        "{dimension_index}_is_less_than_or_equal_to_{input}_number_of_dimensions",
+                        "{output}_has_one_more_dimension_than_{input}",
+                        "{output}_data_type_is_the_same_as_{input}"
+                    ]
+                },
+                {
+                    "name": "slice",
+                    "title_is_latex": false,
+                    "primitive_name": "slice",
+                    "type": "PRIMITIVE_OPERATION",
+                    "aliases": [],
+                    "position": {
+                        "x": 1159,
+                        "y": 43
+                    },
+                    "inputs": [
+                        {
+                            "name": "array",
+                            "primitive_name": "array",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "dimension_index",
+                            "data": 0,
+                            "shape": [],
+                            "type": "INTEGER",
+                            "primitive_name": "dimension_index",
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "start_index",
+                            "data": 0,
+                            "shape": [],
+                            "type": "INTEGER",
+                            "primitive_name": "start_index",
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "end_index",
+                            "data": 1,
+                            "shape": [],
+                            "type": "INTEGER",
+                            "primitive_name": "end_index",
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0,
+                        1,
+                        2,
+                        3
+                    ],
+                    "outputs": [
+                        {
+                            "name": "sliced_array",
+                            "primitive_name": "sliced_array",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ],
+                    "assertions": [
+                        "{array}_is_array",
+                        "{dimension_index}_data_type_is_integer",
+                        "{dimension_index}_is_scalar",
+                        "{start_index}_data_type_is_integer",
+                        "{start_index}_is_scalar",
+                        "{start_index}_is_greater_than_or_equal_to_zero",
+                        "{end_index}_data_type_is_integer",
+                        "{end_index}_is_scalar",
+                        "{end_index}_is_greater_than_zero",
+                        "{sliced_array}_is_array",
+                        "{start_index}_is_less_than_{end_index}",
+                        "{sliced_array}_data_type_is_the_same_as_{array}"
+                    ]
+                },
+                {
+                    "name": "concatenate",
+                    "title_is_latex": false,
+                    "primitive_name": "concatenate",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 1617,
+                        "y": 307
+                    },
+                    "inputs": [
+                        {
+                            "name": "array_1",
+                            "primitive_name": "array_1",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "array_2",
+                            "primitive_name": "array_2",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "dimension_index",
+                            "data": 0,
+                            "shape": [],
+                            "type": "INTEGER",
+                            "primitive_name": "dimension_index",
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0,
+                        1,
+                        2
+                    ],
+                    "outputs": [
+                        {
+                            "name": "concatenated_array",
+                            "primitive_name": "concatenated_array",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ],
+                    "assertions": [
+                        "{array_1}_is_array",
+                        "{array_2}_is_array",
+                        "{dimension_index}_data_type_is_integer",
+                        "{dimension_index}_is_greater_than_or_equal_to_zero",
+                        "{dimension_index}_is_scalar",
+                        "{concatenated_array}_is_array",
+                        "{array_1}_data_type_is_the_same_as_{array_2}",
+                        "{array_1}_number_of_dimensions_is_the_same_as_{array_2}",
+                        "{dimension_index}_is_less_than_{array_1}_number_of_dimensions",
+                        "every_dimension_size_of_{array_1}_is_equal_to_the_corresponding_dimension_size_of_{array_2}_except_on_dimension_{dimension_index}",
+                        "{concatenated_array}_data_type_is_the_same_as_{array_2}",
+                        "{concatenated_array}_number_of_dimensions_is_the_same_as_{array_2}"
+                    ]
+                },
+                {
+                    "name": "concatenate_1",
+                    "title_is_latex": false,
+                    "primitive_name": "concatenate",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 2085,
+                        "y": 304
+                    },
+                    "inputs": [
+                        {
+                            "name": "array_1",
+                            "primitive_name": "array_1",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "array_2",
+                            "primitive_name": "array_2",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "dimension_index",
+                            "data": 0,
+                            "shape": [],
+                            "type": "INTEGER",
+                            "primitive_name": "dimension_index",
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0,
+                        1,
+                        2
+                    ],
+                    "outputs": [
+                        {
+                            "name": "concatenated_array",
+                            "primitive_name": "concatenated_array",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ],
+                    "assertions": [
+                        "{array_1}_is_array",
+                        "{array_2}_is_array",
+                        "{dimension_index}_data_type_is_integer",
+                        "{dimension_index}_is_greater_than_or_equal_to_zero",
+                        "{dimension_index}_is_scalar",
+                        "{concatenated_array}_is_array",
+                        "{array_1}_data_type_is_the_same_as_{array_2}",
+                        "{array_1}_number_of_dimensions_is_the_same_as_{array_2}",
+                        "{dimension_index}_is_less_than_{array_1}_number_of_dimensions",
+                        "every_dimension_size_of_{array_1}_is_equal_to_the_corresponding_dimension_size_of_{array_2}_except_on_dimension_{dimension_index}",
+                        "{concatenated_array}_data_type_is_the_same_as_{array_2}",
+                        "{concatenated_array}_number_of_dimensions_is_the_same_as_{array_2}"
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "source": {
+                        "operation": "get_shape",
+                        "data": "shape"
+                    },
+                    "sink": {
+                        "operation": "slice_2",
+                        "data": "array"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Input"
+                    },
+                    "sink": {
+                        "operation": "get_shape",
+                        "data": "input"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Hidden Size"
+                    },
+                    "sink": {
+                        "operation": "expand_one_dimension",
+                        "data": "input"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "get_shape",
+                        "data": "shape"
+                    },
+                    "sink": {
+                        "operation": "slice",
+                        "data": "array"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "slice",
+                        "data": "sliced_array"
+                    },
+                    "sink": {
+                        "operation": "concatenate",
+                        "data": "array_1"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "slice_2",
+                        "data": "sliced_array"
+                    },
+                    "sink": {
+                        "operation": "concatenate",
+                        "data": "array_2"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "concatenate",
+                        "data": "concatenated_array"
+                    },
+                    "sink": {
+                        "operation": "concatenate_1",
+                        "data": "array_1"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "expand_one_dimension",
+                        "data": "output"
+                    },
+                    "sink": {
+                        "operation": "concatenate_1",
+                        "data": "array_2"
+                    },
+                    "control_points": [
+                        {
+                            "x": 1938,
+                            "y": 744
+                        }
+                    ]
+                },
+                {
+                    "source": {
+                        "operation": "concatenate_1",
+                        "data": "concatenated_array"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                    },
+                    "control_points": []
+                }
+            ]
+        },
+        {
+            "name": "Slice to Remove Batch Size",
+            "title_is_latex": false,
+            "primitive_name": "slice",
+            "type": "PRIMITIVE_OPERATION",
+            "aliases": [],
+            "position": {
+                "x": 1147,
+                "y": 288
+            },
+            "inputs": [
+                {
+                    "name": "array",
+                    "primitive_name": "array",
+                    "is_latex": false
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "shape": [],
+                    "type": "INTEGER",
+                    "primitive_name": "dimension_index",
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                },
+                {
+                    "name": "start_index",
+                    "data": 1,
+                    "shape": [],
+                    "type": "INTEGER",
+                    "primitive_name": "start_index",
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                },
+                {
+                    "name": "end_index",
+                    "data": 3,
+                    "shape": [],
+                    "type": "INTEGER",
+                    "primitive_name": "end_index",
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1,
+                2,
+                3
+            ],
+            "outputs": [
+                {
+                    "name": "sliced_array",
+                    "primitive_name": "sliced_array",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "{array}_is_array",
+                "{dimension_index}_data_type_is_integer",
+                "{dimension_index}_is_scalar",
+                "{start_index}_data_type_is_integer",
+                "{start_index}_is_scalar",
+                "{start_index}_is_greater_than_or_equal_to_zero",
+                "{end_index}_data_type_is_integer",
+                "{end_index}_is_scalar",
+                "{end_index}_is_greater_than_zero",
+                "{sliced_array}_is_array",
+                "{start_index}_is_less_than_{end_index}",
+                "{sliced_array}_data_type_is_the_same_as_{array}"
+            ]
+        },
+        {
+            "name": "Add Multiply Weight",
+            "title_is_latex": false,
+            "type": "COMPOSITE_OPERATION",
+            "aliases": [
+                "read weight",
+                "load weight",
+                "get weight"
+            ],
+            "position": {
+                "x": 1656,
+                "y": 208
+            },
+            "inputs": [
+                {
+                    "name": "Directory path",
+                    "primitive_name": "Input",
+                    "is_latex": false
+                },
+                {
+                    "name": "File name",
+                    "primitive_name": "New Input",
+                    "is_latex": false
+                },
+                {
+                    "name": "Init shape if not exist",
+                    "primitive_name": "New Input",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1,
+                2
+            ],
+            "subgraph_input_order": [
+                0,
+                1,
+                2
+            ],
+            "outputs": [
+                {
+                    "name": "Output",
+                    "primitive_name": "Output",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "subgraph_output_order": [
+                0,
+                1,
+                2
+            ],
+            "operations": [
+                {
+                    "name": "exist_in_files",
+                    "title_is_latex": false,
+                    "primitive_name": "exist_in_files",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 652,
+                        "y": 45
+                    },
+                    "inputs": [
+                        {
+                            "name": "dir_path",
+                            "primitive_name": "dir_path",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "file_name",
+                            "primitive_name": "file_name",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0,
+                        1
+                    ],
+                    "outputs": [
+                        {
+                            "name": "is_exist",
+                            "primitive_name": "is_exist",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ],
+                    "assertions": [
+                        "{dir_path}_data_type_is_text",
+                        "{dir_path}_is_scalar_or_has_one_dimension",
+                        "{file_name}_data_type_is_text",
+                        "{is_exist}_data_type_is_boolean",
+                        "{dir_path}_shape_is_the_same_as_{file_name}",
+                        "{is_exist}_shape_is_the_same_as_{file_name}"
+                    ]
+                },
+                {
+                    "name": "If Else Operation",
+                    "title_is_latex": false,
+                    "type": "CONDITIONAL_OPERATION",
+                    "position": {
+                        "x": 1089,
+                        "y": 254
+                    },
+                    "inputs": [
+                        {
+                            "name": "Is True",
+                            "primitive_name": "Is True",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "Directory path",
+                            "primitive_name": "New Input",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "File name",
+                            "primitive_name": "New Input (1)",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "Init shape if not exist",
+                            "primitive_name": "New Input",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0,
+                        1,
+                        2,
+                        3
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Output",
+                            "primitive_name": "Output",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ],
+                    "operations_if_true": [
+                        {
+                            "name": "read_from_file",
+                            "title_is_latex": false,
+                            "primitive_name": "read_from_file",
+                            "type": "PRIMITIVE_OPERATION",
+                            "position": {
+                                "x": 694,
+                                "y": 46
+                            },
+                            "inputs": [
+                                {
+                                    "name": "dir_path",
+                                    "primitive_name": "dir_path",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "file_name",
+                                    "primitive_name": "file_name",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "extraction_schema",
+                                    "data": "{}",
+                                    "type": "TEXT",
+                                    "primitive_name": "extraction_schema",
+                                    "flow_state": "BOOT_SOURCE",
+                                    "is_latex": false
+                                }
+                            ],
+                            "input_order": [
+                                0,
+                                1,
+                                2
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "output",
+                                    "primitive_name": "output",
+                                    "is_latex": false
+                                }
+                            ],
+                            "output_order": [
+                                0
+                            ],
+                            "assertions": [
+                                "{dir_path}_data_type_is_text",
+                                "{dir_path}_is_scalar",
+                                "{file_name}_data_type_is_text",
+                                "{file_name}_is_scalar",
+                                "{extraction_schema}_data_type_is_text",
+                                "{extraction_schema}_is_scalar",
+                                "{extraction_schema}_conforms_to_data_service_extraction_format",
+                                "{dir_path}_{file_name}_exists_in_files"
+                            ]
+                        }
+                    ],
+                    "links_if_true": [
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Directory path"
+                            },
+                            "sink": {
+                                "operation": "read_from_file",
+                                "data": "dir_path"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "File name"
+                            },
+                            "sink": {
+                                "operation": "read_from_file",
+                                "data": "file_name"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "read_from_file",
+                                "data": "output"
+                            },
+                            "sink": {
+                                "operation": "this",
+                                "data": "Output"
+                            },
+                            "control_points": []
+                        }
+                    ],
+                    "operations_if_false": [
+                        {
+                            "name": "Get Random Number Limits",
+                            "title_is_latex": false,
+                            "type": "COMPOSITE_OPERATION",
+                            "position": {
+                                "x": 432,
+                                "y": 530
+                            },
+                            "inputs": [
+                                {
+                                    "name": "Input",
+                                    "primitive_name": "Input",
+                                    "is_latex": false
+                                }
+                            ],
+                            "input_order": [
+                                0
+                            ],
+                            "subgraph_input_order": [
+                                0
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "Left Limit",
+                                    "primitive_name": "Output",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "Right Limit",
+                                    "primitive_name": "Output (1)",
+                                    "is_latex": false
+                                }
+                            ],
+                            "output_order": [
+                                0,
+                                1
+                            ],
+                            "subgraph_output_order": [
+                                0
+                            ],
+                            "operations": [
+                                {
+                                    "name": "parse_decimal",
+                                    "title_is_latex": false,
+                                    "primitive_name": "parse_decimal",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "aliases": [
+                                        "parse_float",
+                                        "parse_double"
+                                    ],
+                                    "position": {
+                                        "x": 397,
+                                        "y": 45
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "input",
+                                            "primitive_name": "input",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "input_order": [
+                                        0
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "output",
+                                            "primitive_name": "output",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "output_order": [
+                                        0
+                                    ],
+                                    "assertions": [
+                                        "{output}_data_type_is_decimal",
+                                        "{output}_shape_is_the_same_as_{input}"
+                                    ]
+                                },
+                                {
+                                    "name": "reduce_one_dimension",
+                                    "title_is_latex": false,
+                                    "primitive_name": "reduce_one_dimension",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "aliases": [
+                                        "reduce_dimension",
+                                        "decrease_dimension",
+                                        "decrease_one_dimension",
+                                        "get_sub_array",
+                                        "get_subarray",
+                                        "get_element",
+                                        "get_sub_element"
+                                    ],
+                                    "position": {
+                                        "x": 956,
+                                        "y": 45
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "input",
+                                            "primitive_name": "input",
+                                            "is_latex": false
+                                        },
+                                        {
+                                            "name": "dimension_index",
+                                            "data": 0,
+                                            "shape": [],
+                                            "type": "INTEGER",
+                                            "primitive_name": "dimension_index",
+                                            "flow_state": "BOOT_SOURCE",
+                                            "is_latex": false
+                                        },
+                                        {
+                                            "name": "selected_index",
+                                            "data": 0,
+                                            "shape": [],
+                                            "type": "INTEGER",
+                                            "primitive_name": "selected_index",
+                                            "flow_state": "BOOT_SOURCE",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "input_order": [
+                                        0,
+                                        1,
+                                        2
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "output",
+                                            "primitive_name": "output",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "output_order": [
+                                        0
+                                    ],
+                                    "assertions": [
+                                        "{input}_is_array",
+                                        "{dimension_index}_is_scalar",
+                                        "{dimension_index}_data_type_is_integer",
+                                        "{dimension_index}_is_greater_than_or_equal_to_zero",
+                                        "{selected_index}_is_scalar",
+                                        "{selected_index}_data_type_is_integer",
+                                        "{selected_index}_is_greater_than_or_equal_to_zero",
+                                        "{dimension_index}_is_less_than_{input}_number_of_dimensions",
+                                        "{selected_index}_is_less_than_size_of_{input}_at_dimension_index_{dimension_index}",
+                                        "{output}_data_type_is_the_same_as_{input}",
+                                        "{output}_shape_is_the_same_as_{input}_shape_with_dimension_at_index_{dimension_index}_removed"
+                                    ]
+                                },
+                                {
+                                    "name": "divide",
+                                    "title_is_latex": false,
+                                    "primitive_name": "divide",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "aliases": [
+                                        "div"
+                                    ],
+                                    "position": {
+                                        "x": 1473,
+                                        "y": 120
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "left_operand",
+                                            "data": 1.0,
+                                            "shape": [],
+                                            "type": "DECIMAL",
+                                            "primitive_name": "left_operand",
+                                            "flow_state": "BOOT_SOURCE",
+                                            "is_latex": false
+                                        },
+                                        {
+                                            "name": "right_operand",
+                                            "primitive_name": "right_operand",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "input_order": [
+                                        0,
+                                        1
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "divided_result",
+                                            "primitive_name": "divided_result",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "output_order": [
+                                        0
+                                    ],
+                                    "assertions": [
+                                        "{left_operand}_data_type_is_integer_or_decimal",
+                                        "{right_operand}_is_non_zero",
+                                        "{left_operand}_shape_is_the_same_as_{right_operand}",
+                                        "{right_operand}_data_type_is_the_same_as_{left_operand}",
+                                        "{divided_result}_data_type_is_the_same_as_{right_operand}",
+                                        "{divided_result}_shape_is_the_same_as_{right_operand}"
+                                    ]
+                                },
+                                {
+                                    "name": "element_wise_exponentiate",
+                                    "title_is_latex": false,
+                                    "primitive_name": "element_wise_exponentiate",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "aliases": [
+                                        "exp",
+                                        "pow",
+                                        "power",
+                                        "exponentiate"
+                                    ],
+                                    "position": {
+                                        "x": 2003,
+                                        "y": 119
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "base",
+                                            "primitive_name": "base",
+                                            "is_latex": false
+                                        },
+                                        {
+                                            "name": "exponent",
+                                            "data": 0.5,
+                                            "shape": [],
+                                            "type": "DECIMAL",
+                                            "primitive_name": "exponent",
+                                            "flow_state": "BOOT_SOURCE",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "input_order": [
+                                        0,
+                                        1
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "exponentiation",
+                                            "primitive_name": "exponentiation",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "output_order": [
+                                        0
+                                    ],
+                                    "assertions": [
+                                        "{base}_data_type_is_decimal",
+                                        "{exponent}_data_type_is_decimal",
+                                        "{exponentiation}_data_type_is_decimal",
+                                        "{exponent}_shape_is_the_same_as_{base}",
+                                        "{exponentiation}_shape_is_the_same_as_{exponent}"
+                                    ]
+                                },
+                                {
+                                    "name": "multiply",
+                                    "title_is_latex": false,
+                                    "primitive_name": "multiply",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "aliases": [
+                                        "dot",
+                                        "prod",
+                                        "product",
+                                        "dot_prod",
+                                        "dot_product",
+                                        "matmul",
+                                        "matrix_multiply"
+                                    ],
+                                    "position": {
+                                        "x": 2622,
+                                        "y": 119
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "left_operand",
+                                            "primitive_name": "left_operand",
+                                            "is_latex": false
+                                        },
+                                        {
+                                            "name": "right_operand",
+                                            "data": -1.0,
+                                            "shape": [],
+                                            "type": "DECIMAL",
+                                            "primitive_name": "right_operand",
+                                            "flow_state": "BOOT_SOURCE",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "input_order": [
+                                        0,
+                                        1
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "multiplied_result",
+                                            "primitive_name": "multiplied_result",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "output_order": [
+                                        0
+                                    ],
+                                    "assertions": [
+                                        "{left_operand}_data_type_is_integer_or_decimal",
+                                        "{right_operand}_data_type_is_the_same_as_{left_operand}",
+                                        "{right_operand}_is_array_if_{left_operand}_is_array",
+                                        "{right_operand}_is_scalar_if_{left_operand}_is_scalar",
+                                        "{right_operand}_shape_size_is_less_than_or_equal_to_{left_operand}_shape_size",
+                                        "size_of_last_dimension_of_{left_operand}_is_equal_to_size_of_second_last_dimension_of_{right_operand}_if_{right_operand}_has_more_than_one_dimension",
+                                        "size_of_last_dimension_of_{left_operand}_is_equal_to_size_of_last_dimension_of_{right_operand}_if_{right_operand}_has_one_dimension",
+                                        "every_dimension_size_of_{left_operand}_is_equal_to_the_corresponding_dimension_size_of_{right_operand}_except_last_two_dimensions",
+                                        "{multiplied_result}_data_type_is_the_same_as_{right_operand}"
+                                    ]
+                                }
+                            ],
+                            "links": [
+                                {
+                                    "source": {
+                                        "operation": "divide",
+                                        "data": "divided_result"
+                                    },
+                                    "sink": {
+                                        "operation": "element_wise_exponentiate",
+                                        "data": "base"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "element_wise_exponentiate",
+                                        "data": "exponentiation"
+                                    },
+                                    "sink": {
+                                        "operation": "multiply",
+                                        "data": "left_operand"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "multiply",
+                                        "data": "multiplied_result"
+                                    },
+                                    "sink": {
+                                        "operation": "this",
+                                        "data": "Left Limit"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "element_wise_exponentiate",
+                                        "data": "exponentiation"
+                                    },
+                                    "sink": {
+                                        "operation": "this",
+                                        "data": "Right Limit"
+                                    },
+                                    "control_points": [
+                                        {
+                                            "x": 2458,
+                                            "y": 293
+                                        },
+                                        {
+                                            "x": 3091,
+                                            "y": 293
+                                        }
+                                    ]
+                                },
+                                {
+                                    "source": {
+                                        "operation": "reduce_one_dimension",
+                                        "data": "output"
+                                    },
+                                    "sink": {
+                                        "operation": "divide",
+                                        "data": "right_operand"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "this",
+                                        "data": "Input"
+                                    },
+                                    "sink": {
+                                        "operation": "parse_decimal",
+                                        "data": "input"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "parse_decimal",
+                                        "data": "output"
+                                    },
+                                    "sink": {
+                                        "operation": "reduce_one_dimension",
+                                        "data": "input"
+                                    },
+                                    "control_points": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "generate_uniform_random_number",
+                            "title_is_latex": false,
+                            "primitive_name": "generate_uniform_random_number",
+                            "type": "PRIMITIVE_OPERATION",
+                            "position": {
+                                "x": 1125,
+                                "y": 454
+                            },
+                            "inputs": [
+                                {
+                                    "name": "shape",
+                                    "primitive_name": "shape",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "random_seed",
+                                    "data": 10,
+                                    "shape": [],
+                                    "type": "INTEGER",
+                                    "primitive_name": "random_seed",
+                                    "flow_state": "BOOT_SOURCE",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "left_limit",
+                                    "primitive_name": "left_limit",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "right_limit",
+                                    "primitive_name": "right_limit",
+                                    "is_latex": false
+                                }
+                            ],
+                            "input_order": [
+                                0,
+                                1,
+                                2,
+                                3
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "random_number",
+                                    "primitive_name": "random_number",
+                                    "is_latex": false
+                                }
+                            ],
+                            "output_order": [
+                                0
+                            ],
+                            "assertions": [
+                                "{shape}_data_type_is_integer",
+                                "{shape}_is_greater_than_zero",
+                                "{shape}_has_one_dimension",
+                                "{random_seed}_data_type_is_integer",
+                                "{random_seed}_is_scalar",
+                                "{left_limit}_data_type_is_decimal",
+                                "{left_limit}_is_scalar",
+                                "{right_limit}_is_scalar",
+                                "{random_number}_data_type_is_decimal",
+                                "{right_limit}_data_type_is_the_same_as_{left_limit}",
+                                "{random_number}_shape_is_{shape}"
+                            ]
+                        },
+                        {
+                            "name": "write_to_file",
+                            "title_is_latex": false,
+                            "primitive_name": "write_to_file",
+                            "type": "PRIMITIVE_OPERATION",
+                            "position": {
+                                "x": 1674,
+                                "y": 46
+                            },
+                            "inputs": [
+                                {
+                                    "name": "dir_path",
+                                    "primitive_name": "dir_path",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "file_name",
+                                    "primitive_name": "file_name",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "is_overwrite",
+                                    "data": false,
+                                    "shape": [],
+                                    "type": "BOOLEAN",
+                                    "primitive_name": "is_overwrite",
+                                    "flow_state": "BOOT_SOURCE",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "data",
+                                    "primitive_name": "data",
+                                    "is_latex": false
+                                }
+                            ],
+                            "input_order": [
+                                0,
+                                1,
+                                2,
+                                3
+                            ],
+                            "outputs": [],
+                            "output_order": [],
+                            "assertions": [
+                                "{dir_path}_data_type_is_text",
+                                "{dir_path}_is_scalar",
+                                "{file_name}_data_type_is_text",
+                                "{file_name}_is_scalar",
+                                "{is_overwrite}_data_type_is_boolean",
+                                "{is_overwrite}_is_scalar"
+                            ]
+                        }
+                    ],
+                    "links_if_false": [
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Init shape if not exist"
+                            },
+                            "sink": {
+                                "operation": "generate_uniform_random_number",
+                                "data": "shape"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "generate_uniform_random_number",
+                                "data": "random_number"
+                            },
+                            "sink": {
+                                "operation": "this",
+                                "data": "Output"
+                            },
+                            "control_points": [
+                                {
+                                    "x": 1980,
+                                    "y": 509
+                                }
+                            ]
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Directory path"
+                            },
+                            "sink": {
+                                "operation": "write_to_file",
+                                "data": "dir_path"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "File name"
+                            },
+                            "sink": {
+                                "operation": "write_to_file",
+                                "data": "file_name"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "generate_uniform_random_number",
+                                "data": "random_number"
+                            },
+                            "sink": {
+                                "operation": "write_to_file",
+                                "data": "data"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Init shape if not exist"
+                            },
+                            "sink": {
+                                "operation": "Get Random Number Limits",
+                                "data": "Input"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "Get Random Number Limits",
+                                "data": "Left Limit"
+                            },
+                            "sink": {
+                                "operation": "generate_uniform_random_number",
+                                "data": "left_limit"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "Get Random Number Limits",
+                                "data": "Right Limit"
+                            },
+                            "sink": {
+                                "operation": "generate_uniform_random_number",
+                                "data": "right_limit"
+                            },
+                            "control_points": []
+                        }
+                    ],
+                    "condition": {
+                        "name": "Is True"
+                    },
+                    "if_true_subgraph_input_order": [
+                        0,
+                        1,
+                        2,
+                        3
+                    ],
+                    "if_false_subgraph_input_order": [
+                        0,
+                        1,
+                        2,
+                        3
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Directory path"
+                    },
+                    "sink": {
+                        "operation": "exist_in_files",
+                        "data": "dir_path"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "File name"
+                    },
+                    "sink": {
+                        "operation": "exist_in_files",
+                        "data": "file_name"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Init shape if not exist"
+                    },
+                    "sink": {
+                        "operation": "If Else Operation",
+                        "data": "Init shape if not exist"
+                    },
+                    "control_points": [
+                        {
+                            "x": 515,
+                            "y": 422
+                        }
+                    ]
+                },
+                {
+                    "source": {
+                        "operation": "exist_in_files",
+                        "data": "is_exist"
+                    },
+                    "sink": {
+                        "operation": "If Else Operation",
+                        "data": "Is True"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "If Else Operation",
+                        "data": "Output"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Directory path"
+                    },
+                    "sink": {
+                        "operation": "If Else Operation",
+                        "data": "Directory path"
+                    },
+                    "control_points": [
+                        {
+                            "x": 515,
+                            "y": 346
+                        }
+                    ]
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "File name"
+                    },
+                    "sink": {
+                        "operation": "If Else Operation",
+                        "data": "File name"
+                    },
+                    "control_points": [
+                        {
+                            "x": 515,
+                            "y": 385
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "expand_one_dimension",
+            "title_is_latex": false,
+            "primitive_name": "expand_one_dimension",
+            "type": "PRIMITIVE_OPERATION",
+            "aliases": [
+                "expand",
+                "expand_dimension",
+                "extend",
+                "extend_dimension",
+                "extend_one_dimension",
+                "increase_dimension",
+                "increase_one_dimension"
+            ],
+            "position": {
+                "x": 2153,
+                "y": 211
+            },
+            "inputs": [
+                {
+                    "name": "input",
+                    "primitive_name": "input",
+                    "is_latex": false
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "shape": [],
+                    "type": "INTEGER",
+                    "primitive_name": "dimension_index",
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "{dimension_index}_is_scalar",
+                "{dimension_index}_data_type_is_integer",
+                "{dimension_index}_is_greater_than_or_equal_to_zero",
+                "{dimension_index}_is_less_than_or_equal_to_{input}_number_of_dimensions",
+                "{output}_has_one_more_dimension_than_{input}",
+                "{output}_data_type_is_the_same_as_{input}"
+            ]
+        },
+        {
+            "name": "broadcast_to_shape",
+            "title_is_latex": false,
+            "primitive_name": "broadcast_to_shape",
+            "type": "PRIMITIVE_OPERATION",
+            "aliases": [
+                "broadcast",
+                "tile",
+                "tile_to_shape"
+            ],
+            "position": {
+                "x": 2587,
+                "y": 210
+            },
+            "inputs": [
+                {
+                    "name": "target",
+                    "primitive_name": "target",
+                    "is_latex": false
+                },
+                {
+                    "name": "shape",
+                    "primitive_name": "shape",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "result",
+                    "primitive_name": "result",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "{shape}_data_type_is_integer",
+                "{shape}_has_one_dimension",
+                "{target}_shape_size_is_less_than_or_equal_to_{shape}_size",
+                "every_dimension_size_of_{target}_is_less_than_or_equal_to_the_corresponding_value_of_array_{shape}",
+                "{result}_data_type_is_the_same_as_{target}",
+                "{result}_shape_is_{shape}",
+                "{target}_shape_size_is_less_than_or_equal_to_{result}_shape_size",
+                "every_dimension_size_of_{target}_is_less_than_or_equal_to_the_corresponding_dimension_size_of_{result}"
+            ]
+        },
+        {
+            "name": "multiply",
+            "title_is_latex": false,
+            "primitive_name": "multiply",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 3035,
+                "y": 45
+            },
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "primitive_name": "left_operand",
+                    "is_latex": false
+                },
+                {
+                    "name": "right_operand",
+                    "primitive_name": "right_operand",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "multiplied_result",
+                    "primitive_name": "multiplied_result",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "{left_operand}_data_type_is_integer_or_decimal",
+                "{right_operand}_data_type_is_the_same_as_{left_operand}",
+                "{right_operand}_is_array_if_{left_operand}_is_array",
+                "{right_operand}_is_scalar_if_{left_operand}_is_scalar",
+                "{right_operand}_shape_size_is_less_than_or_equal_to_{left_operand}_shape_size",
+                "size_of_last_dimension_of_{left_operand}_is_equal_to_size_of_second_last_dimension_of_{right_operand}_if_{right_operand}_has_more_than_one_dimension",
+                "size_of_last_dimension_of_{left_operand}_is_equal_to_size_of_last_dimension_of_{right_operand}_if_{right_operand}_has_one_dimension",
+                "every_dimension_size_of_{left_operand}_is_equal_to_the_corresponding_dimension_size_of_{right_operand}_except_last_two_dimensions",
+                "{multiplied_result}_data_type_is_the_same_as_{right_operand}"
+            ]
+        },
+        {
+            "name": "Get Shape for Multiplied Result",
+            "title_is_latex": false,
+            "primitive_name": "get_shape",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 3508,
+                "y": 249
+            },
+            "inputs": [
+                {
+                    "name": "Input",
+                    "primitive_name": "input",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0
+            ],
+            "outputs": [
+                {
+                    "name": "Shape",
+                    "primitive_name": "shape",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "{Input}_is_array",
+                "{Shape}_data_type_is_integer",
+                "{Shape}_is_greater_than_or_equal_to_zero",
+                "{Shape}_has_one_dimension",
+                "{Input}_shape_is_{Shape}"
+            ]
+        },
+        {
+            "name": "slice",
+            "title_is_latex": false,
+            "primitive_name": "slice",
+            "type": "PRIMITIVE_OPERATION",
+            "aliases": [],
+            "position": {
+                "x": 3931,
+                "y": 414
+            },
+            "inputs": [
+                {
+                    "name": "array",
+                    "primitive_name": "array",
+                    "is_latex": false
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "shape": [],
+                    "type": "INTEGER",
+                    "primitive_name": "dimension_index",
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                },
+                {
+                    "name": "start_index",
+                    "data": 2,
+                    "shape": [],
+                    "type": "INTEGER",
+                    "primitive_name": "start_index",
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                },
+                {
+                    "name": "end_index",
+                    "data": 3,
+                    "shape": [],
+                    "type": "INTEGER",
+                    "primitive_name": "end_index",
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1,
+                2,
+                3
+            ],
+            "outputs": [
+                {
+                    "name": "sliced_array",
+                    "primitive_name": "sliced_array",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "{array}_is_array",
+                "{dimension_index}_data_type_is_integer",
+                "{dimension_index}_is_scalar",
+                "{start_index}_data_type_is_integer",
+                "{start_index}_is_scalar",
+                "{start_index}_is_greater_than_or_equal_to_zero",
+                "{end_index}_data_type_is_integer",
+                "{end_index}_is_scalar",
+                "{end_index}_is_greater_than_zero",
+                "{sliced_array}_is_array",
+                "{start_index}_is_less_than_{end_index}",
+                "{sliced_array}_data_type_is_the_same_as_{array}"
+            ]
+        },
+        {
+            "name": "Add Residual Weight",
+            "title_is_latex": false,
+            "type": "COMPOSITE_OPERATION",
+            "aliases": [
+                "read weight",
+                "load weight",
+                "get weight"
+            ],
+            "position": {
+                "x": 4400,
+                "y": 586
+            },
+            "inputs": [
+                {
+                    "name": "Directory path",
+                    "primitive_name": "Input",
+                    "is_latex": false
+                },
+                {
+                    "name": "File name",
+                    "primitive_name": "New Input",
+                    "is_latex": false
+                },
+                {
+                    "name": "Init shape if not exist",
+                    "primitive_name": "New Input",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1,
+                2
+            ],
+            "subgraph_input_order": [
+                0,
+                1,
+                2
+            ],
+            "outputs": [
+                {
+                    "name": "Output",
+                    "primitive_name": "Output",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "subgraph_output_order": [
+                0,
+                1,
+                2
+            ],
+            "operations": [
+                {
+                    "name": "exist_in_files",
+                    "title_is_latex": false,
+                    "primitive_name": "exist_in_files",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 652,
+                        "y": 45
+                    },
+                    "inputs": [
+                        {
+                            "name": "dir_path",
+                            "primitive_name": "dir_path",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "file_name",
+                            "primitive_name": "file_name",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0,
+                        1
+                    ],
+                    "outputs": [
+                        {
+                            "name": "is_exist",
+                            "primitive_name": "is_exist",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ],
+                    "assertions": [
+                        "{dir_path}_data_type_is_text",
+                        "{dir_path}_is_scalar_or_has_one_dimension",
+                        "{file_name}_data_type_is_text",
+                        "{is_exist}_data_type_is_boolean",
+                        "{dir_path}_shape_is_the_same_as_{file_name}",
+                        "{is_exist}_shape_is_the_same_as_{file_name}"
+                    ]
+                },
+                {
+                    "name": "If Else Operation",
+                    "title_is_latex": false,
+                    "type": "CONDITIONAL_OPERATION",
+                    "position": {
+                        "x": 1089,
+                        "y": 254
+                    },
+                    "inputs": [
+                        {
+                            "name": "Is True",
+                            "primitive_name": "Is True",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "Directory path",
+                            "primitive_name": "New Input",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "File name",
+                            "primitive_name": "New Input (1)",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "Init shape if not exist",
+                            "primitive_name": "New Input",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0,
+                        1,
+                        2,
+                        3
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Output",
+                            "primitive_name": "Output",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ],
+                    "operations_if_true": [
+                        {
+                            "name": "read_from_file",
+                            "title_is_latex": false,
+                            "primitive_name": "read_from_file",
+                            "type": "PRIMITIVE_OPERATION",
+                            "position": {
+                                "x": 694,
+                                "y": 46
+                            },
+                            "inputs": [
+                                {
+                                    "name": "dir_path",
+                                    "primitive_name": "dir_path",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "file_name",
+                                    "primitive_name": "file_name",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "extraction_schema",
+                                    "data": "{}",
+                                    "type": "TEXT",
+                                    "primitive_name": "extraction_schema",
+                                    "flow_state": "BOOT_SOURCE",
+                                    "is_latex": false
+                                }
+                            ],
+                            "input_order": [
+                                0,
+                                1,
+                                2
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "output",
+                                    "primitive_name": "output",
+                                    "is_latex": false
+                                }
+                            ],
+                            "output_order": [
+                                0
+                            ],
+                            "assertions": [
+                                "{dir_path}_data_type_is_text",
+                                "{dir_path}_is_scalar",
+                                "{file_name}_data_type_is_text",
+                                "{file_name}_is_scalar",
+                                "{extraction_schema}_data_type_is_text",
+                                "{extraction_schema}_is_scalar",
+                                "{extraction_schema}_conforms_to_data_service_extraction_format",
+                                "{dir_path}_{file_name}_exists_in_files"
+                            ]
+                        }
+                    ],
+                    "links_if_true": [
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Directory path"
+                            },
+                            "sink": {
+                                "operation": "read_from_file",
+                                "data": "dir_path"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "File name"
+                            },
+                            "sink": {
+                                "operation": "read_from_file",
+                                "data": "file_name"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "read_from_file",
+                                "data": "output"
+                            },
+                            "sink": {
+                                "operation": "this",
+                                "data": "Output"
+                            },
+                            "control_points": []
+                        }
+                    ],
+                    "operations_if_false": [
+                        {
+                            "name": "Get Random Number Limits",
+                            "title_is_latex": false,
+                            "type": "COMPOSITE_OPERATION",
+                            "position": {
+                                "x": 432,
+                                "y": 530
+                            },
+                            "inputs": [
+                                {
+                                    "name": "Input",
+                                    "primitive_name": "Input",
+                                    "is_latex": false
+                                }
+                            ],
+                            "input_order": [
+                                0
+                            ],
+                            "subgraph_input_order": [
+                                0
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "Left Limit",
+                                    "primitive_name": "Output",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "Right Limit",
+                                    "primitive_name": "Output (1)",
+                                    "is_latex": false
+                                }
+                            ],
+                            "output_order": [
+                                0,
+                                1
+                            ],
+                            "subgraph_output_order": [
+                                0
+                            ],
+                            "operations": [
+                                {
+                                    "name": "parse_decimal",
+                                    "title_is_latex": false,
+                                    "primitive_name": "parse_decimal",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "aliases": [
+                                        "parse_float",
+                                        "parse_double"
+                                    ],
+                                    "position": {
+                                        "x": 397,
+                                        "y": 45
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "input",
+                                            "primitive_name": "input",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "input_order": [
+                                        0
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "output",
+                                            "primitive_name": "output",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "output_order": [
+                                        0
+                                    ],
+                                    "assertions": [
+                                        "{output}_data_type_is_decimal",
+                                        "{output}_shape_is_the_same_as_{input}"
+                                    ]
+                                },
+                                {
+                                    "name": "reduce_one_dimension",
+                                    "title_is_latex": false,
+                                    "primitive_name": "reduce_one_dimension",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "aliases": [
+                                        "reduce_dimension",
+                                        "decrease_dimension",
+                                        "decrease_one_dimension",
+                                        "get_sub_array",
+                                        "get_subarray",
+                                        "get_element",
+                                        "get_sub_element"
+                                    ],
+                                    "position": {
+                                        "x": 956,
+                                        "y": 45
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "input",
+                                            "primitive_name": "input",
+                                            "is_latex": false
+                                        },
+                                        {
+                                            "name": "dimension_index",
+                                            "data": 0,
+                                            "shape": [],
+                                            "type": "INTEGER",
+                                            "primitive_name": "dimension_index",
+                                            "flow_state": "BOOT_SOURCE",
+                                            "is_latex": false
+                                        },
+                                        {
+                                            "name": "selected_index",
+                                            "data": 0,
+                                            "shape": [],
+                                            "type": "INTEGER",
+                                            "primitive_name": "selected_index",
+                                            "flow_state": "BOOT_SOURCE",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "input_order": [
+                                        0,
+                                        1,
+                                        2
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "output",
+                                            "primitive_name": "output",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "output_order": [
+                                        0
+                                    ],
+                                    "assertions": [
+                                        "{input}_is_array",
+                                        "{dimension_index}_is_scalar",
+                                        "{dimension_index}_data_type_is_integer",
+                                        "{dimension_index}_is_greater_than_or_equal_to_zero",
+                                        "{selected_index}_is_scalar",
+                                        "{selected_index}_data_type_is_integer",
+                                        "{selected_index}_is_greater_than_or_equal_to_zero",
+                                        "{dimension_index}_is_less_than_{input}_number_of_dimensions",
+                                        "{selected_index}_is_less_than_size_of_{input}_at_dimension_index_{dimension_index}",
+                                        "{output}_data_type_is_the_same_as_{input}",
+                                        "{output}_shape_is_the_same_as_{input}_shape_with_dimension_at_index_{dimension_index}_removed"
+                                    ]
+                                },
+                                {
+                                    "name": "divide",
+                                    "title_is_latex": false,
+                                    "primitive_name": "divide",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "aliases": [
+                                        "div"
+                                    ],
+                                    "position": {
+                                        "x": 1473,
+                                        "y": 120
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "left_operand",
+                                            "data": 1.0,
+                                            "shape": [],
+                                            "type": "DECIMAL",
+                                            "primitive_name": "left_operand",
+                                            "flow_state": "BOOT_SOURCE",
+                                            "is_latex": false
+                                        },
+                                        {
+                                            "name": "right_operand",
+                                            "primitive_name": "right_operand",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "input_order": [
+                                        0,
+                                        1
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "divided_result",
+                                            "primitive_name": "divided_result",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "output_order": [
+                                        0
+                                    ],
+                                    "assertions": [
+                                        "{left_operand}_data_type_is_integer_or_decimal",
+                                        "{right_operand}_is_non_zero",
+                                        "{left_operand}_shape_is_the_same_as_{right_operand}",
+                                        "{right_operand}_data_type_is_the_same_as_{left_operand}",
+                                        "{divided_result}_data_type_is_the_same_as_{right_operand}",
+                                        "{divided_result}_shape_is_the_same_as_{right_operand}"
+                                    ]
+                                },
+                                {
+                                    "name": "element_wise_exponentiate",
+                                    "title_is_latex": false,
+                                    "primitive_name": "element_wise_exponentiate",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "aliases": [
+                                        "exp",
+                                        "pow",
+                                        "power",
+                                        "exponentiate"
+                                    ],
+                                    "position": {
+                                        "x": 2003,
+                                        "y": 119
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "base",
+                                            "primitive_name": "base",
+                                            "is_latex": false
+                                        },
+                                        {
+                                            "name": "exponent",
+                                            "data": 0.5,
+                                            "shape": [],
+                                            "type": "DECIMAL",
+                                            "primitive_name": "exponent",
+                                            "flow_state": "BOOT_SOURCE",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "input_order": [
+                                        0,
+                                        1
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "exponentiation",
+                                            "primitive_name": "exponentiation",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "output_order": [
+                                        0
+                                    ],
+                                    "assertions": [
+                                        "{base}_data_type_is_decimal",
+                                        "{exponent}_data_type_is_decimal",
+                                        "{exponentiation}_data_type_is_decimal",
+                                        "{exponent}_shape_is_the_same_as_{base}",
+                                        "{exponentiation}_shape_is_the_same_as_{exponent}"
+                                    ]
+                                },
+                                {
+                                    "name": "multiply",
+                                    "title_is_latex": false,
+                                    "primitive_name": "multiply",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "aliases": [
+                                        "dot",
+                                        "prod",
+                                        "product",
+                                        "dot_prod",
+                                        "dot_product",
+                                        "matmul",
+                                        "matrix_multiply"
+                                    ],
+                                    "position": {
+                                        "x": 2622,
+                                        "y": 119
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "left_operand",
+                                            "primitive_name": "left_operand",
+                                            "is_latex": false
+                                        },
+                                        {
+                                            "name": "right_operand",
+                                            "data": -1.0,
+                                            "shape": [],
+                                            "type": "DECIMAL",
+                                            "primitive_name": "right_operand",
+                                            "flow_state": "BOOT_SOURCE",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "input_order": [
+                                        0,
+                                        1
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "multiplied_result",
+                                            "primitive_name": "multiplied_result",
+                                            "is_latex": false
+                                        }
+                                    ],
+                                    "output_order": [
+                                        0
+                                    ],
+                                    "assertions": [
+                                        "{left_operand}_data_type_is_integer_or_decimal",
+                                        "{right_operand}_data_type_is_the_same_as_{left_operand}",
+                                        "{right_operand}_is_array_if_{left_operand}_is_array",
+                                        "{right_operand}_is_scalar_if_{left_operand}_is_scalar",
+                                        "{right_operand}_shape_size_is_less_than_or_equal_to_{left_operand}_shape_size",
+                                        "size_of_last_dimension_of_{left_operand}_is_equal_to_size_of_second_last_dimension_of_{right_operand}_if_{right_operand}_has_more_than_one_dimension",
+                                        "size_of_last_dimension_of_{left_operand}_is_equal_to_size_of_last_dimension_of_{right_operand}_if_{right_operand}_has_one_dimension",
+                                        "every_dimension_size_of_{left_operand}_is_equal_to_the_corresponding_dimension_size_of_{right_operand}_except_last_two_dimensions",
+                                        "{multiplied_result}_data_type_is_the_same_as_{right_operand}"
+                                    ]
+                                }
+                            ],
+                            "links": [
+                                {
+                                    "source": {
+                                        "operation": "divide",
+                                        "data": "divided_result"
+                                    },
+                                    "sink": {
+                                        "operation": "element_wise_exponentiate",
+                                        "data": "base"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "element_wise_exponentiate",
+                                        "data": "exponentiation"
+                                    },
+                                    "sink": {
+                                        "operation": "multiply",
+                                        "data": "left_operand"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "multiply",
+                                        "data": "multiplied_result"
+                                    },
+                                    "sink": {
+                                        "operation": "this",
+                                        "data": "Left Limit"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "element_wise_exponentiate",
+                                        "data": "exponentiation"
+                                    },
+                                    "sink": {
+                                        "operation": "this",
+                                        "data": "Right Limit"
+                                    },
+                                    "control_points": [
+                                        {
+                                            "x": 2458,
+                                            "y": 293
+                                        },
+                                        {
+                                            "x": 3091,
+                                            "y": 293
+                                        }
+                                    ]
+                                },
+                                {
+                                    "source": {
+                                        "operation": "reduce_one_dimension",
+                                        "data": "output"
+                                    },
+                                    "sink": {
+                                        "operation": "divide",
+                                        "data": "right_operand"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "this",
+                                        "data": "Input"
+                                    },
+                                    "sink": {
+                                        "operation": "parse_decimal",
+                                        "data": "input"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "parse_decimal",
+                                        "data": "output"
+                                    },
+                                    "sink": {
+                                        "operation": "reduce_one_dimension",
+                                        "data": "input"
+                                    },
+                                    "control_points": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "generate_uniform_random_number",
+                            "title_is_latex": false,
+                            "primitive_name": "generate_uniform_random_number",
+                            "type": "PRIMITIVE_OPERATION",
+                            "position": {
+                                "x": 1125,
+                                "y": 454
+                            },
+                            "inputs": [
+                                {
+                                    "name": "shape",
+                                    "primitive_name": "shape",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "random_seed",
+                                    "data": 10,
+                                    "shape": [],
+                                    "type": "INTEGER",
+                                    "primitive_name": "random_seed",
+                                    "flow_state": "BOOT_SOURCE",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "left_limit",
+                                    "primitive_name": "left_limit",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "right_limit",
+                                    "primitive_name": "right_limit",
+                                    "is_latex": false
+                                }
+                            ],
+                            "input_order": [
+                                0,
+                                1,
+                                2,
+                                3
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "random_number",
+                                    "primitive_name": "random_number",
+                                    "is_latex": false
+                                }
+                            ],
+                            "output_order": [
+                                0
+                            ],
+                            "assertions": [
+                                "{shape}_data_type_is_integer",
+                                "{shape}_is_greater_than_zero",
+                                "{shape}_has_one_dimension",
+                                "{random_seed}_data_type_is_integer",
+                                "{random_seed}_is_scalar",
+                                "{left_limit}_data_type_is_decimal",
+                                "{left_limit}_is_scalar",
+                                "{right_limit}_is_scalar",
+                                "{random_number}_data_type_is_decimal",
+                                "{right_limit}_data_type_is_the_same_as_{left_limit}",
+                                "{random_number}_shape_is_{shape}"
+                            ]
+                        },
+                        {
+                            "name": "write_to_file",
+                            "title_is_latex": false,
+                            "primitive_name": "write_to_file",
+                            "type": "PRIMITIVE_OPERATION",
+                            "position": {
+                                "x": 1674,
+                                "y": 46
+                            },
+                            "inputs": [
+                                {
+                                    "name": "dir_path",
+                                    "primitive_name": "dir_path",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "file_name",
+                                    "primitive_name": "file_name",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "is_overwrite",
+                                    "data": false,
+                                    "shape": [],
+                                    "type": "BOOLEAN",
+                                    "primitive_name": "is_overwrite",
+                                    "flow_state": "BOOT_SOURCE",
+                                    "is_latex": false
+                                },
+                                {
+                                    "name": "data",
+                                    "primitive_name": "data",
+                                    "is_latex": false
+                                }
+                            ],
+                            "input_order": [
+                                0,
+                                1,
+                                2,
+                                3
+                            ],
+                            "outputs": [],
+                            "output_order": [],
+                            "assertions": [
+                                "{dir_path}_data_type_is_text",
+                                "{dir_path}_is_scalar",
+                                "{file_name}_data_type_is_text",
+                                "{file_name}_is_scalar",
+                                "{is_overwrite}_data_type_is_boolean",
+                                "{is_overwrite}_is_scalar"
+                            ]
+                        }
+                    ],
+                    "links_if_false": [
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Init shape if not exist"
+                            },
+                            "sink": {
+                                "operation": "generate_uniform_random_number",
+                                "data": "shape"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "generate_uniform_random_number",
+                                "data": "random_number"
+                            },
+                            "sink": {
+                                "operation": "this",
+                                "data": "Output"
+                            },
+                            "control_points": [
+                                {
+                                    "x": 1980,
+                                    "y": 509
+                                }
+                            ]
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Directory path"
+                            },
+                            "sink": {
+                                "operation": "write_to_file",
+                                "data": "dir_path"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "File name"
+                            },
+                            "sink": {
+                                "operation": "write_to_file",
+                                "data": "file_name"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "generate_uniform_random_number",
+                                "data": "random_number"
+                            },
+                            "sink": {
+                                "operation": "write_to_file",
+                                "data": "data"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Init shape if not exist"
+                            },
+                            "sink": {
+                                "operation": "Get Random Number Limits",
+                                "data": "Input"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "Get Random Number Limits",
+                                "data": "Left Limit"
+                            },
+                            "sink": {
+                                "operation": "generate_uniform_random_number",
+                                "data": "left_limit"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "Get Random Number Limits",
+                                "data": "Right Limit"
+                            },
+                            "sink": {
+                                "operation": "generate_uniform_random_number",
+                                "data": "right_limit"
+                            },
+                            "control_points": []
+                        }
+                    ],
+                    "condition": {
+                        "name": "Is True"
+                    },
+                    "if_true_subgraph_input_order": [
+                        0,
+                        1,
+                        2,
+                        3
+                    ],
+                    "if_false_subgraph_input_order": [
+                        0,
+                        1,
+                        2,
+                        3
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Directory path"
+                    },
+                    "sink": {
+                        "operation": "exist_in_files",
+                        "data": "dir_path"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "File name"
+                    },
+                    "sink": {
+                        "operation": "exist_in_files",
+                        "data": "file_name"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Init shape if not exist"
+                    },
+                    "sink": {
+                        "operation": "If Else Operation",
+                        "data": "Init shape if not exist"
+                    },
+                    "control_points": [
+                        {
+                            "x": 515,
+                            "y": 422
+                        }
+                    ]
+                },
+                {
+                    "source": {
+                        "operation": "exist_in_files",
+                        "data": "is_exist"
+                    },
+                    "sink": {
+                        "operation": "If Else Operation",
+                        "data": "Is True"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "If Else Operation",
+                        "data": "Output"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Directory path"
+                    },
+                    "sink": {
+                        "operation": "If Else Operation",
+                        "data": "Directory path"
+                    },
+                    "control_points": [
+                        {
+                            "x": 515,
+                            "y": 346
+                        }
+                    ]
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "File name"
+                    },
+                    "sink": {
+                        "operation": "If Else Operation",
+                        "data": "File name"
+                    },
+                    "control_points": [
+                        {
+                            "x": 515,
+                            "y": 385
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "expand_one_dimension_1",
+            "title_is_latex": false,
+            "primitive_name": "expand_one_dimension",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 4945,
+                "y": 591
+            },
+            "inputs": [
+                {
+                    "name": "input",
+                    "primitive_name": "input",
+                    "is_latex": false
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "shape": [],
+                    "type": "INTEGER",
+                    "primitive_name": "dimension_index",
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "{dimension_index}_is_scalar",
+                "{dimension_index}_data_type_is_integer",
+                "{dimension_index}_is_greater_than_or_equal_to_zero",
+                "{dimension_index}_is_less_than_or_equal_to_{input}_number_of_dimensions",
+                "{output}_has_one_more_dimension_than_{input}",
+                "{output}_data_type_is_the_same_as_{input}"
+            ]
+        },
+        {
+            "name": "expand_one_dimension_2",
+            "title_is_latex": false,
+            "primitive_name": "expand_one_dimension",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 5338,
+                "y": 591
+            },
+            "inputs": [
+                {
+                    "name": "input",
+                    "primitive_name": "input",
+                    "is_latex": false
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "shape": [],
+                    "type": "INTEGER",
+                    "primitive_name": "dimension_index",
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "{dimension_index}_is_scalar",
+                "{dimension_index}_data_type_is_integer",
+                "{dimension_index}_is_greater_than_or_equal_to_zero",
+                "{dimension_index}_is_less_than_or_equal_to_{input}_number_of_dimensions",
+                "{output}_has_one_more_dimension_than_{input}",
+                "{output}_data_type_is_the_same_as_{input}"
+            ]
+        },
+        {
+            "name": "Broadcast Residuals to Shape",
+            "title_is_latex": false,
+            "primitive_name": "broadcast_to_shape",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 5770,
+                "y": 250
+            },
+            "inputs": [
+                {
+                    "name": "Target",
+                    "primitive_name": "target",
+                    "is_latex": false
+                },
+                {
+                    "name": "Shape",
+                    "primitive_name": "shape",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                1,
+                0
+            ],
+            "outputs": [
+                {
+                    "name": "Broadcasted Residuals",
+                    "primitive_name": "result",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "{Shape}_data_type_is_integer",
+                "{Shape}_has_one_dimension",
+                "{Target}_shape_size_is_less_than_or_equal_to_{Shape}_size",
+                "every_dimension_size_of_{Target}_is_less_than_or_equal_to_the_corresponding_value_of_array_{Shape}",
+                "{Broadcasted Residuals}_data_type_is_the_same_as_{Target}",
+                "{Broadcasted Residuals}_shape_is_{Shape}",
+                "{Target}_shape_size_is_less_than_or_equal_to_{Broadcasted Residuals}_shape_size",
+                "every_dimension_size_of_{Target}_is_less_than_or_equal_to_the_corresponding_dimension_size_of_{Broadcasted Residuals}"
+            ]
+        },
+        {
+            "name": "add",
+            "title_is_latex": false,
+            "primitive_name": "add",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 6140,
+                "y": 45
+            },
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "primitive_name": "left_operand",
+                    "is_latex": false
+                },
+                {
+                    "name": "right_operand",
+                    "primitive_name": "right_operand",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "added_result",
+                    "primitive_name": "added_result",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "{left_operand}_data_type_is_integer_or_decimal",
+                "{left_operand}_shape_is_the_same_as_{right_operand}",
+                "{right_operand}_data_type_is_the_same_as_{left_operand}",
+                "{added_result}_data_type_is_the_same_as_{right_operand}",
+                "{added_result}_shape_is_the_same_as_{right_operand}"
+            ]
+        }
+    ],
+    "links": [
+        {
+            "source": {
+                "operation": "Get Shape for Multiplied Result",
+                "data": "Shape"
+            },
+            "sink": {
+                "operation": "Broadcast Residuals to Shape",
+                "data": "Shape"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Input"
+            },
+            "sink": {
+                "operation": "multiply",
+                "data": "left_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Broadcast Residuals to Shape",
+                "data": "Broadcasted Residuals"
+            },
+            "sink": {
+                "operation": "add",
+                "data": "right_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "multiply",
+                "data": "multiplied_result"
+            },
+            "sink": {
+                "operation": "Get Shape for Multiplied Result",
+                "data": "Input"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "add",
+                "data": "added_result"
+            },
+            "sink": {
+                "operation": "this",
+                "data": "Output"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Input"
+            },
+            "sink": {
+                "operation": "Calculate Multiply Weight Shape",
+                "data": "Input"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "multiply",
+                "data": "multiplied_result"
+            },
+            "sink": {
+                "operation": "add",
+                "data": "left_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Hidden Size"
+            },
+            "sink": {
+                "operation": "Calculate Multiply Weight Shape",
+                "data": "Hidden Size"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Get Shape for Multiplied Result",
+                "data": "Shape"
+            },
+            "sink": {
+                "operation": "slice",
+                "data": "array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Calculate Multiply Weight Shape",
+                "data": "Output"
+            },
+            "sink": {
+                "operation": "Slice to Remove Batch Size",
+                "data": "array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "expand_one_dimension",
+                "data": "output"
+            },
+            "sink": {
+                "operation": "broadcast_to_shape",
+                "data": "target"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "broadcast_to_shape",
+                "data": "result"
+            },
+            "sink": {
+                "operation": "multiply",
+                "data": "right_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Calculate Multiply Weight Shape",
+                "data": "Output"
+            },
+            "sink": {
+                "operation": "broadcast_to_shape",
+                "data": "shape"
+            },
+            "control_points": [
+                {
+                    "x": 1037,
+                    "y": 548
+                },
+                {
+                    "x": 2511,
+                    "y": 548
+                }
+            ]
+        },
+        {
+            "source": {
+                "operation": "expand_one_dimension_1",
+                "data": "output"
+            },
+            "sink": {
+                "operation": "expand_one_dimension_2",
+                "data": "input"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "expand_one_dimension_2",
+                "data": "output"
+            },
+            "sink": {
+                "operation": "Broadcast Residuals to Shape",
+                "data": "Target"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Weights Dir Path"
+            },
+            "sink": {
+                "operation": "Add Multiply Weight",
+                "data": "Directory path"
+            },
+            "control_points": [
+                {
+                    "x": 1542,
+                    "y": 196
+                }
+            ]
+        },
+        {
+            "source": {
+                "operation": "Slice to Remove Batch Size",
+                "data": "sliced_array"
+            },
+            "sink": {
+                "operation": "Add Multiply Weight",
+                "data": "Init shape if not exist"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Add Multiply Weight",
+                "data": "Output"
+            },
+            "sink": {
+                "operation": "expand_one_dimension",
+                "data": "input"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "slice",
+                "data": "sliced_array"
+            },
+            "sink": {
+                "operation": "Add Residual Weight",
+                "data": "Init shape if not exist"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Weights Dir Path"
+            },
+            "sink": {
+                "operation": "Add Residual Weight",
+                "data": "Directory path"
+            },
+            "control_points": [
+                {
+                    "x": 477,
+                    "y": 644
+                }
+            ]
+        },
+        {
+            "source": {
+                "operation": "Add Residual Weight",
+                "data": "Output"
+            },
+            "sink": {
+                "operation": "expand_one_dimension_1",
+                "data": "input"
+            },
+            "control_points": []
+        }
+    ]
+}

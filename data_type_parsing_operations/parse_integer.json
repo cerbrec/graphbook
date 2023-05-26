@@ -1,0 +1,107 @@
+{
+    "name": "parse_integer",
+    "primitive_name": "parse_integer",
+    "aliases": [
+        "parse_to_integer",
+        "convert_to_integer"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "input"
+    ],
+    "outputs": [
+        "output"
+    ],
+    "assertions": [
+        "{output}_data_type_is_integer",
+        "{output}_shape_is_the_same_as_{input}"
+    ],
+    "description": [
+        "Convert `input` into integer data type"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        33.0,
+                        4.2,
+                        3.3,
+                        0.1,
+                        55.1
+                    ],
+                    "type": "DECIMAL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": [
+                        33,
+                        4,
+                        3,
+                        0,
+                        55
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        5
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            true,
+                            true,
+                            false,
+                            false,
+                            true
+                        ],
+                        [
+                            false,
+                            true,
+                            true,
+                            false,
+                            false
+                        ]
+                    ],
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": [
+                        [
+                            1,
+                            1,
+                            0,
+                            0,
+                            1
+                        ],
+                        [
+                            0,
+                            1,
+                            1,
+                            0,
+                            0
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        5
+                    ]
+                }
+            ]
+        }
+    ]
+}

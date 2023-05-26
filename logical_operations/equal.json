@@ -1,0 +1,175 @@
+{
+    "name": "equal",
+    "primitive_name": "equal",
+    "aliases": [
+        "eq"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "left_operand",
+        "right_operand"
+    ],
+    "outputs": [
+        "is_equal"
+    ],
+    "assertions": [
+        "{left_operand}_data_type_is_the_same_as_{right_operand}",
+        "{left_operand}_shape_is_the_same_as_{right_operand}",
+        "{is_equal}_data_type_is_boolean",
+        "{is_equal}_shape_is_the_same_as_{right_operand}"
+    ],
+    "description": [
+        "Element-wise check whether each element of `left_operand` is equal to the corresponding element of `right_operand`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "data": 11,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "right_operand",
+                    "data": 12,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "is_equal",
+                    "primitive_name": "is_equal",
+                    "data": false,
+                    "type": "BOOLEAN",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "data": [
+                        0.1,
+                        0.2,
+                        0.3,
+                        0.4,
+                        0.5,
+                        0.6,
+                        0.7
+                    ],
+                    "type": "DECIMAL"
+                },
+                {
+                    "name": "right_operand",
+                    "data": [
+                        0.2,
+                        0.2,
+                        0.3,
+                        0.4,
+                        0.6,
+                        0.7,
+                        0.7
+                    ],
+                    "type": "DECIMAL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "is_equal",
+                    "primitive_name": "is_equal",
+                    "data": [
+                        false,
+                        true,
+                        true,
+                        true,
+                        false,
+                        false,
+                        true
+                    ],
+                    "type": "BOOLEAN",
+                    "shape": [
+                        7
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "data": [
+                        [
+                            true,
+                            false
+                        ],
+                        [
+                            true,
+                            false
+                        ],
+                        [
+                            false,
+                            false
+                        ],
+                        [
+                            true,
+                            true
+                        ]
+                    ],
+                    "type": "BOOLEAN"
+                },
+                {
+                    "name": "right_operand",
+                    "data": [
+                        [
+                            true,
+                            true
+                        ],
+                        [
+                            false,
+                            false
+                        ],
+                        [
+                            true,
+                            false
+                        ],
+                        [
+                            true,
+                            false
+                        ]
+                    ],
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "is_equal",
+                    "primitive_name": "is_equal",
+                    "data": [
+                        [
+                            true,
+                            false
+                        ],
+                        [
+                            false,
+                            true
+                        ],
+                        [
+                            false,
+                            true
+                        ],
+                        [
+                            true,
+                            false
+                        ]
+                    ],
+                    "type": "BOOLEAN",
+                    "shape": [
+                        4,
+                        2
+                    ]
+                }
+            ]
+        }
+    ]
+}

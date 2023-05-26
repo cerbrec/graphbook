@@ -1,0 +1,465 @@
+{
+    "name": "Transpose 1D and 2D",
+    "title_is_latex": false,
+    "type": "COMPOSITE_OPERATION",
+    "inputs": [
+        {
+            "name": "Array",
+            "primitive_name": "Input",
+            "is_latex": false
+        }
+    ],
+    "input_order": [
+        0
+    ],
+    "subgraph_input_order": [
+        0
+    ],
+    "outputs": [
+        {
+            "name": "Transposed Array",
+            "primitive_name": "Output",
+            "is_latex": false
+        }
+    ],
+    "output_order": [
+        0
+    ],
+    "subgraph_output_order": [
+        0
+    ],
+    "operations": [
+        {
+            "name": "get_shape",
+            "title_is_latex": false,
+            "primitive_name": "get_shape",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 417,
+                "y": 195,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "input",
+                    "primitive_name": "input",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0
+            ],
+            "outputs": [
+                {
+                    "name": "shape",
+                    "primitive_name": "shape",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "{shape}_data_type_is_integer",
+                "{shape}_is_greater_than_or_equal_to_zero",
+                "{shape}_has_one_dimension",
+                "{input}_shape_is_{shape}"
+            ]
+        },
+        {
+            "name": "get_dimension_size",
+            "title_is_latex": false,
+            "primitive_name": "get_dimension_size",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 865,
+                "y": 194,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "array",
+                    "primitive_name": "array",
+                    "is_latex": false
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "shape": [],
+                    "type": "INTEGER",
+                    "primitive_name": "dimension_index",
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "dimension_size",
+                    "primitive_name": "dimension_size",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "{array}_is_array",
+                "{dimension_index}_data_type_is_integer",
+                "{dimension_index}_is_greater_than_or_equal_to_zero",
+                "{dimension_index}_is_scalar",
+                "{dimension_size}_data_type_is_integer",
+                "{dimension_size}_is_scalar",
+                "{dimension_size}_is_greater_than_or_equal_to_zero",
+                "{dimension_index}_is_less_than_{array}_number_of_dimensions"
+            ]
+        },
+        {
+            "name": "greater_than",
+            "title_is_latex": false,
+            "primitive_name": "greater_than",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 1356,
+                "y": 194,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "PRIMITIVE_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "primitive_name": "left_operand",
+                    "is_latex": false
+                },
+                {
+                    "name": "right_operand",
+                    "data": 1,
+                    "shape": [],
+                    "type": "INTEGER",
+                    "primitive_name": "right_operand",
+                    "flow_state": "BOOT_SOURCE",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "is_greater_than",
+                    "primitive_name": "is_greater_than",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "assertions": [
+                "{left_operand}_data_type_is_integer_or_decimal",
+                "{is_greater_than}_data_type_is_boolean",
+                "{left_operand}_shape_is_the_same_as_{right_operand}",
+                "{right_operand}_data_type_is_the_same_as_{left_operand}",
+                "{is_greater_than}_shape_is_the_same_as_{right_operand}"
+            ]
+        },
+        {
+            "name": "If Else Operation",
+            "title_is_latex": false,
+            "type": "CONDITIONAL_OPERATION",
+            "position": {
+                "x": 1878,
+                "y": 194,
+                "graph_type_containing_position": "DEFAULT",
+                "operation_type": "CONDITIONAL_OPERATION"
+            },
+            "inputs": [
+                {
+                    "name": "Is True",
+                    "primitive_name": "Is True",
+                    "is_latex": false
+                },
+                {
+                    "name": "Array",
+                    "primitive_name": "New Input",
+                    "is_latex": false
+                }
+            ],
+            "input_order": [
+                0,
+                1
+            ],
+            "outputs": [
+                {
+                    "name": "Output",
+                    "primitive_name": "Output",
+                    "is_latex": false
+                }
+            ],
+            "output_order": [
+                0
+            ],
+            "operations_if_true": [
+                {
+                    "name": "swap_dimensions",
+                    "title_is_latex": false,
+                    "primitive_name": "swap_dimensions",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 719,
+                        "y": 137,
+                        "graph_type_containing_position": "IF_TRUE",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "array",
+                            "primitive_name": "array",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "dimension_index_1",
+                            "data": 0,
+                            "shape": [],
+                            "type": "INTEGER",
+                            "primitive_name": "dimension_index_1",
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "dimension_index_2",
+                            "data": 1,
+                            "shape": [],
+                            "type": "INTEGER",
+                            "primitive_name": "dimension_index_2",
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0,
+                        1,
+                        2
+                    ],
+                    "outputs": [
+                        {
+                            "name": "swapped_array",
+                            "primitive_name": "swapped_array",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ],
+                    "assertions": [
+                        "{array}_is_array",
+                        "{dimension_index_1}_data_type_is_integer",
+                        "{dimension_index_1}_is_scalar",
+                        "{dimension_index_1}_is_greater_than_or_equal_to_zero",
+                        "{dimension_index_2}_data_type_is_integer",
+                        "{dimension_index_2}_is_scalar",
+                        "{dimension_index_2}_is_greater_than_or_equal_to_zero",
+                        "{swapped_array}_is_array",
+                        "{dimension_index_1}_is_less_than_{array}_number_of_dimensions",
+                        "{dimension_index_2}_is_less_than_{array}_number_of_dimensions",
+                        "{dimension_index_1}_is_not_equal_to_{dimension_index_2}",
+                        "{swapped_array}_data_type_is_the_same_as_{array}"
+                    ]
+                }
+            ],
+            "links_if_true": [
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Array"
+                    },
+                    "sink": {
+                        "operation": "swap_dimensions",
+                        "data": "array"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "swap_dimensions",
+                        "data": "swapped_array"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                    },
+                    "control_points": []
+                }
+            ],
+            "operations_if_false": [
+                {
+                    "name": "expand_one_dimension",
+                    "title_is_latex": false,
+                    "primitive_name": "expand_one_dimension",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 497,
+                        "y": 143,
+                        "graph_type_containing_position": "IF_FALSE",
+                        "operation_type": "PRIMITIVE_OPERATION"
+                    },
+                    "inputs": [
+                        {
+                            "name": "input",
+                            "primitive_name": "input",
+                            "is_latex": false
+                        },
+                        {
+                            "name": "dimension_index",
+                            "data": 0,
+                            "shape": [],
+                            "type": "INTEGER",
+                            "primitive_name": "dimension_index",
+                            "flow_state": "BOOT_SOURCE",
+                            "is_latex": false
+                        }
+                    ],
+                    "input_order": [
+                        0,
+                        1
+                    ],
+                    "outputs": [
+                        {
+                            "name": "output",
+                            "primitive_name": "output",
+                            "is_latex": false
+                        }
+                    ],
+                    "output_order": [
+                        0
+                    ],
+                    "assertions": [
+                        "{dimension_index}_is_scalar",
+                        "{dimension_index}_data_type_is_integer",
+                        "{dimension_index}_is_greater_than_or_equal_to_zero",
+                        "{dimension_index}_is_less_than_or_equal_to_{input}_number_of_dimensions",
+                        "{input}_has_one_fewer_dimension_than_{output}",
+                        "{input}_data_type_is_the_same_as_{output}"
+                    ]
+                }
+            ],
+            "links_if_false": [
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Array"
+                    },
+                    "sink": {
+                        "operation": "expand_one_dimension",
+                        "data": "input"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "expand_one_dimension",
+                        "data": "output"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                    },
+                    "control_points": []
+                }
+            ],
+            "condition": {
+                "name": "Is True"
+            },
+            "if_true_subgraph_input_order": [
+                0,
+                1
+            ],
+            "if_false_subgraph_input_order": [
+                0,
+                1
+            ]
+        }
+    ],
+    "links": [
+        {
+            "source": {
+                "operation": "this",
+                "data": "Array"
+            },
+            "sink": {
+                "operation": "get_shape",
+                "data": "input"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "get_shape",
+                "data": "shape"
+            },
+            "sink": {
+                "operation": "get_dimension_size",
+                "data": "array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "If Else Operation",
+                "data": "Output"
+            },
+            "sink": {
+                "operation": "this",
+                "data": "Transposed Array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "get_dimension_size",
+                "data": "dimension_size"
+            },
+            "sink": {
+                "operation": "greater_than",
+                "data": "left_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "greater_than",
+                "data": "is_greater_than"
+            },
+            "sink": {
+                "operation": "If Else Operation",
+                "data": "Is True"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Array"
+            },
+            "sink": {
+                "operation": "If Else Operation",
+                "data": "Array"
+            },
+            "control_points": [
+                {
+                    "x": 328,
+                    "y": 432
+                },
+                {
+                    "x": 1742,
+                    "y": 432
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,140 @@
+{
+    "name": "generate_uniform_random_number",
+    "primitive_name": "generate_uniform_random_number",
+    "aliases": [
+        "uniform",
+        "generate_weight",
+        "initialize_weight",
+        "initialize_uniform_random_number"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "shape",
+        "random_seed",
+        "left_limit",
+        "right_limit"
+    ],
+    "outputs": [
+        "random_number"
+    ],
+    "assertions": [
+        "{shape}_data_type_is_integer",
+        "{shape}_is_greater_than_zero",
+        "{shape}_has_one_dimension",
+        "{random_seed}_data_type_is_integer",
+        "{random_seed}_is_scalar",
+        "{left_limit}_data_type_is_integer_or_decimal",
+        "{left_limit}_is_scalar",
+        "{right_limit}_data_type_is_the_same_as_{left_limit}",
+        "{right_limit}_is_scalar",
+        "{random_number}_data_type_is_the_same_as_{right_limit}",
+        "{random_number}_shape_is_{shape}"
+    ],
+    "description": [
+        "Generate random numbers between `left_limit` and `right_limit` using `random_seed`",
+        "Return generated `random_number` in `shape`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "shape",
+                    "data": [
+                        5
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "random_seed",
+                    "data": 1,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "left_limit",
+                    "data": 0.0,
+                    "type": "DECIMAL"
+                },
+                {
+                    "name": "right_limit",
+                    "data": 100.0,
+                    "type": "DECIMAL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "random_number",
+                    "primitive_name": "random_number",
+                    "data": [
+                        13.153778773876065,
+                        45.86501320232198,
+                        21.895918621247894,
+                        67.88647167406855,
+                        93.46928962267388
+                    ],
+                    "type": "DECIMAL",
+                    "shape": [
+                        5
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "shape",
+                    "data": [
+                        3,
+                        4
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "random_seed",
+                    "data": 5,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "left_limit",
+                    "data": -10.0,
+                    "type": "DECIMAL"
+                },
+                {
+                    "name": "right_limit",
+                    "data": 10.0,
+                    "type": "DECIMAL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "random_number",
+                    "primitive_name": "random_number",
+                    "data": [
+                        [
+                            3.1537788111289657,
+                            -2.11352831661822,
+                            -6.542788953515256,
+                            -3.3157762458035656
+                        ],
+                        [
+                            -4.134986806991251,
+                            3.469289594734189,
+                            2.9700193327321696,
+                            -1.3227287684087
+                        ],
+                        [
+                            -8.104081369438878,
+                            1.9416372115879668,
+                            -9.230181384526857,
+                            3.0436494783428323
+                        ]
+                    ],
+                    "type": "DECIMAL",
+                    "shape": [
+                        3,
+                        4
+                    ]
+                }
+            ]
+        }
+    ]
+}

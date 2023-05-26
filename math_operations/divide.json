@@ -1,0 +1,147 @@
+{
+    "name": "divide",
+    "primitive_name": "divide",
+    "aliases": [
+        "div"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "left_operand",
+        "right_operand"
+    ],
+    "outputs": [
+        "divided_result"
+    ],
+    "assertions": [
+        "{left_operand}_data_type_is_integer_or_decimal",
+        "{left_operand}_shape_is_the_same_as_{right_operand}",
+        "{right_operand}_is_non_zero",
+        "{right_operand}_data_type_is_the_same_as_{left_operand}",
+        "{divided_result}_data_type_is_the_same_as_{right_operand}",
+        "{divided_result}_shape_is_the_same_as_{right_operand}"
+    ],
+    "description": [
+        "Element-wise divide `left_operand` by `right_operand`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "data": 42,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "right_operand",
+                    "data": 21,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "divided_result",
+                    "primitive_name": "divided_result",
+                    "data": 2,
+                    "type": "INTEGER",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "data": [
+                        28.2,
+                        9.4,
+                        4.6
+                    ],
+                    "type": "DECIMAL"
+                },
+                {
+                    "name": "right_operand",
+                    "data": [
+                        2.4,
+                        0.2,
+                        2.3
+                    ],
+                    "type": "DECIMAL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "divided_result",
+                    "primitive_name": "divided_result",
+                    "data": [
+                        11.75,
+                        47.0,
+                        2.0
+                    ],
+                    "type": "DECIMAL",
+                    "shape": [
+                        3
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "data": [
+                        [
+                            30,
+                            9,
+                            13
+                        ],
+                        [
+                            32,
+                            12,
+                            81
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "right_operand",
+                    "data": [
+                        [
+                            7,
+                            3,
+                            13
+                        ],
+                        [
+                            8,
+                            2,
+                            8
+                        ]
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "divided_result",
+                    "primitive_name": "divided_result",
+                    "data": [
+                        [
+                            4,
+                            3,
+                            1
+                        ],
+                        [
+                            4,
+                            6,
+                            10
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        3
+                    ]
+                }
+            ]
+        }
+    ]
+}

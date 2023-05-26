@@ -1,0 +1,2923 @@
+{
+  "id" : "8fd2c9fd-3c03-4436-878b-7a7faa438be5",
+  "name" : "Your Graph Name",
+  "schema" : "Your Graph Name",
+  "inputs" : [ ],
+  "input_order" : [ ],
+  "subgraph_input_order" : [ ],
+  "outputs" : [ ],
+  "output_order" : [ ],
+  "subgraph_output_order" : [ ],
+  "operations" : [ {
+    "name" : "Adam_Optimizer",
+    "schema" : "Adam",
+    "position" : [ 290.93, 143.08 ],
+    "inputs" : [ {
+      "name" : "loss",
+      "primitive_name" : "loss",
+      "is_latex" : false
+    }, {
+      "name" : "\\alpha",
+      "data" : 0.001,
+      "shape" : [ ],
+      "type" : "DECIMAL",
+      "primitive_name" : "\\alpha",
+      "flow_state" : "BOOT_SOURCE",
+      "is_latex" : true
+    }, {
+      "name" : "w_0",
+      "primitive_name" : "w_0",
+      "is_latex" : true
+    }, {
+      "name" : "g_{w_0}",
+      "primitive_name" : "g_{w_0}",
+      "is_latex" : true
+    }, {
+      "name" : "w_1",
+      "primitive_name" : "w_1",
+      "is_latex" : true
+    }, {
+      "name" : "g_w_1",
+      "primitive_name" : "g_w_1",
+      "is_latex" : true
+    } ],
+    "input_order" : [ 0, 1, 2, 3, 4, 5 ],
+    "subgraph_input_order" : [ 5, 3, 0, 2, 4, 1 ],
+    "outputs" : [ {
+      "name" : "m_1'",
+      "primitive_name" : "m_1'",
+      "is_latex" : true
+    }, {
+      "name" : "m_2'",
+      "primitive_name" : "m_2'",
+      "is_latex" : true
+    }, {
+      "name" : "w_0'",
+      "primitive_name" : "w_0'",
+      "is_latex" : true
+    }, {
+      "name" : "w_1'",
+      "primitive_name" : "w_1'",
+      "is_latex" : true
+    } ],
+    "output_order" : [ 0, 1, 2, 3 ],
+    "subgraph_output_order" : [ 0, 1, 2, 3 ],
+    "operations" : [ {
+      "name" : "get_shape_concatenated",
+      "primitive_name" : "get_shape",
+      "schema" : "get_shape_concatenated",
+      "position" : [ 624.58, 339.9 ],
+      "inputs" : [ {
+        "name" : "input",
+        "primitive_name" : "input",
+        "is_latex" : false
+      } ],
+      "input_order" : [ 0 ],
+      "outputs" : [ {
+        "name" : "shape",
+        "primitive_name" : "shape",
+        "is_latex" : false
+      } ],
+      "output_order" : [ 0 ],
+      "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{input}_shape_is_{shape}" ]
+    }, {
+      "name" : "GetNewParams",
+      "schema" : "GetNewParams",
+      "position" : [ 1394.58, 421.46 ],
+      "inputs" : [ {
+        "name" : "\\alpha",
+        "data" : 0.001,
+        "shape" : [ ],
+        "type" : "DECIMAL",
+        "primitive_name" : "alpha_1",
+        "flow_state" : "BOOT_SINK",
+        "is_latex" : true
+      }, {
+        "name" : "base_1_8",
+        "primitive_name" : "base_1_8",
+        "is_latex" : false
+      }, {
+        "name" : "right_array_0_6",
+        "primitive_name" : "right_array_0_6",
+        "is_latex" : false
+      }, {
+        "name" : "weight_[0]_0",
+        "primitive_name" : "weight_[0]_0",
+        "is_latex" : false
+      }, {
+        "name" : "shape_1",
+        "primitive_name" : "shape_1",
+        "is_latex" : false
+      }, {
+        "name" : "weight_[1]_4",
+        "primitive_name" : "weight_[1]_4",
+        "is_latex" : false
+      }, {
+        "name" : "\\epsilon",
+        "data" : 1.0E-8,
+        "shape" : [ ],
+        "type" : "DECIMAL",
+        "primitive_name" : "epsilon_2",
+        "flow_state" : "BOOT_SOURCE",
+        "is_latex" : true
+      } ],
+      "input_order" : [ 2, 1, 4, 3, 5, 0, 6 ],
+      "subgraph_input_order" : [ 3, 5, 1, 6, 4, 0, 2 ],
+      "outputs" : [ {
+        "name" : "new_weight_[0]_9",
+        "primitive_name" : "new_weight_[0]_9",
+        "is_latex" : false
+      }, {
+        "name" : "new_weight_[1]_9",
+        "primitive_name" : "new_weight_[1]_9",
+        "is_latex" : false
+      } ],
+      "output_order" : [ 0, 1 ],
+      "subgraph_output_order" : [ 0, 1 ],
+      "operations" : [ {
+        "name" : "get_dimension_size_weight_[0]",
+        "primitive_name" : "get_dimension_size",
+        "schema" : "get_dimension_size_weight_[0]",
+        "position" : [ 935.06, -0.4 ],
+        "inputs" : [ {
+          "name" : "array",
+          "primitive_name" : "array",
+          "is_latex" : false
+        }, {
+          "name" : "dimension_index",
+          "data" : 0,
+          "type" : "INTEGER",
+          "primitive_name" : "dimension_index",
+          "flow_state" : "BOOT_SOURCE",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 0, 1 ],
+        "outputs" : [ {
+          "name" : "dimension_size",
+          "primitive_name" : "dimension_size",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{array}_is_array", "{dimension_index}_data_type_is_integer", "{dimension_index}_is_scalar", "{dimension_size}_data_type_is_integer", "{dimension_size}_is_scalar" ]
+      }, {
+        "name" : "tile_to_shape_alpha",
+        "primitive_name" : "tile_to_shape",
+        "schema" : "tile_to_shape_alpha",
+        "position" : [ 294.3, 452.74 ],
+        "inputs" : [ {
+          "name" : "target",
+          "data" : 0.001,
+          "shape" : [ ],
+          "type" : "DECIMAL",
+          "primitive_name" : "target",
+          "flow_state" : "BOOT_SINK",
+          "is_latex" : false
+        }, {
+          "name" : "shape",
+          "primitive_name" : "shape",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 1, 0 ],
+        "outputs" : [ {
+          "name" : "result",
+          "primitive_name" : "result",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{result}_data_type_is_the_same_as_{target}", "{result}_shape_is_{shape}", "{target}_shape_size_is_smaller_than_or_equal_to_{result}_shape_size", "every_dimension_size_of_{target}_is_smaller_than_or_equal_to_the_corresponding_dimension_size_of_{result}" ]
+      }, {
+        "name" : "tile_to_shape_epsilon",
+        "primitive_name" : "tile_to_shape",
+        "schema" : "tile_to_shape_epsilon",
+        "position" : [ 294.3, 312.87 ],
+        "inputs" : [ {
+          "name" : "target",
+          "data" : 1.0E-8,
+          "shape" : [ ],
+          "type" : "DECIMAL",
+          "primitive_name" : "target",
+          "flow_state" : "BOOT_SINK",
+          "is_latex" : false
+        }, {
+          "name" : "shape",
+          "primitive_name" : "shape",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 0, 1 ],
+        "outputs" : [ {
+          "name" : "result",
+          "primitive_name" : "result",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{result}_data_type_is_the_same_as_{target}", "{result}_shape_is_{shape}", "{target}_shape_size_is_smaller_than_or_equal_to_{result}_shape_size", "every_dimension_size_of_{target}_is_smaller_than_or_equal_to_the_corresponding_dimension_size_of_{result}" ]
+      }, {
+        "name" : "subtract_params",
+        "primitive_name" : "subtract",
+        "schema" : "subtract_params",
+        "position" : [ 1137.69, 169.25 ],
+        "inputs" : [ {
+          "name" : "left_operand",
+          "primitive_name" : "left_operand",
+          "is_latex" : false
+        }, {
+          "name" : "right_operand",
+          "primitive_name" : "right_operand",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 0, 1 ],
+        "outputs" : [ {
+          "name" : "subtracted_result",
+          "primitive_name" : "subtracted_result",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{left_operand}_data_type_is_integer_or_decimal", "{left_operand}_shape_is_the_same_as_{right_operand}", "{right_operand}_data_type_is_the_same_as_{left_operand}", "{subtracted_result}_data_type_is_the_same_as_{right_operand}", "{subtracted_result}_shape_is_the_same_as_{right_operand}" ]
+      }, {
+        "name" : "concatenate_params",
+        "primitive_name" : "concatenate",
+        "schema" : "concatenate_params",
+        "position" : [ 620.04, 87.17 ],
+        "inputs" : [ {
+          "name" : "array_1",
+          "primitive_name" : "array_1",
+          "is_latex" : false
+        }, {
+          "name" : "array_2",
+          "primitive_name" : "array_2",
+          "is_latex" : false
+        }, {
+          "name" : "dimension_index",
+          "data" : 0,
+          "type" : "INTEGER",
+          "primitive_name" : "dimension_index",
+          "flow_state" : "BOOT_SOURCE",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 0, 1, 2 ],
+        "outputs" : [ {
+          "name" : "concatenated_array",
+          "primitive_name" : "concatenated_array",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{array_1}_is_array", "{array_2}_is_array", "{dimension_index}_data_type_is_integer", "{dimension_index}_is_scalar", "{concatenated_array}_is_array", "{array_1}_data_type_is_the_same_as_{array_2}", "{array_1}_number_of_dimensions_is_the_same_as_{array_2}", "every_dimension_size_of_{array_1}_is_equal_to_the_corresponding_dimension_size_of_{array_2}_except_on_dimension_{dimension_index}", "{concatenated_array}_data_type_is_the_same_as_{array_2}", "{concatenated_array}_number_of_dimensions_is_the_same_as_{array_2}" ]
+      }, {
+        "name" : "final_add_params",
+        "primitive_name" : "add",
+        "schema" : "final_add_params",
+        "position" : [ 624.29, 295.74 ],
+        "inputs" : [ {
+          "name" : "left_operand",
+          "primitive_name" : "left_operand",
+          "is_latex" : false
+        }, {
+          "name" : "right_operand",
+          "primitive_name" : "right_operand",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 0, 1 ],
+        "outputs" : [ {
+          "name" : "added_result",
+          "primitive_name" : "added_result",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{left_operand}_data_type_is_integer_or_decimal", "{left_operand}_shape_is_the_same_as_{right_operand}", "{right_operand}_data_type_is_the_same_as_{left_operand}", "{added_result}_data_type_is_the_same_as_{right_operand}", "{added_result}_shape_is_the_same_as_{right_operand}" ]
+      }, {
+        "name" : "element_wise_multiply_alpha_by_first_moment",
+        "primitive_name" : "element_wise_multiply",
+        "schema" : "element_wise_multiply_alpha_by_first_moment",
+        "position" : [ 611.47, 498.46 ],
+        "inputs" : [ {
+          "name" : "left_array",
+          "primitive_name" : "left_array",
+          "is_latex" : false
+        }, {
+          "name" : "right_array",
+          "primitive_name" : "right_array",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 0, 1 ],
+        "outputs" : [ {
+          "name" : "multiplied_array",
+          "primitive_name" : "multiplied_array",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{left_array}_data_type_is_integer_or_decimal", "{left_array}_is_array", "{right_array}_data_type_is_the_same_as_{left_array}", "{right_array}_shape_is_the_same_as_{left_array}", "{multiplied_array}_data_type_is_the_same_as_{right_array}", "{multiplied_array}_shape_is_the_same_as_{right_array}" ]
+      }, {
+        "name" : "element_wise_divide_params",
+        "primitive_name" : "element_wise_divide",
+        "schema" : "element_wise_divide_params",
+        "position" : [ 923.66, 356.77 ],
+        "inputs" : [ {
+          "name" : "left_array",
+          "primitive_name" : "left_array",
+          "is_latex" : false
+        }, {
+          "name" : "right_array",
+          "primitive_name" : "right_array",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 1, 0 ],
+        "outputs" : [ {
+          "name" : "divided_array",
+          "primitive_name" : "divided_array",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{left_array}_data_type_is_decimal", "{left_array}_is_array", "{right_array}_data_type_is_the_same_as_{left_array}", "{right_array}_shape_is_the_same_as_{left_array}", "{divided_array}_data_type_is_the_same_as_{right_array}", "{divided_array}_shape_is_the_same_as_{right_array}" ]
+      }, {
+        "name" : "split_new_weights",
+        "primitive_name" : "split",
+        "schema" : "split_new_weights",
+        "position" : [ 1426.24, 30.13 ],
+        "inputs" : [ {
+          "name" : "array",
+          "primitive_name" : "array",
+          "is_latex" : false
+        }, {
+          "name" : "dimension_index",
+          "data" : 0,
+          "type" : "INTEGER",
+          "primitive_name" : "dimension_index",
+          "flow_state" : "BOOT_SOURCE",
+          "is_latex" : false
+        }, {
+          "name" : "element_index",
+          "primitive_name" : "element_index",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 2, 1, 0 ],
+        "outputs" : [ {
+          "name" : "split_array_left",
+          "primitive_name" : "split_array_left",
+          "is_latex" : false
+        }, {
+          "name" : "split_array_right",
+          "primitive_name" : "split_array_right",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0, 1 ],
+        "assertions" : [ "{array}_is_array", "{dimension_index}_data_type_is_integer", "{dimension_index}_is_scalar", "{element_index}_data_type_is_integer", "{element_index}_is_scalar", "{split_array_left}_is_array", "{split_array_right}_is_array", "{split_array_left}_data_type_is_the_same_as_{array}", "{split_array_right}_data_type_is_the_same_as_{split_array_left}" ]
+      }, {
+        "name" : "element_wise_exponentiate_sqrt_second_moment",
+        "schema" : "22386a",
+        "position" : [ 257.36, 165.23 ],
+        "inputs" : [ {
+          "name" : "array",
+          "primitive_name" : "new_inp",
+          "is_latex" : false
+        }, {
+          "name" : "scalar_exp",
+          "data" : 0.5,
+          "type" : "DECIMAL",
+          "primitive_name" : "i_0_INPUT",
+          "flow_state" : "BOOT_SOURCE",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 1, 0 ],
+        "subgraph_input_order" : [ 1, 0 ],
+        "outputs" : [ {
+          "name" : "tiled",
+          "primitive_name" : "new_out",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "subgraph_output_order" : [ 0 ],
+        "operations" : [ {
+          "name" : "get_shape",
+          "primitive_name" : "get_shape",
+          "schema" : "get_shape",
+          "position" : [ 421.65, 169.5 ],
+          "inputs" : [ {
+            "name" : "input",
+            "primitive_name" : "input",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0 ],
+          "outputs" : [ {
+            "name" : "shape",
+            "primitive_name" : "shape",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{input}_shape_is_{shape}" ]
+        }, {
+          "name" : "tile_to_shape",
+          "primitive_name" : "tile_to_shape",
+          "schema" : "tile_to_shape",
+          "position" : [ 731.66, 66.67 ],
+          "inputs" : [ {
+            "name" : "target",
+            "data" : 0.5,
+            "type" : "DECIMAL",
+            "primitive_name" : "target",
+            "flow_state" : "BOOT_SINK",
+            "is_latex" : false
+          }, {
+            "name" : "shape",
+            "primitive_name" : "shape",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0, 1 ],
+          "outputs" : [ {
+            "name" : "result",
+            "primitive_name" : "result",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{result}_data_type_is_the_same_as_{target}", "{result}_shape_is_{shape}", "{target}_shape_size_is_smaller_than_or_equal_to_{result}_shape_size", "every_dimension_size_of_{target}_is_smaller_than_or_equal_to_the_corresponding_dimension_size_of_{result}" ]
+        }, {
+          "name" : "element_wise_exponentiate_beta_two_t",
+          "primitive_name" : "element_wise_exponentiate",
+          "schema" : "element_wise_exponentiate_beta_two_t",
+          "position" : [ 947.87, 463.46 ],
+          "inputs" : [ {
+            "name" : "base",
+            "primitive_name" : "base",
+            "is_latex" : false
+          }, {
+            "name" : "exponent",
+            "primitive_name" : "exponent",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 1, 0 ],
+          "outputs" : [ {
+            "name" : "exponentiation",
+            "primitive_name" : "exponentiation",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{base}_data_type_is_decimal", "{exponent}_data_type_is_decimal", "{exponentiation}_data_type_is_decimal" ]
+        } ],
+        "links" : [ {
+          "source" : {
+            "operation" : "this",
+            "data" : "array"
+          },
+          "sink" : {
+            "operation" : "get_shape",
+            "data" : "input"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "get_shape",
+            "data" : "shape"
+          },
+          "sink" : {
+            "operation" : "tile_to_shape",
+            "data" : "shape"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "scalar_exp"
+          },
+          "sink" : {
+            "operation" : "tile_to_shape",
+            "data" : "target"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "tile_to_shape",
+            "data" : "result"
+          },
+          "sink" : {
+            "operation" : "element_wise_exponentiate_beta_two_t",
+            "data" : "exponent"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "array"
+          },
+          "sink" : {
+            "operation" : "element_wise_exponentiate_beta_two_t",
+            "data" : "base"
+          },
+          "control_points" : [ [ 688.1, 559.5 ] ]
+        }, {
+          "source" : {
+            "operation" : "element_wise_exponentiate_beta_two_t",
+            "data" : "exponentiation"
+          },
+          "sink" : {
+            "operation" : "this",
+            "data" : "tiled"
+          },
+          "control_points" : [ ]
+        } ]
+      } ],
+      "links" : [ {
+        "source" : {
+          "operation" : "tile_to_shape_epsilon",
+          "data" : "result"
+        },
+        "sink" : {
+          "operation" : "final_add_params",
+          "data" : "right_operand"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "tile_to_shape_alpha",
+          "data" : "result"
+        },
+        "sink" : {
+          "operation" : "element_wise_multiply_alpha_by_first_moment",
+          "data" : "left_array"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "element_wise_multiply_alpha_by_first_moment",
+          "data" : "multiplied_array"
+        },
+        "sink" : {
+          "operation" : "element_wise_divide_params",
+          "data" : "left_array"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "final_add_params",
+          "data" : "added_result"
+        },
+        "sink" : {
+          "operation" : "element_wise_divide_params",
+          "data" : "right_array"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "concatenate_params",
+          "data" : "concatenated_array"
+        },
+        "sink" : {
+          "operation" : "subtract_params",
+          "data" : "left_operand"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "element_wise_divide_params",
+          "data" : "divided_array"
+        },
+        "sink" : {
+          "operation" : "subtract_params",
+          "data" : "right_operand"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "subtract_params",
+          "data" : "subtracted_result"
+        },
+        "sink" : {
+          "operation" : "split_new_weights",
+          "data" : "array"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "get_dimension_size_weight_[0]",
+          "data" : "dimension_size"
+        },
+        "sink" : {
+          "operation" : "split_new_weights",
+          "data" : "element_index"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "weight_[0]_0"
+        },
+        "sink" : {
+          "operation" : "get_dimension_size_weight_[0]",
+          "data" : "array"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "\\alpha"
+        },
+        "sink" : {
+          "operation" : "tile_to_shape_alpha",
+          "data" : "target"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "shape_1"
+        },
+        "sink" : {
+          "operation" : "tile_to_shape_alpha",
+          "data" : "shape"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "\\epsilon"
+        },
+        "sink" : {
+          "operation" : "tile_to_shape_epsilon",
+          "data" : "target"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "weight_[1]_4"
+        },
+        "sink" : {
+          "operation" : "concatenate_params",
+          "data" : "array_2"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "right_array_0_6"
+        },
+        "sink" : {
+          "operation" : "element_wise_multiply_alpha_by_first_moment",
+          "data" : "right_array"
+        },
+        "control_points" : [ [ 269.5, 588.79 ] ]
+      }, {
+        "source" : {
+          "operation" : "split_new_weights",
+          "data" : "split_array_left"
+        },
+        "sink" : {
+          "operation" : "this",
+          "data" : "new_weight_[0]_9"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "split_new_weights",
+          "data" : "split_array_right"
+        },
+        "sink" : {
+          "operation" : "this",
+          "data" : "new_weight_[1]_9"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "shape_1"
+        },
+        "sink" : {
+          "operation" : "tile_to_shape_epsilon",
+          "data" : "shape"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "weight_[0]_0"
+        },
+        "sink" : {
+          "operation" : "concatenate_params",
+          "data" : "array_1"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "base_1_8"
+        },
+        "sink" : {
+          "operation" : "element_wise_exponentiate_sqrt_second_moment",
+          "data" : "array"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "element_wise_exponentiate_sqrt_second_moment",
+          "data" : "tiled"
+        },
+        "sink" : {
+          "operation" : "final_add_params",
+          "data" : "left_operand"
+        },
+        "control_points" : [ ]
+      } ]
+    }, {
+      "name" : "Initial",
+      "schema" : "Initial",
+      "position" : [ 259.17, 74.28 ],
+      "inputs" : [ {
+        "name" : "gw1",
+        "primitive_name" : "gw1",
+        "is_latex" : false
+      }, {
+        "name" : "gw0",
+        "primitive_name" : "gw0",
+        "is_latex" : false
+      }, {
+        "name" : "loss",
+        "primitive_name" : "loss",
+        "is_latex" : false
+      } ],
+      "input_order" : [ 0, 1, 2 ],
+      "subgraph_input_order" : [ 2, 1, 0 ],
+      "outputs" : [ {
+        "name" : "concat_g",
+        "primitive_name" : "concat_g",
+        "is_latex" : false
+      } ],
+      "output_order" : [ 0 ],
+      "subgraph_output_order" : [ 0 ],
+      "operations" : [ {
+        "name" : "get_shape_loss",
+        "primitive_name" : "get_shape",
+        "schema" : "get_shape_loss",
+        "position" : [ 312.87, 81.02 ],
+        "inputs" : [ {
+          "name" : "input",
+          "primitive_name" : "input",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 0 ],
+        "outputs" : [ {
+          "name" : "shape",
+          "primitive_name" : "shape",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{input}_shape_is_{shape}" ]
+      }, {
+        "name" : "conditional_negative_2",
+        "primitive_name" : "conditional",
+        "schema" : "conditional_negative_2",
+        "position" : [ 1726.95, 302.49 ],
+        "inputs" : [ {
+          "name" : "condition",
+          "primitive_name" : "condition",
+          "is_latex" : false
+        }, {
+          "name" : "data_if_true",
+          "primitive_name" : "data_if_true",
+          "is_latex" : false
+        }, {
+          "name" : "data_if_false",
+          "primitive_name" : "data_if_false",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 0, 1, 2 ],
+        "outputs" : [ {
+          "name" : "output_data",
+          "primitive_name" : "output_data",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{condition}_data_type_is_boolean", "{condition}_shape_is_the_same_as_{data_if_true}", "{data_if_true}_data_type_is_the_same_as_{data_if_false}", "{data_if_true}_shape_is_the_same_as_{data_if_false}", "{output_data}_data_type_is_the_same_as_{data_if_false}", "{output_data}_shape_is_the_same_as_{data_if_false}" ]
+      }, {
+        "name" : "element_wise_multiply_negative_one_2",
+        "primitive_name" : "element_wise_multiply",
+        "schema" : "element_wise_multiply_negative_one_2",
+        "position" : [ 1093.25, 203.92 ],
+        "inputs" : [ {
+          "name" : "left_array",
+          "primitive_name" : "left_array",
+          "is_latex" : false
+        }, {
+          "name" : "right_array",
+          "primitive_name" : "right_array",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 0, 1 ],
+        "outputs" : [ {
+          "name" : "multiplied_array",
+          "primitive_name" : "multiplied_array",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{left_array}_data_type_is_integer_or_decimal", "{left_array}_is_array", "{right_array}_data_type_is_the_same_as_{left_array}", "{right_array}_shape_is_the_same_as_{left_array}", "{multiplied_array}_data_type_is_the_same_as_{right_array}", "{multiplied_array}_shape_is_the_same_as_{right_array}" ]
+      }, {
+        "name" : "less_than",
+        "primitive_name" : "less_than",
+        "schema" : "less_than",
+        "position" : [ 1087.21, 2.5 ],
+        "inputs" : [ {
+          "name" : "left_operand",
+          "primitive_name" : "left_operand",
+          "is_latex" : false
+        }, {
+          "name" : "right_operand",
+          "primitive_name" : "right_operand",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 0, 1 ],
+        "outputs" : [ {
+          "name" : "is_less_than",
+          "primitive_name" : "is_less_than",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{left_operand}_data_type_is_integer_or_decimal", "{is_less_than}_data_type_is_boolean", "{left_operand}_shape_is_the_same_as_{right_operand}", "{right_operand}_data_type_is_the_same_as_{left_operand}", "{is_less_than}_shape_is_the_same_as_{right_operand}" ]
+      }, {
+        "name" : "tile_to_shape_negative_one",
+        "primitive_name" : "tile_to_shape",
+        "schema" : "tile_to_shape_negative_one",
+        "position" : [ 616.59, 199.39 ],
+        "inputs" : [ {
+          "name" : "target",
+          "data" : -1.0,
+          "type" : "DECIMAL",
+          "primitive_name" : "target",
+          "flow_state" : "BOOT_SOURCE",
+          "is_latex" : false
+        }, {
+          "name" : "shape",
+          "primitive_name" : "shape",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 0, 1 ],
+        "outputs" : [ {
+          "name" : "result",
+          "primitive_name" : "result",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{result}_data_type_is_the_same_as_{target}", "{result}_shape_is_{shape}", "{target}_shape_size_is_smaller_than_or_equal_to_{result}_shape_size", "every_dimension_size_of_{target}_is_smaller_than_or_equal_to_the_corresponding_dimension_size_of_{result}" ]
+      }, {
+        "name" : "element_wise_multiply_negative_one_1",
+        "primitive_name" : "element_wise_multiply",
+        "schema" : "element_wise_multiply_negative_one_1",
+        "position" : [ 1096.44, 341.43 ],
+        "inputs" : [ {
+          "name" : "left_array",
+          "primitive_name" : "left_array",
+          "is_latex" : false
+        }, {
+          "name" : "right_array",
+          "primitive_name" : "right_array",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 0, 1 ],
+        "outputs" : [ {
+          "name" : "multiplied_array",
+          "primitive_name" : "multiplied_array",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{left_array}_data_type_is_integer_or_decimal", "{left_array}_is_array", "{right_array}_data_type_is_the_same_as_{left_array}", "{right_array}_shape_is_the_same_as_{left_array}", "{multiplied_array}_data_type_is_the_same_as_{right_array}", "{multiplied_array}_shape_is_the_same_as_{right_array}" ]
+      }, {
+        "name" : "tile_to_shape_zero",
+        "primitive_name" : "tile_to_shape",
+        "schema" : "tile_to_shape_zero",
+        "position" : [ 681.72, 76.74 ],
+        "inputs" : [ {
+          "name" : "target",
+          "data" : 0.0,
+          "type" : "DECIMAL",
+          "primitive_name" : "target",
+          "flow_state" : "BOOT_SOURCE",
+          "is_latex" : false
+        }, {
+          "name" : "shape",
+          "primitive_name" : "shape",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 0, 1 ],
+        "outputs" : [ {
+          "name" : "result",
+          "primitive_name" : "result",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{result}_data_type_is_the_same_as_{target}", "{result}_shape_is_{shape}", "{target}_shape_size_is_smaller_than_or_equal_to_{result}_shape_size", "every_dimension_size_of_{target}_is_smaller_than_or_equal_to_the_corresponding_dimension_size_of_{result}" ]
+      }, {
+        "name" : "conditional_negative_1",
+        "primitive_name" : "conditional",
+        "schema" : "conditional_negative_1",
+        "position" : [ 1902.94, 23.88 ],
+        "inputs" : [ {
+          "name" : "condition",
+          "primitive_name" : "condition",
+          "is_latex" : false
+        }, {
+          "name" : "data_if_true",
+          "primitive_name" : "data_if_true",
+          "is_latex" : false
+        }, {
+          "name" : "data_if_false",
+          "primitive_name" : "data_if_false",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 0, 1, 2 ],
+        "outputs" : [ {
+          "name" : "output_data",
+          "primitive_name" : "output_data",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{condition}_data_type_is_boolean", "{condition}_shape_is_the_same_as_{data_if_true}", "{data_if_true}_data_type_is_the_same_as_{data_if_false}", "{data_if_true}_shape_is_the_same_as_{data_if_false}", "{output_data}_data_type_is_the_same_as_{data_if_false}", "{output_data}_shape_is_the_same_as_{data_if_false}" ]
+      }, {
+        "name" : "concatenate_derivatives",
+        "primitive_name" : "concatenate",
+        "schema" : "concatenate_derivatives",
+        "position" : [ 2203.15, 76.52 ],
+        "inputs" : [ {
+          "name" : "array_1",
+          "primitive_name" : "array_1",
+          "is_latex" : false
+        }, {
+          "name" : "array_2",
+          "primitive_name" : "array_2",
+          "is_latex" : false
+        }, {
+          "name" : "dimension_index",
+          "data" : 0,
+          "type" : "INTEGER",
+          "primitive_name" : "dimension_index",
+          "flow_state" : "BOOT_SOURCE",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 0, 1, 2 ],
+        "outputs" : [ {
+          "name" : "concatenated_array",
+          "primitive_name" : "concatenated_array",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "assertions" : [ "{array_1}_is_array", "{array_2}_is_array", "{dimension_index}_data_type_is_integer", "{dimension_index}_is_scalar", "{concatenated_array}_is_array", "{array_1}_data_type_is_the_same_as_{array_2}", "{array_1}_number_of_dimensions_is_the_same_as_{array_2}", "every_dimension_size_of_{array_1}_is_equal_to_the_corresponding_dimension_size_of_{array_2}_except_on_dimension_{dimension_index}", "{concatenated_array}_data_type_is_the_same_as_{array_2}", "{concatenated_array}_number_of_dimensions_is_the_same_as_{array_2}" ]
+      } ],
+      "links" : [ {
+        "source" : {
+          "operation" : "get_shape_loss",
+          "data" : "shape"
+        },
+        "sink" : {
+          "operation" : "tile_to_shape_zero",
+          "data" : "shape"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "tile_to_shape_zero",
+          "data" : "result"
+        },
+        "sink" : {
+          "operation" : "less_than",
+          "data" : "right_operand"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "get_shape_loss",
+          "data" : "shape"
+        },
+        "sink" : {
+          "operation" : "tile_to_shape_negative_one",
+          "data" : "shape"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "tile_to_shape_negative_one",
+          "data" : "result"
+        },
+        "sink" : {
+          "operation" : "element_wise_multiply_negative_one_1",
+          "data" : "left_array"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "tile_to_shape_negative_one",
+          "data" : "result"
+        },
+        "sink" : {
+          "operation" : "element_wise_multiply_negative_one_2",
+          "data" : "left_array"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "less_than",
+          "data" : "is_less_than"
+        },
+        "sink" : {
+          "operation" : "conditional_negative_1",
+          "data" : "condition"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "element_wise_multiply_negative_one_1",
+          "data" : "multiplied_array"
+        },
+        "sink" : {
+          "operation" : "conditional_negative_1",
+          "data" : "data_if_true"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "less_than",
+          "data" : "is_less_than"
+        },
+        "sink" : {
+          "operation" : "conditional_negative_2",
+          "data" : "condition"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "element_wise_multiply_negative_one_2",
+          "data" : "multiplied_array"
+        },
+        "sink" : {
+          "operation" : "conditional_negative_2",
+          "data" : "data_if_true"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "conditional_negative_1",
+          "data" : "output_data"
+        },
+        "sink" : {
+          "operation" : "concatenate_derivatives",
+          "data" : "array_1"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "conditional_negative_2",
+          "data" : "output_data"
+        },
+        "sink" : {
+          "operation" : "concatenate_derivatives",
+          "data" : "array_2"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "loss"
+        },
+        "sink" : {
+          "operation" : "get_shape_loss",
+          "data" : "input"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "gw1"
+        },
+        "sink" : {
+          "operation" : "element_wise_multiply_negative_one_2",
+          "data" : "right_array"
+        },
+        "control_points" : [ [ 410.93, 377.36 ], [ 903.79, 384.5 ] ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "gw0"
+        },
+        "sink" : {
+          "operation" : "conditional_negative_1",
+          "data" : "data_if_false"
+        },
+        "control_points" : [ [ 930.93, 545.93 ], [ 1326.69, 543.1 ] ]
+      }, {
+        "source" : {
+          "operation" : "concatenate_derivatives",
+          "data" : "concatenated_array"
+        },
+        "sink" : {
+          "operation" : "this",
+          "data" : "concat_g"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "loss"
+        },
+        "sink" : {
+          "operation" : "less_than",
+          "data" : "left_operand"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "gw0"
+        },
+        "sink" : {
+          "operation" : "element_wise_multiply_negative_one_1",
+          "data" : "right_array"
+        },
+        "control_points" : [ [ 932.36, 488.8 ] ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "gw1"
+        },
+        "sink" : {
+          "operation" : "conditional_negative_2",
+          "data" : "data_if_false"
+        },
+        "control_points" : [ [ 412.36, 580.22 ], [ 1440.94, 567.36 ] ]
+      } ]
+    }, {
+      "name" : "EstimateMoments_1",
+      "schema" : "new_composite",
+      "position" : [ 971.0, 0.29 ],
+      "inputs" : [ {
+        "name" : "concatenated_array_2_8_3",
+        "primitive_name" : "concatenated_array_2_8_3",
+        "is_latex" : false
+      }, {
+        "name" : "t_0",
+        "data" : 1.0,
+        "shape" : [ ],
+        "type" : "DECIMAL",
+        "primitive_name" : "t_0",
+        "flow_state" : "BOOT_SOURCE",
+        "is_latex" : true
+      }, {
+        "name" : "\\beta_0",
+        "data" : 0.999,
+        "shape" : [ ],
+        "type" : "DECIMAL",
+        "primitive_name" : "\\beta_0",
+        "flow_state" : "BOOT_SOURCE",
+        "is_latex" : true
+      }, {
+        "name" : "shape",
+        "primitive_name" : "shape",
+        "is_latex" : false
+      }, {
+        "name" : "v_{t-1}",
+        "data" : 0.0,
+        "shape" : [ ],
+        "type" : "DECIMAL",
+        "primitive_name" : "biased_second_moment_0",
+        "flow_state" : "BOOT_SOURCE",
+        "is_latex" : true
+      }, {
+        "name" : "m_{t-1}",
+        "data" : 0.0,
+        "shape" : [ ],
+        "type" : "DECIMAL",
+        "primitive_name" : "biased_first_moment_0",
+        "flow_state" : "BOOT_SOURCE",
+        "is_latex" : true
+      }, {
+        "name" : "\\beta_1",
+        "data" : 0.9,
+        "shape" : [ ],
+        "type" : "DECIMAL",
+        "primitive_name" : "\\beta_1",
+        "flow_state" : "BOOT_SOURCE",
+        "is_latex" : true
+      } ],
+      "input_order" : [ 1, 2, 6, 4, 5, 0, 3 ],
+      "subgraph_input_order" : [ 5, 6, 3, 2, 0, 1, 4 ],
+      "outputs" : [ {
+        "name" : "new_biased_second_moment_4",
+        "primitive_name" : "new_biased_second_moment_4",
+        "is_latex" : false
+      }, {
+        "name" : "new_biased_first_moment_4",
+        "primitive_name" : "new_biased_first_moment_4",
+        "is_latex" : false
+      }, {
+        "name" : "right_array_0_6_1",
+        "primitive_name" : "right_array_0_6_1",
+        "is_latex" : false
+      }, {
+        "name" : "base_1_8_1",
+        "primitive_name" : "base_1_8_1",
+        "is_latex" : false
+      } ],
+      "output_order" : [ 1, 0, 2, 3 ],
+      "subgraph_output_order" : [ 1, 2, 0, 3 ],
+      "operations" : [ {
+        "name" : "BiasedCorrectFirstMomentEst",
+        "schema" : "BiasedCorrectFirstMomentEst",
+        "position" : [ 863.05, 71.88 ],
+        "inputs" : [ {
+          "name" : "left_array_0_0",
+          "primitive_name" : "left_array_0_0",
+          "is_latex" : false
+        }, {
+          "name" : "base_4_2",
+          "primitive_name" : "base_4_2",
+          "is_latex" : false
+        }, {
+          "name" : "left_operand_1_1",
+          "primitive_name" : "left_operand_1_1",
+          "is_latex" : false
+        }, {
+          "name" : "t_2",
+          "data" : 1.0,
+          "shape" : [ ],
+          "type" : "DECIMAL",
+          "primitive_name" : "t_2",
+          "flow_state" : "BOOT_SINK",
+          "is_latex" : true
+        } ],
+        "input_order" : [ 0, 1, 2, 3 ],
+        "subgraph_input_order" : [ 0, 2, 1, 3 ],
+        "outputs" : [ {
+          "name" : "right_array_0",
+          "primitive_name" : "right_array_0",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "subgraph_output_order" : [ 0 ],
+        "operations" : [ {
+          "name" : "element_wise_divide_bias_corrected_first_moment",
+          "primitive_name" : "element_wise_divide",
+          "schema" : "element_wise_divide_bias_corrected_first_moment",
+          "position" : [ 1325.75, -0.4 ],
+          "inputs" : [ {
+            "name" : "left_array",
+            "primitive_name" : "left_array",
+            "is_latex" : false
+          }, {
+            "name" : "right_array",
+            "primitive_name" : "right_array",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0, 1 ],
+          "outputs" : [ {
+            "name" : "divided_array",
+            "primitive_name" : "divided_array",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{left_array}_data_type_is_decimal", "{left_array}_is_array", "{right_array}_data_type_is_the_same_as_{left_array}", "{right_array}_shape_is_the_same_as_{left_array}", "{divided_array}_data_type_is_the_same_as_{right_array}", "{divided_array}_shape_is_the_same_as_{right_array}" ]
+        }, {
+          "name" : "subtract_one_by_beta_one_t_exp",
+          "primitive_name" : "subtract",
+          "schema" : "subtract_one_by_beta_one_t_exp",
+          "position" : [ 1002.86, 78.6 ],
+          "inputs" : [ {
+            "name" : "left_operand",
+            "primitive_name" : "left_operand",
+            "is_latex" : false
+          }, {
+            "name" : "right_operand",
+            "primitive_name" : "right_operand",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0, 1 ],
+          "outputs" : [ {
+            "name" : "subtracted_result",
+            "primitive_name" : "subtracted_result",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{left_operand}_data_type_is_integer_or_decimal", "{left_operand}_shape_is_the_same_as_{right_operand}", "{right_operand}_data_type_is_the_same_as_{left_operand}", "{subtracted_result}_data_type_is_the_same_as_{right_operand}", "{subtracted_result}_shape_is_the_same_as_{right_operand}" ]
+        }, {
+          "name" : "element_wise_exponentiate_beta_one_t",
+          "primitive_name" : "element_wise_exponentiate",
+          "schema" : "element_wise_exponentiate_beta_one_t",
+          "position" : [ 701.47, 145.75 ],
+          "inputs" : [ {
+            "name" : "base",
+            "primitive_name" : "base",
+            "is_latex" : false
+          }, {
+            "name" : "exponent",
+            "primitive_name" : "exponent",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0, 1 ],
+          "outputs" : [ {
+            "name" : "exponentiation",
+            "primitive_name" : "exponentiation",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{base}_data_type_is_decimal", "{exponent}_data_type_is_decimal", "{exponentiation}_data_type_is_decimal" ]
+        }, {
+          "name" : "tile_to_shape",
+          "primitive_name" : "tile_to_shape",
+          "schema" : "tile_to_shape",
+          "position" : [ 476.65, 431.65 ],
+          "inputs" : [ {
+            "name" : "target",
+            "data" : 1.0,
+            "shape" : [ ],
+            "type" : "DECIMAL",
+            "primitive_name" : "target",
+            "flow_state" : "BOOT_SINK",
+            "is_latex" : false
+          }, {
+            "name" : "shape",
+            "primitive_name" : "shape",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 1, 0 ],
+          "outputs" : [ {
+            "name" : "result",
+            "primitive_name" : "result",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{result}_data_type_is_the_same_as_{target}", "{result}_shape_is_{shape}", "{target}_shape_size_is_smaller_than_or_equal_to_{result}_shape_size", "every_dimension_size_of_{target}_is_smaller_than_or_equal_to_the_corresponding_dimension_size_of_{result}" ]
+        }, {
+          "name" : "get_shape",
+          "primitive_name" : "get_shape",
+          "schema" : "get_shape",
+          "position" : [ 229.51, 191.65 ],
+          "inputs" : [ {
+            "name" : "input",
+            "primitive_name" : "input",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0 ],
+          "outputs" : [ {
+            "name" : "shape",
+            "primitive_name" : "shape",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{input}_shape_is_{shape}" ]
+        } ],
+        "links" : [ {
+          "source" : {
+            "operation" : "element_wise_exponentiate_beta_one_t",
+            "data" : "exponentiation"
+          },
+          "sink" : {
+            "operation" : "subtract_one_by_beta_one_t_exp",
+            "data" : "right_operand"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "subtract_one_by_beta_one_t_exp",
+            "data" : "subtracted_result"
+          },
+          "sink" : {
+            "operation" : "element_wise_divide_bias_corrected_first_moment",
+            "data" : "right_array"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "left_array_0_0"
+          },
+          "sink" : {
+            "operation" : "element_wise_divide_bias_corrected_first_moment",
+            "data" : "left_array"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "left_operand_1_1"
+          },
+          "sink" : {
+            "operation" : "subtract_one_by_beta_one_t_exp",
+            "data" : "left_operand"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "base_4_2"
+          },
+          "sink" : {
+            "operation" : "element_wise_exponentiate_beta_one_t",
+            "data" : "base"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "element_wise_divide_bias_corrected_first_moment",
+            "data" : "divided_array"
+          },
+          "sink" : {
+            "operation" : "this",
+            "data" : "right_array_0"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "base_4_2"
+          },
+          "sink" : {
+            "operation" : "get_shape",
+            "data" : "input"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "get_shape",
+            "data" : "shape"
+          },
+          "sink" : {
+            "operation" : "tile_to_shape",
+            "data" : "shape"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "t_2"
+          },
+          "sink" : {
+            "operation" : "tile_to_shape",
+            "data" : "target"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "tile_to_shape",
+            "data" : "result"
+          },
+          "sink" : {
+            "operation" : "element_wise_exponentiate_beta_one_t",
+            "data" : "exponent"
+          },
+          "control_points" : [ ]
+        } ]
+      }, {
+        "name" : "m_t \\leftarrow \\beta_1 \\cdot m_{t-1} + (1 - \\beta_1) \\cdot g_t",
+        "title_is_latex" : true,
+        "schema" : "NewBiasedFirstMomentEst",
+        "position" : [ 258.58, 16.72 ],
+        "inputs" : [ {
+          "name" : "m_{t-1}",
+          "data" : 0.0,
+          "shape" : [ ],
+          "type" : "DECIMAL",
+          "primitive_name" : "m_{t-1}",
+          "flow_state" : "BOOT_SINK",
+          "is_latex" : true
+        }, {
+          "name" : "\\beta_1",
+          "data" : 0.9,
+          "shape" : [ ],
+          "type" : "DECIMAL",
+          "primitive_name" : "\\beta_1",
+          "flow_state" : "BOOT_SINK",
+          "is_latex" : true
+        }, {
+          "name" : "\\textsc{shape}",
+          "primitive_name" : "\\textsc{shape}",
+          "is_latex" : true
+        }, {
+          "name" : "concatenated_array_2",
+          "primitive_name" : "concatenated_array_2",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 0, 1, 3, 2 ],
+        "subgraph_input_order" : [ 3, 1, 2, 0 ],
+        "outputs" : [ {
+          "name" : "base_4",
+          "primitive_name" : "base_4",
+          "is_latex" : false
+        }, {
+          "name" : "left_operand_1",
+          "primitive_name" : "left_operand_1",
+          "is_latex" : false
+        }, {
+          "name" : "new_biased_first_moment_0",
+          "primitive_name" : "new_biased_first_moment_0",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 2, 0, 1 ],
+        "subgraph_output_order" : [ 0, 1, 2 ],
+        "operations" : [ {
+          "name" : "final_add_first_moment",
+          "primitive_name" : "add",
+          "schema" : "final_add_first_moment",
+          "position" : [ 1132.87, 341.46 ],
+          "inputs" : [ {
+            "name" : "left_operand",
+            "primitive_name" : "left_operand",
+            "is_latex" : false
+          }, {
+            "name" : "right_operand",
+            "primitive_name" : "right_operand",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 1, 0 ],
+          "outputs" : [ {
+            "name" : "added_result",
+            "primitive_name" : "added_result",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{left_operand}_data_type_is_integer_or_decimal", "{left_operand}_shape_is_the_same_as_{right_operand}", "{right_operand}_data_type_is_the_same_as_{left_operand}", "{added_result}_data_type_is_the_same_as_{right_operand}", "{added_result}_shape_is_the_same_as_{right_operand}" ]
+        }, {
+          "name" : "tile_to_shape_one",
+          "primitive_name" : "tile_to_shape",
+          "schema" : "tile_to_shape_one",
+          "position" : [ 232.89, 310.18 ],
+          "inputs" : [ {
+            "name" : "target",
+            "data" : 1.0,
+            "type" : "DECIMAL",
+            "primitive_name" : "target",
+            "flow_state" : "BOOT_SOURCE",
+            "is_latex" : false
+          }, {
+            "name" : "shape",
+            "primitive_name" : "shape",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0, 1 ],
+          "outputs" : [ {
+            "name" : "result",
+            "primitive_name" : "result",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{result}_data_type_is_the_same_as_{target}", "{result}_shape_is_{shape}", "{target}_shape_size_is_smaller_than_or_equal_to_{result}_shape_size", "every_dimension_size_of_{target}_is_smaller_than_or_equal_to_the_corresponding_dimension_size_of_{result}" ]
+        }, {
+          "name" : "element_wise_multiply_first_moment_derivatives",
+          "primitive_name" : "element_wise_multiply",
+          "schema" : "element_wise_multiply_first_moment_derivatives",
+          "position" : [ 855.73, 42.44 ],
+          "inputs" : [ {
+            "name" : "left_array",
+            "primitive_name" : "left_array",
+            "is_latex" : false
+          }, {
+            "name" : "right_array",
+            "primitive_name" : "right_array",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 1, 0 ],
+          "outputs" : [ {
+            "name" : "multiplied_array",
+            "primitive_name" : "multiplied_array",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{left_array}_data_type_is_integer_or_decimal", "{left_array}_is_array", "{right_array}_data_type_is_the_same_as_{left_array}", "{right_array}_shape_is_the_same_as_{left_array}", "{multiplied_array}_data_type_is_the_same_as_{right_array}", "{multiplied_array}_shape_is_the_same_as_{right_array}" ]
+        }, {
+          "name" : "tile_to_shape_first_moment_1",
+          "primitive_name" : "tile_to_shape",
+          "schema" : "tile_to_shape_first_moment_1",
+          "position" : [ 232.89, 453.74 ],
+          "inputs" : [ {
+            "name" : "target",
+            "data" : 0.0,
+            "shape" : [ ],
+            "type" : "DECIMAL",
+            "primitive_name" : "target",
+            "flow_state" : "BOOT_SINK",
+            "is_latex" : false
+          }, {
+            "name" : "shape",
+            "primitive_name" : "shape",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 1, 0 ],
+          "outputs" : [ {
+            "name" : "result",
+            "primitive_name" : "result",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{result}_data_type_is_the_same_as_{target}", "{result}_shape_is_{shape}", "{target}_shape_size_is_smaller_than_or_equal_to_{result}_shape_size", "every_dimension_size_of_{target}_is_smaller_than_or_equal_to_the_corresponding_dimension_size_of_{result}" ]
+        }, {
+          "name" : "t_{\\diamond} \\beta_1",
+          "primitive_name" : "tile_to_shape",
+          "schema" : "tile_to_shape_beta_one_1",
+          "position" : [ 232.89, 170.01 ],
+          "inputs" : [ {
+            "name" : "target",
+            "data" : 0.9,
+            "shape" : [ ],
+            "type" : "DECIMAL",
+            "primitive_name" : "target",
+            "flow_state" : "BOOT_SINK",
+            "is_latex" : false
+          }, {
+            "name" : "shape",
+            "primitive_name" : "shape",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0, 1 ],
+          "outputs" : [ {
+            "name" : "result",
+            "primitive_name" : "result",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{result}_data_type_is_the_same_as_{target}", "{result}_shape_is_{shape}", "{target}_shape_size_is_smaller_than_or_equal_to_{result}_shape_size", "every_dimension_size_of_{target}_is_smaller_than_or_equal_to_the_corresponding_dimension_size_of_{result}" ]
+        }, {
+          "name" : "element_wise_multiply_beta_one_by_first_moment",
+          "primitive_name" : "element_wise_multiply",
+          "schema" : "element_wise_multiply_beta_one_by_first_moment",
+          "position" : [ 588.6, 409.58 ],
+          "inputs" : [ {
+            "name" : "left_array",
+            "primitive_name" : "left_array",
+            "is_latex" : false
+          }, {
+            "name" : "right_array",
+            "primitive_name" : "right_array",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0, 1 ],
+          "outputs" : [ {
+            "name" : "multiplied_array",
+            "primitive_name" : "multiplied_array",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{left_array}_data_type_is_integer_or_decimal", "{left_array}_is_array", "{right_array}_data_type_is_the_same_as_{left_array}", "{right_array}_shape_is_the_same_as_{left_array}", "{multiplied_array}_data_type_is_the_same_as_{right_array}", "{multiplied_array}_shape_is_the_same_as_{right_array}" ]
+        }, {
+          "name" : "subtract_one_by_beta_one",
+          "primitive_name" : "subtract",
+          "schema" : "subtract_one_by_beta_one",
+          "position" : [ 598.6, 220.03 ],
+          "inputs" : [ {
+            "name" : "left_operand",
+            "primitive_name" : "left_operand",
+            "is_latex" : false
+          }, {
+            "name" : "right_operand",
+            "primitive_name" : "right_operand",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0, 1 ],
+          "outputs" : [ {
+            "name" : "subtracted_result",
+            "primitive_name" : "subtracted_result",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{left_operand}_data_type_is_integer_or_decimal", "{left_operand}_shape_is_the_same_as_{right_operand}", "{right_operand}_data_type_is_the_same_as_{left_operand}", "{subtracted_result}_data_type_is_the_same_as_{right_operand}", "{subtracted_result}_shape_is_the_same_as_{right_operand}" ]
+        } ],
+        "links" : [ {
+          "source" : {
+            "operation" : "t_{\\diamond} \\beta_1",
+            "data" : "result"
+          },
+          "sink" : {
+            "operation" : "element_wise_multiply_beta_one_by_first_moment",
+            "data" : "left_array"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "tile_to_shape_first_moment_1",
+            "data" : "result"
+          },
+          "sink" : {
+            "operation" : "element_wise_multiply_beta_one_by_first_moment",
+            "data" : "right_array"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "tile_to_shape_one",
+            "data" : "result"
+          },
+          "sink" : {
+            "operation" : "subtract_one_by_beta_one",
+            "data" : "left_operand"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "t_{\\diamond} \\beta_1",
+            "data" : "result"
+          },
+          "sink" : {
+            "operation" : "subtract_one_by_beta_one",
+            "data" : "right_operand"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "subtract_one_by_beta_one",
+            "data" : "subtracted_result"
+          },
+          "sink" : {
+            "operation" : "element_wise_multiply_first_moment_derivatives",
+            "data" : "left_array"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "element_wise_multiply_beta_one_by_first_moment",
+            "data" : "multiplied_array"
+          },
+          "sink" : {
+            "operation" : "final_add_first_moment",
+            "data" : "left_operand"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "element_wise_multiply_first_moment_derivatives",
+            "data" : "multiplied_array"
+          },
+          "sink" : {
+            "operation" : "final_add_first_moment",
+            "data" : "right_operand"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "\\textsc{shape}"
+          },
+          "sink" : {
+            "operation" : "tile_to_shape_one",
+            "data" : "shape"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "concatenated_array_2"
+          },
+          "sink" : {
+            "operation" : "element_wise_multiply_first_moment_derivatives",
+            "data" : "right_array"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "m_{t-1}"
+          },
+          "sink" : {
+            "operation" : "tile_to_shape_first_moment_1",
+            "data" : "target"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "\\beta_1"
+          },
+          "sink" : {
+            "operation" : "t_{\\diamond} \\beta_1",
+            "data" : "target"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "final_add_first_moment",
+            "data" : "added_result"
+          },
+          "sink" : {
+            "operation" : "this",
+            "data" : "new_biased_first_moment_0"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "t_{\\diamond} \\beta_1",
+            "data" : "result"
+          },
+          "sink" : {
+            "operation" : "this",
+            "data" : "base_4"
+          },
+          "control_points" : [ [ 548.1, 187.37 ], [ 1213.82, 178.79 ] ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "\\textsc{shape}"
+          },
+          "sink" : {
+            "operation" : "tile_to_shape_first_moment_1",
+            "data" : "shape"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "\\textsc{shape}"
+          },
+          "sink" : {
+            "operation" : "t_{\\diamond} \\beta_1",
+            "data" : "shape"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "tile_to_shape_one",
+            "data" : "result"
+          },
+          "sink" : {
+            "operation" : "this",
+            "data" : "left_operand_1"
+          },
+          "control_points" : [ [ 803.79, 368.8 ] ]
+        } ]
+      }, {
+        "name" : "v_t \\leftarrow \\beta_2 \\cdot v_{t-1} + (1 - \\beta_2) \\cdot g^2_t",
+        "title_is_latex" : true,
+        "schema" : "NewBiasedSecondMomentEst",
+        "position" : [ 617.68, 337.49 ],
+        "inputs" : [ {
+          "name" : "biased_second_moment_4",
+          "data" : 0.0,
+          "shape" : [ ],
+          "type" : "DECIMAL",
+          "primitive_name" : "biased_second_moment_4",
+          "flow_state" : "BOOT_SINK",
+          "is_latex" : false
+        }, {
+          "name" : "v_{t-1}",
+          "primitive_name" : "v_{t-1}",
+          "is_latex" : true
+        }, {
+          "name" : "\\beta",
+          "data" : 0.999,
+          "shape" : [ ],
+          "type" : "DECIMAL",
+          "primitive_name" : "\\beta",
+          "flow_state" : "BOOT_SINK",
+          "is_latex" : true
+        }, {
+          "name" : "shape",
+          "primitive_name" : "shape",
+          "is_latex" : false
+        }, {
+          "name" : "concatenated_array_5",
+          "primitive_name" : "concatenated_array_5",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 1, 3, 2, 4, 0 ],
+        "subgraph_input_order" : [ 4, 1, 2, 0, 3 ],
+        "outputs" : [ {
+          "name" : "base_3",
+          "primitive_name" : "base_3",
+          "is_latex" : false
+        }, {
+          "name" : "new_biased_second_moment_1",
+          "primitive_name" : "new_biased_second_moment_1",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 1, 0 ],
+        "subgraph_output_order" : [ 0, 1 ],
+        "operations" : [ {
+          "name" : "element_wise_multiply_second_moment_derivatives",
+          "primitive_name" : "element_wise_multiply",
+          "schema" : "element_wise_multiply_second_moment_derivatives",
+          "position" : [ 1472.92, 40.03 ],
+          "inputs" : [ {
+            "name" : "left_array",
+            "primitive_name" : "left_array",
+            "is_latex" : false
+          }, {
+            "name" : "right_array",
+            "primitive_name" : "right_array",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 1, 0 ],
+          "outputs" : [ {
+            "name" : "multiplied_array",
+            "primitive_name" : "multiplied_array",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{left_array}_data_type_is_integer_or_decimal", "{left_array}_is_array", "{right_array}_data_type_is_the_same_as_{left_array}", "{right_array}_shape_is_the_same_as_{left_array}", "{multiplied_array}_data_type_is_the_same_as_{right_array}", "{multiplied_array}_shape_is_the_same_as_{right_array}" ]
+        }, {
+          "name" : "final_add_second_moment",
+          "primitive_name" : "add",
+          "schema" : "final_add_second_moment",
+          "position" : [ 1728.07, 222.89 ],
+          "inputs" : [ {
+            "name" : "left_operand",
+            "primitive_name" : "left_operand",
+            "is_latex" : false
+          }, {
+            "name" : "right_operand",
+            "primitive_name" : "right_operand",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 1, 0 ],
+          "outputs" : [ {
+            "name" : "added_result",
+            "primitive_name" : "added_result",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{left_operand}_data_type_is_integer_or_decimal", "{left_operand}_shape_is_the_same_as_{right_operand}", "{right_operand}_data_type_is_the_same_as_{left_operand}", "{added_result}_data_type_is_the_same_as_{right_operand}", "{added_result}_shape_is_the_same_as_{right_operand}" ]
+        }, {
+          "name" : "subtract_one_by_beta_two",
+          "primitive_name" : "subtract",
+          "schema" : "subtract_one_by_beta_two",
+          "position" : [ 478.58, 85.74 ],
+          "inputs" : [ {
+            "name" : "left_operand",
+            "primitive_name" : "left_operand",
+            "is_latex" : false
+          }, {
+            "name" : "right_operand",
+            "primitive_name" : "right_operand",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0, 1 ],
+          "outputs" : [ {
+            "name" : "subtracted_result",
+            "primitive_name" : "subtracted_result",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{left_operand}_data_type_is_integer_or_decimal", "{left_operand}_shape_is_the_same_as_{right_operand}", "{right_operand}_data_type_is_the_same_as_{left_operand}", "{subtracted_result}_data_type_is_the_same_as_{right_operand}", "{subtracted_result}_shape_is_the_same_as_{right_operand}" ]
+        }, {
+          "name" : "tile_to_shape_beta_two_1",
+          "primitive_name" : "tile_to_shape",
+          "schema" : "tile_to_shape_beta_two_1",
+          "position" : [ 212.87, 184.31 ],
+          "inputs" : [ {
+            "name" : "target",
+            "data" : 0.999,
+            "shape" : [ ],
+            "type" : "DECIMAL",
+            "primitive_name" : "target",
+            "flow_state" : "BOOT_SINK",
+            "is_latex" : false
+          }, {
+            "name" : "shape",
+            "primitive_name" : "shape",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0, 1 ],
+          "outputs" : [ {
+            "name" : "result",
+            "primitive_name" : "result",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{result}_data_type_is_the_same_as_{target}", "{result}_shape_is_{shape}", "{target}_shape_size_is_smaller_than_or_equal_to_{result}_shape_size", "every_dimension_size_of_{target}_is_smaller_than_or_equal_to_the_corresponding_dimension_size_of_{result}" ]
+        }, {
+          "name" : "tile_to_shape_second_moment_1",
+          "primitive_name" : "tile_to_shape",
+          "schema" : "tile_to_shape_second_moment_1",
+          "position" : [ 208.59, 345.74 ],
+          "inputs" : [ {
+            "name" : "target",
+            "data" : 0.0,
+            "shape" : [ ],
+            "type" : "DECIMAL",
+            "primitive_name" : "target",
+            "flow_state" : "BOOT_SINK",
+            "is_latex" : false
+          }, {
+            "name" : "shape",
+            "primitive_name" : "shape",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0, 1 ],
+          "outputs" : [ {
+            "name" : "result",
+            "primitive_name" : "result",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{result}_data_type_is_the_same_as_{target}", "{result}_shape_is_{shape}", "{target}_shape_size_is_smaller_than_or_equal_to_{result}_shape_size", "every_dimension_size_of_{target}_is_smaller_than_or_equal_to_the_corresponding_dimension_size_of_{result}" ]
+        }, {
+          "name" : "element_wise_exponentiate_derivatives",
+          "primitive_name" : "element_wise_exponentiate",
+          "schema" : "element_wise_exponentiate_derivatives",
+          "position" : [ 1131.47, 1.01 ],
+          "inputs" : [ {
+            "name" : "base",
+            "primitive_name" : "base",
+            "is_latex" : false
+          }, {
+            "name" : "exponent",
+            "primitive_name" : "exponent",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0, 1 ],
+          "outputs" : [ {
+            "name" : "exponentiation",
+            "primitive_name" : "exponentiation",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{base}_data_type_is_decimal", "{exponent}_data_type_is_decimal", "{exponentiation}_data_type_is_decimal" ]
+        }, {
+          "name" : "element_wise_multiply_beta_two_by_second_moment",
+          "primitive_name" : "element_wise_multiply",
+          "schema" : "element_wise_multiply_beta_two_by_second_moment",
+          "position" : [ 537.16, 295.74 ],
+          "inputs" : [ {
+            "name" : "left_array",
+            "primitive_name" : "left_array",
+            "is_latex" : false
+          }, {
+            "name" : "right_array",
+            "primitive_name" : "right_array",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0, 1 ],
+          "outputs" : [ {
+            "name" : "multiplied_array",
+            "primitive_name" : "multiplied_array",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{left_array}_data_type_is_integer_or_decimal", "{left_array}_is_array", "{right_array}_data_type_is_the_same_as_{left_array}", "{right_array}_shape_is_the_same_as_{left_array}", "{multiplied_array}_data_type_is_the_same_as_{right_array}", "{multiplied_array}_shape_is_the_same_as_{right_array}" ]
+        }, {
+          "name" : "tile_to_shape",
+          "primitive_name" : "tile_to_shape",
+          "schema" : "tile_to_shape",
+          "position" : [ 912.36, 478.8 ],
+          "inputs" : [ {
+            "name" : "target",
+            "data" : 2.0,
+            "type" : "DECIMAL",
+            "primitive_name" : "target",
+            "flow_state" : "BOOT_SOURCE",
+            "is_latex" : false
+          }, {
+            "name" : "shape",
+            "primitive_name" : "shape",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0, 1 ],
+          "outputs" : [ {
+            "name" : "result",
+            "primitive_name" : "result",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{result}_data_type_is_the_same_as_{target}", "{result}_shape_is_{shape}", "{target}_shape_size_is_smaller_than_or_equal_to_{result}_shape_size", "every_dimension_size_of_{target}_is_smaller_than_or_equal_to_the_corresponding_dimension_size_of_{result}" ]
+        } ],
+        "links" : [ {
+          "source" : {
+            "operation" : "tile_to_shape_beta_two_1",
+            "data" : "result"
+          },
+          "sink" : {
+            "operation" : "element_wise_multiply_beta_two_by_second_moment",
+            "data" : "left_array"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "tile_to_shape_second_moment_1",
+            "data" : "result"
+          },
+          "sink" : {
+            "operation" : "element_wise_multiply_beta_two_by_second_moment",
+            "data" : "right_array"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "tile_to_shape_beta_two_1",
+            "data" : "result"
+          },
+          "sink" : {
+            "operation" : "subtract_one_by_beta_two",
+            "data" : "right_operand"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "subtract_one_by_beta_two",
+            "data" : "subtracted_result"
+          },
+          "sink" : {
+            "operation" : "element_wise_multiply_second_moment_derivatives",
+            "data" : "left_array"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "element_wise_exponentiate_derivatives",
+            "data" : "exponentiation"
+          },
+          "sink" : {
+            "operation" : "element_wise_multiply_second_moment_derivatives",
+            "data" : "right_array"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "element_wise_multiply_beta_two_by_second_moment",
+            "data" : "multiplied_array"
+          },
+          "sink" : {
+            "operation" : "final_add_second_moment",
+            "data" : "left_operand"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "element_wise_multiply_second_moment_derivatives",
+            "data" : "multiplied_array"
+          },
+          "sink" : {
+            "operation" : "final_add_second_moment",
+            "data" : "right_operand"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "v_{t-1}"
+          },
+          "sink" : {
+            "operation" : "subtract_one_by_beta_two",
+            "data" : "left_operand"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "\\beta"
+          },
+          "sink" : {
+            "operation" : "tile_to_shape_beta_two_1",
+            "data" : "target"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "shape"
+          },
+          "sink" : {
+            "operation" : "tile_to_shape_beta_two_1",
+            "data" : "shape"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "biased_second_moment_4"
+          },
+          "sink" : {
+            "operation" : "tile_to_shape_second_moment_1",
+            "data" : "target"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "final_add_second_moment",
+            "data" : "added_result"
+          },
+          "sink" : {
+            "operation" : "this",
+            "data" : "new_biased_second_moment_1"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "tile_to_shape_beta_two_1",
+            "data" : "result"
+          },
+          "sink" : {
+            "operation" : "this",
+            "data" : "base_3"
+          },
+          "control_points" : [ [ 1661.68, 227.37 ], [ 1762.87, 45.94 ] ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "shape"
+          },
+          "sink" : {
+            "operation" : "tile_to_shape_second_moment_1",
+            "data" : "shape"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "concatenated_array_5"
+          },
+          "sink" : {
+            "operation" : "element_wise_exponentiate_derivatives",
+            "data" : "base"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "shape"
+          },
+          "sink" : {
+            "operation" : "tile_to_shape",
+            "data" : "shape"
+          },
+          "control_points" : [ [ 233.79, 566.66 ] ]
+        }, {
+          "source" : {
+            "operation" : "tile_to_shape",
+            "data" : "result"
+          },
+          "sink" : {
+            "operation" : "element_wise_exponentiate_derivatives",
+            "data" : "exponent"
+          },
+          "control_points" : [ ]
+        } ]
+      }, {
+        "name" : "BiasedCorrectedSecondMomentEst",
+        "schema" : "BiasedCorrectedSecondMomentEst",
+        "position" : [ 1055.12, 304.65 ],
+        "inputs" : [ {
+          "name" : "t_0",
+          "data" : 1.0,
+          "shape" : [ ],
+          "type" : "DECIMAL",
+          "primitive_name" : "t_0",
+          "flow_state" : "BOOT_SINK",
+          "is_latex" : false
+        }, {
+          "name" : "left_operand_1_2",
+          "primitive_name" : "left_operand_1_2",
+          "is_latex" : false
+        }, {
+          "name" : "left_array_1_1",
+          "primitive_name" : "left_array_1_1",
+          "is_latex" : false
+        }, {
+          "name" : "base_3_0",
+          "primitive_name" : "base_3_0",
+          "is_latex" : false
+        } ],
+        "input_order" : [ 1, 2, 3, 0 ],
+        "subgraph_input_order" : [ 2, 0, 3, 1 ],
+        "outputs" : [ {
+          "name" : "base_1",
+          "primitive_name" : "base_1",
+          "is_latex" : false
+        } ],
+        "output_order" : [ 0 ],
+        "subgraph_output_order" : [ 0 ],
+        "operations" : [ {
+          "name" : "element_wise_divide_bias_corrected_second_moment",
+          "primitive_name" : "element_wise_divide",
+          "schema" : "element_wise_divide_bias_corrected_second_moment",
+          "position" : [ 878.62, 45.75 ],
+          "inputs" : [ {
+            "name" : "left_array",
+            "primitive_name" : "left_array",
+            "is_latex" : false
+          }, {
+            "name" : "right_array",
+            "primitive_name" : "right_array",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 0, 1 ],
+          "outputs" : [ {
+            "name" : "divided_array",
+            "primitive_name" : "divided_array",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{left_array}_data_type_is_decimal", "{left_array}_is_array", "{right_array}_data_type_is_the_same_as_{left_array}", "{right_array}_shape_is_the_same_as_{left_array}", "{divided_array}_data_type_is_the_same_as_{right_array}", "{divided_array}_shape_is_the_same_as_{right_array}" ]
+        }, {
+          "name" : "subtract_one_by_beta_two_t_exp",
+          "primitive_name" : "subtract",
+          "schema" : "subtract_one_by_beta_two_t_exp",
+          "position" : [ 538.6, 190.03 ],
+          "inputs" : [ {
+            "name" : "left_operand",
+            "primitive_name" : "left_operand",
+            "is_latex" : false
+          }, {
+            "name" : "right_operand",
+            "primitive_name" : "right_operand",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 1, 0 ],
+          "outputs" : [ {
+            "name" : "subtracted_result",
+            "primitive_name" : "subtracted_result",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "assertions" : [ "{left_operand}_data_type_is_integer_or_decimal", "{left_operand}_shape_is_the_same_as_{right_operand}", "{right_operand}_data_type_is_the_same_as_{left_operand}", "{subtracted_result}_data_type_is_the_same_as_{right_operand}", "{subtracted_result}_shape_is_the_same_as_{right_operand}" ]
+        }, {
+          "name" : "element_wise_exponentiate_beta_two_t",
+          "schema" : "22386a",
+          "position" : [ 203.79, 81.67 ],
+          "inputs" : [ {
+            "name" : "array",
+            "primitive_name" : "new_inp",
+            "is_latex" : false
+          }, {
+            "name" : "scalar_exp",
+            "data" : 1.0,
+            "shape" : [ ],
+            "type" : "DECIMAL",
+            "primitive_name" : "i_0_INPUT",
+            "flow_state" : "BOOT_SINK",
+            "is_latex" : false
+          } ],
+          "input_order" : [ 1, 0 ],
+          "subgraph_input_order" : [ 1, 0 ],
+          "outputs" : [ {
+            "name" : "tiled",
+            "primitive_name" : "new_out",
+            "is_latex" : false
+          } ],
+          "output_order" : [ 0 ],
+          "subgraph_output_order" : [ 0 ],
+          "operations" : [ {
+            "name" : "get_shape",
+            "primitive_name" : "get_shape",
+            "schema" : "get_shape",
+            "position" : [ 421.65, 169.5 ],
+            "inputs" : [ {
+              "name" : "input",
+              "primitive_name" : "input",
+              "is_latex" : false
+            } ],
+            "input_order" : [ 0 ],
+            "outputs" : [ {
+              "name" : "shape",
+              "primitive_name" : "shape",
+              "is_latex" : false
+            } ],
+            "output_order" : [ 0 ],
+            "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{input}_shape_is_{shape}" ]
+          }, {
+            "name" : "tile_to_shape",
+            "primitive_name" : "tile_to_shape",
+            "schema" : "tile_to_shape",
+            "position" : [ 731.66, 66.67 ],
+            "inputs" : [ {
+              "name" : "target",
+              "data" : 1.0,
+              "shape" : [ ],
+              "type" : "DECIMAL",
+              "primitive_name" : "target",
+              "flow_state" : "BOOT_SINK",
+              "is_latex" : false
+            }, {
+              "name" : "shape",
+              "primitive_name" : "shape",
+              "is_latex" : false
+            } ],
+            "input_order" : [ 0, 1 ],
+            "outputs" : [ {
+              "name" : "result",
+              "primitive_name" : "result",
+              "is_latex" : false
+            } ],
+            "output_order" : [ 0 ],
+            "assertions" : [ "{shape}_data_type_is_integer", "{shape}_has_one_dimension", "{result}_data_type_is_the_same_as_{target}", "{result}_shape_is_{shape}", "{target}_shape_size_is_smaller_than_or_equal_to_{result}_shape_size", "every_dimension_size_of_{target}_is_smaller_than_or_equal_to_the_corresponding_dimension_size_of_{result}" ]
+          }, {
+            "name" : "element_wise_exponentiate_beta_two_t",
+            "primitive_name" : "element_wise_exponentiate",
+            "schema" : "element_wise_exponentiate_beta_two_t",
+            "position" : [ 947.87, 463.46 ],
+            "inputs" : [ {
+              "name" : "base",
+              "primitive_name" : "base",
+              "is_latex" : false
+            }, {
+              "name" : "exponent",
+              "primitive_name" : "exponent",
+              "is_latex" : false
+            } ],
+            "input_order" : [ 1, 0 ],
+            "outputs" : [ {
+              "name" : "exponentiation",
+              "primitive_name" : "exponentiation",
+              "is_latex" : false
+            } ],
+            "output_order" : [ 0 ],
+            "assertions" : [ "{base}_data_type_is_decimal", "{exponent}_data_type_is_decimal", "{exponentiation}_data_type_is_decimal" ]
+          } ],
+          "links" : [ {
+            "source" : {
+              "operation" : "this",
+              "data" : "array"
+            },
+            "sink" : {
+              "operation" : "get_shape",
+              "data" : "input"
+            },
+            "control_points" : [ ]
+          }, {
+            "source" : {
+              "operation" : "get_shape",
+              "data" : "shape"
+            },
+            "sink" : {
+              "operation" : "tile_to_shape",
+              "data" : "shape"
+            },
+            "control_points" : [ ]
+          }, {
+            "source" : {
+              "operation" : "this",
+              "data" : "scalar_exp"
+            },
+            "sink" : {
+              "operation" : "tile_to_shape",
+              "data" : "target"
+            },
+            "control_points" : [ ]
+          }, {
+            "source" : {
+              "operation" : "tile_to_shape",
+              "data" : "result"
+            },
+            "sink" : {
+              "operation" : "element_wise_exponentiate_beta_two_t",
+              "data" : "exponent"
+            },
+            "control_points" : [ ]
+          }, {
+            "source" : {
+              "operation" : "this",
+              "data" : "array"
+            },
+            "sink" : {
+              "operation" : "element_wise_exponentiate_beta_two_t",
+              "data" : "base"
+            },
+            "control_points" : [ [ 688.1, 559.5 ] ]
+          }, {
+            "source" : {
+              "operation" : "element_wise_exponentiate_beta_two_t",
+              "data" : "exponentiation"
+            },
+            "sink" : {
+              "operation" : "this",
+              "data" : "tiled"
+            },
+            "control_points" : [ ]
+          } ]
+        } ],
+        "links" : [ {
+          "source" : {
+            "operation" : "subtract_one_by_beta_two_t_exp",
+            "data" : "subtracted_result"
+          },
+          "sink" : {
+            "operation" : "element_wise_divide_bias_corrected_second_moment",
+            "data" : "right_array"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "left_array_1_1"
+          },
+          "sink" : {
+            "operation" : "element_wise_divide_bias_corrected_second_moment",
+            "data" : "left_array"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "left_operand_1_2"
+          },
+          "sink" : {
+            "operation" : "subtract_one_by_beta_two_t_exp",
+            "data" : "left_operand"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "element_wise_divide_bias_corrected_second_moment",
+            "data" : "divided_array"
+          },
+          "sink" : {
+            "operation" : "this",
+            "data" : "base_1"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "t_0"
+          },
+          "sink" : {
+            "operation" : "element_wise_exponentiate_beta_two_t",
+            "data" : "scalar_exp"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "this",
+            "data" : "base_3_0"
+          },
+          "sink" : {
+            "operation" : "element_wise_exponentiate_beta_two_t",
+            "data" : "array"
+          },
+          "control_points" : [ ]
+        }, {
+          "source" : {
+            "operation" : "element_wise_exponentiate_beta_two_t",
+            "data" : "tiled"
+          },
+          "sink" : {
+            "operation" : "subtract_one_by_beta_two_t_exp",
+            "data" : "right_operand"
+          },
+          "control_points" : [ ]
+        } ]
+      } ],
+      "links" : [ {
+        "source" : {
+          "operation" : "m_t \\leftarrow \\beta_1 \\cdot m_{t-1} + (1 - \\beta_1) \\cdot g_t",
+          "data" : "left_operand_1"
+        },
+        "sink" : {
+          "operation" : "v_t \\leftarrow \\beta_2 \\cdot v_{t-1} + (1 - \\beta_2) \\cdot g^2_t",
+          "data" : "v_{t-1}"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "m_t \\leftarrow \\beta_1 \\cdot m_{t-1} + (1 - \\beta_1) \\cdot g_t",
+          "data" : "left_operand_1"
+        },
+        "sink" : {
+          "operation" : "BiasedCorrectFirstMomentEst",
+          "data" : "left_operand_1_1"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "m_t \\leftarrow \\beta_1 \\cdot m_{t-1} + (1 - \\beta_1) \\cdot g_t",
+          "data" : "base_4"
+        },
+        "sink" : {
+          "operation" : "BiasedCorrectFirstMomentEst",
+          "data" : "base_4_2"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "v_t \\leftarrow \\beta_2 \\cdot v_{t-1} + (1 - \\beta_2) \\cdot g^2_t",
+          "data" : "base_3"
+        },
+        "sink" : {
+          "operation" : "BiasedCorrectedSecondMomentEst",
+          "data" : "base_3_0"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "m_t \\leftarrow \\beta_1 \\cdot m_{t-1} + (1 - \\beta_1) \\cdot g_t",
+          "data" : "left_operand_1"
+        },
+        "sink" : {
+          "operation" : "BiasedCorrectedSecondMomentEst",
+          "data" : "left_operand_1_2"
+        },
+        "control_points" : [ [ 641.22, 294.96 ], [ 841.5, 300.5 ] ]
+      }, {
+        "source" : {
+          "operation" : "m_t \\leftarrow \\beta_1 \\cdot m_{t-1} + (1 - \\beta_1) \\cdot g_t",
+          "data" : "new_biased_first_moment_0"
+        },
+        "sink" : {
+          "operation" : "BiasedCorrectFirstMomentEst",
+          "data" : "left_array_0_0"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "v_t \\leftarrow \\beta_2 \\cdot v_{t-1} + (1 - \\beta_2) \\cdot g^2_t",
+          "data" : "new_biased_second_moment_1"
+        },
+        "sink" : {
+          "operation" : "BiasedCorrectedSecondMomentEst",
+          "data" : "left_array_1_1"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "t_0"
+        },
+        "sink" : {
+          "operation" : "BiasedCorrectFirstMomentEst",
+          "data" : "t_2"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "m_{t-1}"
+        },
+        "sink" : {
+          "operation" : "m_t \\leftarrow \\beta_1 \\cdot m_{t-1} + (1 - \\beta_1) \\cdot g_t",
+          "data" : "m_{t-1}"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "\\beta_1"
+        },
+        "sink" : {
+          "operation" : "m_t \\leftarrow \\beta_1 \\cdot m_{t-1} + (1 - \\beta_1) \\cdot g_t",
+          "data" : "\\beta_1"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "shape"
+        },
+        "sink" : {
+          "operation" : "m_t \\leftarrow \\beta_1 \\cdot m_{t-1} + (1 - \\beta_1) \\cdot g_t",
+          "data" : "\\textsc{shape}"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "concatenated_array_2_8_3"
+        },
+        "sink" : {
+          "operation" : "m_t \\leftarrow \\beta_1 \\cdot m_{t-1} + (1 - \\beta_1) \\cdot g_t",
+          "data" : "concatenated_array_2"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "v_{t-1}"
+        },
+        "sink" : {
+          "operation" : "v_t \\leftarrow \\beta_2 \\cdot v_{t-1} + (1 - \\beta_2) \\cdot g^2_t",
+          "data" : "biased_second_moment_4"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "\\beta_0"
+        },
+        "sink" : {
+          "operation" : "v_t \\leftarrow \\beta_2 \\cdot v_{t-1} + (1 - \\beta_2) \\cdot g^2_t",
+          "data" : "\\beta"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "shape"
+        },
+        "sink" : {
+          "operation" : "v_t \\leftarrow \\beta_2 \\cdot v_{t-1} + (1 - \\beta_2) \\cdot g^2_t",
+          "data" : "shape"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "concatenated_array_2_8_3"
+        },
+        "sink" : {
+          "operation" : "v_t \\leftarrow \\beta_2 \\cdot v_{t-1} + (1 - \\beta_2) \\cdot g^2_t",
+          "data" : "concatenated_array_5"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "this",
+          "data" : "t_0"
+        },
+        "sink" : {
+          "operation" : "BiasedCorrectedSecondMomentEst",
+          "data" : "t_0"
+        },
+        "control_points" : [ [ 392.36, 587.36 ], [ 1055.22, 592.36 ] ]
+      }, {
+        "source" : {
+          "operation" : "BiasedCorrectFirstMomentEst",
+          "data" : "right_array_0"
+        },
+        "sink" : {
+          "operation" : "this",
+          "data" : "right_array_0_6_1"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "m_t \\leftarrow \\beta_1 \\cdot m_{t-1} + (1 - \\beta_1) \\cdot g_t",
+          "data" : "new_biased_first_moment_0"
+        },
+        "sink" : {
+          "operation" : "this",
+          "data" : "new_biased_first_moment_4"
+        },
+        "control_points" : [ ]
+      }, {
+        "source" : {
+          "operation" : "v_t \\leftarrow \\beta_2 \\cdot v_{t-1} + (1 - \\beta_2) \\cdot g^2_t",
+          "data" : "new_biased_second_moment_1"
+        },
+        "sink" : {
+          "operation" : "this",
+          "data" : "new_biased_second_moment_4"
+        },
+        "control_points" : [ [ 973.1, 289.9 ], [ 1259.21, 286.5 ] ]
+      }, {
+        "source" : {
+          "operation" : "BiasedCorrectedSecondMomentEst",
+          "data" : "base_1"
+        },
+        "sink" : {
+          "operation" : "this",
+          "data" : "base_1_8_1"
+        },
+        "control_points" : [ ]
+      } ]
+    } ],
+    "links" : [ {
+      "source" : {
+        "operation" : "get_shape_concatenated",
+        "data" : "shape"
+      },
+      "sink" : {
+        "operation" : "GetNewParams",
+        "data" : "shape_1"
+      },
+      "control_points" : [ ]
+    }, {
+      "source" : {
+        "operation" : "this",
+        "data" : "w_1"
+      },
+      "sink" : {
+        "operation" : "GetNewParams",
+        "data" : "weight_[1]_4"
+      },
+      "control_points" : [ [ 509.5, 616.65 ] ]
+    }, {
+      "source" : {
+        "operation" : "GetNewParams",
+        "data" : "new_weight_[0]_9"
+      },
+      "sink" : {
+        "operation" : "this",
+        "data" : "w_0'"
+      },
+      "control_points" : [ ]
+    }, {
+      "source" : {
+        "operation" : "GetNewParams",
+        "data" : "new_weight_[1]_9"
+      },
+      "sink" : {
+        "operation" : "this",
+        "data" : "w_1'"
+      },
+      "control_points" : [ ]
+    }, {
+      "source" : {
+        "operation" : "this",
+        "data" : "loss"
+      },
+      "sink" : {
+        "operation" : "Initial",
+        "data" : "loss"
+      },
+      "control_points" : [ ]
+    }, {
+      "source" : {
+        "operation" : "this",
+        "data" : "g_w_1"
+      },
+      "sink" : {
+        "operation" : "Initial",
+        "data" : "gw1"
+      },
+      "control_points" : [ ]
+    }, {
+      "source" : {
+        "operation" : "this",
+        "data" : "g_{w_0}"
+      },
+      "sink" : {
+        "operation" : "Initial",
+        "data" : "gw0"
+      },
+      "control_points" : [ ]
+    }, {
+      "source" : {
+        "operation" : "Initial",
+        "data" : "concat_g"
+      },
+      "sink" : {
+        "operation" : "get_shape_concatenated",
+        "data" : "input"
+      },
+      "control_points" : [ ]
+    }, {
+      "source" : {
+        "operation" : "this",
+        "data" : "w_0"
+      },
+      "sink" : {
+        "operation" : "GetNewParams",
+        "data" : "weight_[0]_0"
+      },
+      "control_points" : [ [ 512.36, 568.08 ] ]
+    }, {
+      "source" : {
+        "operation" : "this",
+        "data" : "\\alpha"
+      },
+      "sink" : {
+        "operation" : "GetNewParams",
+        "data" : "\\alpha"
+      },
+      "control_points" : [ [ 508.79, 660.93 ] ]
+    }, {
+      "source" : {
+        "operation" : "get_shape_concatenated",
+        "data" : "shape"
+      },
+      "sink" : {
+        "operation" : "EstimateMoments_1",
+        "data" : "shape"
+      },
+      "control_points" : [ ]
+    }, {
+      "source" : {
+        "operation" : "Initial",
+        "data" : "concat_g"
+      },
+      "sink" : {
+        "operation" : "EstimateMoments_1",
+        "data" : "concatenated_array_2_8_3"
+      },
+      "control_points" : [ ]
+    }, {
+      "source" : {
+        "operation" : "EstimateMoments_1",
+        "data" : "new_biased_first_moment_4"
+      },
+      "sink" : {
+        "operation" : "this",
+        "data" : "m_1'"
+      },
+      "control_points" : [ ]
+    }, {
+      "source" : {
+        "operation" : "EstimateMoments_1",
+        "data" : "new_biased_second_moment_4"
+      },
+      "sink" : {
+        "operation" : "this",
+        "data" : "m_2'"
+      },
+      "control_points" : [ ]
+    }, {
+      "source" : {
+        "operation" : "EstimateMoments_1",
+        "data" : "right_array_0_6_1"
+      },
+      "sink" : {
+        "operation" : "GetNewParams",
+        "data" : "right_array_0_6"
+      },
+      "control_points" : [ ]
+    }, {
+      "source" : {
+        "operation" : "EstimateMoments_1",
+        "data" : "base_1_8_1"
+      },
+      "sink" : {
+        "operation" : "GetNewParams",
+        "data" : "base_1_8"
+      },
+      "control_points" : [ ]
+    } ]
+  } ],
+  "links" : [ ],
+  "saved_date" : "2021-08-16T09:53:54.215161",
+  "tabs_open" : [ "Your Graph Name", "Adam_Optimizer" ]
+}

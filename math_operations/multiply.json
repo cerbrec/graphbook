@@ -1,0 +1,295 @@
+{
+    "name": "multiply",
+    "primitive_name": "multiply",
+    "aliases": [
+        "times",
+        "dot",
+        "prod",
+        "product",
+        "dot_prod",
+        "dot_product",
+        "matmul",
+        "matrix_multiply"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "left_operand",
+        "right_operand"
+    ],
+    "outputs": [
+        "multiplied_result"
+    ],
+    "assertions": [
+        "{left_operand}_data_type_is_integer_or_decimal",
+        "{right_operand}_data_type_is_the_same_as_{left_operand}",
+        "{right_operand}_is_array_if_{left_operand}_is_array",
+        "{right_operand}_is_scalar_if_{left_operand}_is_scalar",
+        "{right_operand}_shape_size_is_less_than_or_equal_to_{left_operand}_shape_size",
+        "size_of_last_dimension_of_{left_operand}_is_equal_to_size_of_second_last_dimension_of_{right_operand}_if_{right_operand}_has_more_than_one_dimension",
+        "size_of_last_dimension_of_{left_operand}_is_equal_to_size_of_last_dimension_of_{right_operand}_if_{right_operand}_has_one_dimension",
+        "every_dimension_size_of_{left_operand}_is_equal_to_the_corresponding_dimension_size_of_{right_operand}_except_last_two_dimensions",
+        "{multiplied_result}_data_type_is_the_same_as_{right_operand}"
+    ],
+    "description": [
+        "Multiply `left_operand` by `right_operand`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "data": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "right_operand",
+                    "data": [
+                        6,
+                        7,
+                        8,
+                        9,
+                        0
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "multiplied_result",
+                    "primitive_name": "multiplied_result",
+                    "data": 80,
+                    "type": "INTEGER",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "data": [
+                        [
+                            1,
+                            2,
+                            3
+                        ],
+                        [
+                            4,
+                            5,
+                            6
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "right_operand",
+                    "data": [
+                        [
+                            7,
+                            8
+                        ],
+                        [
+                            9,
+                            0
+                        ],
+                        [
+                            1,
+                            2
+                        ]
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "multiplied_result",
+                    "primitive_name": "multiplied_result",
+                    "data": [
+                        [
+                            28,
+                            14
+                        ],
+                        [
+                            79,
+                            44
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        2
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "data": [
+                        [
+                            [
+                                [
+                                    1,
+                                    2
+                                ],
+                                [
+                                    3,
+                                    4
+                                ]
+                            ],
+                            [
+                                [
+                                    5,
+                                    6
+                                ],
+                                [
+                                    7,
+                                    8
+                                ]
+                            ]
+                        ],
+                        [
+                            [
+                                [
+                                    9,
+                                    10
+                                ],
+                                [
+                                    11,
+                                    12
+                                ]
+                            ],
+                            [
+                                [
+                                    13,
+                                    14
+                                ],
+                                [
+                                    15,
+                                    16
+                                ]
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "right_operand",
+                    "data": [
+                        [
+                            [
+                                [
+                                    3,
+                                    4
+                                ],
+                                [
+                                    1,
+                                    2
+                                ]
+                            ],
+                            [
+                                [
+                                    6,
+                                    7
+                                ],
+                                [
+                                    3,
+                                    5
+                                ]
+                            ]
+                        ],
+                        [
+                            [
+                                [
+                                    0,
+                                    1
+                                ],
+                                [
+                                    2,
+                                    3
+                                ]
+                            ],
+                            [
+                                [
+                                    2,
+                                    3
+                                ],
+                                [
+                                    4,
+                                    5
+                                ]
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "multiplied_result",
+                    "primitive_name": "multiplied_result",
+                    "data": [
+                        [
+                            [
+                                [
+                                    5,
+                                    8
+                                ],
+                                [
+                                    13,
+                                    20
+                                ]
+                            ],
+                            [
+                                [
+                                    48,
+                                    65
+                                ],
+                                [
+                                    66,
+                                    89
+                                ]
+                            ]
+                        ],
+                        [
+                            [
+                                [
+                                    20,
+                                    39
+                                ],
+                                [
+                                    24,
+                                    47
+                                ]
+                            ],
+                            [
+                                [
+                                    82,
+                                    109
+                                ],
+                                [
+                                    94,
+                                    125
+                                ]
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        2,
+                        2,
+                        2
+                    ]
+                }
+            ]
+        }
+    ]
+}

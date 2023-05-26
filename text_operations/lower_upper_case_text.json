@@ -1,0 +1,116 @@
+{
+    "name": "lower_upper_case_text",
+    "primitive_name": "lower_upper_case_text",
+    "aliases": [
+        "lower_case",
+        "upper_case"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "text",
+        "is_lower_case"
+    ],
+    "outputs": [
+        "processed_text"
+    ],
+    "assertions": [
+        "{text}_data_type_is_text",
+        "{is_lower_case}_data_type_is_boolean",
+        "{text}_shape_is_the_same_as_{is_lower_case}",
+        "{processed_text}_data_type_is_text",
+        "{processed_text}_shape_is_the_same_as_{is_lower_case}"
+    ],
+    "description": [
+        "Convert `text` to lower or upper case baesd on `is_lower_case` value"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "text",
+                    "data": "FooBar",
+                    "type": "TEXT"
+                },
+                {
+                    "name": "is_lower_case",
+                    "data": true,
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "processed_text",
+                    "primitive_name": "processed_text",
+                    "data": "foobar",
+                    "type": "TEXT",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "text",
+                    "data": [
+                        [
+                            "Foo",
+                            "Bar"
+                        ],
+                        [
+                            "fOObar",
+                            "Foo1"
+                        ],
+                        [
+                            "BaR1",
+                            "Foo2"
+                        ]
+                    ],
+                    "type": "TEXT"
+                },
+                {
+                    "name": "is_lower_case",
+                    "data": [
+                        [
+                            true,
+                            true
+                        ],
+                        [
+                            false,
+                            false
+                        ],
+                        [
+                            true,
+                            true
+                        ]
+                    ],
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "processed_text",
+                    "primitive_name": "processed_text",
+                    "data": [
+                        [
+                            "foo",
+                            "bar"
+                        ],
+                        [
+                            "FOOBAR",
+                            "FOO1"
+                        ],
+                        [
+                            "bar1",
+                            "foo2"
+                        ]
+                    ],
+                    "type": "TEXT",
+                    "shape": [
+                        3,
+                        2
+                    ]
+                }
+            ]
+        }
+    ]
+}

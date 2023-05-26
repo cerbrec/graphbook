@@ -1,0 +1,76 @@
+{
+    "name": "logical_not",
+    "primitive_name": "logical_not",
+    "aliases": [
+        "not",
+        "negate",
+        "negation"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "condition"
+    ],
+    "outputs": [
+        "new_condition"
+    ],
+    "assertions": [
+        "{condition}_data_type_is_boolean",
+        "{new_condition}_data_type_is_boolean",
+        "{condition}_shape_is_the_same_as_{new_condition}"
+    ],
+    "description": [
+        "Element-wise calculate logical NOT of `condition`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "condition",
+                    "data": true,
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "new_condition",
+                    "primitive_name": "new_condition",
+                    "data": false,
+                    "type": "BOOLEAN",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "condition",
+                    "data": [
+                        true,
+                        false,
+                        true,
+                        true,
+                        false
+                    ],
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "new_condition",
+                    "primitive_name": "new_condition",
+                    "data": [
+                        false,
+                        true,
+                        false,
+                        false,
+                        true
+                    ],
+                    "type": "BOOLEAN",
+                    "shape": [
+                        5
+                    ]
+                }
+            ]
+        }
+    ]
+}

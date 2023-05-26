@@ -1,0 +1,131 @@
+{
+    "name": "index_text_to_condensed_one_hot",
+    "primitive_name": "index_text_to_condensed_one_hot",
+    "aliases": [
+        "index_string_to_condensed_one_hot",
+        "index_str_to_condensed_one_hot",
+        "index_word_to_condensed_one_hot",
+        "index_condensed_one_hot"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "text",
+        "vocabulary"
+    ],
+    "outputs": [
+        "condensed_one_hot_index"
+    ],
+    "assertions": [
+        "{text}_data_type_is_text",
+        "{vocabulary}_data_type_is_text",
+        "{vocabulary}_has_one_dimension",
+        "{condensed_one_hot_index}_data_type_is_integer",
+        "{condensed_one_hot_index}_is_greater_than_or_equal_to_zero"
+    ],
+    "description": [
+        "Encode `text` across its last dimension into condensed one-hot indices against `vocabulary`",
+        "If an element of `text` is not found in `vocabulary`, then it will be given the index equal to the size of `vocabulary`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "text",
+                    "data": "cerbrec is great",
+                    "type": "TEXT"
+                },
+                {
+                    "name": "vocabulary",
+                    "data": [
+                        "this",
+                        "is",
+                        "the",
+                        "vocab",
+                        "for",
+                        "testing",
+                        "cerbrec",
+                        "filler",
+                        "words",
+                        "great"
+                    ],
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "condensed_one_hot_index",
+                    "primitive_name": "condensed_one_hot_index",
+                    "data": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        11
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "text",
+                    "data": [
+                        "cerbrec",
+                        "is",
+                        "great"
+                    ],
+                    "type": "TEXT"
+                },
+                {
+                    "name": "vocabulary",
+                    "data": [
+                        "this",
+                        "is",
+                        "the",
+                        "vocab",
+                        "for",
+                        "testing",
+                        "cerbrec",
+                        "filler",
+                        "words",
+                        "great"
+                    ],
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "condensed_one_hot_index",
+                    "primitive_name": "condensed_one_hot_index",
+                    "data": [
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        1,
+                        0
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        11
+                    ]
+                }
+            ]
+        }
+    ]
+}

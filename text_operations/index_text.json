@@ -1,0 +1,104 @@
+{
+    "name": "index_text",
+    "primitive_name": "index_text",
+    "aliases": [
+        "index_texts",
+        "index_strings",
+        "index_strs",
+        "index_words",
+        "get_text_index",
+        "get_text_indices",
+        "get_string_index",
+        "get_string_indices",
+        "get_str_index",
+        "get_str_indices"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "text",
+        "vocabulary"
+    ],
+    "outputs": [
+        "index"
+    ],
+    "assertions": [
+        "{text}_data_type_is_text",
+        "{vocabulary}_data_type_is_text",
+        "{vocabulary}_has_one_dimension",
+        "{index}_data_type_is_integer",
+        "{index}_is_greater_than_or_equal_to_zero",
+        "{index}_shape_is_the_same_as_{text}"
+    ],
+    "description": [
+        "Get the index of each element in `text` against `vocabulary`",
+        "If an element of `text` is not found in `vocabulary`, then it will be given the index equal to the size of `vocabulary`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "text",
+                    "data": "abc",
+                    "type": "TEXT"
+                },
+                {
+                    "name": "vocabulary",
+                    "data": [
+                        "a",
+                        "b",
+                        "c",
+                        "abc"
+                    ],
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "index",
+                    "primitive_name": "index",
+                    "data": 3,
+                    "type": "INTEGER",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "text",
+                    "data": [
+                        "abcd",
+                        "a",
+                        "c"
+                    ],
+                    "type": "TEXT"
+                },
+                {
+                    "name": "vocabulary",
+                    "data": [
+                        "a",
+                        "b",
+                        "c",
+                        "abc"
+                    ],
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "index",
+                    "primitive_name": "index",
+                    "data": [
+                        4,
+                        0,
+                        2
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        3
+                    ]
+                }
+            ]
+        }
+    ]
+}

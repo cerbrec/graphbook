@@ -1,0 +1,112 @@
+{
+    "name": "element_wise_exponentiate",
+    "primitive_name": "element_wise_exponentiate",
+    "aliases": [
+        "exp",
+        "pow",
+        "power",
+        "exponentiate"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "base",
+        "exponent"
+    ],
+    "outputs": [
+        "exponentiation"
+    ],
+    "assertions": [
+        "{base}_data_type_is_decimal",
+        "{exponent}_data_type_is_decimal",
+        "{exponent}_shape_is_the_same_as_{base}",
+        "{exponentiation}_data_type_is_decimal",
+        "{exponentiation}_shape_is_the_same_as_{exponent}"
+    ],
+    "description": [
+        "Calculate the element-wise exponential of `base` to the power of `exponent`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "base",
+                    "data": 3.0,
+                    "type": "DECIMAL"
+                },
+                {
+                    "name": "exponent",
+                    "data": 3.0,
+                    "type": "DECIMAL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "exponentiation",
+                    "primitive_name": "exponentiation",
+                    "data": 27.0,
+                    "type": "DECIMAL",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "base",
+                    "data": [
+                        [
+                            10.8,
+                            30.0,
+                            5.5
+                        ],
+                        [
+                            9.4,
+                            3.0,
+                            2.5
+                        ]
+                    ],
+                    "type": "DECIMAL"
+                },
+                {
+                    "name": "exponent",
+                    "data": [
+                        [
+                            2.0,
+                            2.0,
+                            3.0
+                        ],
+                        [
+                            1.0,
+                            3.0,
+                            2.0
+                        ]
+                    ],
+                    "type": "DECIMAL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "exponentiation",
+                    "primitive_name": "exponentiation",
+                    "data": [
+                        [
+                            116.64,
+                            900.0,
+                            166.375
+                        ],
+                        [
+                            9.4,
+                            27.0,
+                            6.25
+                        ]
+                    ],
+                    "type": "DECIMAL",
+                    "shape": [
+                        2,
+                        3
+                    ]
+                }
+            ]
+        }
+    ]
+}

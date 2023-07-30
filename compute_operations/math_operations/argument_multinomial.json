@@ -1,0 +1,38 @@
+{
+    "name": "argument_multinomial",
+    "primitive_name": "argument_multinomial",
+    "aliases": [
+        "multinomial argument"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "probabilities",
+        "dimension_index",
+        "keep_dimension",
+        "random_seed"
+    ],
+    "outputs": [
+        "argument"
+    ],
+    "assertions": [
+        "{probabilities}_data_type_is_decimal",
+        "{probabilities}_is_array",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_scalar",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{dimension_index}_is_less_than_{array}_number_of_dimensions",
+        "{keep_dimension}_data_type_is_boolean",
+        "{keep_dimension}_is_scalar",
+        "{random_seed}_data_type_is_integer",
+        "{random_seed}_is_scalar",
+        "{argument}_data_type_is_integer",
+        "{argument}_is_greater_than_or_equal_to_zero"
+    ],
+    "description": [
+        "Draw samples from a multinomial distribution using `probabilities` with `random_seed` across `dimension_index`",
+        "Return sampled indices of `probabilities`",
+        "If `keep_dimension` is true, then `argument` will keep the dimension at `dimension_index"
+    ],
+    "examples": [
+    ]
+}

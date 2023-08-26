@@ -1,0 +1,22 @@
+{
+    "name": "delete_folder",
+    "primitive_name": "delete_folder",
+    "aliases": [
+        "remove_folder",
+        "delete_directory",
+        "remove_directory"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "dir_path"
+    ],
+    "outputs": [],
+    "assertions": [
+        "{dir_path}_data_type_is_text",
+        "{dir_path}_is_scalar"
+    ],
+    "description": [
+        "Delete folder `dir_path` if `dir_path` exists,",
+        "otherwise nothing will happen"
+    ]
+}

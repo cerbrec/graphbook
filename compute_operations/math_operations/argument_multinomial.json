@@ -20,7 +20,7 @@
         "{dimension_index}_data_type_is_integer",
         "{dimension_index}_is_scalar",
         "{dimension_index}_is_greater_than_or_equal_to_zero",
-        "{dimension_index}_is_less_than_{array}_number_of_dimensions",
+        "{dimension_index}_is_less_than_{probabilities}_number_of_dimensions",
         "{keep_dimension}_data_type_is_boolean",
         "{keep_dimension}_is_scalar",
         "{random_seed}_data_type_is_integer",

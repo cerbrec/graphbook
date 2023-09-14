@@ -8,6 +8,8 @@ We plan to open-source Graphbook progressively over time to create greater acces
 
 Our main source of documentation is through our [website](https://cerbrec.com/documentation). There are also getting started guides from your [youtube channel](https://www.youtube.com/@Graphbook).
 
-We've opened this repo in order to gather issues and to provide a place for users to submit their model templates for sharing with the broader community. 
+We've opened this repo in order to gather issues and to provide a place for users to submit their model templates for sharing with the broader community.
+
+If you're happy with Graphbook, consider also reviewing us on [Product Hunt](https://www.producthunt.com/products/cerbrec-graphbook).
 
 For more general questions or to chat with Graphbook developers, check out our [Slack](https://cerbrec-community.slack.com/ssb/redirect).

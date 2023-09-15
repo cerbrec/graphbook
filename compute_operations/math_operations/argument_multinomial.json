@@ -8,7 +8,7 @@
     "inputs": [
         "probabilities",
         "dimension_index",
-        "keep_dimension",
+        "number_samples",
         "random_seed"
     ],
     "outputs": [
@@ -21,17 +21,17 @@
         "{dimension_index}_is_scalar",
         "{dimension_index}_is_greater_than_or_equal_to_zero",
         "{dimension_index}_is_less_than_{probabilities}_number_of_dimensions",
-        "{keep_dimension}_data_type_is_boolean",
-        "{keep_dimension}_is_scalar",
         "{random_seed}_data_type_is_integer",
         "{random_seed}_is_scalar",
+        "{number_samples}_is_scalar",
+        "{number_samples}_data_type_is_integer",
+        "{number_samples}_is_greater_than_zero",
         "{argument}_data_type_is_integer",
         "{argument}_is_greater_than_or_equal_to_zero"
     ],
     "description": [
         "Draw samples from a multinomial distribution using `probabilities` with `random_seed` across `dimension_index`",
-        "Return sampled indices of `probabilities`",
-        "If `keep_dimension` is true, then `argument` will keep the dimension at `dimension_index"
+        "Return `number_samples` sampled indices of `probabilities`"
     ],
     "examples": [
     ]

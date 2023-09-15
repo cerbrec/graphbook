@@ -17,7 +17,7 @@
         "{output}_shape_is_the_same_as_{input}"
     ],
     "description": [
-        "Convert `input` into integer data type"
+        "Convert `input` into integer data type. When 'input' is decimal, its value is rounded down."
     ],
     "examples": [
         {

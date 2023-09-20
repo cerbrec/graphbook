@@ -1,5 +1,6 @@
 import pytest
 import json
+import os
 
 from src import graph
 
@@ -192,11 +193,24 @@ sample_graph = """
         sample_graph,
     ],
 )
-def test_graph_deserialization(graph_string):
-
+def test_primitive_deserialization(graph_string: str):
+    """ Test primitive deserialization. """
     graph_json = json.loads(graph_string)
 
-    graph_object = graph.Operation.model_validate(graph_json)
+    graph_obj = graph.Operation.model_validate(graph_json)
 
-
-    print(graph_object)
+    assert graph_obj.name == "contain"
+    assert graph_obj.primitive_name == "contain"
+    assert graph_obj.aliases == ["exist", "find"]
+    assert graph_obj.type == graph.OperationType.PRIMITIVE_OPERATION
+    assert graph_obj.inputs[0].name == "target"
+    assert graph_obj.inputs[0].primitive_name == "target"
+    assert graph_obj.inputs[0].type == graph.DataType.DECIMAL
+    assert graph_obj.inputs[0].shape == []
+    assert graph_obj.inputs[1].name == "check_against"
+    assert graph_obj.inputs[1].primitive_name == "check_against"
+    assert graph_obj.outputs[0].name == "is_contain"
+    assert graph_obj.outputs[0].primitive_name == "is_contain"
+    assert graph_obj.assertions[0] == "{target}_data_type_is_the_same_as_{check_against}"
+    assert graph_obj.assertions[1] == "{check_against}_is_array"
+    assert graph_obj.assertions[2] == "{is_contain}_data_type_is_boolean"

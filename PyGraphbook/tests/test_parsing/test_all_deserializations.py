@@ -2,7 +2,7 @@ import pytest
 import json
 import os
 
-from src import graph
+from src import graph_util
 
 @pytest.mark.parametrize(
     "folder",
@@ -28,4 +28,4 @@ def test_all_deserializations(folder: str):
         if file.endswith(".json"):
             with open(os.path.join(folder, file), "r") as f:
                 graph_json = json.load(f)
-                graph.Operation.model_validate(graph_json)
+                graph_util.Operation.model_validate(graph_json)

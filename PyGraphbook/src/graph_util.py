@@ -1,5 +1,6 @@
 """ Graphbook graph object. """
 
+import json
 from enum import Enum
 from typing import List, Optional, TypeVar
 from pydantic import BaseModel, Field, validator
@@ -107,3 +108,10 @@ class Operation(BaseModel):
             return Variable(name=v, primitive_name=v)
         return v
 
+
+def read_graphbook_from_file(file_path: str):
+    """ Read graphbook from file. """
+
+    with open(file_path, "r") as f:
+        graph_json = json.load(f)
+        return Operation.model_validate(graph_json)

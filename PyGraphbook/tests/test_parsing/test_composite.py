@@ -1,7 +1,7 @@
 import pytest
 import json
 
-from src import graph
+from src import graph_util
 
 sample_graph = """
 {
@@ -1093,7 +1093,7 @@ def test_composite_deserialization(graph_string: str):
     """ Test primitive deserialization. """
     graph_json = json.loads(graph_string)
 
-    graph_obj = graph.Operation.model_validate(graph_json)
+    graph_obj = graph_util.Operation.model_validate(graph_json)
 
     assert graph_obj is not None
     assert graph_obj.name == "GELU"

@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field, validator
 class OperationType(str, Enum):
     """ Operation type. """
 
+    PROJECT = "PROJECT"
     PRIMITIVE_OPERATION = "PRIMITIVE_OPERATION"
     COMPOSITE_OPERATION = "COMPOSITE_OPERATION"
     CONDITIONAL_OPERATION = "CONDITIONAL_OPERATION"

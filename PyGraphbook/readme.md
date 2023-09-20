@@ -18,6 +18,23 @@ Set python path to be root folder
 export PYTHONPATH=$PYTHONPATH:$(pwd)
 ```
 
+## Usage
+
+```python
+from src import graph
+import json
+
+file = "../compute_operations/math_operations/add.json"
+
+with open(file, "r") as f:
+    graph_string = f.read()
+    
+graph_json = json.loads(graph_string)
+graph_obj = graph.Operation.model_validate(graph_json)
+print(graph_obj.model_dump_json(exclude_none=True))
+```
+
+
 ## Tests
 
 ```bash

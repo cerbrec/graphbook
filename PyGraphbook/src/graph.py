@@ -102,7 +102,7 @@ class Operation(BaseModel):
     repeat_until_false_condition: RepeatUntilFalseCondition = Field(None, description="Repeat until false condition of the operation.")
 
     @validator('inputs', 'outputs', each_item=True)
-    def convert_str_to_variable(self, v):
+    def convert_str_to_variable(cls, v):
         if isinstance(v, str):
             return Variable(name=v, primitive_name=v)
         return v

@@ -199,6 +199,8 @@ def test_primitive_deserialization(graph_string: str):
 
     graph_obj = graph.Operation.model_validate(graph_json)
 
+    print(graph_obj.model_dump_json(exclude_none=True))
+
     assert graph_obj.name == "contain"
     assert graph_obj.primitive_name == "contain"
     assert graph_obj.aliases == ["exist", "find"]

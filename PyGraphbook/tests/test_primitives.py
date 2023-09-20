@@ -1,6 +1,5 @@
 import pytest
 import json
-import os
 
 from src import graph
 

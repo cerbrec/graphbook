@@ -2,7 +2,10 @@
 
 ## Description
 
-This is a collection of utility methods for working with Graphbook graphs. WIP.
+Graphbook represents graphs as JSON objects. 
+This module provides a way to validate and work with Graphbook graphs outside the client. 
+
+[Work in Progress]
 
 ## Setup
 

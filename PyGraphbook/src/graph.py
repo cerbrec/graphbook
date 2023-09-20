@@ -28,9 +28,6 @@ class DataType(str, Enum):
     NULL = "NULL"
 
 
-from pydantic.functional_validators import WrapValidator
-from typing_extensions import Annotated
-
 class Variable(BaseModel):
     """ Variable object. """
 
@@ -41,6 +38,7 @@ class Variable(BaseModel):
 
 
 VariableModel = TypeVar("VariableModel", str, Variable)
+
 
 class LinkEndpoint(BaseModel):
     """ Link endpoint object. """
@@ -82,9 +80,10 @@ class Operation(BaseModel):
 
     outputs: List[VariableModel] = Field(..., description="List of outputs of the operation.")
 
-    # Currently disabling these
     assertions: List[str] = Field(None, description="List of assertions of the operation.")
     description: List[str] = Field(None, description="Description of the operation.")
+
+    # Currently Disabling examples.
     # examples: List[str] = Field(..., description="Examples of the operation.")
 
     operations: List['Operation'] = Field(None, description="List of sub-operations of the operation.")
@@ -103,7 +102,7 @@ class Operation(BaseModel):
     repeat_until_false_condition: RepeatUntilFalseCondition = Field(None, description="Repeat until false condition of the operation.")
 
     @validator('inputs', 'outputs', each_item=True)
-    def convert_str_to_variable(cls, v):
+    def convert_str_to_variable(self, v):
         if isinstance(v, str):
             return Variable(name=v, primitive_name=v)
         return v

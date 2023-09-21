@@ -11,3 +11,7 @@ Includes a vanilla GNN layer and GAT layer based on Graph Attention Network pape
 ### LoRA Layer
 
 Low-rank adaption of LLMs (LoRA), post forthcoming. for where to use it.
+
+### Leaky ReLU
+
+Small modification to ReLU to multiply itself by 0.01 when less than zero.

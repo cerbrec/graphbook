@@ -44,8 +44,11 @@ def test_dataset(dataset_file: str, num_levels: int, max_height: int, num_ops_fi
 @pytest.mark.parametrize(
     "graph_file",
     [
-        pytest.param(
-            os.getcwd() + "/../compute_operations/common_layer_operations/Softmax.json",
+        # pytest.param(
+        #     os.getcwd() + "/../compute_operations/common_layer_operations/Softmax.json",
+        # ),
+pytest.param(
+            os.getcwd() + "/../compute_operations/optimizer_operations/Adam Optimizer.json",
         ),
     ],
 )

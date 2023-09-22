@@ -10,16 +10,22 @@ from src.dataset import construct_dataset
 
 def _deconstruct_dataset(
     top_op_name: str,
+    type_: graph_util.OperationType,
     dataset: construct_dataset.HierarchicalDataset,
     var_row: List[int],
     graph_level: List[int],
-    vocab: dict,
+    vocab_: dict,
     level_to_op: dict,
+    current_level: int = 0,
 ) -> graph_util.Operation:
     """ Deconstruct a dataset into a graph, hierarchically"""
 
     # This is a new op
-    top_op = graph_util.Operation(name=top_op_name, primitive_name=top_op_name, type=graph_util.OperationType.COMPOSITE_OPERATION)
+    top_op = graph_util.Operation(name=top_op_name, primitive_name=top_op_name, type=type_)
+    level_to_op[current_level] = top_op
+    if type_ == graph_util.OperationType.CONDITIONAL_OPERATION:
+        top_op.operations_if_true = []
+        top_op.operations_if_false = []
 
     index_to_op = {}
 
@@ -40,18 +46,19 @@ def _deconstruct_dataset(
             op_name_list.append("this")
             continue
 
-        op_name, is_input, var_name = vocab[var_item]
-
-        if op_name.startswith("DataType"):
-            # Then this is a bootstrapped data and we'll save it for later when we do adj matrix.
-            # TODO: store details of tensor.
-            op_name_list.append("bootstrap")
-            # Doesn't count as last.
-            continue
-
-        variable = graph_util.Variable(name=var_name, primitive_name=var_name)
+        op_name, is_input, var_name = vocab_[var_item]
 
         if level_item == construct_dataset.PRIMITIVE_LEVEL:
+
+            # op_name, is_input, var_name = vocab_[var_item]
+            if op_name.startswith("DataType"):
+                # Then this is a bootstrapped data and we'll save it for later when we do adj matrix.
+                # TODO: store details of tensor.
+                op_name_list.append("bootstrap")
+                # Doesn't count as last.
+                continue
+
+            variable = graph_util.Variable(name=var_name, primitive_name=var_name)
 
             # Then it's primitive and we can add it to the graph.
             if last_op_name and last_op_name == op_name and (is_input == last_was_input or last_was_input):
@@ -80,24 +87,37 @@ def _deconstruct_dataset(
             last_was_input = is_input
 
         else:
+
+            variable = graph_util.Variable(name=f"var_{i}", primitive_name=f"var_{i}")
+
             # Then it's referring to a new graph level. We should recursively call this function.
             if level_item in level_to_op:
                 # Then we've seen this op, so just add input/output
                 op = level_to_op[level_item]
 
             else:
+                type_ = graph_util.OperationType.COMPOSITE_OPERATION
+                sub_op_name = f"composite_{i}_{current_level}"
+                if var_item <= construct_dataset.CONDITIONAL_INPUT_ID_OFFSET:
+                    type_ = graph_util.OperationType.CONDITIONAL_OPERATION
+                    sub_op_name = f"conditional_{i}_{current_level}"
+
                 op = _deconstruct_dataset(
-                    top_op_name=last_op.name,
+                    top_op_name=sub_op_name,
+                    type_=type_,
                     dataset=dataset,
                     var_row=dataset.variables[level_item],
                     graph_level=dataset.graph_level_ids[level_item],
-                    vocab=vocab,
+                    vocab_=vocab_,
                     level_to_op=level_to_op,
+                    current_level=level_item,
                 )
-                ops.append(op)
-                level_to_op[level_item] = op
 
-            if is_input:
+                ops.append(op)
+
+            # If it's between -10 and -20, then it's input.
+            # If it's between -50 and -60, then it's output.
+            if construct_dataset.COMPOSITE_INPUT_ID_OFFSET >= var_item >= construct_dataset.COMPOSITE_INPUT_ID_OFFSET - 10:
                 level_to_op[level_item].inputs.append(variable)
             else:
                 level_to_op[level_item].outputs.append(variable)
@@ -121,12 +141,14 @@ def deconstruct_dataset(
     var_row = dataset.variables[0]
     graph_level = dataset.graph_level_ids[0]
 
+
     return _deconstruct_dataset(
         top_op_name=dataset.name,
+        type_=graph_util.OperationType.COMPOSITE_OPERATION,
         dataset=dataset,
         var_row=var_row,
         graph_level=graph_level,
-        vocab=vocab_,
+        vocab_=vocab_,
         level_to_op={},
     )
 

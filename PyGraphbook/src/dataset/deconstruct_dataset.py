@@ -55,7 +55,6 @@ def _deconstruct_dataset(
 
             # Then it's primitive and we can add it to the graph.
             if last_op_name and last_op_name == op_name and (is_input == last_was_input or last_was_input):
-                    # If last was output,
                 # TODO: There will need to be an exception here for write_to_database...
                 # Then it's continuation of same primitive operation.
                 op = last_op
@@ -65,6 +64,7 @@ def _deconstruct_dataset(
                 if op_name in names:
                     # Then we've already seen this op name, so we need to create a new one.
                     name = f"{op_name}_{i}"
+
                 op = graph_util.Operation(name=name, primitive_name=op_name,
                                           type=graph_util.OperationType.PRIMITIVE_OPERATION)
                 ops.append(op)

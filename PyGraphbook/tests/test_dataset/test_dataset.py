@@ -17,7 +17,7 @@ from src.dataset import deconstruct_dataset as deconstruct_util
             os.getcwd() + "/graphbook_dataset/graphs/Softmax.json",
             1,
             1,
-            14,
+            9,
         ),
     ],
 )

@@ -3,7 +3,7 @@
 import json
 from enum import Enum
 from typing import List, Optional, TypeVar
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, validator, field_validator
 
 
 class OperationType(str, Enum):
@@ -29,6 +29,17 @@ class DataType(str, Enum):
     NULL = "NULL"
 
 
+class FlowState(str, Enum):
+    """ Flow State """
+
+    BOOT_SOURCE = "BOOT_SOURCE"
+    REF_SOURCE = "REF_SOURCE"
+    BOOT_SINK = "BOOT_SINK"
+    REF_SINK = "REF_SINK"
+    LOOP_PARAMETER = "LOOP_PARAMETER"
+    UNBOUND = "UNBOUND"
+
+
 class Variable(BaseModel):
     """ Variable object. """
 
@@ -36,6 +47,8 @@ class Variable(BaseModel):
     primitive_name: str = Field(None, description="Original name of the variable.")
     type: DataType = Field(None, description="Data Type of the variable.")
     shape: Optional[List[int]] = Field(None, description="Description of the variable.")
+    flow_state: Optional[FlowState] = Field(None, description="Flow state of the variable.")
+    global_constant: Optional[str] = Field(None, description="Global constant of the variable.")
 
 
 VariableModel = TypeVar("VariableModel", str, Variable)
@@ -102,11 +115,87 @@ class Operation(BaseModel):
     # For Loops
     repeat_until_false_condition: RepeatUntilFalseCondition = Field(None, description="Repeat until false condition of the operation.")
 
+    # For project level
+    global_constants: List[VariableModel] = Field(None, description="List of global constants of the project.")
+
+    def __init__(self, **schema):
+        if schema['type'] == OperationType.LOOP_INIT_OPERATION:
+            schema["name"] = schema["name"].replace("Loop Body", "Loop Init")
+
+        if schema['type'] == OperationType.LOOP_OPERATION:
+            # Need to do some error correcting for the links.
+            # For each sub-graph input, there should be a link to both the loop init and loop body.
+            # For each loop init output, there should be a link to the loop body.
+            # For each loop body output, there should be a link to the sub-graph output
+            num_init_outputs_offset = len(schema["operations"][0]["outputs"])
+            schema["links"] = [
+                {
+                    # From init to each loop init input
+                    "source": {
+                        "operation": "this",
+                        "data": schema["inputs"][i]["name"]
+                    },
+                    "sink": {
+                        "operation": schema["operations"][0]["name"],
+                        "data": schema["operations"][0]["inputs"][i]["name"]
+                    }
+                }
+                for i in range(len(schema["inputs"]))
+            ] + [
+                # From init to each loop body input
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": schema["inputs"][i]["name"]
+                    },
+                    "sink": {
+                        "operation": schema["operations"][1]["name"],
+                        # This has an offset because the loop body inputs are after the loop init inputs
+                        "data": schema["operations"][1]["inputs"][num_init_outputs_offset + i]["name"]
+                    }
+                }
+                for i in range(len(schema["inputs"]))
+            ] + [
+                {
+                    # From each loop body output to the sub-graph output
+                    "source": {
+                        "operation": schema["operations"][1]["name"],
+                        "data": schema["operations"][1]["outputs"][i]["name"]
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": schema["outputs"][i]["name"]
+                    }
+                }
+                for i in range(len(schema["outputs"]))
+            ] + [
+                # From each loop init output to the loop body
+                {
+                    "source": {
+                        "operation": schema["operations"][0]["name"],
+                        "data": schema["operations"][0]["outputs"][i]["name"]
+                    },
+                    "sink": {
+                        "operation": schema["operations"][1]["name"],
+                        "data": schema["operations"][1]["inputs"][i]["name"]
+                    }
+                }
+                for i in range(len(schema["operations"][0]["outputs"]))
+
+            ]
+
+        super().__init__(**schema)
+
     @validator('inputs', 'outputs', each_item=True)
     def convert_str_to_variable(cls, v):
         if isinstance(v, str):
             return Variable(name=v, primitive_name=v)
+
+        if v.primitive_name is None:
+            v.primitive_name = v.name
+
         return v
+
 
 
 def read_graphbook_from_file(file_path: str):

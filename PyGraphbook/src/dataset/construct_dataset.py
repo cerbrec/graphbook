@@ -3,9 +3,11 @@
 import json
 import os
 import shutil
+import argparse
+import logging
 
 from pydantic import BaseModel, Field
-from typing import List, Mapping, Tuple
+from typing import List, Mapping, Tuple, Dict
 
 from src import graph_util
 
@@ -105,15 +107,13 @@ def _add_static_tensor(
         var_list: List[int],
         vocab: Mapping[Tuple[str, bool, str], int],
         level_list: List[int],
-        var_to_id: Mapping[Tuple[str, bool, str], int],
+        var_to_id: Dict[Tuple[str, bool, str], int],
         pairs: List[Tuple[int, int]],
         inp: graph_util.Variable) -> None:
 
     """ Add static tensor. """
 
     if inp.global_constant:
-        # if inp.name not in global_constants:
-        #     raise ValueError(f"Global constant {inp.name} not found. {inp.model_dump_json()}")
         inp = global_constants[inp.global_constant]
 
     shape_length = 0
@@ -141,7 +141,9 @@ def _convert_graph_to_dataset(
     counter += 1
     this_level = int(counter)
 
-    print(f"Graph {graph.name} is at level: {this_level}")
+    logging.debug(f"Graph {graph.name} is at level: {this_level}, row {len(dataset.variables)}")
+    # if this_level >= len(dataset.variables):
+    # logging.debug(f"Graph {graph.name} is at level: {this_level}")
 
     var_list = []
     level_list = []
@@ -295,16 +297,25 @@ def convert_graph_to_dataset(
         _convert_graph_to_dataset(dataset, graph, graph.operations_if_false, graph.links_if_false, vocab)
     else:
         _convert_graph_to_dataset(dataset, graph, graph.operations, graph.links, vocab)
+
     return dataset
 
 
-def run_all():
+def create_vocab() -> Mapping[Tuple[str, bool, str], int]:
+    """ Create vocabulary. """
+
     primitives_folder = os.getcwd() + "/../compute_operations/"
 
     graphs = collect_operations(primitives_folder)
     vocab_map = get_all_vocab(graphs)
     print(f"Vocab length so far: {len(vocab_map)}")
     add_static_tensor_vocab(vocab_map)
+    print(f"Vocab length with static tensors: {len(vocab_map)}")
+    return vocab_map
+
+
+def run_all():
+    vocab_map = create_vocab()
 
     # Save vocab to file
     savable_vocab = [(i, key) for key, i in vocab_map.items()]
@@ -326,7 +337,7 @@ def run_all():
     dataset_folders = [
 
         os.getcwd() + "/../nlp_models/classifiers/",
-        os.getcwd() + "/../nlp_models/classifiers/",
+        os.getcwd() + "/../nlp_models/generators/",
         os.getcwd() + "/../nlp_models/next_token/",
         os.getcwd() + "/../nlp_models/tokenizers/",
         os.getcwd() + "/../nlp_models/transformers/"
@@ -361,6 +372,14 @@ def run_all():
                 with open(os.path.join(folder, file), "r") as f:
                     graph_json = json.load(f)
                     graph_obj = graph_util.Operation.model_validate(graph_json)
+                    logging.info(f"Num Graph Levels:"
+                                 f"\t{graph_obj.name}"
+                                 f"\t{graph_util.calculate_num_graph_levels(graph_obj)}")
+
+                    logging.info(f"Max Graph Height:"
+                                    f"\t{graph_obj.name}"
+                                    f"\t{graph_util.calculate_graph_maximum_height(graph_obj)}\n")
+
                     if graph_obj.type != graph_util.OperationType.PRIMITIVE_OPERATION:
                         dataset = convert_graph_to_dataset(graph_obj, vocab_map)
                         name = graph_obj.name.replace(" ", "_").replace("/", "_")
@@ -368,20 +387,38 @@ def run_all():
                             json.dump(dataset.model_dump_json(exclude_none=True), f)
 
 
+def run_one(full_path: str):
+    vocab_map = create_vocab()
+    with open(full_path, "r") as f:
+        graph_json = json.load(f)
+        graph_obj = graph_util.Operation.model_validate(graph_json)
+        num_levels = graph_util.calculate_num_graph_levels(graph_obj)
+        print(num_levels)
+        if graph_obj.type != graph_util.OperationType.PRIMITIVE_OPERATION:
+            dataset = convert_graph_to_dataset(graph_obj, vocab_map)
+
+    print("check out dataset")
+
+
+
+
 if __name__ == "__main__":
-    run_all()
-    #
-    #
-    #
-    #
-    # # graph = graph.read_graphbook_from_file(os.getcwd() + "/../../../nlp_models/transformers/GPT-2.json")
-    # graph = graph_util.read_graphbook_from_file(os.getcwd() + "/../../../compute_operations/common_layer_operations/Softmax.json")
-    # # Convert graph to input sequence.
-    #
-    # datasets = []
-    # datasets.append(convert_graph_to_dataset(graph, vocab_map))
-    #
-    # counter = -1
-    # graph = graph_util.read_graphbook_from_file(os.getcwd() + "/../../../compute_operations/common_layer_operations/Layer Normalization.json")
-    # datasets.append(convert_graph_to_dataset(graph, vocab_map))
-    # print("CHECK")
+
+    # Argparse has two options, either input a single full file path, or run all and save.
+    parser = argparse.ArgumentParser(description='Construct dataset from Graphbook graph.')
+
+    parser.add_argument('--full_path', type=str, help='[Optional] Full path to Graphbook graph.')
+    parser.add_argument('--log', type=str, default='INFO', help='Logging level.')
+
+    args = parser.parse_args()
+
+    # set logging level
+    logging.basicConfig(level=args.log)
+
+    # If running from script, just uncomment and specify graph.
+    # args.full_path = os.getcwd() + "/../nlp_models/classifiers/Fine Tune BERT with Text Classifier.json"
+
+    if args.full_path:
+        run_one(args.full_path)
+    else:
+        run_all()

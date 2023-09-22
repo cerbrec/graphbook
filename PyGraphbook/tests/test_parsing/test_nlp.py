@@ -8,7 +8,7 @@ from src import graph_util
     "folder",
     [
         os.getcwd() + "/../nlp_models/classifiers/",
-        os.getcwd() + "/../nlp_models/classifiers/",
+        os.getcwd() + "/../nlp_models/generators/",
         os.getcwd() + "/../nlp_models/next_token/",
         os.getcwd() + "/../nlp_models/tokenizers/",
         os.getcwd() + "/../nlp_models/transformers/",

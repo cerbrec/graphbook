@@ -197,6 +197,45 @@ class Operation(BaseModel):
         return v
 
 
+def calculate_num_graph_levels(graph: Operation) -> int:
+    """ Calculate how many levels a graph has.
+
+    A level is defined as every Operation object in the nested graph.
+    """
+
+    if graph is None:
+        return 0
+
+    if graph.type == OperationType.CONDITIONAL_OPERATION:
+        # 1 for each sub-level plus the graph levels of the if true and if false sub-graphs.
+        return 2 + \
+            sum(calculate_num_graph_levels(operation) for operation in graph.operations_if_true) + \
+            sum(calculate_num_graph_levels(operation) for operation in graph.operations_if_false)
+
+    if graph.operations is None:
+        # This is primitive, so it shouldn't count as a level.
+        return 0
+
+    # This graph level plus the graph levels of all sub-operations. If primitive, will add 0.
+    return 1 + sum(calculate_num_graph_levels(operation) for operation in graph.operations)
+
+
+def calculate_graph_maximum_height(graph: Operation) -> int:
+    """ Calculate the maximum height of a graph. """
+
+    if graph is None:
+        return 0
+
+    if graph.type == OperationType.CONDITIONAL_OPERATION:
+        return 1 + \
+            max(calculate_graph_maximum_height(operation) for operation in graph.operations_if_true) + \
+            max(calculate_graph_maximum_height(operation) for operation in graph.operations_if_false)
+
+    if graph.operations is None:
+        return 0
+
+    return 1 + max(calculate_graph_maximum_height(operation) for operation in graph.operations)
+
 
 def read_graphbook_from_file(file_path: str):
     """ Read graphbook from file. """

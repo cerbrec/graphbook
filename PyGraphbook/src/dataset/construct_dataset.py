@@ -103,6 +103,11 @@ class HierarchicalDataset(BaseModel):
     graph_level_ids: List[List[int]] = Field(default=list(), description="Graph Level Ids")
 
 
+def calculate_longest_sequence(dataset: HierarchicalDataset) -> int:
+    """ Calculate longest sequence. """
+
+    return max(len(variables) for variables in dataset.variables)
+
 def _add_static_tensor(
         var_list: List[int],
         vocab: Mapping[Tuple[str, bool, str], int],
@@ -383,23 +388,24 @@ def run_all():
                     if graph_obj.type != graph_util.OperationType.PRIMITIVE_OPERATION:
                         dataset = convert_graph_to_dataset(graph_obj, vocab_map)
                         name = graph_obj.name.replace(" ", "_").replace("/", "_")
-                        with open(f"{SAVE_LOCATION}/graphs/{name}.json", "w") as f:
-                            json.dump(dataset.model_dump_json(exclude_none=True), f)
+                        with open(f"{SAVE_LOCATION}/graphs/{name}.json", "w") as f_file:
+                            f_file.write(dataset.model_dump_json(exclude_none=True))
 
 
-def run_one(full_path: str):
+def convert_one(full_path: str) -> Tuple[HierarchicalDataset, Mapping[Tuple[str, bool, str], int]]:
+    """ Convert one full path graph to dataset."""
     vocab_map = create_vocab()
+
     with open(full_path, "r") as f:
         graph_json = json.load(f)
-        graph_obj = graph_util.Operation.model_validate(graph_json)
-        num_levels = graph_util.calculate_num_graph_levels(graph_obj)
-        print(num_levels)
-        if graph_obj.type != graph_util.OperationType.PRIMITIVE_OPERATION:
-            dataset = convert_graph_to_dataset(graph_obj, vocab_map)
 
-    print("check out dataset")
+    graph_obj = graph_util.Operation.model_validate(graph_json)
+    num_levels = graph_util.calculate_num_graph_levels(graph_obj)
+    print(num_levels)
+    if graph_obj.type != graph_util.OperationType.PRIMITIVE_OPERATION:
+        return convert_graph_to_dataset(graph_obj, vocab_map), vocab_map
 
-
+    return HierarchicalDataset(name=graph_obj.name), vocab_map
 
 
 if __name__ == "__main__":
@@ -419,6 +425,6 @@ if __name__ == "__main__":
     # args.full_path = os.getcwd() + "/../nlp_models/classifiers/Fine Tune BERT with Text Classifier.json"
 
     if args.full_path:
-        run_one(args.full_path)
+        convert_one(args.full_path)
     else:
         run_all()

@@ -90,9 +90,9 @@ class Operation(BaseModel):
     type: OperationType = Field(..., description="Type of the operation.")
 
     # Each variable can be a string or a Variable object, but they all should become Variable objects when deserialized.
-    inputs: List[VariableModel] = Field(..., description="List of inputs of the operation.")
+    inputs: List[VariableModel] = Field(default_factory=list, description="List of inputs of the operation.")
 
-    outputs: List[VariableModel] = Field(..., description="List of outputs of the operation.")
+    outputs: List[VariableModel] = Field(default_factory=list, description="List of outputs of the operation.")
 
     assertions: List[str] = Field(None, description="List of assertions of the operation.")
     description: List[str] = Field(None, description="Description of the operation.")

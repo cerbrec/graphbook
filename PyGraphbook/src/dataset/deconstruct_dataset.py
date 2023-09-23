@@ -2,7 +2,7 @@
 
 import json
 import os
-from typing import List
+from typing import List, Optional
 
 from src import graph_util
 from src.dataset import construct_dataset
@@ -17,6 +17,7 @@ def _deconstruct_dataset(
     vocab_: dict,
     level_to_op: dict,
     current_level: int = 0,
+    if_true: Optional[bool] = True,
 ) -> graph_util.Operation:
     """ Deconstruct a dataset into a graph, hierarchically"""
 
@@ -86,6 +87,38 @@ def _deconstruct_dataset(
 
             last_was_input = is_input
 
+        elif var_name == "conditional":
+            type_ = graph_util.OperationType.CONDITIONAL_OPERATION
+            sub_op_name = f"conditional_{i}_{current_level}"
+            variable = graph_util.Variable(name=f"var_{i}", primitive_name=f"var_{i}")
+
+            if level_item in level_to_op:
+                op = level_to_op[level_item]
+            else:
+                op = _deconstruct_dataset(
+                    top_op_name=sub_op_name,
+                    type_=type_,
+                    dataset=dataset,
+                    var_row=dataset.variables[level_item],
+                    graph_level=dataset.graph_level_ids[level_item],
+                    vocab_=vocab_,
+                    level_to_op=level_to_op,
+                    current_level=level_item,
+                )
+
+                ops.append(op)
+
+            # If it's between -1000 and -20, then it's input.
+            # If it's between -50 and -60, then it's output.
+
+            if is_input:
+                level_to_op[level_item].inputs.append(variable)
+            else:
+                level_to_op[level_item].outputs.append(variable)
+
+            last_was_input = True
+            last_op_name = op.name
+
         else:
 
             variable = graph_util.Variable(name=f"var_{i}", primitive_name=f"var_{i}")
@@ -98,9 +131,6 @@ def _deconstruct_dataset(
             else:
                 type_ = graph_util.OperationType.COMPOSITE_OPERATION
                 sub_op_name = f"composite_{i}_{current_level}"
-                if var_item <= construct_dataset.CONDITIONAL_INPUT_ID_OFFSET:
-                    type_ = graph_util.OperationType.CONDITIONAL_OPERATION
-                    sub_op_name = f"conditional_{i}_{current_level}"
 
                 op = _deconstruct_dataset(
                     top_op_name=sub_op_name,
@@ -115,9 +145,7 @@ def _deconstruct_dataset(
 
                 ops.append(op)
 
-            # If it's between -10 and -20, then it's input.
-            # If it's between -50 and -60, then it's output.
-            if construct_dataset.COMPOSITE_INPUT_ID_OFFSET >= var_item >= construct_dataset.COMPOSITE_INPUT_ID_OFFSET - 10:
+            if is_input:
                 level_to_op[level_item].inputs.append(variable)
             else:
                 level_to_op[level_item].outputs.append(variable)

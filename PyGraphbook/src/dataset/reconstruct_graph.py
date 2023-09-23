@@ -258,6 +258,7 @@ def _deconstruct_dataset(
         top_op.links = links
     return top_op
 
+
 def deconstruct_dataset(
     dataset: construct_dataset.HierarchicalDataset,
     vocab_: dict

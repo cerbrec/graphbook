@@ -7,7 +7,7 @@ import json
 
 from src import graph_util
 from src.dataset import construct_dataset as dataset_util
-from src.dataset import deconstruct_dataset as deconstruct_util
+from src.dataset import reconstruct_graph as reconstruct_util
 
 
 @pytest.mark.parametrize(
@@ -34,7 +34,7 @@ def test_dataset(dataset_file: str, num_levels: int, max_height: int, num_ops_fi
         dataset_obj = dataset_util.HierarchicalDataset.model_validate(dataset_json)
 
     # Now let's take dataset_obj and use the vocab to turn it into a graph_util.Operation object.
-    op = deconstruct_util.deconstruct_dataset(dataset_obj, vocab)
+    op = reconstruct_util.deconstruct_dataset(dataset_obj, vocab)
 
     assert graph_util.calculate_num_graph_levels(op) == num_levels
     assert graph_util.calculate_graph_maximum_height(op) == max_height
@@ -77,7 +77,7 @@ def test_construct_and_desconstruct(graph_file: str):
     dataset = dataset_util.convert_graph_to_dataset(graph_obj, vocab_map)
 
     vocab_map = {vocab_level[0]: vocab_level[1] for vocab_level in savable_vocab}
-    graph_again = deconstruct_util.deconstruct_dataset(dataset, vocab_map)
+    graph_again = reconstruct_util.deconstruct_dataset(dataset, vocab_map)
 
     # Same number of levels and operations.
     assert graph_util.calculate_num_graph_levels(graph_obj) == graph_util.calculate_num_graph_levels(graph_again)

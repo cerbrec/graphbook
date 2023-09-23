@@ -85,7 +85,7 @@ and the last variable is a sub-graph output.
 
 ## Setup
 
-Currently working with `Python 3.10.5`
+Tested with: `Python 3.9.6`, `Python 3.10.5`
 
 ```bash
 pip install -r requirements.txt
@@ -99,6 +99,14 @@ export PYTHONPATH=$PYTHONPATH:$(pwd)
 
 ## Usage
 
+To construct the dataset, run the following command:
 ```python
+python3 construct_dataset.py
+```
 
+The dataset will be saved in the `graphbook_dataset` folder.
+
+You can reconstruct a graph from the dataset using the following command:
+```python
+python3 reconstruct_graph.py
 ```

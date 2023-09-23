@@ -119,8 +119,7 @@ class Operation(BaseModel):
     global_constants: List[VariableModel] = Field(None, description="List of global constants of the project.")
 
     def __init__(self, **schema):
-        if schema['type'] == OperationType.LOOP_INIT_OPERATION:
-            schema["name"] = schema["name"].replace("Loop Body", "Loop Init")
+        """ Override init to do some error correcting. """
 
         if schema['type'] == OperationType.LOOP_OPERATION:
             # Need to do some error correcting for the links.
@@ -128,6 +127,7 @@ class Operation(BaseModel):
             # For each loop init output, there should be a link to the loop body.
             # For each loop body output, there should be a link to the sub-graph output
             num_init_outputs_offset = len(schema["operations"][0]["outputs"])
+            schema["operations"][0]["name"] = schema["operations"][0]["name"].replace("Loop Body", "Loop Init")
             schema["links"] = [
                 {
                     # From init to each loop init input

@@ -3,7 +3,7 @@
 import json
 from enum import Enum
 from typing import List, Optional, TypeVar
-from pydantic import BaseModel, Field, validator, field_validator
+from pydantic import BaseModel, Field, validator
 
 
 class OperationType(str, Enum):
@@ -119,7 +119,21 @@ class Operation(BaseModel):
     global_constants: List[VariableModel] = Field(None, description="List of global constants of the project.")
 
     def __init__(self, **schema):
-        """ Override init to do some error correcting. """
+        """ Override init to do some error correcting.
+
+        For extra context about the below error-correcting code:
+
+        Within Graphbook, the actual sub-graph in Loop Operations are hidden from users. Loop operations appear to
+        have two sub-graphs, a Loop Init and a Loop Body, but they are actually coming from sub-graphs of operations
+        within the hidden sub-graph of Loop Operation. When you click on Loop Init or Loop Body, you go to the
+        "grand-child sub-graph" of the Loop Operation. The links within this hidden sub-graph are fixed and not
+        editable to the user. However... there was once a bug where the two operations (hidden from user) which
+        accidentally named both sub-operations the same thing, both ending with Loop Body instead of Loop Init
+        and Loop Body. As a result, the links were messed up as well. This has already been fixed, but some old
+        graphbook templates may contain this bug. Thus, we correct for this by making sure that any loop init type
+        operation is renamed to Loop Init, and then all links are generated from scratch (since these links are always
+        the same in this hidden sub-graph). Feel free to reach out on the Slack community channel.
+        """
 
         if schema['type'] == OperationType.LOOP_OPERATION:
             # Need to do some error correcting for the links.

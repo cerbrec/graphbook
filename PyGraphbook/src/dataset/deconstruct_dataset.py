@@ -5,7 +5,6 @@ from typing import List, Optional
 from src import graph_util
 from src.dataset import construct_dataset
 
-
 DATA_TYPE_KEYWORD = "DataType"
 THIS = "this"
 

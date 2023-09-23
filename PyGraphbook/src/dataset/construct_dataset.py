@@ -7,7 +7,7 @@ import argparse
 import logging
 
 from pydantic import BaseModel, Field
-from typing import List, Mapping, Tuple, Dict
+from typing import List, Mapping, Tuple, Dict, Optional
 
 from src import graph_util
 
@@ -99,6 +99,8 @@ class HierarchicalDataset(BaseModel):
     """
 
     name: str = Field(..., description="Name of the Graph.")
+    type: str = Field(..., description="Type of top-level graph.")
+    if_false_subgraph_level: Optional[int] = Field(None, description="Level of If False Subgraph.")
     variables: List[List[int]] = Field(default=list(), description="Vocab Ids for Variables")
     adj_matrix: List[List[List[int]]] = Field(default=list(), description="Adjacency Matrix")
     graph_level_ids: List[List[int]] = Field(default=list(), description="Graph Level Ids")
@@ -279,7 +281,6 @@ def _convert_graph_to_dataset(
     return this_level
 
 
-
 def convert_graph_to_dataset(
         graph: graph_util.Operation,
         vocab: Mapping[Tuple[str, bool, str], int]) -> HierarchicalDataset:
@@ -296,11 +297,12 @@ def convert_graph_to_dataset(
     global counter
     counter = -1
 
-    dataset = HierarchicalDataset(name=graph.name)
+    dataset = HierarchicalDataset(name=graph.name, type=graph.type.name)
 
     if graph.type == graph_util.OperationType.CONDITIONAL_OPERATION:
         _convert_graph_to_dataset(dataset, graph, graph.operations_if_true, graph.links_if_true, vocab)
-        _convert_graph_to_dataset(dataset, graph, graph.operations_if_false, graph.links_if_false, vocab)
+        if_f_level = _convert_graph_to_dataset(dataset, graph, graph.operations_if_false, graph.links_if_false, vocab)
+        dataset.if_false_subgraph_level = if_f_level
     else:
         _convert_graph_to_dataset(dataset, graph, graph.operations, graph.links, vocab)
 

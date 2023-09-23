@@ -269,7 +269,7 @@ def deconstruct_dataset(
     graph_level = dataset.graph_level_ids[0]
     adj_matrix = dataset.adj_matrix[0]
 
-    return _deconstruct_dataset(
+    operation = _deconstruct_dataset(
         top_op_name=dataset.name,
         type_=graph_util.OperationType.COMPOSITE_OPERATION,
         dataset=dataset,
@@ -280,3 +280,28 @@ def deconstruct_dataset(
         level_to_op={},
         if_true=None
     )
+
+    if dataset.if_false_subgraph_level:
+        # Then we have a conditional operation.
+        operation.type = graph_util.OperationType.CONDITIONAL_OPERATION
+        if_false_op = _deconstruct_dataset(
+            top_op_name=dataset.name,
+            type_=graph_util.OperationType.COMPOSITE_OPERATION,
+            dataset=dataset,
+            var_row=dataset.variables[dataset.if_false_subgraph_level],
+            graph_level=dataset.graph_level_ids[dataset.if_false_subgraph_level],
+            adj_matrix=dataset.adj_matrix[dataset.if_false_subgraph_level],
+            vocab_=vocab_,
+            level_to_op={},
+            if_true=None
+        ).operations
+
+        operation.operations_if_false = if_false_op.operations
+        operation.links_if_false = if_false_op.links
+        operation.operations_if_true = operation.operations
+        operation.links_if_true = operation.links
+        operation.operations = None
+        operation.links = None
+
+    return operation
+

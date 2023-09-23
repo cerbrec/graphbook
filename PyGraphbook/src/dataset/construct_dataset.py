@@ -44,10 +44,10 @@ def get_all_vocab(operations: List[graph_util.Operation]) -> Mapping[Tuple[str, 
 def add_special_vocab(vocab: List[Tuple[int, Tuple[str, bool, str]]]) -> None:
     """ Add special vocabulary. """
 
-    vocab.extend([(COMPOSITE_INPUT_ID_OFFSET - i, ("composite", False, "composite")) for i in range(10)])
-    vocab.extend([(COMPOSITE_OUTPUT_ID_OFFSET - i, ("composite", True, "composite")) for i in range(10)])
-    vocab.extend([(CONDITIONAL_INPUT_ID_OFFSET - i, ("conditional", False, "conditional")) for i in range(10)])
-    vocab.extend([(CONDITIONAL_OUTPUT_ID_OFFSET - i, ("conditional", True, "conditional")) for i in range(10)])
+    vocab.extend([(COMPOSITE_INPUT_ID_OFFSET - i, ("composite", True, "composite")) for i in range(10)])
+    vocab.extend([(COMPOSITE_OUTPUT_ID_OFFSET - i, ("composite", False, "composite")) for i in range(10)])
+    vocab.extend([(CONDITIONAL_INPUT_ID_OFFSET - i, ("conditional", True, "conditional")) for i in range(10)])
+    vocab.extend([(CONDITIONAL_OUTPUT_ID_OFFSET - i, ("conditional", False, "conditional")) for i in range(10)])
     vocab.extend([(SUB_GRAPH_INPUT_ID_OFFSET - i, ("sub_graph", False, "sub_graph")) for i in range(10)])
     vocab.extend([(SUB_GRAPH_INPUT_ID_OFFSET - i, ("sub_graph", True, "sub_graph")) for i in range(10)])
 

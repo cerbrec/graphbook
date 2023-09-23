@@ -17,7 +17,7 @@ def _deconstruct_dataset(
     vocab_: dict,
     level_to_op: dict,
     current_level: int = 0,
-    if_true: Optional[bool] = True,
+    if_true: Optional[bool] = None,
 ) -> graph_util.Operation:
     """ Deconstruct a dataset into a graph, hierarchically"""
 
@@ -88,33 +88,42 @@ def _deconstruct_dataset(
             last_was_input = is_input
 
         elif var_name == "conditional":
-            type_ = graph_util.OperationType.CONDITIONAL_OPERATION
-            sub_op_name = f"conditional_{i}_{current_level}"
+            _type = graph_util.OperationType.CONDITIONAL_OPERATION
             variable = graph_util.Variable(name=f"var_{i}", primitive_name=f"var_{i}")
 
             if level_item in level_to_op:
                 op = level_to_op[level_item]
             else:
                 op = _deconstruct_dataset(
-                    top_op_name=sub_op_name,
-                    type_=type_,
+                    top_op_name=f"conditional_{i}_{current_level}",
+                    type_=_type,
                     dataset=dataset,
+                    # Level_item needs to correspond to the correct row.
                     var_row=dataset.variables[level_item],
                     graph_level=dataset.graph_level_ids[level_item],
                     vocab_=vocab_,
                     level_to_op=level_to_op,
                     current_level=level_item,
+                    if_true=is_input
                 )
 
-                ops.append(op)
+                if not is_input:
+                    # Then this is the same op as last op
+                    same_op = ops[-1]
+                    level_to_op[level_item] = same_op
+                    same_op.operations_if_false = op.operations_if_false
+                    same_op.links_if_false = op.links_if_false
+                    op = same_op
+                else:
+                    ops.append(op)
 
             # If it's between -1000 and -20, then it's input.
             # If it's between -50 and -60, then it's output.
 
             if is_input:
-                level_to_op[level_item].inputs.append(variable)
+                op.inputs.append(variable)
             else:
-                level_to_op[level_item].outputs.append(variable)
+                op.outputs.append(variable)
 
             last_was_input = True
             last_op_name = op.name
@@ -129,26 +138,27 @@ def _deconstruct_dataset(
                 op = level_to_op[level_item]
 
             else:
-                type_ = graph_util.OperationType.COMPOSITE_OPERATION
+                _type = graph_util.OperationType.COMPOSITE_OPERATION
                 sub_op_name = f"composite_{i}_{current_level}"
 
                 op = _deconstruct_dataset(
                     top_op_name=sub_op_name,
-                    type_=type_,
+                    type_=_type,
                     dataset=dataset,
                     var_row=dataset.variables[level_item],
                     graph_level=dataset.graph_level_ids[level_item],
                     vocab_=vocab_,
                     level_to_op=level_to_op,
                     current_level=level_item,
+                    if_true=None
                 )
 
                 ops.append(op)
 
             if is_input:
-                level_to_op[level_item].inputs.append(variable)
+                op.inputs.append(variable)
             else:
-                level_to_op[level_item].outputs.append(variable)
+                op.outputs.append(variable)
 
             last_was_input = True
             last_op_name = op.name
@@ -157,7 +167,12 @@ def _deconstruct_dataset(
         last_op = op
         op_name_list.append(op.name)
 
-    top_op.operations = ops
+    if if_true:
+        top_op.operations_if_true = ops
+    elif not if_true and type_ == graph_util.OperationType.CONDITIONAL_OPERATION:
+        top_op.operations_if_false = ops
+    else:
+        top_op.operations = ops
     return top_op
 
 def deconstruct_dataset(
@@ -178,6 +193,7 @@ def deconstruct_dataset(
         graph_level=graph_level,
         vocab_=vocab_,
         level_to_op={},
+        if_true=None
     )
 
 if __name__ == """__main__""":

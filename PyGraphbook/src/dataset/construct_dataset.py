@@ -26,10 +26,12 @@ SUB_GRAPH_OUTPUT_ID_OFFSET = -500
 PRIMITIVE_LEVEL = -1
 DUMMY_LEVEL = -2
 
+SAVE_LOCATION = "./graphbook_dataset"
 BOOTSTRAPPED_DATA_OP_NAME = "static_tensor"
 CONDITIONAL = "conditional"
 COMPOSITE = "composite"
 SUB_GRAPH = "sub_graph"
+
 
 def get_all_vocab(operations: List[graph_util.Operation]) -> Mapping[Tuple[str, bool, str], int]:
     """ Get all vocabulary.  Vocab is a mapping from (operation_name, is_input, variable_name) to index. """
@@ -106,11 +108,6 @@ class HierarchicalDataset(BaseModel):
     graph_level_ids: List[List[int]] = Field(default=list(), description="Graph Level Ids")
 
 
-def calculate_longest_sequence(dataset: HierarchicalDataset) -> int:
-    """ Calculate longest sequence. """
-
-    return max(len(variables) for variables in dataset.variables)
-
 def _add_static_tensor(
         var_list: List[int],
         vocab: Mapping[Tuple[str, bool, str], int],
@@ -150,8 +147,6 @@ def _convert_graph_to_dataset(
     this_level = int(counter)
 
     logging.debug(f"Graph {graph.name} is at level: {this_level}, row {len(dataset.variables)}")
-    # if this_level >= len(dataset.variables):
-    # logging.debug(f"Graph {graph.name} is at level: {this_level}")
 
     var_list = []
     level_list = []
@@ -329,7 +324,7 @@ def run_all():
     savable_vocab = [(i, key) for key, i in vocab_map.items()]
     add_special_vocab(savable_vocab)
 
-    SAVE_LOCATION = "./graphbook_dataset"
+
 
     # os mkdir at save location, overwrite if exists
     # remove save location if exists

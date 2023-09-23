@@ -237,6 +237,39 @@ def calculate_graph_maximum_height(graph: Operation) -> int:
     return 1 + max(calculate_graph_maximum_height(operation) for operation in graph.operations)
 
 
+def calculate_num_links_in_graph(graph: Operation) -> int:
+    """ Calculate the number of links in a graph. """
+
+    if graph is None:
+        return 0
+
+    if graph.type == OperationType.CONDITIONAL_OPERATION:
+        return len(graph.links_if_true) + len(graph.links_if_false) + \
+            sum(calculate_num_links_in_graph(operation) for operation in graph.operations_if_true) + \
+            sum(calculate_num_links_in_graph(operation) for operation in graph.operations_if_false)
+
+    if graph.links is None:
+        return 0
+
+    return len(graph.links) + sum(calculate_num_links_in_graph(operation) for operation in graph.operations)
+
+
+def calculate_num_primitives_in_graph(graph: Operation) -> int:
+    """ Calculate the number of primitives in a graph. """
+
+    if graph is None:
+        return 0
+
+    if graph.type == OperationType.CONDITIONAL_OPERATION:
+        return sum(calculate_num_primitives_in_graph(operation) for operation in graph.operations_if_true) + \
+            sum(calculate_num_primitives_in_graph(operation) for operation in graph.operations_if_false)
+
+    if graph.operations is None:
+        return 1
+
+    return sum(calculate_num_primitives_in_graph(operation) for operation in graph.operations)
+
+
 def read_graphbook_from_file(file_path: str):
     """ Read graphbook from file. """
 

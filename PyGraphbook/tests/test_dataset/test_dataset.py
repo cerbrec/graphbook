@@ -47,9 +47,19 @@ def test_dataset(dataset_file: str, num_levels: int, max_height: int, num_ops_fi
         pytest.param(
             os.getcwd() + "/../compute_operations/common_layer_operations/Softmax.json",
         ),
-pytest.param(
+        pytest.param(
             os.getcwd() + "/../compute_operations/optimizer_operations/Adam Optimizer.json",
         ),
+        pytest.param(
+            os.getcwd() + "/../nlp_models/transformers/GPT-2.json",
+        ),
+        pytest.param(
+            os.getcwd() + "/../nlp_models/transformers/BERT Uncased.json",
+        ),
+        pytest.param(
+            os.getcwd() + "/../nlp_models/classifiers/Fine Tune BERT with Text Classifier.json",
+        ),
+
     ],
 )
 def test_construct_and_desconstruct(graph_file: str):
@@ -69,6 +79,13 @@ def test_construct_and_desconstruct(graph_file: str):
     vocab_map = {vocab_level[0]: vocab_level[1] for vocab_level in savable_vocab}
     graph_again = deconstruct_util.deconstruct_dataset(dataset, vocab_map)
 
+    # Same number of levels and operations.
     assert graph_util.calculate_num_graph_levels(graph_obj) == graph_util.calculate_num_graph_levels(graph_again)
     assert graph_util.calculate_graph_maximum_height(graph_obj) == graph_util.calculate_graph_maximum_height(graph_again)
     assert len(graph_obj.operations) == len(graph_again.operations)
+    assert graph_util.calculate_num_primitives_in_graph(graph_obj) == graph_util.calculate_num_primitives_in_graph(graph_again)
+
+    # Same number of links.
+    assert len(graph_obj.links) == len(graph_again.links)
+    assert graph_util.calculate_num_links_in_graph(graph_obj) == graph_util.calculate_num_links_in_graph(graph_again)
+

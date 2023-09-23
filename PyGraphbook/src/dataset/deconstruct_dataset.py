@@ -184,7 +184,6 @@ def deconstruct_dataset(
     var_row = dataset.variables[0]
     graph_level = dataset.graph_level_ids[0]
 
-
     return _deconstruct_dataset(
         top_op_name=dataset.name,
         type_=graph_util.OperationType.COMPOSITE_OPERATION,
@@ -195,22 +194,3 @@ def deconstruct_dataset(
         level_to_op={},
         if_true=None
     )
-
-if __name__ == """__main__""":
-    with open(os.getcwd() + "/graphbook_dataset/vocab.json", "r") as f:
-        vocab = json.load(f)
-
-    # convert vocab which is a nested list into a dict
-    vocab = {vocab_level[0]: vocab_level[1] for vocab_level in vocab}
-
-    with open(os.getcwd() + "/graphbook_dataset/graphs/Softmax.json", "r") as f:
-        dataset_json = json.load(f)
-        dataset_obj = construct_dataset.HierarchicalDataset.model_validate(dataset_json)
-        print(f"{dataset_obj.name}, Longest sequence:"
-              f" {construct_dataset.calculate_longest_sequence(dataset_obj)}, "
-              f"Number of graph levels: {len(dataset_obj.graph_level_ids)}")
-
-    # Now let's take dataset_obj and use the vocab to turn it into a graph_util.Operation object.
-    op = deconstruct_dataset(dataset_obj, vocab)
-
-    print(op)

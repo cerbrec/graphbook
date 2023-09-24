@@ -1,20 +1,18 @@
-import pytest
 import json
 import os
 
 import pytest
-import json
 
 from src import graph_util
-from src.dataset import construct_dataset as dataset_util
-from src.dataset import reconstruct_graph as reconstruct_util
+from src.dataset import hierarchical_dataset as dataset_util
+from src.dataset import reconstruct_hierarchical_graph as reconstruct_util
 
 
 @pytest.mark.parametrize(
     ("dataset_file", "num_levels", "max_height", "num_ops_first_level"),
     [
         pytest.param(
-            os.getcwd() + "/graphbook_dataset/graphs/Softmax.json",
+            os.getcwd() + f"/{dataset_util.GRAPH_DATASET_FOLDER_NAME}/graphs/Softmax.json",
             1,
             1,
             9,
@@ -23,13 +21,13 @@ from src.dataset import reconstruct_graph as reconstruct_util
 )
 def test_dataset(dataset_file: str, num_levels: int, max_height: int, num_ops_first_level: int):
     """ Test primitive deserialization. """
-    with open(os.getcwd() + "/graphbook_dataset/vocab.json", "r") as f:
+    with open(os.getcwd() + f"/{dataset_util.GRAPH_DATASET_FOLDER_NAME}/vocab.json", "r") as f:
         vocab = json.load(f)
 
     # convert vocab which is a nested list into a dict
     vocab = {vocab_level[0]: vocab_level[1] for vocab_level in vocab}
 
-    with open(os.getcwd() + "/graphbook_dataset/graphs/Softmax.json", "r") as f:
+    with open(os.getcwd() + f"/{dataset_util.GRAPH_DATASET_FOLDER_NAME}/graphs/Softmax.json", "r") as f:
         dataset_json = json.load(f)
         dataset_obj = dataset_util.HierarchicalDataset.model_validate(dataset_json)
 

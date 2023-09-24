@@ -3,7 +3,7 @@
 from typing import List, Optional
 
 from src import graph_util
-from src.dataset import construct_dataset
+from src.dataset import hierarchical_dataset
 
 DATA_TYPE_KEYWORD = "DataType"
 THIS = "this"
@@ -26,7 +26,7 @@ def _handle_last_tensor_bootstrapped(variable: graph_util.Variable, last_tensor:
 def _deconstruct_dataset(
     top_op_name: str,
     type_: graph_util.OperationType,
-    dataset: construct_dataset.HierarchicalDataset,
+    dataset: hierarchical_dataset.HierarchicalDataset,
     var_row: List[int],
     graph_level: List[int],
     adj_matrix: List[List[int]],
@@ -74,7 +74,7 @@ def _deconstruct_dataset(
     for i, (var_item, level_item) in enumerate(zip(var_row, graph_level)):
         op_name, is_input, var_name = vocab_[var_item]
 
-        if level_item == construct_dataset.DUMMY_LEVEL:
+        if level_item == hierarchical_dataset.DUMMY_LEVEL:
             # Then we're in sub-graph dummy and don't need to do anything
             index_to_op[i] = sub_graph_dummies
             index_to_var_index[i] = int(var_name)
@@ -84,13 +84,13 @@ def _deconstruct_dataset(
                 sub_graph_dummies.outputs.append(graph_util.Variable(name=f"var_{i}", primitive_name=f"var_{i}"))
             continue
 
-        if level_item == construct_dataset.PRIMITIVE_LEVEL:
+        if level_item == hierarchical_dataset.PRIMITIVE_LEVEL:
 
             # op_name, is_input, var_name = vocab_[var_item]
             if op_name.startswith(DATA_TYPE_KEYWORD):
                 # Then this is a bootstrapped data and we'll save it for later when we do adj matrix.
                 # TODO: store details of tensor.
-                op_name_list.append(construct_dataset.BOOTSTRAPPED_DATA_OP_NAME)
+                op_name_list.append(hierarchical_dataset.BOOTSTRAPPED_DATA_OP_NAME)
                 last_tensor = (op_name, is_input, var_name)
                 index_to_op[i] = None
                 index_to_var_index[i] = None
@@ -135,7 +135,7 @@ def _deconstruct_dataset(
 
             last_was_input = is_input
 
-        elif var_name == construct_dataset.CONDITIONAL:
+        elif var_name == hierarchical_dataset.CONDITIONAL:
             _type = graph_util.OperationType.CONDITIONAL_OPERATION
             variable = graph_util.Variable(name=f"var_{i}", primitive_name=f"var_{i}")
 
@@ -146,7 +146,7 @@ def _deconstruct_dataset(
                 op = level_to_op[level_item]
             else:
                 op = _deconstruct_dataset(
-                    top_op_name=f"{construct_dataset.CONDITIONAL}_{i}_{current_level}",
+                    top_op_name=f"{hierarchical_dataset.CONDITIONAL}_{i}_{current_level}",
                     type_=_type,
                     dataset=dataset,
                     var_row=dataset.variables[level_item],
@@ -192,7 +192,7 @@ def _deconstruct_dataset(
 
             else:
                 _type = graph_util.OperationType.COMPOSITE_OPERATION
-                sub_op_name = f"{construct_dataset.COMPOSITE}_{i}_{current_level}"
+                sub_op_name = f"{hierarchical_dataset.COMPOSITE}_{i}_{current_level}"
 
                 op = _deconstruct_dataset(
                     top_op_name=sub_op_name,
@@ -260,7 +260,7 @@ def _deconstruct_dataset(
 
 
 def deconstruct_dataset(
-    dataset: construct_dataset.HierarchicalDataset,
+    dataset: hierarchical_dataset.HierarchicalDataset,
     vocab_: dict
 ) -> graph_util.Operation:
     """ Deconstruct a dataset into a graph. """

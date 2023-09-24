@@ -101,12 +101,12 @@ export PYTHONPATH=$PYTHONPATH:$(pwd)
 
 To construct the dataset, run the following command:
 ```python
-python3 construct_dataset.py
+python3 hierarchical_dataset.py
 ```
 
-The dataset will be saved in the `graphbook_dataset` folder.
+The dataset will be saved in the `hierarchical_dataset` folder.
 
 You can reconstruct a graph from the dataset using the following command:
 ```python
-python3 reconstruct_graph.py
+python3 reconstruct_hierarchical_graph.py
 ```

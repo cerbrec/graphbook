@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field
 from typing import List, Mapping, Tuple, Dict, Optional
 
 from src import graph_util
+from src.dataset import variable_vocab
 
 global counter
 global global_constants
@@ -26,24 +27,13 @@ SUB_GRAPH_OUTPUT_ID_OFFSET = -500
 PRIMITIVE_LEVEL = -1
 DUMMY_LEVEL = -2
 
-SAVE_LOCATION = "./graphbook_dataset"
+GRAPH_DATASET_FOLDER_NAME = "hierarchical_dataset"
+SAVE_LOCATION = f"./{GRAPH_DATASET_FOLDER_NAME}"
+
 BOOTSTRAPPED_DATA_OP_NAME = "static_tensor"
 CONDITIONAL = "conditional"
 COMPOSITE = "composite"
 SUB_GRAPH = "sub_graph"
-
-
-def get_all_vocab(operations: List[graph_util.Operation]) -> Mapping[Tuple[str, bool, str], int]:
-    """ Get all vocabulary.  Vocab is a mapping from (operation_name, is_input, variable_name) to index. """
-
-    vocab = {}
-    for operation in operations:
-        for input in operation.inputs:
-            vocab[(operation.primitive_name, True, input.primitive_name)] = len(vocab)
-        for output in operation.outputs:
-            vocab[(operation.primitive_name, False, output.primitive_name)] = len(vocab)
-
-    return vocab
 
 
 def add_special_vocab(vocab: List[Tuple[int, Tuple[str, bool, str]]]) -> None:
@@ -55,41 +45,6 @@ def add_special_vocab(vocab: List[Tuple[int, Tuple[str, bool, str]]]) -> None:
     vocab.extend([(CONDITIONAL_OUTPUT_ID_OFFSET - i, (CONDITIONAL, False, str(i))) for i in range(10)])
     vocab.extend([(SUB_GRAPH_INPUT_ID_OFFSET - i, (SUB_GRAPH, False, str(i))) for i in range(10)])
     vocab.extend([(SUB_GRAPH_OUTPUT_ID_OFFSET - i, (SUB_GRAPH, True, str(i))) for i in range(10)])
-
-
-
-def add_static_tensor_vocab(vocab: Mapping[Tuple[str, bool, str], int]) -> None:
-    """ Add static tensor vocabulary.
-
-    For every operation input that is not a link but is supplied with static data (i.e., bootstrapped data),
-    we assign this input as being supplied data from a "magic variable" called static_tensor. These are special variables
-    that correspond to static data that can be bootstrapped, so it has to have less than 3 dimensions and can be
-    either INTEGER, TEXT, DECIMAL, or BOOLEAN.
-    """
-
-    data_types = [graph_util.DataType.INTEGER, graph_util.DataType.TEXT, graph_util.DataType.DECIMAL, graph_util.DataType.BOOLEAN]
-    num_dims = ["0", "1", "2"]
-
-    for data_type in data_types:
-        for num_dim in num_dims:
-            vocab[(str(data_type), False, num_dim)] = len(vocab)
-
-
-def collect_operations(folder_with_primitives: str) -> List[graph_util.Operation]:
-    """ Collect operations. """
-
-    primitive_operations = []
-    for sub_folder in os.listdir(folder_with_primitives):
-        # If the sub_folder is a folder
-        if os.path.isdir(os.path.join(folder_with_primitives, sub_folder)):
-            for file in os.listdir(os.path.join(folder_with_primitives, sub_folder)):
-                if file.endswith(".json"):
-                    with open(os.path.join(folder_with_primitives, sub_folder, file), "r") as f:
-                        graph_obj = graph_util.Operation.model_validate(json.load(f))
-                        if graph_obj.type == graph_util.OperationType.PRIMITIVE_OPERATION:
-                            primitive_operations.append(graph_obj)
-
-    return primitive_operations
 
 
 class HierarchicalDataset(BaseModel):
@@ -304,21 +259,9 @@ def convert_graph_to_dataset(
     return dataset
 
 
-def create_vocab() -> Mapping[Tuple[str, bool, str], int]:
-    """ Create vocabulary. """
-
-    primitives_folder = os.getcwd() + "/../compute_operations/"
-
-    graphs = collect_operations(primitives_folder)
-    vocab_map = get_all_vocab(graphs)
-    print(f"Vocab length so far: {len(vocab_map)}")
-    add_static_tensor_vocab(vocab_map)
-    print(f"Vocab length with static tensors: {len(vocab_map)}")
-    return vocab_map
-
 
 def run_all():
-    vocab_map = create_vocab()
+    vocab_map = variable_vocab.create_vocab()
 
     # Save vocab to file
     savable_vocab = [(i, key) for key, i in vocab_map.items()]
@@ -392,7 +335,7 @@ def run_all():
 
 def convert_one(full_path: str) -> Tuple[HierarchicalDataset, Mapping[Tuple[str, bool, str], int]]:
     """ Convert one full path graph to dataset."""
-    vocab_map = create_vocab()
+    vocab_map = variable_vocab.create_vocab()
 
     with open(full_path, "r") as f:
         graph_json = json.load(f)

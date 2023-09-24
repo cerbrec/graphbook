@@ -211,6 +211,23 @@ class Operation(BaseModel):
         return v
 
 
+# def fetch_suppliers(
+#         variable: Variable,
+#         operation: Operation,
+#         links: List[Link],
+#         link_endpoints_map: dict,
+#         vocab: dict):
+#
+#     suppliers = []
+#     for link in links:
+#         if link.sink.operation == operation.name and link.sink.data == variable.name:
+#             # Then this is a match
+#             operation, var = link_endpoints_map[link.sink]
+#             if operation.type == OperationType.PRIMITIVE_OPERATION:
+#
+#
+
+
 def calculate_num_graph_levels(graph: Operation) -> int:
     """ Calculate how many levels a graph has.
 

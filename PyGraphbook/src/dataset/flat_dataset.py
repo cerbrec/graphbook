@@ -5,7 +5,7 @@ import json
 import logging
 import os
 import shutil
-from typing import List, Mapping, Tuple, Dict
+from typing import List, Mapping, Tuple, Dict, Optional
 
 from pydantic import BaseModel, Field
 
@@ -19,6 +19,7 @@ global global_constants
 DATASET_FOLDER = "flat_dataset"
 SAVE_LOCATION = f"./{DATASET_FOLDER}"
 
+TOP = "top"
 THIS = "this"
 
 
@@ -27,11 +28,27 @@ def add_special_vocab(vocab: list):
 
     top_index_offset = len(vocab)
 
-    vocab.extend([(top_index_offset + i, ("top", True, str(i))) for i in range(10)])
+    vocab.extend([(top_index_offset + i, (TOP, True, str(i))) for i in range(10)])
 
     top_index_offset = len(vocab)
 
-    vocab.extend([(top_index_offset + i, ("top", False, str(i))) for i in range(10)])
+    vocab.extend([(top_index_offset + i, (TOP, False, str(i))) for i in range(10)])
+
+
+def _static_to_var(
+    inp: graph_util.Variable,
+    vocab: Mapping[Tuple[str, bool, str], int],
+        ) -> int:
+
+    """ Fetch static tensor. """
+
+    shape_length = 0
+    if shape_length:
+        shape_length = len(inp.shape)
+    type_shape_tuple = (str(inp.type), False, str(shape_length))
+    if type_shape_tuple not in vocab:
+        return -1
+    return vocab[type_shape_tuple]
 
 
 class Dataset(BaseModel):
@@ -48,21 +65,25 @@ class Dataset(BaseModel):
 
 
 def _convert_graph(
-        graph: graph_util.Operation,
+        graph_name: str,
+        operations: List[graph_util.Operation],
+        links: List[graph_util.Link],
         dataset: Dataset,
         current_level: int,
         vocab: Mapping[Tuple[str, bool, str], int],
         input_to_index: Dict[str, int],
-        supplier_to_index: Dict[int, int]) -> Dict[Tuple[str, str], int]:
+        # this can be 2 integers when they both come from conditional sub-graphs.
+        input_index_to_positional_index: Dict[int, List[int]],
+) -> Dict[Tuple[str, str], int | List[int]]:
     """ Flatten graph and populate dataset
 
     Args:
-        graph: Graph to flatten.
+        graph_name: Graph to flatten's name.
         dataset: Dataset to populate.
         current_level: Current level of graph.
         vocab: Vocab map.
         input_to_index: Map of input name to index.
-        supplier_to_index: Map of supplier index to index.
+        input_index_to_positional_index: Map of input index to positional index.
 
     For each operation, for each input, if in link...
         if source of link is "this" operation, then get the index using input_to_index
@@ -74,18 +95,20 @@ def _convert_graph(
     """
 
     var_to_links = {
-        (link.source.operation, link.source.data): (link.sink.operation, link.sink.data) for link in graph.links
+        (link.source.operation, link.source.data): (link.sink.operation, link.sink.data) for link in links
     }
     var_to_links.update({
-        (link.sink.operation, link.sink.data): (link.source.operation, link.source.data) for link in graph.links
+        (link.sink.operation, link.sink.data): (link.source.operation, link.source.data) for link in links
     })
 
-    output_links = {k: v for k, v in var_to_links.items() if v == THIS}
+    output_links = {(link.source.operation, link.source.data): (link.sink.operation, link.sink.data)
+                    for link in links if link.sink.operation == THIS}
+
 
     composite_output_to_index = {}
     primitive_outputs = {}
 
-    for operation in graph.operations:
+    for operation in operations:
 
         if operation.type == graph_util.OperationType.PRIMITIVE_OPERATION:
 
@@ -102,21 +125,29 @@ def _convert_graph(
                     # Then there's a link here.
                     link_source = var_to_links[(operation.name, inp.name)]
 
-                    if link_source.operation == THIS:
+                    if link_source[0] == THIS:
                         # Then this comes from supplier
-                        original_source_index = supplier_to_index[input_to_index[link_source.data]]
-                        dataset.adj_matrix.append([original_source_index, var_index])
+                        input_index = input_to_index[link_source[1]]
+                        if input_index not in input_index_to_positional_index:
+                            # Then it's bootstrapped, so there's nothing that it's coming from.
+                            # Here's where we should just use a bootstrapped value.
+                            original_source_indices = [_static_to_var(inp, vocab)]
+                        else:
+                            original_source_indices = input_index_to_positional_index[input_index]
+                        for original_source_index in original_source_indices:
+                            dataset.adj_matrix.append([original_source_index, var_index])
                     elif link_source in composite_output_to_index:
                         # Then it's coming from a composite in the same graph.
-                        original_source_index = composite_output_to_index[link_source]
-                        dataset.adj_matrix.append([original_source_index, var_index])
+                        original_source_indices = composite_output_to_index[link_source]
+                        for original_source_index in original_source_indices:
+                            dataset.adj_matrix.append([original_source_index, var_index])
                     else:
                         # Then it's coming from a primitive.
-                        source_id = primitive_outputs[(link_source.operation, link_source.data)]
+                        source_id = primitive_outputs[(link_source[0], link_source[1])]
                         dataset.adj_matrix.append([source_id, var_index])
 
             for out in operation.outputs:
-                var_id = vocab[(operation.primitive_name, True, out.primitive_name)]
+                var_id = vocab[(operation.primitive_name, False, out.primitive_name)]
                 var_index = len(dataset.variables)
 
                 # Add to the dataset.
@@ -142,34 +173,73 @@ def _convert_graph(
                 if (operation.name, inp.name) in var_to_links:
                     # Then it's in SOME link.
                     link_source = var_to_links[(operation.name, inp.name)]
-
-                    original_source_index = -1
-                    if link_source.operation == THIS:
+                    # This is what's passed into new composite sub-graphs.
+                    if link_source[0] == THIS:
                         # Then this comes from supplier
-                        original_source_index = supplier_to_index[input_to_index[link_source.data]]
+                        original_source_indices = input_index_to_positional_index[input_to_index[link_source[1]]]
+                        comp_index_to_index[i] = original_source_indices
                     elif link_source in composite_output_to_index:
                         # Then it's coming from a composite in the same graph.
-                        original_source_index = composite_output_to_index[link_source]
+                        original_source_indices = composite_output_to_index[link_source]
+                        comp_index_to_index[i] = original_source_indices
                     else:
                         # Then it's coming from a primitive.
-                        original_source_index = primitive_outputs[(link_source.operation, link_source.data)]
-
-                    comp_index_to_index[i] = original_source_index
-
+                        original_source_index = primitive_outputs[(link_source[0], link_source[1])]
+                        comp_index_to_index[i] = [original_source_index]
                 else:
+                    # nothing to do if not supplied,
+                    # TODO: add indication of tensor shape/type/value
                     continue
 
-            # register op
-            output_op_and_var_to_index = _convert_graph(
-                graph=operation,
-                dataset=dataset,
-                current_level=current_level + 1,
-                vocab=vocab,
-                input_to_index=comp_inp_name_to_index,
-                supplier_to_index=comp_index_to_index,
-            )
+            if operation.type == graph_util.OperationType.CONDITIONAL_OPERATION:
+                output_op_and_var_to_index_if_true = _convert_graph(
+                    graph_name=operation.name,
+                    operations=operation.operations_if_true,
+                    links=operation.links_if_true,
+                    dataset=dataset,
+                    current_level=current_level + 1,
+                    vocab=vocab,
+                    input_to_index=comp_inp_name_to_index,
+                    input_index_to_positional_index=comp_index_to_index,
+                )
 
-            composite_output_to_index.update(output_op_and_var_to_index)
+                output_op_and_var_to_index_if_false = _convert_graph(
+                    graph_name=operation.name,
+                    operations=operation.operations_if_false,
+                    links=operation.links_if_false,
+                    dataset=dataset,
+                    current_level=current_level + 1,
+                    vocab=vocab,
+                    input_to_index=comp_inp_name_to_index,
+                    input_index_to_positional_index=comp_index_to_index
+                )
+
+                for key, value in output_op_and_var_to_index_if_false.items():
+                    if key in output_op_and_var_to_index_if_true:
+                        output_op_and_var_to_index_if_true[key].extend(value)
+                    else:
+                        output_op_and_var_to_index_if_true[key] = value
+
+                # The same inputs can be supplied by multiple inputs, from either sub-graph.
+
+                composite_output_to_index.update(output_op_and_var_to_index_if_true)
+
+
+            else:
+
+                # register op
+                output_op_and_var_to_index = _convert_graph(
+                    graph_name=operation.name,
+                    operations=operation.operations,
+                    links=operation.links,
+                    dataset=dataset,
+                    current_level=current_level + 1,
+                    vocab=vocab,
+                    input_to_index=comp_inp_name_to_index,
+                    input_index_to_positional_index=comp_index_to_index
+                )
+
+                composite_output_to_index.update(output_op_and_var_to_index)
 
     # Finally, we can get the final outputs
     returnable = {}
@@ -180,8 +250,8 @@ def _convert_graph(
             original_source_index = composite_output_to_index[(link_source_name, link_source_var)]
         else:
             # Then it's coming from a primitive.
-            original_source_index = primitive_outputs[(link_source_name, link_source_var)]
-        returnable[(graph.name, link_sink_var)] = original_source_index
+            original_source_index = [primitive_outputs[(link_source_name, link_source_var)]]
+        returnable[(graph_name, link_sink_var)] = original_source_index
 
     return returnable
 
@@ -205,10 +275,11 @@ def convert_graph_to_dataset(
     # Initially, the inputs and outputs of the operation are the initial and final variables.
     # There are special keywords for these in the vocab
     for i, inp in enumerate(graph.inputs):
-        supplier_to_index[inp.name] = len(dataset.variables)
-        input_to_index[inp.name] = i
 
-        dataset.variables.append(vocab[("top", True, str(i))])
+        input_to_index[inp.name] = i
+        supplier_to_index[i] = [len(dataset.variables)]
+
+        dataset.variables.append(vocab[(TOP, True, str(i))])
         dataset.graph_level_ids.append(0)
 
     if graph.type == graph_util.OperationType.CONDITIONAL_OPERATION:
@@ -216,28 +287,64 @@ def convert_graph_to_dataset(
         # _convert_graph_to_dataset(dataset, graph, graph.operations_if_true, graph.links_if_true, vocab)
         # if_f_level = _convert_graph_to_dataset(dataset, graph, graph.operations_if_false, graph.links_if_false, vocab)
         # dataset.if_false_subgraph_level = if_f_level
-    else:
-        output_op_names_to_suppliers = _convert_graph(
-            graph=graph,
+        if_true_suppliers = _convert_graph(
+            graph_name=graph.name,
+            operations=graph.operations,
+            links=graph.links,
             dataset=dataset,
             current_level=0,
             vocab=vocab,
             input_to_index=input_to_index,
-            supplier_to_index=supplier_to_index)
+            input_index_to_positional_index=supplier_to_index)
+
+        if_false_suppliers = _convert_graph(
+            graph_name=graph.name,
+            operations=graph.operations_if_false,
+            links=graph.links_if_false,
+            dataset=dataset,
+            current_level=0,
+            vocab=vocab,
+            input_to_index=input_to_index,
+            input_index_to_positional_index=supplier_to_index)
+
+        for key, value in if_false_suppliers:
+            if key in if_true_suppliers:
+                if type(value) is List:
+                    if_true_suppliers[key].extend(value)
+                else:
+                    if_true_suppliers[key] = [if_true_suppliers[key], value]
+            else:
+                if type(value) is List:
+                    if_true_suppliers[key] = value
+                else:
+                    if_true_suppliers[key] = [value]
+
+        output_op_names_to_suppliers = if_true_suppliers
+
+
+    else:
+        output_op_names_to_suppliers = _convert_graph(
+            graph_name=graph.name,
+            operations=graph.operations,
+            links=graph.links,
+            dataset=dataset,
+            current_level=0,
+            vocab=vocab,
+            input_to_index=input_to_index,
+            input_index_to_positional_index=supplier_to_index)
 
     # Finally, we can get the final outputs
     for i, out in enumerate(graph.outputs):
-        dataset.variables.append(vocab[("top", False, str(i))])
+        dataset.variables.append(vocab[(TOP, False, str(i))])
         dataset.graph_level_ids.append(0)
 
-        if output_op_names_to_suppliers[(graph.name, out.name)] in supplier_to_index:
+        if (graph.name, out.name) in output_op_names_to_suppliers:
             # Then it's supplied.
-            original_source_index = output_op_names_to_suppliers[(graph.name, out.name)]
-            dataset.adj_matrix.append([original_source_index, len(dataset.variables) - 1])
+            original_source_indices = output_op_names_to_suppliers[(graph.name, out.name)]
+            for original_source_index in original_source_indices:
+                dataset.adj_matrix.append([original_source_index, len(dataset.variables) - 1])
 
-
-
-
+    print(dataset)
     return dataset
 
 
@@ -247,6 +354,8 @@ def run_all():
     # Save vocab to file
     savable_vocab = [(i, key) for key, i in vocab_map.items()]
     add_special_vocab(savable_vocab)
+
+    vocab_map = {vocab_level[0]: vocab_level[1] for vocab_level in savable_vocab}
 
     # os mkdir at save location, overwrite if exists
     # remove save location if exists
@@ -312,6 +421,21 @@ def run_all():
                             f_file.write(dataset.model_dump_json(exclude_none=True))
 
 
+def convert_one(full_path: str):
+    vocab_map = variable_vocab.create_vocab()
+
+    # Save vocab to file
+    savable_vocab = [(i, key) for key, i in vocab_map.items()]
+    add_special_vocab(savable_vocab)
+    vocab_map = {vocab_level[1]: vocab_level[0] for vocab_level in savable_vocab}
+
+    with open(full_path, "r") as f:
+        graph_json = json.load(f)
+        graph_obj = graph_util.Operation.model_validate(graph_json)
+    dataset = convert_graph_to_dataset(graph_obj, vocab_map)
+    return dataset, savable_vocab
+
+
 if __name__ == "__main__":
 
     # Argparse has two options, either input a single full file path, or run all and save.
@@ -326,9 +450,11 @@ if __name__ == "__main__":
     logging.basicConfig(level=args.log)
 
     # If running from script, just uncomment and specify graph.
+    # args.full_path = os.getcwd() + "/../compute_operations/common_layer_operations/Softmax.json"
+    args.full_path = os.getcwd() + "/../compute_operations/optimizer_operations/Adam Optimizer.json"
     # args.full_path = os.getcwd() + "/../nlp_models/classifiers/Fine Tune BERT with Text Classifier.json"
 
     if args.full_path:
-        pass
+        convert_one(args.full_path)
     else:
         run_all()

@@ -176,7 +176,13 @@ def _convert_graph(
                     # This is what's passed into new composite sub-graphs.
                     if link_source[0] == THIS:
                         # Then this comes from supplier
-                        original_source_indices = input_index_to_positional_index[input_to_index[link_source[1]]]
+                        input_index = input_to_index[link_source[1]]
+                        if input_index not in input_index_to_positional_index:
+                            # Then it's bootstrapped, so there's nothing that it's coming from.
+                            # Here's where we should just use a bootstrapped value.
+                            original_source_indices = [_static_to_var(inp, vocab)]
+                        else:
+                            original_source_indices = input_index_to_positional_index[input_index]
                         comp_index_to_index[i] = original_source_indices
                     elif link_source in composite_output_to_index:
                         # Then it's coming from a composite in the same graph.
@@ -451,8 +457,8 @@ if __name__ == "__main__":
 
     # If running from script, just uncomment and specify graph.
     # args.full_path = os.getcwd() + "/../compute_operations/common_layer_operations/Softmax.json"
-    args.full_path = os.getcwd() + "/../compute_operations/optimizer_operations/Adam Optimizer.json"
-    # args.full_path = os.getcwd() + "/../nlp_models/classifiers/Fine Tune BERT with Text Classifier.json"
+    # args.full_path = os.getcwd() + "/../compute_operations/optimizer_operations/Adam Optimizer.json"
+    args.full_path = os.getcwd() + "/../nlp_models/classifiers/Fine Tune BERT with Text Classifier.json"
 
     if args.full_path:
         convert_one(args.full_path)

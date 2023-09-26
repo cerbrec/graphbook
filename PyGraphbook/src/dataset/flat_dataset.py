@@ -27,6 +27,8 @@ def add_special_vocab(vocab: list):
     # Add conditional input and loop output types
     vocab.append((len(vocab), ("conditional", True, "if_true")))
     vocab.append((len(vocab), ("loop_body", True, "Run Again")))
+    vocab.append((len(vocab), ("loop_body", True, "Looping Data Parent Input")))
+    vocab.append((len(vocab), ("loop_body", True, "Looping Data Sub-graph Input")))
 
     top_index_offset = len(vocab)
 
@@ -240,6 +242,18 @@ def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Oper
                         # Then it's coming from a composite in the same graph.
                         original_source_indices = composite_output_to_index[link_source]
                         comp_index_to_index[i] = original_source_indices
+                    elif operation.type == graph_util.OperationType.LOOP_BODY_OPERATION and \
+                            link_source[1] in operation.repeat_until_false_condition.loop_data:
+                        # this is looping data and doesn't come from anywhere
+                        #vocab.append((len(vocab), ("loop_body", True, "Looping Data Parent Input")))
+                        var_id = vocab[("loop_body", True, "Looping Data Parent Input")]
+                        new_source_index = len(dataset.variables)
+                        dataset.variables.append(var_id)
+                        dataset.graph_height.append(current_level)
+                        dataset.graph_level_ids.append(this_level)
+                        # There is no incoming link.
+                        comp_index_to_index[i] = [new_source_index]
+
                     else:
                         # Then it's coming from a primitive.
                         original_source_index = primitive_outputs[(link_source[0], link_source[1])]
@@ -318,6 +332,30 @@ def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Oper
             # Then it's coming from a primitive.
             original_source_index = [primitive_outputs[(link_source_name, link_source_var)]]
         returnable[(graph.name, link_sink_var)] = original_source_index
+
+    """
+        vocab.append((len(vocab), ("loop_body", True, "Looping Data Sub-graph Input")))
+    """
+    if graph_util.OperationType.LOOP_BODY_OPERATION == graph.type:
+        for out in graph.outputs:
+            if out.name in graph.repeat_until_false_condition.loop_data:
+                # Then we need to establish this as well and establish links.
+                var_index = len(dataset.variables)
+                dataset.variables.append(vocab[("loop_body", True, "Looping Data Sub-graph Input")])
+                dataset.graph_level_ids.append(this_level)
+                dataset.graph_height.append(current_level)
+
+                if (THIS, out.name) in var_to_links:
+                    link_source = var_to_links[(THIS, out.name)]
+                    if link_source in composite_output_to_index:
+                        # Then it's coming from a composite in the same graph.
+                        original_source_indices = composite_output_to_index[link_source]
+                        for original_source_index in original_source_indices:
+                            dataset.adj_pairs.append((original_source_index, var_index))
+                    else:
+                        # Then it's coming from a primitive.
+                        source_id = primitive_outputs[(link_source[0], link_source[1])]
+                        dataset.adj_pairs.append((source_id, var_index))
 
     return returnable
 
@@ -477,6 +515,7 @@ def run_all():
                                  f"\t{graph_util.calculate_graph_maximum_height(graph_obj)}\n")
 
                     if graph_obj.type != graph_util.OperationType.PRIMITIVE_OPERATION:
+                        print(graph_obj.name)
                         dataset = convert_graph_to_dataset(graph_obj, vocab_map)
                         name = graph_obj.name.replace(" ", "_").replace("/", "_")
                         with open(f"{SAVE_LOCATION}/graphs/{name}.json", "w") as f_file:
@@ -515,6 +554,7 @@ if __name__ == "__main__":
     # args.full_path = os.getcwd() + "/../compute_operations/common_layer_operations/Softmax.json"
     # args.full_path = os.getcwd() + "/../compute_operations/optimizer_operations/Adam Optimizer.json"
     # args.full_path = os.getcwd() + "/../nlp_models/classifiers/Fine Tune BERT with Text Classifier.json"
+    # args.full_path = os.getcwd() + "/../nlp_models/generators/GPT-2 Text Generator.json"
 
     if args.full_path:
         convert_one(args.full_path)

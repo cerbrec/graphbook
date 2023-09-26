@@ -141,6 +141,7 @@ class Operation(BaseModel):
             # For each loop init output, there should be a link to the loop body.
             # For each loop body output, there should be a link to the sub-graph output
             num_init_outputs_offset = len(schema["operations"][0]["outputs"])
+            num_looping_data = len(schema["operations"][1]["repeat_until_false_condition"]["loop_data"])
             schema["operations"][0]["name"] = schema["operations"][0]["name"].replace("Loop Body", "Loop Init")
             schema["links"] = [
                 {
@@ -174,7 +175,7 @@ class Operation(BaseModel):
                     # From each loop body output to the sub-graph output
                     "source": {
                         "operation": schema["operations"][1]["name"],
-                        "data": schema["operations"][1]["outputs"][i]["name"]
+                        "data": schema["operations"][1]["outputs"][i+num_looping_data+1]["name"]
                     },
                     "sink": {
                         "operation": "this",

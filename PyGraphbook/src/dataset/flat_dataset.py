@@ -13,8 +13,6 @@ from src import graph_util
 from src.dataset import variable_vocab
 
 global counter
-global global_constants
-
 
 DATASET_FOLDER = "flat_dataset"
 SAVE_LOCATION = f"./{DATASET_FOLDER}"
@@ -26,6 +24,10 @@ THIS = "this"
 def add_special_vocab(vocab: list):
     """ Add special vocab to vocab list. """
 
+    # Add conditional input and loop output types
+    vocab.append((len(vocab), ("conditional", True, "if_true")))
+    vocab.append((len(vocab), ("loop_body", True, "Run Again")))
+
     top_index_offset = len(vocab)
 
     vocab.extend([(top_index_offset + i, (TOP, True, str(i))) for i in range(10)])
@@ -36,10 +38,9 @@ def add_special_vocab(vocab: list):
 
 
 def _static_to_var(
-    inp: graph_util.Variable,
-    vocab: Mapping[Tuple[str, bool, str], int],
-        ) -> int:
-
+        inp: graph_util.Variable,
+        vocab: Mapping[Tuple[str, bool, str], int],
+) -> int:
     """ Fetch static tensor. """
 
     shape_length = 0
@@ -60,25 +61,20 @@ class Dataset(BaseModel):
 
     name: str = Field(..., description="Name of the Graph.")
     variables: List[int] = Field(default=list(), description="Vocab Ids for Variables")
+    adj_pairs: List[Tuple[int, int]] = Field(default=list(), description="Adjacency Pairs")
     adj_matrix: List[List[int]] = Field(default=list(), description="Adjacency Matrix")
-    graph_level_ids: List[int] = Field(default=list(), description="Graph Level Ids")
+    graph_height: List[int] = Field(default=list(), description="Graph height Ids")
+    graph_level_ids: List[int] = Field(default=list(), description="Graph level Ids")
 
 
-def _convert_graph(
-        graph_name: str,
-        operations: List[graph_util.Operation],
-        links: List[graph_util.Link],
-        dataset: Dataset,
-        current_level: int,
-        vocab: Mapping[Tuple[str, bool, str], int],
-        input_to_index: Dict[str, int],
-        # this can be 2 integers when they both come from conditional sub-graphs.
-        input_index_to_positional_index: Dict[int, List[int]],
-) -> Dict[Tuple[str, str], int | List[int]]:
+def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Operation], links: List[graph_util.Link],
+                   dataset: Dataset,
+                   current_level: int, vocab: Mapping[Tuple[str, bool, str], int], input_to_index: Dict[str, int],
+                   input_index_to_positional_index: Dict[int, List[int]]) -> Dict[Tuple[str, str], int | List[int]]:
     """ Flatten graph and populate dataset
 
     Args:
-        graph_name: Graph to flatten's name.
+        graph: Graph to flatten's name.
         dataset: Dataset to populate.
         current_level: Current level of graph.
         vocab: Vocab map.
@@ -94,6 +90,10 @@ def _convert_graph(
         each input and output that is primitive is added to the dataset.
     """
 
+    global counter
+    counter += 1
+    this_level = int(counter)
+
     var_to_links = {
         (link.source.operation, link.source.data): (link.sink.operation, link.sink.data) for link in links
     }
@@ -103,7 +103,6 @@ def _convert_graph(
 
     output_links = {(link.source.operation, link.source.data): (link.sink.operation, link.sink.data)
                     for link in links if link.sink.operation == THIS}
-
 
     composite_output_to_index = {}
     primitive_outputs = {}
@@ -119,7 +118,8 @@ def _convert_graph(
 
                 # Add to the dataset.
                 dataset.variables.append(var_id)
-                dataset.graph_level_ids.append(current_level)
+                dataset.graph_height.append(current_level)
+                dataset.graph_level_ids.append(this_level)
 
                 if (operation.name, inp.name) in var_to_links:
                     # Then there's a link here.
@@ -131,20 +131,25 @@ def _convert_graph(
                         if input_index not in input_index_to_positional_index:
                             # Then it's bootstrapped, so there's nothing that it's coming from.
                             # Here's where we should just use a bootstrapped value.
-                            original_source_indices = [_static_to_var(inp, vocab)]
+                            var_id = _static_to_var(inp, vocab)
+                            new_source_index = len(dataset.variables)
+                            dataset.variables.append(var_id)
+                            dataset.graph_height.append(current_level)
+                            dataset.graph_level_ids.append(this_level)
+                            original_source_indices = [new_source_index]
                         else:
                             original_source_indices = input_index_to_positional_index[input_index]
                         for original_source_index in original_source_indices:
-                            dataset.adj_matrix.append([original_source_index, var_index])
+                            dataset.adj_pairs.append((original_source_index, var_index))
                     elif link_source in composite_output_to_index:
                         # Then it's coming from a composite in the same graph.
                         original_source_indices = composite_output_to_index[link_source]
                         for original_source_index in original_source_indices:
-                            dataset.adj_matrix.append([original_source_index, var_index])
+                            dataset.adj_pairs.append((original_source_index, var_index))
                     else:
                         # Then it's coming from a primitive.
                         source_id = primitive_outputs[(link_source[0], link_source[1])]
-                        dataset.adj_matrix.append([source_id, var_index])
+                        dataset.adj_pairs.append((source_id, var_index))
 
             for out in operation.outputs:
                 var_id = vocab[(operation.primitive_name, False, out.primitive_name)]
@@ -152,7 +157,8 @@ def _convert_graph(
 
                 # Add to the dataset.
                 dataset.variables.append(var_id)
-                dataset.graph_level_ids.append(current_level)
+                dataset.graph_height.append(current_level)
+                dataset.graph_level_ids.append(this_level)
 
                 primitive_outputs[(operation.name, out.name)] = var_index
 
@@ -167,6 +173,47 @@ def _convert_graph(
 
             for i, inp in enumerate(operation.inputs):
 
+                # If this is conditional input, then we need to add it to the vocab.
+                if operation.type == graph_util.OperationType.CONDITIONAL_OPERATION and inp.primitive_name == "if_true" and i == 0:
+
+                    var_index = len(dataset.variables)
+                    dataset.variables.append(vocab[("conditional", True, "if_true")])
+
+                    dataset.graph_height.append(current_level)
+                    dataset.graph_level_ids.append(this_level)
+
+                    if (operation.name, inp.name) in var_to_links:
+                        # Then there's a link here.
+                        link_source = var_to_links[(operation.name, inp.name)]
+
+                        if link_source[0] == THIS:
+                            # Then this comes from supplier
+                            input_index = input_to_index[link_source[1]]
+                            if input_index not in input_index_to_positional_index:
+                                # Then it's bootstrapped, so there's nothing that it's coming from.
+                                # Here's where we should just use a bootstrapped value.
+
+                                var_id = _static_to_var(inp, vocab)
+                                new_source_index = len(dataset.variables)
+                                dataset.variables.append(var_id)
+                                dataset.graph_height.append(current_level)
+                                dataset.graph_level_ids.append(this_level)
+                                original_source_indices = [new_source_index]
+                            else:
+                                original_source_indices = input_index_to_positional_index[input_index]
+                            for original_source_index in original_source_indices:
+                                dataset.adj_pairs.append((original_source_index, var_index))
+                        elif link_source in composite_output_to_index:
+                            # Then it's coming from a composite in the same graph.
+                            original_source_indices = composite_output_to_index[link_source]
+                            for original_source_index in original_source_indices:
+                                dataset.adj_pairs.append((original_source_index, var_index))
+                        else:
+                            # Then it's coming from a primitive.
+                            source_id = primitive_outputs[(link_source[0], link_source[1])]
+                            dataset.adj_pairs.append((source_id, var_index))
+                    continue
+
                 # input to index.
                 comp_inp_name_to_index[inp.name] = i
 
@@ -180,7 +227,12 @@ def _convert_graph(
                         if input_index not in input_index_to_positional_index:
                             # Then it's bootstrapped, so there's nothing that it's coming from.
                             # Here's where we should just use a bootstrapped value.
-                            original_source_indices = [_static_to_var(inp, vocab)]
+                            var_id = _static_to_var(inp, vocab)
+                            new_source_index = len(dataset.variables)
+                            dataset.variables.append(var_id)
+                            dataset.graph_height.append(current_level)
+                            dataset.graph_level_ids.append(this_level)
+                            original_source_indices = [new_source_index]
                         else:
                             original_source_indices = input_index_to_positional_index[input_index]
                         comp_index_to_index[i] = original_source_indices
@@ -198,27 +250,19 @@ def _convert_graph(
                     continue
 
             if operation.type == graph_util.OperationType.CONDITIONAL_OPERATION:
-                output_op_and_var_to_index_if_true = _convert_graph(
-                    graph_name=operation.name,
-                    operations=operation.operations_if_true,
-                    links=operation.links_if_true,
-                    dataset=dataset,
-                    current_level=current_level + 1,
-                    vocab=vocab,
-                    input_to_index=comp_inp_name_to_index,
-                    input_index_to_positional_index=comp_index_to_index,
-                )
+                output_op_and_var_to_index_if_true = _convert_graph(graph=operation,
+                                                                    operations=operation.operations_if_true,
+                                                                    links=operation.links_if_true, dataset=dataset,
+                                                                    current_level=current_level + 1, vocab=vocab,
+                                                                    input_to_index=comp_inp_name_to_index,
+                                                                    input_index_to_positional_index=comp_index_to_index)
 
-                output_op_and_var_to_index_if_false = _convert_graph(
-                    graph_name=operation.name,
-                    operations=operation.operations_if_false,
-                    links=operation.links_if_false,
-                    dataset=dataset,
-                    current_level=current_level + 1,
-                    vocab=vocab,
-                    input_to_index=comp_inp_name_to_index,
-                    input_index_to_positional_index=comp_index_to_index
-                )
+                output_op_and_var_to_index_if_false = _convert_graph(graph=operation,
+                                                                     operations=operation.operations_if_false,
+                                                                     links=operation.links_if_false, dataset=dataset,
+                                                                     current_level=current_level + 1, vocab=vocab,
+                                                                     input_to_index=comp_inp_name_to_index,
+                                                                     input_index_to_positional_index=comp_index_to_index)
 
                 for key, value in output_op_and_var_to_index_if_false.items():
                     if key in output_op_and_var_to_index_if_true:
@@ -230,26 +274,42 @@ def _convert_graph(
 
                 composite_output_to_index.update(output_op_and_var_to_index_if_true)
 
-
             else:
 
                 # register op
-                output_op_and_var_to_index = _convert_graph(
-                    graph_name=operation.name,
-                    operations=operation.operations,
-                    links=operation.links,
-                    dataset=dataset,
-                    current_level=current_level + 1,
-                    vocab=vocab,
-                    input_to_index=comp_inp_name_to_index,
-                    input_index_to_positional_index=comp_index_to_index
-                )
+                output_op_and_var_to_index = _convert_graph(graph=operation, operations=operation.operations,
+                                                            links=operation.links, dataset=dataset,
+                                                            current_level=current_level + 1, vocab=vocab,
+                                                            input_to_index=comp_inp_name_to_index,
+                                                            input_index_to_positional_index=comp_index_to_index)
 
                 composite_output_to_index.update(output_op_and_var_to_index)
 
     # Finally, we can get the final outputs
     returnable = {}
     for (link_source_name, link_source_var), (_, link_sink_var) in output_links.items():
+
+        if graph.type == graph_util.OperationType.LOOP_BODY_OPERATION \
+                and graph.repeat_until_false_condition and graph.repeat_until_false_condition.name == link_sink_var:
+
+            # Needs to be added as vocab
+            var_index = len(dataset.variables)
+            dataset.variables.append(vocab[("loop_body", True, "Run Again")])
+            dataset.graph_level_ids.append(this_level)
+            dataset.graph_height.append(current_level)
+            # check input
+
+            if (link_source_name, link_source_var) in composite_output_to_index:
+                # Then it's coming from a composite in the same graph.
+                original_source_indices = composite_output_to_index[(link_source_name, link_source_var)]
+                for original_source_index in original_source_indices:
+                    dataset.adj_pairs.append((original_source_index, var_index))
+            else:
+                # Then it's coming from a primitive.
+                source_id = primitive_outputs[(link_source_name, link_source_var)]
+                dataset.adj_pairs.append((source_id, var_index))
+            continue
+
         # Determine true source
         if (link_source_name, link_source_var) in composite_output_to_index:
             # Then it's coming from a composite in the same graph.
@@ -257,7 +317,7 @@ def _convert_graph(
         else:
             # Then it's coming from a primitive.
             original_source_index = [primitive_outputs[(link_source_name, link_source_var)]]
-        returnable[(graph_name, link_sink_var)] = original_source_index
+        returnable[(graph.name, link_sink_var)] = original_source_index
 
     return returnable
 
@@ -265,10 +325,13 @@ def _convert_graph(
 def convert_graph_to_dataset(
         graph: graph_util.Operation,
         vocab: Mapping[Tuple[str, bool, str], int]) -> Dataset:
-
     """ Convert graph to dataset. """
 
     dataset = Dataset(name=graph.name, type=graph.type.name)
+
+    global counter
+    counter = -1
+    this_level = int(counter)
 
     supplier_to_index = {}
     input_to_index = {}
@@ -281,37 +344,26 @@ def convert_graph_to_dataset(
     # Initially, the inputs and outputs of the operation are the initial and final variables.
     # There are special keywords for these in the vocab
     for i, inp in enumerate(graph.inputs):
-
         input_to_index[inp.name] = i
         supplier_to_index[i] = [len(dataset.variables)]
 
         dataset.variables.append(vocab[(TOP, True, str(i))])
-        dataset.graph_level_ids.append(0)
+        dataset.graph_height.append(0)
+        dataset.graph_level_ids.append(this_level)
 
     if graph.type == graph_util.OperationType.CONDITIONAL_OPERATION:
-        output_op_names_to_suppliers = {}
+
         # _convert_graph_to_dataset(dataset, graph, graph.operations_if_true, graph.links_if_true, vocab)
         # if_f_level = _convert_graph_to_dataset(dataset, graph, graph.operations_if_false, graph.links_if_false, vocab)
         # dataset.if_false_subgraph_level = if_f_level
-        if_true_suppliers = _convert_graph(
-            graph_name=graph.name,
-            operations=graph.operations,
-            links=graph.links,
-            dataset=dataset,
-            current_level=0,
-            vocab=vocab,
-            input_to_index=input_to_index,
-            input_index_to_positional_index=supplier_to_index)
+        if_true_suppliers = _convert_graph(graph=graph, operations=graph.operations_if_true, links=graph.links_if_true,
+                                           dataset=dataset, current_level=0, vocab=vocab, input_to_index=input_to_index,
+                                           input_index_to_positional_index=supplier_to_index)
 
-        if_false_suppliers = _convert_graph(
-            graph_name=graph.name,
-            operations=graph.operations_if_false,
-            links=graph.links_if_false,
-            dataset=dataset,
-            current_level=0,
-            vocab=vocab,
-            input_to_index=input_to_index,
-            input_index_to_positional_index=supplier_to_index)
+        if_false_suppliers = _convert_graph(graph=graph, operations=graph.operations_if_false,
+                                            links=graph.links_if_false, dataset=dataset, current_level=0, vocab=vocab,
+                                            input_to_index=input_to_index,
+                                            input_index_to_positional_index=supplier_to_index)
 
         for key, value in if_false_suppliers:
             if key in if_true_suppliers:
@@ -329,28 +381,33 @@ def convert_graph_to_dataset(
 
 
     else:
-        output_op_names_to_suppliers = _convert_graph(
-            graph_name=graph.name,
-            operations=graph.operations,
-            links=graph.links,
-            dataset=dataset,
-            current_level=0,
-            vocab=vocab,
-            input_to_index=input_to_index,
-            input_index_to_positional_index=supplier_to_index)
+        output_op_names_to_suppliers = _convert_graph(graph=graph, operations=graph.operations, links=graph.links,
+                                                      dataset=dataset, current_level=0, vocab=vocab,
+                                                      input_to_index=input_to_index,
+                                                      input_index_to_positional_index=supplier_to_index)
 
     # Finally, we can get the final outputs
     for i, out in enumerate(graph.outputs):
         dataset.variables.append(vocab[(TOP, False, str(i))])
-        dataset.graph_level_ids.append(0)
+        dataset.graph_height.append(0)
+        dataset.graph_level_ids.append(this_level)
 
         if (graph.name, out.name) in output_op_names_to_suppliers:
             # Then it's supplied.
             original_source_indices = output_op_names_to_suppliers[(graph.name, out.name)]
             for original_source_index in original_source_indices:
-                dataset.adj_matrix.append([original_source_index, len(dataset.variables) - 1])
+                dataset.adj_pairs.append((original_source_index, len(dataset.variables) - 1))
 
     print(dataset)
+
+    print(f"Converting {len(dataset.adj_pairs)} adj pairs to matrix...")
+
+    dataset.adj_matrix = [[0 for _ in range(len(dataset.variables))] for _ in range(len(dataset.variables))]
+
+    for pair in dataset.adj_pairs:
+        dataset.adj_matrix[pair[0]][pair[1]] = 1
+
+    dataset.adj_pairs = None
     return dataset
 
 
@@ -360,8 +417,7 @@ def run_all():
     # Save vocab to file
     savable_vocab = [(i, key) for key, i in vocab_map.items()]
     add_special_vocab(savable_vocab)
-
-    vocab_map = {vocab_level[0]: vocab_level[1] for vocab_level in savable_vocab}
+    vocab_map = {vocab_level[1]: vocab_level[0] for vocab_level in savable_vocab}
 
     # os mkdir at save location, overwrite if exists
     # remove save location if exists
@@ -417,8 +473,8 @@ def run_all():
                                  f"\t{graph_util.calculate_num_graph_levels(graph_obj)}")
 
                     logging.info(f"Max Graph Height:"
-                                    f"\t{graph_obj.name}"
-                                    f"\t{graph_util.calculate_graph_maximum_height(graph_obj)}\n")
+                                 f"\t{graph_obj.name}"
+                                 f"\t{graph_util.calculate_graph_maximum_height(graph_obj)}\n")
 
                     if graph_obj.type != graph_util.OperationType.PRIMITIVE_OPERATION:
                         dataset = convert_graph_to_dataset(graph_obj, vocab_map)
@@ -458,7 +514,7 @@ if __name__ == "__main__":
     # If running from script, just uncomment and specify graph.
     # args.full_path = os.getcwd() + "/../compute_operations/common_layer_operations/Softmax.json"
     # args.full_path = os.getcwd() + "/../compute_operations/optimizer_operations/Adam Optimizer.json"
-    args.full_path = os.getcwd() + "/../nlp_models/classifiers/Fine Tune BERT with Text Classifier.json"
+    # args.full_path = os.getcwd() + "/../nlp_models/classifiers/Fine Tune BERT with Text Classifier.json"
 
     if args.full_path:
         convert_one(args.full_path)

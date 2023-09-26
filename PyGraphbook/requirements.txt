@@ -8,3 +8,4 @@ pydantic_core==2.6.3
 pytest==7.4.2
 tomli==2.0.1
 typing_extensions==4.8.0
+numpy==1.26.0

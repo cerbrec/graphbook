@@ -2,8 +2,10 @@
 
 from typing import List, Optional
 
+import numpy as np
 from src import graph_util
 from src.dataset import flat_dataset
+
 
 DATA_TYPE_KEYWORD = "DataType"
 THIS = "this"
@@ -34,14 +36,45 @@ def deconstruct_dataset(
         as we link them from THIS, we append them to an integer list for the new graph level, for each unique ID
 
     If an input variable has multiple incoming links, then it is being supplied by the output of a Conditional operation
-
-
     """
 
+    # Initially this is composite operation, but if
+    top_op = graph_util.Operation(
+        name=dataset.name,
+        type=graph_util.OperationType.COMPOSITE_OPERATION
+    )
+
     last_level = -1
-    for var in zip(dataset.variables, dataset.graph_level_ids):
-        pass
+    last_height = -1
+    for i, (var_id, height, level) in enumerate(zip(dataset.variables, dataset.graph_height, dataset.graph_level_ids)):
+        # height determines how many levels we went down
+        # level is unique identifier of graph level
 
-    pass
-    # return graph_util.Operation()
+        # Should be guaranteed that every var_id is in vocab
+        op_name, is_input, var_name = vocab_[var_id]
 
+        if op_name == flat_dataset.TOP:
+            if is_input:
+                top_op.inputs.append(graph_util.Variable(
+                    name=var_name,
+                    primitive_name=var_name
+                ))
+
+                # each input is a column in the adjacency matrix
+                # find the
+                link_sources = np.where(dataset.adj_matrix[:, i] == 1)
+
+                # Where did it get link from, if anywhere?
+                # dataset.adj_matrix[i]
+            else:
+                top_op.outputs.append(graph_util.Variable(
+                    name=var_name,
+                    primitive_name=var_name
+                ))
+
+
+        if level == last_level:
+            # Then we're on same graph level
+
+
+    return top_op

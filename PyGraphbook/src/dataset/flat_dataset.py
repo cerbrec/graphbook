@@ -20,15 +20,16 @@ SAVE_LOCATION = f"./{DATASET_FOLDER}"
 TOP = "top"
 THIS = "this"
 
+SPECIAL_OPERATION_NAMES = ["conditional", "loop_body"]
 
 def add_special_vocab(vocab: list):
     """ Add special vocab to vocab list. """
 
     # Add conditional input and loop output types
-    vocab.append((len(vocab), ("conditional", True, "if_true")))
-    vocab.append((len(vocab), ("loop_body", True, "Run Again")))
-    vocab.append((len(vocab), ("loop_body", True, "Looping Data Parent Input")))
-    vocab.append((len(vocab), ("loop_body", True, "Looping Data Sub-graph Input")))
+    vocab.append((len(vocab), (SPECIAL_OPERATION_NAMES[0], True, "if_true")))
+    vocab.append((len(vocab), (SPECIAL_OPERATION_NAMES[1], True, "Run Again")))
+    vocab.append((len(vocab), (SPECIAL_OPERATION_NAMES[1], True, "Looping Data Parent Input")))
+    vocab.append((len(vocab), (SPECIAL_OPERATION_NAMES[1], True, "Looping Data Sub-graph Input")))
 
     top_index_offset = len(vocab)
 

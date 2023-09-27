@@ -73,7 +73,7 @@ class Dataset(BaseModel):
 def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Operation], links: List[graph_util.Link],
                    dataset: Dataset,
                    current_level: int, vocab: Mapping[Tuple[str, bool, str], int], input_to_index: Dict[str, int],
-                   input_index_to_positional_index: Dict[int, List[int]]) -> Dict[Tuple[str, str], int | List[int]]:
+                   input_index_to_positional_index: Dict[int, List[int]]) -> Dict[Tuple[str, str], List[int]]:
     """ Flatten graph and populate dataset
 
     Args:

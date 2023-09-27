@@ -5,14 +5,12 @@ import json
 import logging
 import os
 import shutil
-from typing import List, Mapping, Tuple, Dict, Optional
+from typing import List, Mapping, Tuple, Dict
 
 from pydantic import BaseModel, Field
 
 from src import graph_util
 from src.dataset import variable_vocab
-
-global counter
 
 DATASET_FOLDER = "flat_dataset"
 SAVE_LOCATION = f"./{DATASET_FOLDER}"
@@ -21,6 +19,7 @@ TOP = "top"
 THIS = "this"
 
 SPECIAL_OPERATION_NAMES = ["conditional", "loop_body"]
+
 
 def add_special_vocab(vocab: list):
     """ Add special vocab to vocab list. """
@@ -59,15 +58,12 @@ class Dataset(BaseModel):
     """ Graph transformer input.
         vocab_ids = [... , ... , ...],
         adj_matrix = [[... , ... , ...], [... , ... , ...], [... , ... , ...]]
-        graph_level_ids = [... , ... , ...]
     """
 
     name: str = Field(..., description="Name of the Graph.")
     variables: List[int] = Field(default=list(), description="Vocab Ids for Variables")
     adj_pairs: List[Tuple[int, int]] = Field(default=list(), description="Adjacency Pairs")
     adj_matrix: List[List[int]] = Field(default=list(), description="Adjacency Matrix")
-    graph_height: List[int] = Field(default=list(), description="Graph height Ids")
-    graph_level_ids: List[int] = Field(default=list(), description="Graph level Ids")
 
 
 def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Operation], links: List[graph_util.Link],
@@ -93,10 +89,6 @@ def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Oper
         each input and output that is primitive is added to the dataset.
     """
 
-    global counter
-    counter += 1
-    this_level = int(counter)
-
     var_to_links = {
         (link.source.operation, link.source.data): (link.sink.operation, link.sink.data) for link in links
     }
@@ -121,8 +113,6 @@ def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Oper
 
                 # Add to the dataset.
                 dataset.variables.append(var_id)
-                dataset.graph_height.append(current_level)
-                dataset.graph_level_ids.append(this_level)
 
                 if (operation.name, inp.name) in var_to_links:
                     # Then there's a link here.
@@ -137,8 +127,6 @@ def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Oper
                             var_id = _static_to_var(inp, vocab)
                             new_source_index = len(dataset.variables)
                             dataset.variables.append(var_id)
-                            dataset.graph_height.append(current_level)
-                            dataset.graph_level_ids.append(this_level)
                             original_source_indices = [new_source_index]
                         else:
                             original_source_indices = input_index_to_positional_index[input_index]
@@ -160,9 +148,6 @@ def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Oper
 
                 # Add to the dataset.
                 dataset.variables.append(var_id)
-                dataset.graph_height.append(current_level)
-                dataset.graph_level_ids.append(this_level)
-
                 primitive_outputs[(operation.name, out.name)] = var_index
 
         else:
@@ -182,9 +167,6 @@ def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Oper
                     var_index = len(dataset.variables)
                     dataset.variables.append(vocab[("conditional", True, "if_true")])
 
-                    dataset.graph_height.append(current_level)
-                    dataset.graph_level_ids.append(this_level)
-
                     if (operation.name, inp.name) in var_to_links:
                         # Then there's a link here.
                         link_source = var_to_links[(operation.name, inp.name)]
@@ -199,8 +181,6 @@ def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Oper
                                 var_id = _static_to_var(inp, vocab)
                                 new_source_index = len(dataset.variables)
                                 dataset.variables.append(var_id)
-                                dataset.graph_height.append(current_level)
-                                dataset.graph_level_ids.append(this_level)
                                 original_source_indices = [new_source_index]
                             else:
                                 original_source_indices = input_index_to_positional_index[input_index]
@@ -233,8 +213,6 @@ def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Oper
                             var_id = _static_to_var(inp, vocab)
                             new_source_index = len(dataset.variables)
                             dataset.variables.append(var_id)
-                            dataset.graph_height.append(current_level)
-                            dataset.graph_level_ids.append(this_level)
                             original_source_indices = [new_source_index]
                         else:
                             original_source_indices = input_index_to_positional_index[input_index]
@@ -250,8 +228,6 @@ def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Oper
                         var_id = vocab[("loop_body", True, "Looping Data Parent Input")]
                         new_source_index = len(dataset.variables)
                         dataset.variables.append(var_id)
-                        dataset.graph_height.append(current_level)
-                        dataset.graph_level_ids.append(this_level)
                         # There is no incoming link.
                         comp_index_to_index[i] = [new_source_index]
 
@@ -310,8 +286,6 @@ def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Oper
             # Needs to be added as vocab
             var_index = len(dataset.variables)
             dataset.variables.append(vocab[("loop_body", True, "Run Again")])
-            dataset.graph_level_ids.append(this_level)
-            dataset.graph_height.append(current_level)
             # check input
 
             if (link_source_name, link_source_var) in composite_output_to_index:
@@ -343,9 +317,6 @@ def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Oper
                 # Then we need to establish this as well and establish links.
                 var_index = len(dataset.variables)
                 dataset.variables.append(vocab[("loop_body", True, "Looping Data Sub-graph Input")])
-                dataset.graph_level_ids.append(this_level)
-                dataset.graph_height.append(current_level)
-
                 if (THIS, out.name) in var_to_links:
                     link_source = var_to_links[(THIS, out.name)]
                     if link_source in composite_output_to_index:
@@ -368,10 +339,6 @@ def convert_graph_to_dataset(
 
     dataset = Dataset(name=graph.name, type=graph.type.name)
 
-    global counter
-    counter = -1
-    this_level = int(counter)
-
     supplier_to_index = {}
     input_to_index = {}
 
@@ -387,8 +354,6 @@ def convert_graph_to_dataset(
         supplier_to_index[i] = [len(dataset.variables)]
 
         dataset.variables.append(vocab[(TOP, True, str(i))])
-        dataset.graph_height.append(0)
-        dataset.graph_level_ids.append(this_level)
 
     if graph.type == graph_util.OperationType.CONDITIONAL_OPERATION:
 
@@ -428,8 +393,6 @@ def convert_graph_to_dataset(
     # Finally, we can get the final outputs
     for i, out in enumerate(graph.outputs):
         dataset.variables.append(vocab[(TOP, False, str(i))])
-        dataset.graph_height.append(0)
-        dataset.graph_level_ids.append(this_level)
 
         if (graph.name, out.name) in output_op_names_to_suppliers:
             # Then it's supplied.

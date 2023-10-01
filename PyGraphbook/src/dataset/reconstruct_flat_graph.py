@@ -1,4 +1,5 @@
 import json
+import logging
 
 from src import graph_util
 from src.dataset import dataset_util
@@ -29,12 +30,72 @@ def reconstruct_dataset(
         if operation_name == flat_dataset.SPECIAL_OPERATION_NAMES[0]:
             # Then it's conditional
             # We necessarily have to build in
+
+            if operation_name == last_operation_name and (is_input == last_was_input or last_was_input):
+                # Then this is continuation.
+                op = top_op
+            else:
+                original_name = operation_name
+                if operation_name in names_so_far:
+                    operation_name = f"{operation_name}_{i}"
+
+                names_so_far.add(operation_name)
+
+                op = graph_util.Operation(
+                    name=operation_name,
+                    primitive_name=original_name,
+                    type=graph_util.OperationType.CONDITIONAL_OPERATION)
+
+                top_op.operations.append(op)
+                # But how do we know which operations belong in here, vs outside of here? for now, don't worry about it?
+
             pass
         elif operation_name == flat_dataset.SPECIAL_OPERATION_NAMES[1]:
-            # Then it's loop body
-            pass
 
-        if operation_name == flat_dataset.TOP:
+            if var_name == "Looping Data Parent Input" or var_name == "Looping Data Sub-graph Input":
+                # Then it's the parent intro to the loop body:
+
+                # Then it's loop body
+                if is_input == last_was_input or last_was_input:
+                    # Then this is continuation.
+                    op = top_op
+                else:
+                    original_name = operation_name
+                    if operation_name in names_so_far:
+                        operation_name = f"{operation_name}_{i}"
+
+                    names_so_far.add(operation_name)
+
+                    op = graph_util.Operation(
+                        name=operation_name,
+                        primitive_name=original_name,
+                        type=graph_util.OperationType.LOOP_BODY_OPERATION)
+
+                    top_op.operations.append(op)
+            else:
+                # Then it's loop data output.
+                if is_input == last_was_input or last_was_input:
+                    # Then this is continuation.
+                    op = top_op
+                else:
+                    original_name = operation_name
+                    if operation_name in names_so_far:
+                        operation_name = f"{operation_name}_{i}_run_again"
+
+                    names_so_far.add(operation_name)
+
+                    op = graph_util.Operation(
+                        name=operation_name,
+                        primitive_name=original_name,
+                        type=graph_util.OperationType.PRIMITIVE_OPERATION)
+
+                    top_op.operations.append(op)
+
+        # var_name == "Looping Data Parent Input"
+        # vocab.append((len(vocab), (SPECIAL_OPERATION_NAMES[1], True, "Run Again")))
+        # vocab.append((len(vocab), (SPECIAL_OPERATION_NAMES[1], True, "Looping Data Sub-graph Input")))
+
+        elif operation_name == flat_dataset.TOP:
             # Then it's top level
             op = top_op
         # Is it a new operation?
@@ -82,11 +143,16 @@ def reconstruct_dataset(
 
 if __name__ == "__main__":
 
-    file_name = "flat_dataset/graphs/Softmax.json"
+    # file_name = "flat_dataset/graphs/Softmax.json"
+    # file_name = "flat_dataset/graphs/Adam_Optimizer.json"
+    file_name = "flat_dataset/graphs/Add_Weight.json"
+    # file_name = "flat_dataset/graphs/GPT-2_+_Next_Token_Head.json"
 
     with open(file_name, "r") as f:
         dataset_json = json.load(f)
         dataset = flat_dataset.Dataset.model_validate(dataset_json)
+
+    logging.info("Deserialized dataset")
 
     with open("flat_dataset/vocab.json", "r") as f:
         _vocab = json.load(f)

@@ -21,7 +21,16 @@ Set python path to be root folder
 export PYTHONPATH=$PYTHONPATH:$(pwd)
 ```
 
-## Usage
+## Usage 
+Populate datasets:
+
+```bash
+python3 src/dataset/hierarchical_dataset.py
+
+python3 src/dataset/flat_dataset.py
+```
+
+Read and write specific files:
 
 ```python
 from src import graph
@@ -39,6 +48,8 @@ print(graph_obj.model_dump_json(exclude_none=True))
 
 
 ## Tests
+
+Tests require you populate the datasets first.
 
 ```bash
 pytest tests

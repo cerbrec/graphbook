@@ -12,8 +12,8 @@ from pydantic import BaseModel, Field
 from src import graph_util
 from src.dataset import variable_vocab
 
-DATASET_FOLDER = "flat_dataset"
-SAVE_LOCATION = f"./{DATASET_FOLDER}"
+GRAPH_DATASET_FOLDER_NAME = "flat_dataset"
+SAVE_LOCATION = f"./{GRAPH_DATASET_FOLDER_NAME}"
 
 TOP = "top"
 THIS = "this"
@@ -64,6 +64,15 @@ class Dataset(BaseModel):
     variables: List[int] = Field(default=list(), description="Vocab Ids for Variables")
     adj_pairs: List[Tuple[int, int]] = Field(default=list(), description="Adjacency Pairs")
     adj_matrix: List[List[int]] = Field(default=list(), description="Adjacency Matrix")
+
+    # After instantiation, populate adj matrix if adj pairs exists
+    def __init__(self, **data):
+        super().__init__(**data)
+        if self.adj_pairs and not self.adj_matrix:
+            logging.info("Populating adj matrix from adj pairs")
+            self.adj_matrix = [[0 for _ in range(len(self.variables))] for _ in range(len(self.variables))]
+            for pair in self.adj_pairs:
+                self.adj_matrix[pair[0]][pair[1]] = 1
 
 
 def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Operation], links: List[graph_util.Link],
@@ -162,7 +171,7 @@ def _convert_graph(graph: graph_util.Operation, operations: List[graph_util.Oper
             for i, inp in enumerate(operation.inputs):
 
                 # If this is conditional input, then we need to add it to the vocab.
-                if operation.type == graph_util.OperationType.CONDITIONAL_OPERATION and inp.primitive_name == "if_true" and i == 0:
+                if operation.type == graph_util.OperationType.CONDITIONAL_OPERATION and inp.primitive_name == "Is True" and i == 0:
 
                     var_index = len(dataset.variables)
                     dataset.variables.append(vocab[("conditional", True, "if_true")])
@@ -402,14 +411,14 @@ def convert_graph_to_dataset(
 
     print(dataset)
 
-    print(f"Converting {len(dataset.adj_pairs)} adj pairs to matrix...")
+    # print(f"Converting {len(dataset.adj_pairs)} adj pairs to matrix...")
 
-    dataset.adj_matrix = [[0 for _ in range(len(dataset.variables))] for _ in range(len(dataset.variables))]
-
-    for pair in dataset.adj_pairs:
-        dataset.adj_matrix[pair[0]][pair[1]] = 1
-
-    dataset.adj_pairs = None
+    # dataset.adj_matrix = [[0 for _ in range(len(dataset.variables))] for _ in range(len(dataset.variables))]
+    #
+    # for pair in dataset.adj_pairs:
+    #     dataset.adj_matrix[pair[0]][pair[1]] = 1
+    #
+    # dataset.adj_pairs = None
     return dataset
 
 
@@ -519,6 +528,7 @@ if __name__ == "__main__":
     # args.full_path = os.getcwd() + "/../compute_operations/optimizer_operations/Adam Optimizer.json"
     # args.full_path = os.getcwd() + "/../nlp_models/classifiers/Fine Tune BERT with Text Classifier.json"
     # args.full_path = os.getcwd() + "/../nlp_models/generators/GPT-2 Text Generator.json"
+    # args.full_path = os.getcwd() + "/../compute_operations/initializer_operations/Add Weight.json"
 
     if args.full_path:
         convert_one(args.full_path)

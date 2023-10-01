@@ -6,6 +6,7 @@ import pytest
 from src import graph_util
 from src.dataset import hierarchical_dataset as dataset_util
 from src.dataset import reconstruct_hierarchical_graph as reconstruct_util
+from src.dataset import variable_vocab as vocab_util
 
 
 @pytest.mark.parametrize(
@@ -21,13 +22,14 @@ from src.dataset import reconstruct_hierarchical_graph as reconstruct_util
 )
 def test_dataset(dataset_file: str, num_levels: int, max_height: int, num_ops_first_level: int):
     """ Test primitive deserialization. """
+
     with open(os.getcwd() + f"/{dataset_util.GRAPH_DATASET_FOLDER_NAME}/vocab.json", "r") as f:
         vocab = json.load(f)
 
     # convert vocab which is a nested list into a dict
     vocab = {vocab_level[0]: vocab_level[1] for vocab_level in vocab}
 
-    with open(os.getcwd() + f"/{dataset_util.GRAPH_DATASET_FOLDER_NAME}/graphs/Softmax.json", "r") as f:
+    with open(dataset_file, "r") as f:
         dataset_json = json.load(f)
         dataset_obj = dataset_util.HierarchicalDataset.model_validate(dataset_json)
 
@@ -66,7 +68,7 @@ def test_construct_and_desconstruct(graph_file: str):
     with open(graph_file, "r") as f:
         graph_json = json.load(f)
 
-    vocab_map = dataset_util.create_vocab()
+    vocab_map = vocab_util.create_vocab()
     savable_vocab = [(i, key) for key, i in vocab_map.items()]
     dataset_util.add_special_vocab(savable_vocab)
 

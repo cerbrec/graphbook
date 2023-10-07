@@ -10,8 +10,18 @@ Includes a vanilla GNN layer and GAT layer based on Graph Attention Network pape
 
 ### LoRA Layer
 
-Low-rank adaption of LLMs (LoRA), post forthcoming. for where to use it.
+See https://medium.com/towards-artificial-intelligence/walkthrough-of-lora-fine-tuning-on-gpt-and-bert-with-visualized-implementation-4824e2c0acf
+
+Low-rank adaption of LLMs (LoRA) for GPT and BERT.
 
 ### Leaky ReLU
 
 Small modification to ReLU to multiply itself by 0.01 when less than zero.
+
+### Cosine Sim
+
+Cosine similarity operation
+
+### BERTScore
+
+Project put on medium.com about BERTScore, contains notes.

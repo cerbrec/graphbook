@@ -10,6 +10,4 @@ Our main source of documentation is through our [website](https://cerbrec.com/do
 
 We've opened this repo in order to gather issues and to provide a place for users to submit their model templates for sharing with the broader community.
 
-If you're happy with Graphbook, consider also reviewing us on [Product Hunt](https://www.producthunt.com/products/cerbrec-graphbook).
-
 For more general questions or to chat with Graphbook developers, check out our [Slack](https://cerbrec-community.slack.com/ssb/redirect).

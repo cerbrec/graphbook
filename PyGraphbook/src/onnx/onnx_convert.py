@@ -112,11 +112,15 @@ class OnnxOperation(pydantic.BaseModel):
     input: List[str] = pydantic.Field(None, alias="input")
     output: List[str] = pydantic.Field(None, alias="output")
 
+    bootstrap_map: Optional[Dict[str, OnnxAttribute]] = pydantic.Field(None, alias="bootstrap_map")
+
     # Attribute is a list of OnnxAttribute
     attribute: List[OnnxAttribute] = pydantic.Field(None, type=list)
 
     tensor_map: Optional[Dict[str, List]] = pydantic.Field(None, alias="tensor_map")
     composite_path: Optional[str] = pydantic.Field(None, alias="composite_path")
+
+    op_type_meta_data: Optional[Dict] = pydantic.Field(None, alias="op_type_meta_data")
 
 
 def create_read_from_file(file_name: str, tensor: List) -> OnnxOperation:
@@ -145,6 +149,7 @@ def create_write_to_file(file_name: str) -> OnnxOperation:
         'output': []
     })
     return write_to_file
+
 
 class OnnxLink:
     def __init__(self, source: str, source_int: int, var_name: str, sink_int: int, sink: str):
@@ -236,13 +241,16 @@ def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
     # First, we get all the operations and convert them to OnnxOperation objects.
     onnx_list = []
     link_list = []
+    constants = {}
     unfilled_inputs = set()
     read_cache = set()
     write_cache = set(out for out in output_to_op.keys() if out.startswith("present"))
     op_name_to_op = dict()
     check_back_later = []
     for op in onnx_json["graph"]["node"]:
+
         onnx_op = OnnxOperation(**op)
+        onnx_op.op_type_meta_data = dict(parsed_onnx.netron_model.metadata.metadata[onnx_op.opType])
         if len(onnx_op.name.split("/")) > 1:
             onnx_op.composite_path = "/".join(onnx_op.name.split("/")[:-1])
 
@@ -287,23 +295,37 @@ def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
                     )
                     link_list.append(link)
                     include_tensor = False
-
             else:
                 # Add Link
                 previous_op = output_to_op[inp]
+
                 if previous_op not in op_name_to_op:
                     print(f"Could not find previous op: {previous_op}")
                     check_back_later.append((onnx_op, i, inp))
                     continue
                 else:
                     previous_op = op_name_to_op[previous_op]
-                source_index = previous_op.output.index(inp)
-                link_list.append(OnnxLink(
-                    source=previous_op.name,
-                    source_int=source_index,
-                    var_name=inp,
-                    sink_int=i,
-                    sink=onnx_op.name))
+
+                if previous_op.name in constants:
+                    """ Then this is a constant and we should use it to "bootstrap
+                    
+                    For example, we have  operation Unsqueeze whose inputs are "data" and "axes"
+                    The "axes" is coming from a constant. Then we should assign the shape, type, and data of constant.
+                    """
+                    print("Found constant: ", previous_op.name)
+                    constant = constants[previous_op.name]
+                    attribute = constant.attribute[0]
+                    onnx_op.bootstrap_map = {inp: attribute}
+                    _get_graphbook_type_from_str()
+
+                else:
+                    source_index = previous_op.output.index(inp)
+                    link_list.append(OnnxLink(
+                        source=previous_op.name,
+                        source_int=source_index,
+                        var_name=inp,
+                        sink_int=i,
+                        sink=onnx_op.name))
 
         # For each output, if write_cache, then add write_to_file operation and add link from output
         for i, out in enumerate(onnx_op.output):
@@ -336,6 +358,10 @@ def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
 
             onnx_op.tensor_map = relevant_tensors
 
+        if onnx_op.opType == "Constant":
+            # Then this will be a bootstrapped value for each place it is linked to.
+            constants[onnx_op.name] = onnx_op
+            continue
         onnx_list.append(onnx_op)
 
     return OnnxGraph(
@@ -429,6 +455,106 @@ def _calculate_composite_input_outputs(var_name: str, path1: str, path2: str, va
             var_map[join_back]["input"].append(var_name)
 
 
+def _get_graphbook_type_from_str(type_str: str) -> graphbook.DataType:
+    if "(int" in type_str or "(uint" in type_str:
+        return graphbook.DataType.INTEGER
+    elif "(float" in type_str or "(double" in type_str or "(bfloat" in type_str:
+        return graphbook.DataType.DECIMAL
+    elif "(string" in type_str:
+        return graphbook.DataType.TEXT
+    elif "(bool" in type_str:
+        return graphbook.DataType.BOOLEAN
+    else:
+        return graphbook.DataType.NULL
+
+
+def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
+    """ converts onnx operation to graphbook operation"""
+
+    graphbook_inputs = []
+    if onnx_op.input:
+        for i, inp in enumerate(onnx_op.input):
+            graphbook_var = graphbook.Variable(name=inp)
+            if not onnx_op.op_type_meta_data:
+                # Then it's our own read or write file
+                if onnx_op.opType == "read_from_file":
+                    if i == 0:
+                        graphbook_var.primitive_name = "file_name"
+                    elif i == 1:
+                        graphbook_var.primitive_name = "dir_name"
+                    elif i == 2:
+                        graphbook_var.primitive_name = "extraction_schema"
+
+            else:
+                var_meta = onnx_op.op_type_meta_data["inputs"][i]
+                if 'name' in var_meta['inputs'][i]:
+                    graphbook_var.primitive_name = var_meta['inputs'][i]['name']
+
+            graphbook_inputs.append(graphbook_var)
+
+
+    attribute_names = []
+    if onnx_op.attribute:
+        attribute_names = [attribute.name for attribute in onnx_op.attribute]
+
+    if onnx_op.op_type_meta_data and onnx_op.op_type_meta_data["attributes"]:
+        for i, attribute in onnx_op.op_type_meta_data["attributes"]:
+            graphbook_var = graphbook.Variable(name=attribute["name"], primitive_name="attribute_" + attribute["name"])
+            """ 
+            Then we need to specify that it's "filled" in this operation
+            This is because attributes in onnx act a bit like a conditional sometimes. 
+            For example, for Constant operation, there is an attribute for each value type and shape it can take. 
+            We add each attribute as an input and specify whether it is filled on this operation.
+            Then later we can map based on the unique qualities of the operation and how it maps to graphbook.
+            """
+            graphbook_var.onnx_attribute = attribute["name"] in attribute_names
+
+            if "type" in attribute:
+                # This is a tensor
+                graphbook_var.type = _get_graphbook_type_from_str(str(attribute['type']))
+            elif attribute.i:
+                graphbook_var.type = graphbook.DataType.INTEGER
+            elif attribute.ints:
+                graphbook_var.type = graphbook.DataType.INTEGER
+                graphbook_var.shape = [len(attribute.ints)]
+
+            graphbook_inputs.append(graphbook_var)
+
+    graphbook_outputs = []
+    if onnx_op.outut:
+        for i, out in enumerate(onnx_op.output):
+            graphbook_var = graphbook.Variable(name=out)
+            if not onnx_op.op_type_meta_data:
+                # Then it's our own read or write file
+                if onnx_op.opType == "write_to_file":
+                    if i == 0:
+                        graphbook_var.primitive_name = "file_name"
+                    elif i == 1:
+                        graphbook_var.primitive_name = "dir_name"
+                    elif i == 2:
+                        graphbook_var.primitive_name = "overwrite"
+                    elif i == 3:
+                        graphbook_var.primitive_name = "data"
+
+            else:
+                var_meta = onnx_op.op_type_meta_data["outputs"][i]
+                if 'name' in var_meta['outputs'][i]:
+                    graphbook_var.primitive_name = var_meta['outputs'][i]['name']
+
+            graphbook_outputs.append(graphbook_var)
+
+    # TODO: Add mapping here from onnx optype to graphbook schema type.
+    return graphbook.Operation(
+        name=onnx_op.name,
+        primitive_name=onnx_op.opType,
+        # For now, we won't say it's a primitive operation since it's not mapped yet to a real primitive.
+        # type=graphbook.OperationType.PRIMITIVE_OPERATION,
+        type=graphbook.OperationType.COMPOSITE_OPERATION, # This is temporary until they are properly mapped.
+        inputs=graphbook_inputs,
+        outputs=graphbook_outputs
+    )
+
+
 def onnx_graph_to_graphbook(onnx_graph: OnnxGraph):
     """Converts onnx graph to Graphbook graph"""
 
@@ -439,8 +565,10 @@ def onnx_graph_to_graphbook(onnx_graph: OnnxGraph):
 
     for op in onnx_graph.onnx_ops:
         if op.composite_path:
-            for part in op.composite_path.split("/"):
-                composite_names.add(part)
+            split_path = op.composite_path.split("/")
+            for i, part in enumerate(split_path):
+                join_back = "/".join(split_path[:i+1])
+                composite_names.add(join_back)
 
             composite_map[op.composite_path].append(op)
         else:
@@ -476,14 +604,21 @@ def onnx_graph_to_graphbook(onnx_graph: OnnxGraph):
             raise ValueError(f"Link sink {link.sink} not recognized")
 
     for name in composite_names:
+        if not name:
+            name = onnx_graph.name
+
+        primitive_map = {
+            onnx_op: onnx_op_to_graphbook(onnx_op)
+            for onnx_op in composite_map[name]
+        }
+
         graphbook.Operation(
             name=name,
             primitive_name=name,
             type=graphbook.OperationType.COMPOSITE_OPERATION,
-            operations=composite_map[name],
+            operations=primitives,
             links=composite_link_map[name]
         )
-
 
 
 if __name__ == "__main__":

@@ -8,3 +8,6 @@ pydantic_core==2.6.3
 pytest==7.4.2
 tomli==2.0.1
 typing_extensions==4.8.0
+onnx==1.15.0
+onnxruntime==1.16.1
+netron==7.2.7

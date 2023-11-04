@@ -35,6 +35,8 @@ class Variable(BaseModel):
     primitive_name: str = Field(None, description="Original name of the variable.")
     type: DataType = Field(None, description="Data Type of the variable.")
     shape: Optional[List[int]] = Field(None, description="Description of the variable.")
+    onnx_attribute: Optional[bool] = Field(None, description="Whether the variable is supplied for onnx attribute")
+    bootstrapped_data: Optional[object] = Field(None, description="Bootstrapped data of the variable.")
 
 
 VariableModel = TypeVar("VariableModel", str, Variable)

@@ -252,7 +252,6 @@ def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
     read_cache = set()
     write_cache = set(out for out in output_to_op.keys() if out.startswith("present"))
     op_name_to_op = dict()
-    check_back_later = []
     for op in onnx_json["graph"]["node"]:
 
         onnx_op = OnnxOperation(**op)
@@ -318,8 +317,9 @@ def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
 
                 if previous_op not in op_name_to_op:
                     print(f"Could not find previous op: {previous_op}")
-                    check_back_later.append((onnx_op, i, inp))
-                    continue
+                    raise ValueError("Could not find previous op: " + previous_op)
+                    # check_back_later.append((onnx_op, i, inp))
+                    # continue
                 else:
                     previous_op = op_name_to_op[previous_op]
 
@@ -372,6 +372,7 @@ def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
                 )
                 link_list.append(link)
 
+
         if include_tensor:
             relevant_tensors = dict()
             if onnx_op.output:
@@ -396,6 +397,23 @@ def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
                      out not in used_outs and
                      out not in const_name and
                      len(out.split("/")) == 1}
+
+    # Find the operation who produced those final outputs and add links.
+    for i, out in enumerate(final_outputs):
+        previous_op = output_to_op[out]
+        if previous_op not in op_name_to_op:
+            print(f"Could not find previous op: {previous_op}")
+            raise ValueError("Could not find previous op: " + previous_op)
+        else:
+            previous_op = op_name_to_op[previous_op]
+
+        source_index = previous_op.output.index(out)
+        link_list.append(OnnxLink(
+            source=previous_op.name,
+            source_int=source_index,
+            var_name=out,
+            sink_int=i,
+            sink=onnx_file))
 
     return OnnxGraph(
         name=onnx_file,
@@ -659,11 +677,33 @@ def onnx_graph_to_graphbook(onnx_graph: OnnxGraph) -> graphbook.Operation:
     composite_link_map = defaultdict(list)
     composite_var_map = defaultdict(dict)
 
+    primitive_to_final_output_links = set()
+
     for link in onnx_graph.onnx_links:
-        if link.sink in name_to_op:
+        if link.sink == onnx_graph.name:
+            # Then this is a final output
+            composite_link_map[onnx_graph.name].append(link)
+            _calculate_composite_input_outputs(
+                var_name=link.var_name,
+                path1=name_to_op[link.source].composite_path,
+                path2="",
+                var_map=composite_var_map)
+
+        elif link.source in name_to_op and link.var_name in onnx_graph.outputs:
+            # Then this is a final output
+            primitive_to_final_output_links.add(link)
+
+        elif link.sink in name_to_op:
             if name_to_op[link.sink].composite_path:
                 composite_link_map[name_to_op[link.sink].composite_path].append(link)
-                if not name_to_op[link.source].composite_path or name_to_op[link.sink].composite_path != name_to_op[link.source].composite_path:
+                if link.source == onnx_graph.name:
+                    _calculate_composite_input_outputs(
+                        var_name=link.var_name,
+                        path1="",
+                        path2=name_to_op[link.sink].composite_path,
+                        var_map=composite_var_map)
+                elif not name_to_op[link.source].composite_path \
+                        or name_to_op[link.sink].composite_path != name_to_op[link.source].composite_path:
                     # The link is traversing graph levels, so it should be an input to each composite along the path
                     _calculate_composite_input_outputs(
                         var_name=link.var_name,
@@ -688,6 +728,7 @@ def onnx_graph_to_graphbook(onnx_graph: OnnxGraph) -> graphbook.Operation:
 
     primitive_map = {}
     graphbook_composite_map = {}
+
     for name in composite_names:
         if not name:
             if onnx_graph.name in composite_map:
@@ -728,6 +769,7 @@ def onnx_graph_to_graphbook(onnx_graph: OnnxGraph) -> graphbook.Operation:
             links=[]
         )
 
+    # Links between composites only.
     for name in composite_names:
         if name == onnx_graph.name:
             continue
@@ -760,20 +802,16 @@ def onnx_graph_to_graphbook(onnx_graph: OnnxGraph) -> graphbook.Operation:
                         sink=graphbook.LinkEndpoint(operation="this", data=out.name),
                     ))
 
+    # This is where links are connected between composites to primitives.
     for composite_name, link_list in composite_link_map.items():
-        """ 
-        Create links between primitive operations. 
-        Each link from composite_link_map[name] is landing inside this composite operation at a primitive.
-        The source of the link may be from 
-            1) in the same graph from a primitive
-            2) in a sibling composite operation within the grpah
-            3) from the parent graph, recursively.
-        """
 
         composite = graphbook_composite_map[composite_name]
 
         # For each link that ends in this composite graph, create a path of links from the source to here.
         for link in link_list:
+            if link.source == onnx_graph.name:
+                continue
+
             # Get the source and sink operations
             primitive_source = primitive_map[link.source]
 
@@ -784,7 +822,17 @@ def onnx_graph_to_graphbook(onnx_graph: OnnxGraph) -> graphbook.Operation:
                     sink=graphbook.LinkEndpoint(operation=link.sink, data=link.var_name),
                     var_name=link.var_name
                 ))
+            elif composite_name == onnx_graph.name:
 
+                sink_name = "/".join(primitive_source.name.split("/")[:-1])
+                next_composite = graphbook_composite_map[sink_name]
+                #
+                if link.var_name not in [out.name for out in next_composite.outputs]:
+                    raise ValueError("Expected link var name to be in composite outputs")
+                next_composite.links.append(graphbook.Link(
+                    source=graphbook.LinkEndpoint(operation=primitive_source.name, data=link.var_name),
+                    sink=graphbook.LinkEndpoint(operation="this", data=link.var_name),
+                ))
             elif not primitive_source.name.startswith(composite_name):
                 # If the primitive source is not from within this graph, it must be coming from parent graph.
                 if link.var_name not in [inp.name for inp in composite.inputs]:

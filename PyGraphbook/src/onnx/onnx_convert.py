@@ -1,5 +1,5 @@
 
-import pydantic
+from pydantic import BaseModel, Field, AliasChoices
 import os
 import onnx
 import json
@@ -59,7 +59,10 @@ class ParsedOnnxFile:
         self.netron_model = netron_model
 
         # This is needed to compile the netron model as well.
-        self.netron_json = netron_model.to_json()
+        if netron_model:
+            self.netron_json = netron_model.to_json()
+        else:
+            self.netron_json = {}
 
 
 def convert_onnx_to_dict(onnx_file_name: str) -> ParsedOnnxFile:
@@ -74,6 +77,7 @@ def convert_onnx_to_dict(onnx_file_name: str) -> ParsedOnnxFile:
             tensor_map[tensor.name] = numpy_helper.to_array(tensor)
         except Exception as e:
             print("moving on from tensor: ", tensor.name)
+            continue
 
     json_str_model = MessageToJson(onnx_model)
 
@@ -90,37 +94,36 @@ def convert_onnx_to_dict(onnx_file_name: str) -> ParsedOnnxFile:
     )
 
 
-
-class OnnxTensor(pydantic.BaseModel):
+class OnnxTensor(BaseModel):
     # Dims is a list of String (int)
-    dims: List[str] = pydantic.Field(None, alias="dims")
-    dataType: int = pydantic.Field(None, alias="dataType")
+    dims: List[str] = Field(None, alias="dims")
+    dataType: int = Field(None, alias="dataType")
 
 
-class OnnxAttribute(pydantic.BaseModel):
-    name: str = pydantic.Field(..., alias="name")
-    type: str = pydantic.Field(..., alias="type")
-    i: str = pydantic.Field(None, alias="i")
-    t: OnnxTensor = pydantic.Field(None, alias="t")
-    ints: List[str] = pydantic.Field(None, alias="ints")
+class OnnxAttribute(BaseModel):
+    name: str = Field(..., alias="name")
+    type: str = Field(..., alias="type")
+    i: str = Field(None, alias="i")
+    t: OnnxTensor = Field(None, alias="t")
+    ints: List[str] = Field(None, alias="ints")
 
 
-class OnnxOperation(pydantic.BaseModel):
-    name: str = pydantic.Field(..., alias="name")
-    opType: str = pydantic.Field(..., validation_aliases=pydantic.AliasChoices("opType", "type"))
+class OnnxOperation(BaseModel):
+    name: str = Field(..., alias="name")
+    opType: str = Field(..., validation_aliases=AliasChoices("opType", "type"))
 
-    input: List[str] = pydantic.Field(None, alias="input")
-    output: List[str] = pydantic.Field(None, alias="output")
+    input: List[str] = Field(None, alias="input")
+    output: List[str] = Field(None, alias="output")
 
-    bootstrap_map: Optional[Dict[str, OnnxAttribute]] = pydantic.Field(None, alias="bootstrap_map")
+    bootstrap_map: Optional[Dict[str, OnnxAttribute]] = Field(None, alias="bootstrap_map")
 
     # Attribute is a list of OnnxAttribute
-    attribute: List[OnnxAttribute] = pydantic.Field(None, type=list)
+    attribute: List[OnnxAttribute] = Field(None, type=list)
 
-    tensor_map: Optional[Dict[str, List]] = pydantic.Field(None, alias="tensor_map")
-    composite_path: Optional[str] = pydantic.Field(None, alias="composite_path")
+    tensor_map: Optional[Dict[str, List]] = Field(None, alias="tensor_map")
+    composite_path: Optional[str] = Field(None, alias="composite_path")
 
-    op_type_meta_data: Optional[Dict] = pydantic.Field(None, alias="op_type_meta_data")
+    op_type_meta_data: Optional[Dict] = Field(None, alias="op_type_meta_data")
 
 
 def create_read_from_file(file_name: str, tensor: List) -> OnnxOperation:
@@ -129,7 +132,7 @@ def create_read_from_file(file_name: str, tensor: List) -> OnnxOperation:
     dir_name = ".".join(split_name[:-1])
 
     read_from_file = OnnxOperation(**{
-        'name': "read_" + file_name,
+        'name': file_name + ".read_from_file",
         'opType': "read_from_file",
         'input': [split_name[-1], dir_name, "{}"],
         'output': [file_name]
@@ -143,7 +146,7 @@ def create_write_to_file(file_name: str) -> OnnxOperation:
     split_name = file_name.split(".")
     dir_name = ".".join(split_name[:-1])
     write_to_file = OnnxOperation(**{
-        'name': "write_" + file_name,
+        'name': file_name + ".write_to_file",
         'opType': "write_to_file",
         'input': [split_name[0], dir_name, "true", ''],
         'output': []
@@ -172,12 +175,14 @@ class OnnxGraph:
             self,
             name: str,
             inputs: set,
+            outputs: set,
             onnx_ops: List[OnnxOperation],
             onnx_links: List[OnnxLink],
             parsed_onnx_file: Optional[ParsedOnnxFile] = None):
 
         self.name = name
         self.inputs = inputs
+        self.outputs = outputs
         self.onnx_ops = onnx_ops
         self.onnx_links = onnx_links
         self.parsed_onnx_file = parsed_onnx_file
@@ -217,12 +222,13 @@ def _fetch_tensor_type_for_onnx_tensor(netron_model: NetronModel, opt_type: str,
 
     return type_list[onnx_tensor.dataType-1]
 
+
 def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
     """ Convert given onnx file to list of OnnxOperation objects. and tensormap."""
     try:
         parsed_onnx = convert_onnx_to_dict(onnx_file)
     except Exception as e:
-        print(f"Could not convert {onnx_file} to dict")
+        print(f"Could not convert {onnx_file} to NetronModel.")
         return None
     onnx_json = parsed_onnx.json_model
     tensor_map = parsed_onnx.tensor_map
@@ -274,9 +280,20 @@ def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
                         read_cache.add((inp, None))
                 elif inp not in tensor_map:
                     unfilled_inputs.add(inp)
+                    link = OnnxLink(
+                        source=onnx_file,
+                        source_int=len(unfilled_inputs)-1,
+                        var_name=inp,
+                        sink_int=i,
+                        sink=onnx_op.name
+                    )
+                    link_list.append(link)
                 else:
                     # This is in tensor map. we should just read from file.
                     read_from_file = create_read_from_file(inp, tensor_map[inp])
+                    read_from_file.composite_path = onnx_op.composite_path
+                    if onnx_op.composite_path:
+                        read_from_file.name = onnx_op.composite_path + "/" + read_from_file.name
 
                     if len(onnx_op.name.split("/")) > 1:
                         # Get the path
@@ -312,11 +329,17 @@ def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
                     For example, we have  operation Unsqueeze whose inputs are "data" and "axes"
                     The "axes" is coming from a constant. Then we should assign the shape, type, and data of constant.
                     """
-                    print("Found constant: ", previous_op.name)
+                    # print("Found constant: ", previous_op.name)
                     constant = constants[previous_op.name]
+                    if constant.attribute and len(list(constant.attribute)) > 1 :
+                        raise ValueError("Constant has more than one output. This is not supported.")
+                    if not constant.attribute or len(list(constant.attribute)) == 0:
+                        raise ValueError("Constant has no output. This is not supported.")
                     attribute = constant.attribute[0]
-                    onnx_op.bootstrap_map = {inp: attribute}
-                    _get_graphbook_type_from_str()
+                    if not onnx_op.bootstrap_map:
+                        onnx_op.bootstrap_map = {inp: attribute}
+                    else:
+                        onnx_op.bootstrap_map[inp] = attribute
 
                 else:
                     source_index = previous_op.output.index(inp)
@@ -336,6 +359,7 @@ def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
                     # Get the path
                     composite_path = "/".join(onnx_op.name.split("/")[:-1])
                     write_to_file.composite_path = composite_path
+                    write_to_file.name = onnx_op.composite_path + "/" + write_to_file.name
                 onnx_list.append(write_to_file)
                 op_name_to_op[write_to_file.name] = onnx_op
                 # Now add Link
@@ -364,9 +388,19 @@ def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
             continue
         onnx_list.append(onnx_op)
 
+
+    # Now we need to determine which outputs are final outputs
+    used_outs = {link.var_name for link in link_list}
+    const_name = {const.output[0] for const in constants.values()}
+    final_outputs = {out for out in output_to_op.keys() if
+                     out not in used_outs and
+                     out not in const_name and
+                     len(out.split("/")) == 1}
+
     return OnnxGraph(
         name=onnx_file,
         inputs=unfilled_inputs,
+        outputs=final_outputs,
         onnx_ops=onnx_list,
         onnx_links=link_list,
         parsed_onnx_file=parsed_onnx
@@ -409,7 +443,9 @@ def _calculate_composite_input_outputs(var_name: str, path1: str, path2: str, va
             join_back = "/".join(path2_split[:i+1])
             if "input" not in var_map[join_back]:
                 var_map[join_back]["input"] = []
-            var_map[join_back]["input"].append(var_name)
+
+            if var_name not in var_map[join_back]["input"]:
+                var_map[join_back]["input"].append(var_name)
         return
 
     if not path2:
@@ -419,7 +455,9 @@ def _calculate_composite_input_outputs(var_name: str, path1: str, path2: str, va
             join_back = "/".join(path1_split[:i+1])
             if "output" not in var_map[join_back]:
                 var_map[join_back]["output"] = []
-            var_map[join_back]["output"].append(var_name)
+
+            if var_name not in var_map[join_back]["output"]:
+                var_map[join_back]["output"].append(var_name)
         return
 
     if path1.startswith(path2):
@@ -437,7 +475,9 @@ def _calculate_composite_input_outputs(var_name: str, path1: str, path2: str, va
             join_back = path2 + "/" + "/".join(partial_split[:i + 1])
             if "output" not in var_map[join_back]:
                 var_map[join_back]["output"] = []
-            var_map[join_back]["output"].append(var_name)
+
+            if var_name not in var_map[join_back]["output"]:
+                var_map[join_back]["output"].append(var_name)
         return
 
     if path2.startswith(path1):
@@ -452,8 +492,44 @@ def _calculate_composite_input_outputs(var_name: str, path1: str, path2: str, va
 
             if "input" not in var_map[join_back]:
                 var_map[join_back]["input"] = []
-            var_map[join_back]["input"].append(var_name)
 
+            if var_name not in var_map[join_back]["input"]:
+                var_map[join_back]["input"].append(var_name)
+        return
+
+    # If we're here, then there's a cross stream link.
+    # For each composite on path in path1, needs output
+    # For each composite on path in path2, needs input
+    path1_split = path1.split("/")
+    path2_split = path2.split("/")
+
+    # Get the first n parts that are shared
+    shared_parts = []
+    for i in range(min(len(path1_split), len(path2_split))):
+        if path1_split[:i+1] == path2_split[:i+1]:
+            shared_parts.append("/".join(path1_split[:i+1]))
+        else:
+            break
+
+    # For each shared path, we'll do nothing, for each unique on composite path 1, we need output and for each unique on composite path 2, we need input.
+
+    for i in range(len(path1_split)):
+        join_back = "/".join(path1_split[:i+1])
+        if join_back in shared_parts:
+            continue
+        if "output" not in var_map[join_back]:
+            var_map[join_back]["output"] = []
+        if var_name not in var_map[join_back]["output"]:
+            var_map[join_back]["output"].append(var_name)
+
+    for i in range(len(path2_split)):
+        join_back = "/".join(path2_split[:i+1])
+        if join_back in shared_parts:
+            continue
+        if "input" not in var_map[join_back]:
+            var_map[join_back]["input"] = []
+        if var_name not in var_map[join_back]["input"]:
+            var_map[join_back]["input"].append(var_name)
 
 def _get_graphbook_type_from_str(type_str: str) -> graphbook.DataType:
     if "(int" in type_str or "(uint" in type_str:
@@ -486,10 +562,16 @@ def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
                         graphbook_var.primitive_name = "extraction_schema"
 
             else:
-                var_meta = onnx_op.op_type_meta_data["inputs"][i]
-                if 'name' in var_meta['inputs'][i]:
-                    graphbook_var.primitive_name = var_meta['inputs'][i]['name']
-
+                input_meta = list(onnx_op.op_type_meta_data["inputs"])
+                if input_meta and i >= len(input_meta):
+                    var_meta = dict(input_meta[0])
+                    if "list" in var_meta:
+                        # Then it's a list, for example for concat.
+                        graphbook_var.primitive_name = f"list_item_{i}"
+                else:
+                    var_meta = dict(input_meta[i])
+                    if 'name' in var_meta:
+                        graphbook_var.primitive_name = var_meta['name']
             graphbook_inputs.append(graphbook_var)
 
 
@@ -497,8 +579,8 @@ def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
     if onnx_op.attribute:
         attribute_names = [attribute.name for attribute in onnx_op.attribute]
 
-    if onnx_op.op_type_meta_data and onnx_op.op_type_meta_data["attributes"]:
-        for i, attribute in onnx_op.op_type_meta_data["attributes"]:
+    if onnx_op.op_type_meta_data and "attribute" in onnx_op.op_type_meta_data:
+        for i, attribute in onnx_op.op_type_meta_data["attribute"]:
             graphbook_var = graphbook.Variable(name=attribute["name"], primitive_name="attribute_" + attribute["name"])
             """ 
             Then we need to specify that it's "filled" in this operation
@@ -521,7 +603,7 @@ def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
             graphbook_inputs.append(graphbook_var)
 
     graphbook_outputs = []
-    if onnx_op.outut:
+    if onnx_op.output:
         for i, out in enumerate(onnx_op.output):
             graphbook_var = graphbook.Variable(name=out)
             if not onnx_op.op_type_meta_data:
@@ -538,8 +620,8 @@ def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
 
             else:
                 var_meta = onnx_op.op_type_meta_data["outputs"][i]
-                if 'name' in var_meta['outputs'][i]:
-                    graphbook_var.primitive_name = var_meta['outputs'][i]['name']
+                if 'name' in var_meta:
+                    graphbook_var.primitive_name = var_meta['name']
 
             graphbook_outputs.append(graphbook_var)
 
@@ -555,11 +637,11 @@ def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
     )
 
 
-def onnx_graph_to_graphbook(onnx_graph: OnnxGraph):
+def onnx_graph_to_graphbook(onnx_graph: OnnxGraph) -> graphbook.Operation:
     """Converts onnx graph to Graphbook graph"""
 
     # First, get all the unique composite operations and assign the ops to the right operations.
-    composite_names = {onnx_graph.name}
+    composite_names = {''}
     composite_map = defaultdict(list)
     name_to_op = {op.name: op for op in onnx_graph.onnx_ops}
 
@@ -576,6 +658,7 @@ def onnx_graph_to_graphbook(onnx_graph: OnnxGraph):
 
     composite_link_map = defaultdict(list)
     composite_var_map = defaultdict(dict)
+
     for link in onnx_graph.onnx_links:
         if link.sink in name_to_op:
             if name_to_op[link.sink].composite_path:
@@ -603,28 +686,141 @@ def onnx_graph_to_graphbook(onnx_graph: OnnxGraph):
             # Then something fishy is happening. Why is this link not there?
             raise ValueError(f"Link sink {link.sink} not recognized")
 
+    primitive_map = {}
+    graphbook_composite_map = {}
     for name in composite_names:
         if not name:
+            if onnx_graph.name in composite_map:
+                # Then we've already been here.
+                continue
+            if name not in composite_map:
+                composite_map[onnx_graph.name] = []
+            else:
+                composite_map[onnx_graph.name] = composite_map[name]
+
             name = onnx_graph.name
+            inputs = list(onnx_graph.inputs)
+            outputs = list(onnx_graph.outputs)
+        else:
+            if "input" not in composite_var_map[name]:
+                composite_var_map[name]["input"] = []
+            inputs = composite_var_map[name]["input"]
 
-        primitive_map = {
-            onnx_op: onnx_op_to_graphbook(onnx_op)
-            for onnx_op in composite_map[name]
-        }
+            if "output" not in composite_var_map[name]:
+                composite_var_map[name]["output"] = []
+            outputs = composite_var_map[name]["output"]
 
-        graphbook.Operation(
+        this_primitive = {}
+        if name in composite_map:
+            this_primitive = {
+                onnx_op.name: onnx_op_to_graphbook(onnx_op)
+                for onnx_op in composite_map[name]
+            }
+            primitive_map.update(this_primitive)
+
+        graphbook_composite_map[name] = graphbook.Operation(
             name=name,
             primitive_name=name,
             type=graphbook.OperationType.COMPOSITE_OPERATION,
-            operations=primitives,
-            links=composite_link_map[name]
+            operations=list(this_primitive.values()),
+            inputs=[graphbook.Variable(name=inp) for inp in inputs],
+            outputs=[graphbook.Variable(name=out) for out in outputs],
+            links=[]
         )
+
+    for name in composite_names:
+        if name == onnx_graph.name:
+            continue
+        split_name = name.split("/")
+        if len(split_name) <= 1:
+            continue
+
+        # Then it is a sub-operation of some composite
+        parent_name = "/".join(split_name[:-1])
+        if len(parent_name) == 0:
+            parent_name = onnx_graph.name
+
+        sub_op = graphbook_composite_map[name]
+        parent_composite = graphbook_composite_map[parent_name]
+        parent_composite.operations.append(sub_op)
+
+        for inp in sub_op.inputs:
+            for comp_inp in parent_composite.inputs:
+                if inp.name == comp_inp.name:
+                    # add link
+                    parent_composite.links.append(graphbook.Link(
+                        source=graphbook.LinkEndpoint(operation="this", data=inp.name),
+                        sink=graphbook.LinkEndpoint(operation=name, data=inp.name),
+                    ))
+        for out in sub_op.outputs:
+            for comp_out in parent_composite.outputs:
+                if out.name == comp_out.name:
+                    parent_composite.links.append(graphbook.Link(
+                        source=graphbook.LinkEndpoint(operation=name, data=out.name),
+                        sink=graphbook.LinkEndpoint(operation="this", data=out.name),
+                    ))
+
+    for composite_name, link_list in composite_link_map.items():
+        """ 
+        Create links between primitive operations. 
+        Each link from composite_link_map[name] is landing inside this composite operation at a primitive.
+        The source of the link may be from 
+            1) in the same graph from a primitive
+            2) in a sibling composite operation within the grpah
+            3) from the parent graph, recursively.
+        """
+
+        composite = graphbook_composite_map[composite_name]
+
+        # For each link that ends in this composite graph, create a path of links from the source to here.
+        for link in link_list:
+            # Get the source and sink operations
+            primitive_source = primitive_map[link.source]
+
+            if primitive_source in composite.operations:
+                # Then it's simply adding a link in this graph.
+                composite.links.append(graphbook.Link(
+                    source=graphbook.LinkEndpoint(operation=link.source, data=link.var_name),
+                    sink=graphbook.LinkEndpoint(operation=link.sink, data=link.var_name),
+                    var_name=link.var_name
+                ))
+
+            elif not primitive_source.name.startswith(composite_name):
+                # If the primitive source is not from within this graph, it must be coming from parent graph.
+                if link.var_name not in [inp.name for inp in composite.inputs]:
+                    raise ValueError("Expected link var name to be in composite inputs")
+
+                composite.links.append(graphbook.Link(
+                    source=graphbook.LinkEndpoint(operation="this", data=link.var_name),
+                    sink=graphbook.LinkEndpoint(operation=link.sink, data=link.var_name),
+                ))
+
+            # If it comes from within this graph, then we need to find the composite that produces it.
+            else:
+                # Get the next item in the path of primitive_source.name after composite_name
+                split_name = primitive_source.name.split("/")
+                split_composite_name = composite_name.split("/")
+                if len(split_name) <= len(split_composite_name):
+                    raise ValueError("Primitive source name is not longer than composite name")
+
+                next_composite_name = "/".join(split_name[:len(split_composite_name)+1])
+                next_composite = graphbook_composite_map[next_composite_name]
+
+                if link.var_name not in [out.name for out in next_composite.outputs]:
+                    raise ValueError("Expected link var name to be in composite outputs")
+                composite.links.append(graphbook.Link(
+                    source=graphbook.LinkEndpoint(operation=next_composite_name, data=link.var_name),
+                    sink=graphbook.LinkEndpoint(operation=link.sink, data=link.var_name),
+                ))
+
+    return graphbook_composite_map[onnx_graph.name]
+
 
 
 if __name__ == "__main__":
 
     onnx_list = onnx_folder_to_onnx_list("flan-t5-small-onnx")
-    print('analyze')
+    print('Generated onnx graphs, now converting to Graphbook')
     for graph in onnx_list:
-        onnx_graph_to_graphbook(graph)
-        print("done")
+        graphbook_root = onnx_graph_to_graphbook(graph)
+        print("Generated: " + graphbook_root.name)

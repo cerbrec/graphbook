@@ -237,7 +237,7 @@ def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
     )
 
 
-def _compile_onnx_composite_map(onnx_graph: OnnxGraph) -> Dict[str, List[OnnxOperation]]:
+def _compile_onnx_composite_map(onnx_graph: OnnxGraph, composite_names: Set[str]) -> Dict[str, List[OnnxOperation]]:
     """ Compiles the composite map for the onnx graph.
 
         This is a map from composite path to list of operations in that composite.
@@ -245,6 +245,12 @@ def _compile_onnx_composite_map(onnx_graph: OnnxGraph) -> Dict[str, List[OnnxOpe
     composite_map = defaultdict(list)
     for op in onnx_graph.onnx_ops:
         if op.composite_path:
+
+            split_path = op.composite_path.split("/")
+            for i, part in enumerate(split_path):
+                join_back = "/".join(split_path[:i + 1])
+                composite_names.add(join_back)
+
             composite_map[op.composite_path].append(op)
         else:
             composite_map[onnx_graph.name].append(op)
@@ -326,17 +332,19 @@ def _compile_graphbook_operations_from_composite_map(
     """
 
     graphbook_composite_map = {}
+    already_visited_root = False
 
     for name in composite_names:
         if not name:
-            if onnx_graph.name in composite_map:
+            if already_visited_root:
                 # Then we've already been here.
                 continue
-            if name not in composite_map:
+            if onnx_graph.name not in composite_map:
                 composite_map[onnx_graph.name] = []
-            else:
-                composite_map[onnx_graph.name] = composite_map[name]
+            if name in composite_map:
+                composite_map[onnx_graph.name].extend(composite_map[name])
 
+            already_visited_root = True
             name = onnx_graph.name
             inputs = list(onnx_graph.inputs)
             outputs = list(onnx_graph.outputs)
@@ -478,7 +486,7 @@ def onnx_graph_to_graphbook(onnx_graph: OnnxGraph) -> graphbook.Operation:
 
     # First, get all the unique composite operations and assign the ops to the right operations.
     composite_names = {''}
-    composite_map = _compile_onnx_composite_map(onnx_graph)
+    composite_map = _compile_onnx_composite_map(onnx_graph, composite_names)
     name_to_op = {op.name: op for op in onnx_graph.onnx_ops}
 
     composite_var_map = defaultdict(dict)

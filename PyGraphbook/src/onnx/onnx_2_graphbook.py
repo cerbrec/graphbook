@@ -13,6 +13,7 @@ INPUT = "input"
 INPUTS = "inputs"
 OUTPUT = "output"
 NAME = 'name'
+THIS = "this"
 
 
 def _calculate_composite_input_outputs(var_name: str, path1: str, path2: str, var_map: dict) -> None:
@@ -287,12 +288,14 @@ def _compile_onnx_composite_link_map(
         elif link.sink in name_to_op:
             if name_to_op[link.sink].composite_path:
                 composite_link_map[name_to_op[link.sink].composite_path].append(link)
+
                 if link.source == onnx_graph.name:
                     _calculate_composite_input_outputs(
                         var_name=link.var_name,
                         path1="",
                         path2=name_to_op[link.sink].composite_path,
                         var_map=composite_var_map)
+
                 elif not name_to_op[link.source].composite_path \
                         or name_to_op[link.sink].composite_path != name_to_op[link.source].composite_path:
                     # The link is traversing graph levels, so it should be an input to each composite along the path
@@ -304,6 +307,7 @@ def _compile_onnx_composite_link_map(
                     )
             elif link.source == onnx_graph.name:
                 composite_link_map[onnx_graph.name].append(link)
+
             elif name_to_op[link.source].composite_path:
                 # Then we are going from composite to non-composite
                 composite_link_map[onnx_graph.name].append(link)
@@ -404,7 +408,7 @@ def _compile_links_between_composite(
                 if inp.name == comp_inp.name:
                     # add link
                     parent_composite.links.append(graphbook.Link(
-                        source=graphbook.LinkEndpoint(operation="this", data=inp.name),
+                        source=graphbook.LinkEndpoint(operation=THIS, data=inp.name),
                         sink=graphbook.LinkEndpoint(operation=name, data=inp.name),
                     ))
         for out in sub_op.outputs:
@@ -412,7 +416,7 @@ def _compile_links_between_composite(
                 if out.name == comp_out.name:
                     parent_composite.links.append(graphbook.Link(
                         source=graphbook.LinkEndpoint(operation=name, data=out.name),
-                        sink=graphbook.LinkEndpoint(operation="this", data=out.name),
+                        sink=graphbook.LinkEndpoint(operation=THIS, data=out.name),
                     ))
 
 
@@ -451,7 +455,7 @@ def _compile_links_between_composite_and_primitive(
                     raise ValueError("Expected link var name to be in composite outputs")
                 next_composite.links.append(graphbook.Link(
                     source=graphbook.LinkEndpoint(operation=primitive_source.name, data=link.var_name),
-                    sink=graphbook.LinkEndpoint(operation="this", data=link.var_name),
+                    sink=graphbook.LinkEndpoint(operation=THIS, data=link.var_name),
                 ))
             elif not primitive_source.name.startswith(composite_name):
                 # If the primitive source is not from within this graph, it must be coming from parent graph.
@@ -459,7 +463,7 @@ def _compile_links_between_composite_and_primitive(
                     raise ValueError("Expected link var name to be in composite inputs")
 
                 composite.links.append(graphbook.Link(
-                    source=graphbook.LinkEndpoint(operation="this", data=link.var_name),
+                    source=graphbook.LinkEndpoint(operation=THIS, data=link.var_name),
                     sink=graphbook.LinkEndpoint(operation=link.sink, data=link.var_name),
                 ))
 
@@ -480,6 +484,7 @@ def _compile_links_between_composite_and_primitive(
                     source=graphbook.LinkEndpoint(operation=next_composite_name, data=link.var_name),
                     sink=graphbook.LinkEndpoint(operation=link.sink, data=link.var_name),
                 ))
+
 
 def onnx_graph_to_graphbook(onnx_graph: OnnxGraph) -> graphbook.Operation:
     """Converts onnx graph to Graphbook graph"""
@@ -555,13 +560,15 @@ if __name__ == "__main__":
         logging.info("Converting: " + graph.name)
         graphbook_root = onnx_graph_to_graphbook(graph)
 
-        logging.info("Generated: " + graphbook_root.name)
+        logging.info("Converted: " + graphbook_root.name)
 
         json_str = graphbook_root.model_dump_json(indent=4, exclude_unset=True, exclude_none=True)
 
-        # Create directory if doesn't exist
+        # Create directory if it doesn't exist
         if not os.path.exists(args.output_folder):
             os.makedirs(args.output_folder)
 
-        with open(f"{args.output_folder}/{graphbook_root.name.split('/')[-1]}.json", "w") as f:
+        with open(f"{args.output_folder}/{graphbook_root.name.split(FORWARD_SLASH)[-1]}.json", "w") as f:
             f.write(json_str)
+
+        logging.info("Generated: " + graphbook_root.name + ".json")

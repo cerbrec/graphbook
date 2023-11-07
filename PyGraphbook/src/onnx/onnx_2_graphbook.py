@@ -535,7 +535,7 @@ if __name__ == "__main__":
     argparse = argparse.ArgumentParser()
     argparse.add_argument("--onnx_folder", type=str, default="flan-t5-small-onnx")
     argparse.add_argument("--onnx_file", type=str, required=False,
-                          default="flan-t5-small-onnx/encoder_model.onnx",
+                          # default="flan-t5-small-onnx/encoder_model.onnx",
                           help="If onnx_file specified, then this is the onnx file to convert.")
     argparse.add_argument("--output_folder", type=str, default="flan-t5-small-graphbook")
     argparse.add_argument("--logging", type=str, default="INFO")

@@ -225,16 +225,21 @@ def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
 
     # For now, we won't say it's a primitive operation since it's not mapped yet to a real primitive.
     graphbook_op_type = graphbook.OperationType.COMPOSITE_OPERATION
+    assertions = []
+    operations = []
     if onnx_op.opType in ["read_from_file", "write_to_file"]:
         graphbook_op_type = graphbook.OperationType.PRIMITIVE_OPERATION
+        operations = None
 
     # TODO: Add mapping here from onnx optype to graphbook schema type.
     return graphbook.Operation(
         name=onnx_op.name,
         primitive_name=onnx_op.opType,
+        assertions=assertions,
         type=graphbook_op_type,
         inputs=graphbook_inputs,
-        outputs=graphbook_outputs
+        outputs=graphbook_outputs,
+        operations=operations
     )
 
 
@@ -419,6 +424,22 @@ def _compile_links_between_composite(
                         sink=graphbook.LinkEndpoint(operation=THIS, data=out.name),
                     ))
 
+    for parent_operation in graphbook_composite_map.values():
+        if not parent_operation.operations:
+            continue
+
+        for operation in parent_operation.operations:
+            for other_op in parent_operation.operations:
+                if operation.name == other_op.name:
+                    continue
+                for inp in operation.inputs:
+                    for other_out in other_op.outputs:
+                        if inp.name == other_out.name:
+                            parent_operation.links.append(graphbook.Link(
+                                source=graphbook.LinkEndpoint(operation=other_op.name, data=inp.name),
+                                sink=graphbook.LinkEndpoint(operation=operation.name, data=inp.name),
+                            ))
+
 
 def _compile_links_between_composite_and_primitive(
         onnx_graph: OnnxGraph,
@@ -434,6 +455,12 @@ def _compile_links_between_composite_and_primitive(
         # For each link that ends in this composite graph, create a path of links from the source to here.
         for link in link_list:
             if link.source == onnx_graph.name:
+                # It's coming from input.
+                composite.links.append(graphbook.Link(
+                    source=graphbook.LinkEndpoint(operation=THIS, data=link.var_name),
+                    sink=graphbook.LinkEndpoint(operation=link.sink, data=link.var_name),
+                    var_name=link.var_name
+                ))
                 continue
 
             # Get the source and sink operations
@@ -540,7 +567,7 @@ if __name__ == "__main__":
     argparse = argparse.ArgumentParser()
     argparse.add_argument("--onnx_folder", type=str, default="flan-t5-small-onnx")
     argparse.add_argument("--onnx_file", type=str, required=False,
-                          # default="flan-t5-small-onnx/encoder_model.onnx",
+                          default="flan-t5-small-onnx/decoder_model.onnx",
                           help="If onnx_file specified, then this is the onnx file to convert.")
     argparse.add_argument("--output_folder", type=str, default="flan-t5-small-graphbook")
     argparse.add_argument("--logging", type=str, default="INFO")

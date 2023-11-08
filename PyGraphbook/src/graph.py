@@ -88,7 +88,7 @@ class Operation(BaseModel):
     # Currently Disabling examples.
     # examples: List[str] = Field(..., description="Examples of the operation.")
 
-    operations: List['Operation'] = Field(None, description="List of sub-operations of the operation.")
+    operations: Optional[List['Operation']] = Field(None, description="List of sub-operations of the operation.")
     links: List[Link] = Field(None, description="List of links of the operation.")
 
     # For conditional operations

@@ -12,6 +12,6 @@ We've opened this repo in order to gather issues and to provide a place for user
 
 For more general questions or to chat with Graphbook developers, check out our [Slack](https://cerbrec-community.slack.com/ssb/redirect).
 
-## Next Up:
+## Coming Soon:
 - Steps for converting models from PyTorch and ONNX to Graphbook
 - Example API serving for Graphbook models

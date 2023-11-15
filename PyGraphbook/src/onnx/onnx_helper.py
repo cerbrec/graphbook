@@ -89,8 +89,10 @@ def convert_onnx_to_dict(onnx_file_name: str) -> ParsedOnnxFile:
 
 class OnnxTensor(BaseModel):
     # Dims is a list of String (int)
-    dims: List[str] = Field(None, alias="dims")
+    dims: List[str] | List[int] = Field(None, alias="dims")
     dataType: int = Field(None, alias="dataType")
+    data_type: str = Field(None, alias="data_type")
+    value: int | List[int] = Field(None, alias="value")
 
 
 class OnnxAttribute(BaseModel):
@@ -223,8 +225,9 @@ def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
     try:
         parsed_onnx = convert_onnx_to_dict(onnx_file)
     except Exception as e:
-        print(f"Could not convert {onnx_file} to NetronModel.")
+        print(f"Could not convert {onnx_file} to NetronModel. {e}")
         return None
+
     onnx_json = parsed_onnx.json_model
     tensor_map = parsed_onnx.tensor_map
     netron_json = parsed_onnx.netron_json
@@ -246,10 +249,10 @@ def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
     unfilled_inputs = set()
     read_cache = set()
     write_cache = set(out for out in output_to_op.keys() if out.startswith("present"))
-    op_name_to_op = dict()
+    op_name_to_op = {}
     for op in onnx_json["graph"]["node"]:
-
         onnx_op = OnnxOperation(**op)
+        # onnx_op.name = onnx_op.name
         onnx_op.op_type_meta_data = dict(parsed_onnx.netron_model.metadata.metadata[onnx_op.opType])
         if len(onnx_op.name.split("/")) > 1:
             onnx_op.composite_path = "/".join(onnx_op.name.split("/")[:-1])
@@ -257,9 +260,23 @@ def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
         if onnx_op.attribute:
             for attribute in onnx_op.attribute:
                 if attribute.t and attribute.t.dataType:
-                    data_type_str = _fetch_tensor_type_for_onnx_tensor(parsed_onnx.netron_model, onnx_op.opType,
-                                                                       attribute.t)
-                    attribute.t.dataType = data_type_str
+                    data_type_str = _fetch_tensor_type_for_onnx_tensor(
+                        parsed_onnx.netron_model,
+                        onnx_op.opType,
+                        attribute.t)
+                    attribute.t.data_type = data_type_str
+                elif attribute.i:
+                    attribute.t = OnnxTensor(
+                        dims=[],
+                        data_type="tensor(int32)",
+                        value=int(attribute.i)
+                    )
+                elif attribute.ints:
+                    attribute.t = OnnxTensor(
+                        dims=[len(attribute.ints)],
+                        data_type="tensor(int32)",
+                        value=[int(i) for i in list(attribute.ints)]
+                    )
 
         op_name_to_op[onnx_op.name] = onnx_op
         incoming_inputs = get_args_from_netron_op_inputs(onnx_op.name, parsed_onnx.netron_model, netron_dict)

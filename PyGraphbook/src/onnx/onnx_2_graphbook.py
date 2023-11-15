@@ -141,10 +141,23 @@ def _get_graphbook_type_from_str(type_str: str) -> graphbook.DataType:
     else:
         return graphbook.DataType.NULL
 
+def _get_graphbook_type_from_onnx_meta_type(attribute_type: str) -> graphbook.DataType:
+    if attribute_type.startswith("int"):
+        return graphbook.DataType.INTEGER
+    elif attribute_type.startswith("float") or attribute_type.startswith("double"):
+        return graphbook.DataType.DECIMAL
+    elif attribute_type.startswith("string"):
+        return graphbook.DataType.TEXT
+    elif attribute_type.startswith("bool"):
+        return graphbook.DataType.BOOLEAN
+    else:
+        return graphbook.DataType.NULL
+
 
 def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
     """ converts onnx operation to graphbook operation"""
 
+    logging.debug("Processing: " + onnx_op.name)
     graphbook_inputs = []
     if onnx_op.input:
         for i, inp in enumerate(onnx_op.input):
@@ -170,15 +183,43 @@ def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
                     var_meta = dict(input_meta[i])
                     if NAME in var_meta:
                         graphbook_var.primitive_name = var_meta[NAME]
+                    if "type" in var_meta:
+                        _type = var_meta["type"]
+                        if _type.startswith("T"):
+                            # It's any tensor
+                            graphbook_var.type = graphbook.DataType.DECIMAL
+
+            if onnx_op.bootstrap_map and inp in onnx_op.bootstrap_map:
+                att = onnx_op.bootstrap_map[inp]
+                if att.t:
+                    if att.t.data_type:
+                        graphbook_var.type = _get_graphbook_type_from_str(att.t.data_type)
+                    else:
+                        graphbook_var.type = graphbook.DataType.TEXT
+
+                    if att.t.dims is not None:
+                        graphbook_var.shape = [int(d) for d in att.t.dims]
+                    else:
+                        graphbook_var.shape = []
+
+                    if att.t.value:
+                        value = att.t.value
+                        if isinstance(value, list):
+                            graphbook_var.data = list(value)
+                        else:
+                            graphbook_var.data = att.t.value
+
+                # graphbook_var.data = onnx_op.bootstrap_map[inp]
+
             graphbook_inputs.append(graphbook_var)
 
 
-    attribute_names = []
+    attribute_name_to_att = {}
     if onnx_op.attribute:
-        attribute_names = [attribute.name for attribute in onnx_op.attribute]
+        attribute_name_to_att = {attribute.name: attribute for attribute in list(onnx_op.attribute)}
 
-    if onnx_op.op_type_meta_data and "attribute" in onnx_op.op_type_meta_data:
-        for i, attribute in onnx_op.op_type_meta_data["attribute"]:
+    if onnx_op.op_type_meta_data and "attributes" in dict(onnx_op.op_type_meta_data):
+        for i, attribute in enumerate(dict(onnx_op.op_type_meta_data)["attributes"]):
             graphbook_var = graphbook.Variable(name=attribute[NAME], primitive_name="attribute_" + attribute[NAME])
             """ 
             Then we need to specify that it's "filled" in this operation
@@ -187,17 +228,48 @@ def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
             We add each attribute as an input and specify whether it is filled on this operation.
             Then later we can map based on the unique qualities of the operation and how it maps to graphbook.
             """
-            graphbook_var.onnx_attribute = attribute[NAME] in attribute_names
+            graphbook_var.onnx_attribute = attribute[NAME] in attribute_name_to_att
 
-            if "type" in attribute:
+            att_dict = dict(attribute)
+
+            # First, we're looking at the meta data for the operation to see if there's an expected type or shape.
+            if "type" in att_dict:
                 # This is a tensor
-                graphbook_var.type = _get_graphbook_type_from_str(str(attribute['type']))
-            elif attribute.i:
-                graphbook_var.type = graphbook.DataType.INTEGER
-            elif attribute.ints:
-                graphbook_var.type = graphbook.DataType.INTEGER
-                graphbook_var.shape = [len(attribute.ints)]
+                graphbook_var.type = _get_graphbook_type_from_onnx_meta_type(str(att_dict['type']))
 
+            if "default" in att_dict:
+                graphbook_var.data = att_dict["default"]
+            if "default" not in att_dict and onnx_op.opType in ["Gather", "Concat"]:
+
+                # This is built-in logic for some operations.
+                # https://onnx.ai/onnx/operators/onnx__Gather.html
+                if onnx_op.opType == "Gather" and attribute[NAME] == "axis":
+                    graphbook_var.data = 0
+                    graphbook_var.shape = []
+
+            # Next, we look at the actual attribute to see if it has a type, shape or value.
+
+            if graphbook_var.onnx_attribute:
+                # Then this is filled.
+                onnx_att = attribute_name_to_att[attribute[NAME]]
+
+                if onnx_att.t:
+                    if onnx_att.t.dims:
+                        graphbook_var.shape = [int(d) for d in onnx_att.t.dims]
+
+                    if onnx_att.t.data_type:
+                        graphbook_var.type = _get_graphbook_type_from_str(onnx_att.t.data_type)
+
+                    # elif onnx_att.t.dataType:
+                    #     graphbook_var.type = _get_graphbook_type_from_str(onnx_att.t.dataType)
+
+                    if onnx_att.t.value is not None:
+                        if isinstance(onnx_att.t.value, list):
+                            graphbook_var.data = list(onnx_att.t.value)
+                        else:
+                            graphbook_var.data = onnx_att.t.value
+
+            graphbook_var.onnx_attribute = None
             graphbook_inputs.append(graphbook_var)
 
     graphbook_outputs = []
@@ -234,7 +306,7 @@ def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
     # TODO: Add mapping here from onnx optype to graphbook schema type.
     return graphbook.Operation(
         name=onnx_op.name,
-        primitive_name=onnx_op.opType,
+        primitive_name=str(onnx_op.opType) + "(onnx-primitive)",
         assertions=assertions,
         type=graphbook_op_type,
         inputs=graphbook_inputs,
@@ -367,12 +439,17 @@ def _compile_graphbook_operations_from_composite_map(
             outputs = composite_var_map[name][OUTPUT]
 
         this_primitive = {}
-        if name in composite_map:
-            this_primitive = {
-                onnx_op.name: onnx_op_to_graphbook(onnx_op)
-                for onnx_op in composite_map[name]
-            }
-            primitive_map.update(this_primitive)
+        logging.debug("Processing: " + name)
+        try:
+            if name in composite_map:
+                this_primitive = {
+                    onnx_op.name: onnx_op_to_graphbook(onnx_op)
+                    for onnx_op in composite_map[name]
+                }
+                primitive_map.update(this_primitive)
+        except Exception as e:
+            logging.exception(f"Error compiling composite {name}")
+            raise e
 
         graphbook_composite_map[name] = graphbook.Operation(
             name=name,
@@ -570,7 +647,7 @@ if __name__ == "__main__":
                           default="flan-t5-small-onnx/decoder_model.onnx",
                           help="If onnx_file specified, then this is the onnx file to convert.")
     argparse.add_argument("--output_folder", type=str, default="flan-t5-small-graphbook")
-    argparse.add_argument("--logging", type=str, default="INFO")
+    argparse.add_argument("--logging", type=str, default="DEBUG")
     args = argparse.parse_args()
 
     logging.basicConfig(level=args.logging)

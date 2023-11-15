@@ -16,7 +16,7 @@ NAME = 'name'
 THIS = "this"
 
 
-def _calculate_composite_input_outputs(var_name: str, path1: str, path2: str, var_map: dict) -> None:
+def _calculate_composite_input_outputs(var_name: str, path1: str, path2: str, var_map: dict) -> bool:
     """ Given two composite paths, calculate the inputs and outputs of the composite operations.
 
         This is done by looking at the links between the two composites and the operations in the two composites.
@@ -43,7 +43,7 @@ def _calculate_composite_input_outputs(var_name: str, path1: str, path2: str, va
 
             if var_name not in var_map[join_back][INPUT]:
                 var_map[join_back][INPUT].append(var_name)
-        return
+        return False
 
     if not path2:
         # Then we are going upstream from path1 to path2.
@@ -55,7 +55,7 @@ def _calculate_composite_input_outputs(var_name: str, path1: str, path2: str, va
 
             if var_name not in var_map[join_back][OUTPUT]:
                 var_map[join_back][OUTPUT].append(var_name)
-        return
+        return False
 
     if path1.startswith(path2):
         """ e.g., /x/y/z and /x/y
@@ -92,7 +92,7 @@ def _calculate_composite_input_outputs(var_name: str, path1: str, path2: str, va
 
             if var_name not in var_map[join_back][INPUT]:
                 var_map[join_back][INPUT].append(var_name)
-        return
+        return False
 
     # If we're here, then there's a cross stream link.
     # For each composite on path in path1, needs output
@@ -127,6 +127,8 @@ def _calculate_composite_input_outputs(var_name: str, path1: str, path2: str, va
             var_map[join_back][INPUT] = []
         if var_name not in var_map[join_back][INPUT]:
             var_map[join_back][INPUT].append(var_name)
+
+    return True
 
 
 def _get_graphbook_type_from_str(type_str: str) -> graphbook.DataType:
@@ -376,12 +378,16 @@ def _compile_onnx_composite_link_map(
                 elif not name_to_op[link.source].composite_path \
                         or name_to_op[link.sink].composite_path != name_to_op[link.source].composite_path:
                     # The link is traversing graph levels, so it should be an input to each composite along the path
-                    _calculate_composite_input_outputs(
+                    needs_link_source_to_parent = _calculate_composite_input_outputs(
                         var_name=link.var_name,
                         path1=name_to_op[link.source].composite_path,
                         path2=name_to_op[link.sink].composite_path,
                         var_map=composite_var_map
                     )
+                    if needs_link_source_to_parent:
+                        # Add link from source to parent.
+                        composite_link_map[name_to_op[link.source].composite_path].append(link)
+
             elif link.source == onnx_graph.name:
                 composite_link_map[onnx_graph.name].append(link)
 
@@ -531,6 +537,8 @@ def _compile_links_between_composite_and_primitive(
 
         # For each link that ends in this composite graph, create a path of links from the source to here.
         for link in link_list:
+            # if isinstance(link, tuple):
+            #     print("stop here")
             if link.source == onnx_graph.name:
                 # It's coming from input.
                 composite.links.append(graphbook.Link(
@@ -544,12 +552,21 @@ def _compile_links_between_composite_and_primitive(
             primitive_source = primitive_map[link.source]
 
             if primitive_source in composite.operations:
-                # Then it's simply adding a link in this graph.
-                composite.links.append(graphbook.Link(
-                    source=graphbook.LinkEndpoint(operation=link.source, data=link.var_name),
-                    sink=graphbook.LinkEndpoint(operation=link.sink, data=link.var_name),
-                    var_name=link.var_name
-                ))
+                # check if it's the SINK that's not in the composite operations
+                if primitive_map[link.sink] not in composite.operations:
+                    # Then this is a special case where the source goes to THIS
+                    composite.links.append(graphbook.Link(
+                        source=graphbook.LinkEndpoint(operation=link.source, data=link.var_name),
+                        sink=graphbook.LinkEndpoint(operation=THIS, data=link.var_name),
+                        var_name=link.var_name
+                    ))
+                else:
+                    # Then it's simply adding a link in this graph.
+                    composite.links.append(graphbook.Link(
+                        source=graphbook.LinkEndpoint(operation=link.source, data=link.var_name),
+                        sink=graphbook.LinkEndpoint(operation=link.sink, data=link.var_name),
+                        var_name=link.var_name
+                    ))
             elif composite_name == onnx_graph.name:
 
                 sink_name = FORWARD_SLASH.join(primitive_source.name.split(FORWARD_SLASH)[:-1])

@@ -143,6 +143,7 @@ def _get_graphbook_type_from_str(type_str: str) -> graphbook.DataType:
     else:
         return graphbook.DataType.NULL
 
+
 def _get_graphbook_type_from_onnx_meta_type(attribute_type: str) -> graphbook.DataType:
     if attribute_type.startswith("int"):
         return graphbook.DataType.INTEGER
@@ -167,12 +168,37 @@ def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
             if not onnx_op.op_type_meta_data:
                 # Then it's our own read or write file
                 if onnx_op.opType == "read_from_file":
+                    graphbook_var.type = graphbook.DataType.TEXT
+                    graphbook_var.shape = []
+                    graphbook_var.data = inp
                     if i == 0:
-                        graphbook_var.primitive_name = "file_name"
-                    elif i == 1:
+                        graphbook_var.name = "dir_name"
                         graphbook_var.primitive_name = "dir_name"
+                    elif i == 1:
+                        graphbook_var.name = "file_name"
+                        graphbook_var.primitive_name = "file_name"
                     elif i == 2:
+                        graphbook_var.name = "extraction_schema"
                         graphbook_var.primitive_name = "extraction_schema"
+                elif onnx_op.opType == "write_to_file":
+                    if i <= 2:
+                        graphbook_var.type = graphbook.DataType.TEXT
+                        graphbook_var.shape = []
+                        graphbook_var.data = inp
+                        if i == 0:
+                            graphbook_var.name = "dir_name"
+                            graphbook_var.primitive_name = "dir_name"
+                        elif i == 1:
+                            graphbook_var.name = "file_name"
+                            graphbook_var.primitive_name = "file_name"
+                        else:
+                            graphbook_var.name = "overwrite"
+                            graphbook_var.primitive_name = "overwrite"
+                            graphbook_var.type = graphbook.DataType.BOOLEAN
+                    else:
+                        graphbook_var.name = inp
+                        graphbook_var.primitive_name = "data"
+
 
             else:
                 input_meta = list(onnx_op.op_type_meta_data[INPUTS])
@@ -283,10 +309,13 @@ def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
                 if onnx_op.opType == "write_to_file":
                     if i == 0:
                         graphbook_var.primitive_name = "file_name"
+                        graphbook_var.type = graphbook.DataType.TEXT
                     elif i == 1:
                         graphbook_var.primitive_name = "dir_name"
+                        graphbook_var.type = graphbook.DataType.TEXT
                     elif i == 2:
                         graphbook_var.primitive_name = "overwrite"
+                        graphbook_var.type = graphbook.DataType.TEXT
                     elif i == 3:
                         graphbook_var.primitive_name = "data"
 
@@ -537,8 +566,8 @@ def _compile_links_between_composite_and_primitive(
 
         # For each link that ends in this composite graph, create a path of links from the source to here.
         for link in link_list:
-            # if isinstance(link, tuple):
-            #     print("stop here")
+            if isinstance(link, tuple):
+                print("stop here")
             if link.source == onnx_graph.name:
                 # It's coming from input.
                 composite.links.append(graphbook.Link(

@@ -129,7 +129,7 @@ def create_read_from_file(file_name: str, tensor: List) -> OnnxOperation:
     read_from_file = OnnxOperation(**{
         'name': file_name + ".read_from_file",
         'opType': "read_from_file",
-        'input': [split_name[-1], dir_name, "{}"],
+        'input': [dir_name, split_name[-1], "{}"],
         'output': [file_name]
     })
     read_from_file.tensor_map = {file_name: tensor}
@@ -143,7 +143,7 @@ def create_write_to_file(file_name: str) -> OnnxOperation:
     write_to_file = OnnxOperation(**{
         'name': file_name + ".write_to_file",
         'opType': "write_to_file",
-        'input': [split_name[0], dir_name, "true", ''],
+        'input': [dir_name, split_name[-1], "true", file_name],
         'output': []
     })
     return write_to_file

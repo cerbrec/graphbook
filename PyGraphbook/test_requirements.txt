@@ -1,0 +1,14 @@
+cartopy==0.22.0
+matplotlib==3.8.0
+mayavi==4.8.1
+netron==7.2.7
+networkx==3.1
+numpy==1.26.2
+pandas==2.1.3
+Pillow==10.0.1
+Pillow==10.1.0
+protobuf==4.25.1
+pydantic==2.5.1
+pytest==7.4.2
+scipy==1.11.3
+seaborn==0.13.0

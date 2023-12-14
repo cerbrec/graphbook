@@ -3,6 +3,7 @@
 from enum import Enum
 from typing import List, Optional, TypeVar
 from pydantic import BaseModel, Field, validator
+from collections import deque
 
 
 class OperationType(str, Enum):
@@ -48,12 +49,20 @@ class LinkEndpoint(BaseModel):
     operation: str = Field(..., description="Name of the operation.")
     data: str = Field(..., description="Name of the variable.")
 
+    # Make hashable
+    def __hash__(self):
+        return hash((self.operation, self.data))
+
 
 class Link(BaseModel):
     """ Link object. """
 
     source: LinkEndpoint = Field(..., description="Source of the link.")
     sink: LinkEndpoint = Field(..., description="Target of the link.")
+
+    # Make hashable
+    def __hash__(self):
+        return hash((self.source, self.sink))
 
 
 class Condition(BaseModel):
@@ -109,3 +118,74 @@ class Operation(BaseModel):
             return Variable(name=v, primitive_name=v)
         return v
 
+    # Hashable
+    def __hash__(self):
+        return hash(self.name)
+
+
+class TopoSortMixin:
+    """ Topological sort mixin. """
+
+    def __init__(self, root: Operation):
+        self.graph = root
+        self.temp = set()
+        self.perm = set()
+        self.order = []
+
+        self.operations = deque()
+        for op in self.graph.operations:
+            self.operations.append(op)
+
+        self.adjacent_ops = {}
+
+    def run(self):
+        """ Run the topological sort. """
+        while len(self.operations) > 0:
+            n = self.operations.pop()
+            self._visit(n)
+
+        # Reverse sort self order
+        self.order.reverse()
+        self.graph.operations = self.order
+
+    def _find_op(self, name):
+        for op in self.graph.operations:
+            if op.name == name:
+                return op
+        return None
+
+    def _populate_adjacent_ops(self, n):
+
+        self.adjacent_ops[n.name] = set()
+
+        for link in self.graph.links:
+            if link.source.operation == n.name:
+                if link.sink.operation == "this":
+                    continue
+
+                self.adjacent_ops[n.name].add(link.sink.operation)
+
+    def _visit(self, n):
+        if n is None:
+            return
+
+        if n in self.perm:
+            return
+
+        if n in self.temp:
+            raise ValueError("Not a DAG.")
+
+        self.temp.add(n)
+        if n.name not in self.adjacent_ops:
+            self._populate_adjacent_ops(n)
+
+        for op in self.adjacent_ops[n.name]:
+            self._visit(self._find_op(op))
+
+        self.temp.remove(n)
+        self.perm.add(n)
+
+        if n.operations is not None and len(n.operations) > 1:
+            TopoSortMixin(n).run()
+
+        self.order.append(n)

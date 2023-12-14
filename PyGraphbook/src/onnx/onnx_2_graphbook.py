@@ -5,6 +5,7 @@ from collections import defaultdict
 from typing import List, Dict, Set
 
 from src import graph as graphbook
+from src import hierarchical_partition as hp
 from src.onnx import onnx_helper
 from src.onnx.onnx_helper import OnnxLink, OnnxGraph, OnnxOperation
 
@@ -694,6 +695,7 @@ if __name__ == "__main__":
                           help="If onnx_file specified, then this is the onnx file to convert.")
     argparse.add_argument("--output_folder", type=str, default="flan-t5-small-graphbook")
     argparse.add_argument("--logging", type=str, default="DEBUG")
+    argparse.add_argument("--max_ops_per_graph", type=int, default=10)
     args = argparse.parse_args()
 
     logging.basicConfig(level=args.logging)
@@ -708,7 +710,13 @@ if __name__ == "__main__":
 
     for graph in onnx_list:
         logging.info("Converting: " + graph.name)
-        graphbook_root = onnx_graph_to_graphbook(graph)
+        graphbook_root: graphbook.Operation = onnx_graph_to_graphbook(graph)
+
+        # Sort in place
+        graphbook.TopoSortMixin(graphbook_root).run()
+
+        # Partition in place so that no graph is too large.
+        hp.recursive_partition(graphbook_root, args.max_ops_per_graph)
 
         logging.info("Converted: " + graphbook_root.name)
 

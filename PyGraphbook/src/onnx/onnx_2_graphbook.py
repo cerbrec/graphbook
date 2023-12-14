@@ -716,7 +716,7 @@ if __name__ == "__main__":
         graphbook.TopoSortMixin(graphbook_root).run()
 
         # Partition in place so that no graph is too large.
-        hp.recursive_partition(graphbook_root, args.max_ops_per_graph)
+        hp.partition_algorithm(graphbook_root, args.max_ops_per_graph)
 
         logging.info("Converted: " + graphbook_root.name)
 

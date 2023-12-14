@@ -1,12 +1,13 @@
 import json
 import logging
 import uuid
+import copy
 from collections import defaultdict
 import networkx as nx
+from typing import Tuple, List
 from src import graph as graphbook
 
 MAX_OPS_IN_GRAPH = 12
-
 
 """
 Plans for hierarchical partitioning:
@@ -26,7 +27,56 @@ METHODS
 - score_candidate()
 """
 
-def _generate_candidates(graph: graphbook.Operation) -> list:
+
+def partition_algorithm(graph: graphbook.Operation, max_ops_in_graph: int = MAX_OPS_IN_GRAPH):
+    """
+    Partition the graph into smaller sub-graphs.
+    :param max_ops_in_graph:
+    :param graph: The graph to partition.
+    :return: The partitioned graph.
+    """
+    best_graph = graph
+    # last_graph = graph
+
+    while len(best_graph.operations) >= max_ops_in_graph:
+
+        logging.debug(f"Partitioning {graph.name}" + ("." * len(best_graph.operations)))
+
+        # last_graph = best_graph
+        best_graph = _select_min_composition(best_graph)
+
+        if best_graph is None:
+            raise ValueError("Could not partition graph.")
+
+    sub_ops = []
+    # Recursion
+    for op in best_graph.operations:
+        # Partitioning an operation means partitioning its sub-operations.
+        if op.operations is not None and len(op.operations) > 0:
+            best_sub = partition_algorithm(op, max_ops_in_graph)
+            sub_ops.append(best_sub)
+        else:
+            sub_ops.append(op)
+
+    best_graph.operations = sub_ops
+
+    return best_graph
+
+
+def _select_min_composition(graph: graphbook.Operation) -> graphbook.Operation:
+    """
+    Select the composition with the lowest score.
+    :param graph: The graph to select the composition for.
+    :return: The composition with the lowest score.
+    """
+    candidates = _generate_candidates(graph)
+    if len(candidates) == 0:
+        return None
+
+    return min(candidates, key=lambda x: x[0])[1]
+
+
+def _generate_candidates(graph: graphbook.Operation) -> List[Tuple[float, graphbook.Operation]]:
     """
     Generate all possible candidates for a new composite operation.
     :param graph: The graph to generate candidates for.
@@ -35,22 +85,198 @@ def _generate_candidates(graph: graphbook.Operation) -> list:
     candidates = []
 
     # Composite must contain at least 2 operations
-    for i, op in enumerate(graph.operations[:-2]):
-        for j, op2 in enumerate(graph.operations[i+2:]):
+    for i, op in enumerate(graph.operations[:-1]):
+        for j, op2 in enumerate(graph.operations[i + 1:]):
+
+            j_index = j + i + 1
 
             # Composite cannot contain all operations
-            if j-i == len(graph.operations):
+            if j_index - i == len(graph.operations) - 1:
                 continue
 
-            candidates.append((op.name, op2.name))
+            new_graph, new_comp = _gen_candidate(graph, op, op2)
+            score = _score_graph(new_graph, new_comp)
+            candidates.append((score, new_graph))
 
     return candidates
 
 
+def _score_graph(graph: graphbook.Operation, new_op: graphbook.Operation) -> float:
+    """
+    Score the graph based on the following:
+    a. The sum of all the link distances between the operations in the composition.
+    b. The number of inputs of the new composite operation
+    c. The number of outputs of the new composite operation
+    :param graph: The graph to score.
+    :return: The score of the graph.
+    """
+    if graph is None:
+        return float('inf')
+
+    score = 0
+    # Sum of the link distances to the new composite operation.
+    for link in graph.links:
+        if link.sink.operation == new_op.name:
+            score += _calculate_link_distance(graph, link)
+
+    score += len(new_op.inputs) * 10
+    score += len(new_op.outputs)
+
+    # reward for number of operations in the composite
+    score -= len(new_op.operations)
+
+    return score
+
+
+def _calculate_link_distance(graph: graphbook.Operation, link: graphbook.Link) -> int:
+    """
+    Calculate the link distance between two operations.
+    :param graph: The graph to calculate the link distance for.
+    :param link: The link to calculate the link distance for.
+    :return: The link distance between the two operations.
+    """
+    op_names = ["this"] + [op.name for op in graph.operations]
+
+    source_index = op_names.index(link.source.operation)
+    sink_index = op_names.index(link.sink.operation)
+
+    # The distance is the space between them minus 1
+    return abs(source_index - sink_index) - 1
+
+
+def _gen_candidate(graph: graphbook.Operation,
+                   first_op: graphbook.Operation,
+                   last_op: graphbook.Operation, ) -> Tuple[graphbook.Operation, graphbook.Operation]:
+    """ Generate Candidate graph where first through last op are composed into composite """
+
+    new_composite_name = f"{first_op.name}->{last_op.name}.{str(uuid.uuid4())[:3]}"
+
+    # Make a copy of the graph
+    new_graph = copy.copy(graph)
+    new_graph.operations = copy.copy(graph.operations)
+    new_graph.links = copy.copy(graph.links)
+
+    # new_graph = graphbook.Operation(**graph.model_dump())
+
+    op_to_links = defaultdict(set)
+    for link in graph.links:
+        op_to_links[link.sink.operation].add(link)
+        op_to_links[link.source.operation].add(link)
+
+    composite_sub_ops = []
+    start_collecting = False
+    index_of_first_op = None
+
+    for i, operation in enumerate(new_graph.operations):
+        if operation.name == first_op.name:
+            start_collecting = True
+            composite_sub_ops.append(operation)
+            index_of_first_op = i
+            continue
+
+        if operation.name == last_op.name:
+            composite_sub_ops.append(operation)
+            break
+
+        if start_collecting:
+            composite_sub_ops.append(operation)
+
+    if index_of_first_op is None:
+        raise ValueError(f"Could not find first op: {first_op} in graph: {graph.name}")
+
+    if len(composite_sub_ops) <= 1:
+        # Then canot do anything here, get next highest scoring link.
+        return None
+
+    # Now we've got all operations that need to be here. Next, determine all inputs and outputs
+    # that are coming from outside the composite/ going out from the composite
+    composite_inputs = []
+    composite_outputs = []
+    internal_links = []
+    parent_links = []
+    links_to_remove = set()
+
+    composite_names = [operation.name for operation in composite_sub_ops]
+
+    for sub_op in composite_sub_ops:
+
+        # Since this sub_op will be removed, so will all the links to it.
+        links_to_remove.update(op_to_links[sub_op.name])
+
+        for link in op_to_links[sub_op.name]:
+
+            if link.source.operation not in composite_names:
+
+                # Collect the inputs that come from outside the perimeter of the composite
+                if link.source.data not in composite_inputs:
+                    # The sink data is the composite input.
+                    composite_inputs.append(link.source.data)
+
+                # And add internal link to "THIS"
+                internal_links.append(graphbook.Link(
+                    source=graphbook.LinkEndpoint(operation="this", data=link.source.data),
+                    sink=graphbook.LinkEndpoint(operation=link.sink.operation, data=link.sink.data)
+                ))
+
+                # New link to the composite from parent level.
+                parent_links.append(graphbook.Link(
+                    source=graphbook.LinkEndpoint(operation=link.source.operation, data=link.source.data),
+                    sink=graphbook.LinkEndpoint(operation=new_composite_name, data=link.source.data)
+                ))
+
+            elif link.sink.operation not in composite_names:
+
+                # The collect outputs that leave the perimeter of the composite
+                if link.sink.data not in composite_outputs:
+                    composite_outputs.append(link.sink.data)
+
+                # And add internal link to "THIS"
+                internal_links.append(graphbook.Link(
+                    source=graphbook.LinkEndpoint(operation=link.source.operation, data=link.source.data),
+                    sink=graphbook.LinkEndpoint(operation="this", data=link.sink.data)
+                ))
+
+                # New link to the composite from parent level.
+                parent_links.append(graphbook.Link(
+                    source=graphbook.LinkEndpoint(operation=new_composite_name, data=link.sink.data),
+                    sink=graphbook.LinkEndpoint(operation=link.sink.operation, data=link.sink.data)
+                ))
+            else:
+                internal_links.append(link)
+
+    composite = graphbook.Operation(
+        name=new_composite_name,
+        primitive_name=new_composite_name,
+        type=graphbook.OperationType.COMPOSITE_OPERATION,
+        inputs=composite_inputs,
+        outputs=composite_outputs,
+        operations=composite_sub_ops,
+        links=internal_links
+    )
+
+    # Remove all the links to the subgraph
+    links_copy = list(graph.links)
+    new_graph.links = []
+    for link in links_copy:
+        if link not in links_to_remove:
+            new_graph.links.append(link)
+
+    # Add composite to parent level
+    new_graph.operations.insert(index_of_first_op, composite)
+
+    new_graph.links.extend(parent_links)
+
+    # remove all the displaced operations.
+    ops_copy = list(new_graph.operations)
+    new_graph.operations = []
+    for op in ops_copy:
+        if op.name not in composite_names:
+            new_graph.operations.append(op)
+
+    return new_graph, composite
 
 
 def _push_subgraph_into_composite(first_op: str, last_op: str, graph: graphbook.Operation) -> bool:
-
     new_composite_name = f"{first_op}_{str(uuid.uuid4())[:8]}"
 
     op_to_links = defaultdict(set)
@@ -171,9 +397,6 @@ def _push_subgraph_into_composite(first_op: str, last_op: str, graph: graphbook.
     return True
 
 
-
-
-
 def _calculate_shareability_scores(graph: graphbook.Operation) -> dict:
     """
         Calculate the shareability scores for each operation in the graph.
@@ -201,8 +424,6 @@ def _calculate_shareability_scores(graph: graphbook.Operation) -> dict:
         last_op_sources = set([link.source.operation for link in links_to_op])
 
     return dict(sorted(op_to_score.items(), key=lambda item: item[1], reverse=False))
-
-
 
 
 def _calculate_edge_betweenness_centrality(graph: graphbook.Operation) -> dict:
@@ -301,7 +522,6 @@ def recursive_partition(top_op: graphbook.Operation, max_ops_in_graph: int = MAX
 
 
 if __name__ == "__main__":
-
     # Set logging mode to debug
     logging.basicConfig(level=logging.DEBUG)
 
@@ -313,8 +533,10 @@ if __name__ == "__main__":
     # Sort
     graphbook.TopoSortMixin(_op).run()
 
+    _op = partition_algorithm(_op)
+
     # Partition the graph
-    recursive_partition(_op)
+    # recursive_partition(_op)
 
     # Save the new graph to a file
     with open("partitioned_decoder_model.onnx.json", 'w') as f:
@@ -323,4 +545,3 @@ if __name__ == "__main__":
     # decoder_level = op.operations[0]
 
     # _partition(decoder_level)
-

@@ -1,7 +1,10 @@
 import json
+from json import JSONEncoder
+import numpy as np
 import os
 from contextlib import suppress
 from typing import List, Dict, Optional
+
 
 import onnx
 from google.protobuf.json_format import MessageToJson
@@ -446,3 +449,14 @@ def onnx_folder_to_onnx_list(onnx_folder: str) -> List[OnnxGraph]:
                 _onnx_list.append(onnx_graph)
 
     return _onnx_list
+
+
+class NumpyArrayEncoder(JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return JSONEncoder.default(self, obj)
+
+
+def numpy_to_json(numpy_data: np.ndarray):
+    return json.dumps(numpy_data, cls=NumpyArrayEncoder)  # use dump() to write array into file

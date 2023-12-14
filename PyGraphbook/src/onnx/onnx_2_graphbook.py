@@ -726,7 +726,15 @@ if __name__ == "__main__":
         if not os.path.exists(args.output_folder):
             os.makedirs(args.output_folder)
 
-        with open(f"{args.output_folder}/{graphbook_root.name.split(FORWARD_SLASH)[-1]}.json", "w") as f:
+        name = graphbook_root.name.split(FORWARD_SLASH)[-1]
+        if not os.path.exists(args.output_folder + f"/{name}_weights"):
+            os.makedirs(args.output_folder + f"/{name}_weights")
+
+        with open(f"{args.output_folder}/{name}.json", "w") as f:
             f.write(json_str)
+
+        for key, value in graph.parsed_onnx_file.tensor_map.items():
+            with open(f"{args.output_folder}/{name}_weights/{key}.json", "w") as f:
+                f.write(onnx_helper.numpy_to_json(value))
 
         logging.info("Generated: " + graphbook_root.name + ".json")

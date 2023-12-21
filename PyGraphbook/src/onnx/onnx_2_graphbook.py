@@ -1,6 +1,8 @@
 import argparse
 import logging
 import os
+import json
+import copy
 from collections import defaultdict
 from typing import List, Dict, Set
 
@@ -8,6 +10,7 @@ from src import graph as graphbook
 from src import hierarchical_partition as hp
 from src.onnx import onnx_helper
 from src.onnx.onnx_helper import OnnxLink, OnnxGraph, OnnxOperation
+from src.onnx import util_onnx_ops_2_graphbook as onnx_util
 
 FORWARD_SLASH = "/"
 INPUT = "input"
@@ -328,23 +331,24 @@ def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
             graphbook_outputs.append(graphbook_var)
 
     # For now, we won't say it's a primitive operation since it's not mapped yet to a real primitive.
-    graphbook_op_type = graphbook.OperationType.COMPOSITE_OPERATION
-    assertions = []
-    operations = []
-    if onnx_op.opType in ["read_from_file", "write_to_file"]:
-        graphbook_op_type = graphbook.OperationType.PRIMITIVE_OPERATION
-        operations = None
+
+    return onnx_util.onnx_to_graphbook(
+        onnx_op=onnx_op,
+        graphbook_inputs=graphbook_inputs,
+        graphbook_outputs=graphbook_outputs
+    )
+
 
     # TODO: Add mapping here from onnx optype to graphbook schema type.
-    return graphbook.Operation(
-        name=onnx_op.name,
-        primitive_name=str(onnx_op.opType) + "(onnx-primitive)",
-        assertions=assertions,
-        type=graphbook_op_type,
-        inputs=graphbook_inputs,
-        outputs=graphbook_outputs,
-        operations=operations
-    )
+    # return graphbook.Operation(
+    #     name=onnx_op.name,
+    #     primitive_name=str(onnx_op.opType),
+    #     assertions=assertions,
+    #     type=graphbook_op_type,
+    #     inputs=graphbook_inputs,
+    #     outputs=graphbook_outputs,
+    #     operations=operations
+    # )
 
 
 def _compile_onnx_composite_map(onnx_graph: OnnxGraph, composite_names: Set[str]) -> Dict[str, List[OnnxOperation]]:
@@ -487,15 +491,19 @@ def _compile_graphbook_operations_from_composite_map(
             logging.exception(f"Error compiling composite {name}")
             raise e
 
-        graphbook_composite_map[name] = graphbook.Operation(
-            name=name,
-            primitive_name=name,
-            type=graphbook.OperationType.COMPOSITE_OPERATION,
-            operations=list(this_primitive.values()),
-            inputs=[graphbook.Variable(name=inp) for inp in inputs],
-            outputs=[graphbook.Variable(name=out) for out in outputs],
-            links=[]
-        )
+        try:
+            graphbook_composite_map[name] = graphbook.Operation(
+                name=name,
+                primitive_name=name,
+                type=graphbook.OperationType.COMPOSITE_OPERATION,
+                operations=list(this_primitive.values()),
+                inputs=[graphbook.Variable(name=inp) for inp in inputs],
+                outputs=[graphbook.Variable(name=out) for out in outputs],
+                links=[]
+            )
+        except Exception as e:
+            logging.exception(f"Error compiling composite {name}")
+            raise e
 
     return graphbook_composite_map
 
@@ -691,9 +699,13 @@ if __name__ == "__main__":
     argparse = argparse.ArgumentParser()
     argparse.add_argument("--onnx_folder", type=str, default="flan-t5-small-onnx")
     argparse.add_argument("--onnx_file", type=str, required=False,
-                          default="flan-t5-small-onnx/decoder_model.onnx",
+                          default="llama2.onnx/decoder_model.onnx",
+                          # default="flan-t5-small-onnx/decoder_model.onnx",
                           help="If onnx_file specified, then this is the onnx file to convert.")
-    argparse.add_argument("--output_folder", type=str, default="flan-t5-small-graphbook")
+    argparse.add_argument("--output_folder", type=str,
+                          # default="flan-t5-small-graphbook"
+                          default="llama2-graphbook"
+                          )
     argparse.add_argument("--logging", type=str, default="DEBUG")
     argparse.add_argument("--max_ops_per_graph", type=int, default=10)
     args = argparse.parse_args()
@@ -701,7 +713,7 @@ if __name__ == "__main__":
     logging.basicConfig(level=args.logging)
 
     if args.onnx_file:
-        onnx_list = [onnx_helper.onnx_to_graph(os.path.join(f"{args.onnx_file}"))]
+        onnx_list = [onnx_helper.onnx_to_graph(os.path.join(f"{args.onnx_file}"), )]
     else:
         # Convert onnx to graphbook
         onnx_list = onnx_helper.onnx_folder_to_onnx_list(args.onnx_folder)

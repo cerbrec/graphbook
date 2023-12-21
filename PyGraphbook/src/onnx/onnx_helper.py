@@ -1,10 +1,10 @@
 import json
 from json import JSONEncoder
 import numpy as np
+import logging
 import os
 from contextlib import suppress
 from typing import List, Dict, Optional
-
 
 import onnx
 from google.protobuf.json_format import MessageToJson
@@ -64,14 +64,16 @@ class ParsedOnnxFile:
 def convert_onnx_to_dict(onnx_file_name: str) -> ParsedOnnxFile:
     """ Convert onnx file to dict."""
 
-    onnx_model = onnx.load(onnx_file_name)
-    onnx.checker.check_model(onnx_model)
+    onnx_model = onnx.load_model(onnx_file_name, load_external_data=False)
+    # onnx.checker.check_model(onnx_file_name)
 
     tensor_map = {}
+    # for file in os.listdir(os.path.dirname(onnx_file_name + "/"))
     for tensor in onnx_model.graph.initializer:
         try:
             tensor_map[tensor.name] = numpy_helper.to_array(tensor)
         except Exception as e:
+            tensor_map[tensor.name] = []
             print("moving on from tensor: ", tensor.name)
             continue
 
@@ -225,11 +227,15 @@ def _fetch_tensor_type_for_onnx_tensor(netron_model: NetronModel, opt_type: str,
 
 def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
     """ Convert given onnx file to list of OnnxOperation objects. and tensormap."""
+
+    logging.info(f"Converting {onnx_file} to NetronModel")
     try:
         parsed_onnx = convert_onnx_to_dict(onnx_file)
     except Exception as e:
         print(f"Could not convert {onnx_file} to NetronModel. {e}")
         return None
+
+    logging.info(f"Converting {onnx_file} to OnnxGraph")
 
     onnx_json = parsed_onnx.json_model
     tensor_map = parsed_onnx.tensor_map

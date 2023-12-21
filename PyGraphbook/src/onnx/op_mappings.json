@@ -1,0 +1,1901 @@
+{
+    "op_mappings": [
+        {
+            "op_name_map": {
+                "onnx_name": "Abs",
+                "gb_name": "absolute_value"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "target"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Add",
+                "gb_name": "add"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "A",
+                    "gb_name": "left_operand"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "right_operand"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "C",
+                    "gb_name": "added_result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Sub",
+                "gb_name": "subtract"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "A",
+                    "gb_name": "left_operand"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "right_operand"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "C",
+                    "gb_name": "subtracted_result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Pow",
+                "gb_name": "element_wise_exponentiate"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "base"
+                },
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "exponent"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Z",
+                    "gb_name": "exponentiation"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Div",
+                "gb_name": "divide"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "A",
+                    "gb_name": "left_operand"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "right_operand"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "C",
+                    "gb_name": "divided_result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "And",
+                "gb_name": "logical_and"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "A",
+                    "gb_name": "condition_1"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "condition_2"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "C",
+                    "gb_name": "new_condition"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "ArgMax",
+                "gb_name": "argument_maximum"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "data",
+                    "gb_name": "array"
+                },
+                {
+                    "onnx_name": "axis",
+                    "gb_name": "dimension_index",
+                    "default": 0
+                },
+                {
+                    "onnx_name": "keepdims",
+                    "gb_name": "keep_dimension",
+                    "default": true
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "reduced",
+                    "gb_name": "argument"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "ArgMin",
+                "gb_name": "argument_minimum"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "data",
+                    "gb_name": "array"
+                },
+                {
+                    "onnx_name": "axis",
+                    "gb_name": "dimension_index",
+                    "default": 0
+                },
+                {
+                    "onnx_name": "keepdims",
+                    "gb_name": "keep_dimension",
+                    "default": true
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "reduced",
+                    "gb_name": "argument"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Cast",
+                "gb_name": "parse_text"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input",
+                    "gb_name": "input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Cast",
+                "gb_name": "parse_integer"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input",
+                    "gb_name": "input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Cast",
+                "gb_name": "parse_decimal"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input",
+                    "gb_name": "input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Cast",
+                "gb_name": "parse_boolean"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input",
+                    "gb_name": "input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Concat",
+                "gb_name": "concatenate"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "inputs",
+                    "gb_name": "array_1"
+                },
+                {
+                    "onnx_name": "inputs",
+                    "gb_name": "array_2"
+                },
+                {
+                    "onnx_name": "axis",
+                    "gb_name": "dimension_index"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "concat_result",
+                    "gb_name": "concatenated_array"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "ConcatFromSequence",
+                "gb_name": "concatenate"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input_sequence",
+                    "gb_name": "array_1"
+                },
+                {
+                    "onnx_name": "input_sequence",
+                    "gb_name": "array_2"
+                },
+                {
+                    "onnx_name": "axis",
+                    "gb_name": "dimension_index"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "concat_result",
+                    "gb_name": "concatenated_array"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "ConstantOfShape",
+                "gb_name": "broadcast_to_shape"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input",
+                    "gb_name": "shape"
+                },
+                {
+                    "onnx_name": "value",
+                    "gb_name": "target",
+                    "default": 0.0
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Tanh",
+                "gb_name": "Tanh"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input",
+                    "gb_name": "Input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "Output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Conv",
+                "gb_name": "Linear Layer (2D, Pretrained)"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "Input"
+                },
+                {
+                    "onnx_name": "W",
+                    "gb_name": "WEIGHT_FROM_FILE"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "BIAS_FROM_FILE"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "Output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "ConvInteger",
+                "gb_name": "Linear Layer (2D, Pretrained)"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "x",
+                    "gb_name": "Input"
+                },
+                {
+                    "onnx_name": "w",
+                    "gb_name": "WEIGHT_FROM_FILE"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "y",
+                    "gb_name": "Output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "ConvTranspose",
+                "gb_name": "Linear Layer (2D, Pretrained)"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "Input"
+                },
+                {
+                    "onnx_name": "W",
+                    "gb_name": "WEIGHT_FROM_FILE"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "BIAS_FROM_FILE"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "Output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "DequantizeLinear",
+                "gb_name": "Identity"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "x",
+                    "gb_name": "input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "y",
+                    "gb_name": "output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Dropout",
+                "gb_name": "Conditional Dropout"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "data",
+                    "gb_name": "Input"
+                },
+                {
+                    "onnx_name": "ratio",
+                    "gb_name": "Probability"
+                },
+                {
+                    "onnx_name": "training_mode",
+                    "gb_name": "Is Fine Tune"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "Output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "DynamicQuantizeLinear",
+                "gb_name": "Identity"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "x",
+                    "gb_name": "input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "y",
+                    "gb_name": "output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Equal",
+                "gb_name": "equal"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "A",
+                    "gb_name": "left_operand"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "right_operand"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "C",
+                    "gb_name": "is_equal"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Erf",
+                "gb_name": "error_function"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input",
+                    "gb_name": "input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Exp",
+                "gb_name": "Natural Exponential"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input",
+                    "gb_name": "Input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "Output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "expand",
+                "gb_name": "broadcast_to_shape"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input",
+                    "gb_name": "target"
+                },
+                {
+                    "onnx_name": "shape",
+                    "gb_name": "shape"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Gather",
+                "gb_name": "get_sub_arrays"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "data",
+                    "gb_name": "input"
+                },
+                {
+                    "onnx_name": "indices",
+                    "gb_name": "selected_indices"
+                },
+                {
+                    "onnx_name": "axis",
+                    "gb_name": "dimension_index",
+                    "default": 0
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "GatherElements",
+                "gb_name": "reduce_one_dimension_with_element_wise_selected_indices"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "data",
+                    "gb_name": "array"
+                },
+                {
+                    "onnx_name": "indices",
+                    "gb_name": "selected_indices",
+                    "default": 0
+                },
+                {
+                    "onnx_name": "axis",
+                    "gb_name": "dimension_index"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "elements"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Gelu",
+                "gb_name": "GELU"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "Input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "Output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Gemm",
+                "gb_name": "Linear Layer (2D, Pretrained)"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "A",
+                    "gb_name": "Input"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "WEIGHT_FROM_FILE"
+                },
+                {
+                    "onnx_name": "C",
+                    "gb_name": "BIAS_FROM_FILE"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "Output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Greater",
+                "gb_name": "greater_than"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "A",
+                    "gb_name": "left_operand"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "right_operand"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "C",
+                    "gb_name": "is_greater_than"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "GreaterOrEqual",
+                "gb_name": "less_than"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "A",
+                    "gb_name": "right_operand"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "left_operand"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "C",
+                    "gb_name": "is_less_than"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "GroupNormalization",
+                "gb_name": "Layer Normalization"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "input"
+                },
+                {
+                    "onnx_name": "scale",
+                    "gb_name": "WEIGHT_FROM_FILE"
+                },
+                {
+                    "onnx_name": "bias",
+                    "gb_name": "BIAS_FROM_FILE"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "Output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Identity",
+                "gb_name": "identity"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input",
+                    "gb_name": "input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "InstanceNormalization",
+                "gb_name": "Layer Normalization"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input",
+                    "gb_name": "Input"
+                },
+                {
+                    "onnx_name": "scale",
+                    "gb_name": "WEIGHT_FROM_FILE"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "BIAS_FROM_FILE"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "Output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "LayerNormalization",
+                "gb_name": "Layer Normalization"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "Input"
+                },
+                {
+                    "onnx_name": "Scale",
+                    "gb_name": "WEIGHT_FROM_FILE"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "BIAS_FROM_FILE"
+                },
+                {
+                    "onnx_name": "axis",
+                    "gb_name": "Dimension Index"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "Output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Less",
+                "gb_name": "less_than"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "A",
+                    "gb_name": "left_operand"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "right_operand"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "C",
+                    "gb_name": "is_less_than"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "LessOrEqual",
+                "gb_name": "greater_than"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "A",
+                    "gb_name": "right_operand"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "left_operand"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "C",
+                    "gb_name": "is_greater_than"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Log",
+                "gb_name": "Natural Logarithm"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input",
+                    "gb_name": "Input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "Output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "MatMul",
+                "gb_name": "multiply"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "A",
+                    "gb_name": "left_operand"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "right_operand"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "multiplied_result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Mul",
+                "gb_name": "element_wise_multiply"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "A",
+                    "gb_name": "left_array"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "right_array"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "C",
+                    "gb_name": "multiplied_array"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "MatMul",
+                "gb_name": "multiply"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "A",
+                    "gb_name": "left_operand"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "right_operand"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "C",
+                    "gb_name": "multiplied_result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "MatMulInteger",
+                "gb_name": "multiply"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "A",
+                    "gb_name": "left_operand"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "right_operand"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "multiplied_result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Max",
+                "gb_name": "maximum"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "data_0",
+                    "gb_name": "array"
+                },
+                {
+                    "gb_name": "dimension_index",
+                    "default": 0
+                },
+                {
+                    "gb_name": "keep_dimension",
+                    "default": false
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "max",
+                    "gb_name": "maximum_result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "MaxPool",
+                "gb_name": "maximum"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "array"
+                },
+                {
+                    "gb_name": "dimension_index",
+                    "default": 0
+                },
+                {
+                    "gb_name": "keep_dimension",
+                    "default": false
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "maximum_result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Mean",
+                "gb_name": "mean"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "data_0",
+                    "gb_name": "array"
+                },
+                {
+                    "gb_name": "dimension_index",
+                    "default": 0
+                },
+                {
+                    "gb_name": "keep_dimension",
+                    "default": false
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "mean",
+                    "gb_name": "mean_result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "MeanVarianceNormalization",
+                "gb_name": "mean"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "Array"
+                },
+                {
+                    "onnx_name": "axes",
+                    "gb_name": "Dimension Index",
+                    "default": 0
+                },
+                {
+                    "gb_name": "Keep Dimension",
+                    "default": false
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "Output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Min",
+                "gb_name": "minimum"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "data_0",
+                    "gb_name": "array"
+                },
+                {
+                    "gb_name": "dimension_index",
+                    "default": 0
+                },
+                {
+                    "gb_name": "keep_dimension",
+                    "default": false
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "min",
+                    "gb_name": "minimum_result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Mod",
+                "gb_name": "modulo"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "A",
+                    "gb_name": "left_operand"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "right_operand",
+                    "default": 0
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "C",
+                    "gb_name": "result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Multinomial",
+                "gb_name": "argument_multinomial"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input",
+                    "gb_name": "probabilities"
+                },
+                {
+                    "gb_name": "dimension_index",
+                    "default": 0
+                },
+                {
+                    "onnx_name": "sample_size",
+                    "gb_name": "number_samples",
+                    "default": 1
+                },
+                {
+                    "onnx_name": "seed",
+                    "gb_name": "random_seed"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "argument"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Neg",
+                "gb_name": "Multiply by Negative One"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "Input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "Output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Not",
+                "gb_name": "logical_not"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "condition"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "new_condition"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "OneHot",
+                "gb_name": "index_text_to_one_hot"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "indices",
+                    "gb_name": "vocabulary"
+                },
+                {
+                    "onnx_name": "values",
+                    "gb_name": "text"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "one_hot_index"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Or",
+                "gb_name": "logical_or"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "A",
+                    "gb_name": "condition_1"
+                },
+                {
+                    "onnx_name": "B",
+                    "gb_name": "condition_2"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "C",
+                    "gb_name": "new_condition"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "RandomNormal",
+                "gb_name": "generate_uniform_random_number"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "seed",
+                    "gb_name": "random_seed"
+                },
+                {
+                    "onnx_name": "shape",
+                    "gb_name": "shape"
+                },
+                {
+                    "gb_name": "left_limit",
+                    "default": -1.0
+                },
+                {
+                    "gb_name": "right_limit",
+                    "default": 1.0
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "random_number"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "RandomUniform",
+                "gb_name": "generate_uniform_random_number"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "seed",
+                    "gb_name": "random_seed"
+                },
+                {
+                    "onnx_name": "shape",
+                    "gb_name": "shape"
+                },
+                {
+                    "onnx_name": "low",
+                    "gb_name": "left_limit",
+                    "default": 0.0
+                },
+                {
+                    "onnx_name": "high",
+                    "gb_name": "right_limit",
+                    "default": 1.0
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "random_number"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Range",
+                "gb_name": "range"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "start",
+                    "gb_name": "start_value"
+                },
+                {
+                    "onnx_name": "limit",
+                    "gb_name": "end_value"
+                },
+                {
+                    "onnx_name": "delta",
+                    "gb_name": "step_value",
+                    "default": 0
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "vector"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "ReduceMax",
+                "gb_name": "maximum"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "data",
+                    "gb_name": "array"
+                },
+                {
+                    "onnx_name": "axes",
+                    "gb_name": "dimension_index",
+                    "default": 0
+                },
+                {
+                    "onnx_name": "keepdims",
+                    "gb_name": "keep_dimension",
+                    "default": true
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "reduced",
+                    "gb_name": "maximum_result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "ReduceMean",
+                "gb_name": "mean"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "data",
+                    "gb_name": "array"
+                },
+                {
+                    "onnx_name": "axes",
+                    "gb_name": "dimension_index",
+                    "default": 0
+                },
+                {
+                    "onnx_name": "keepdims",
+                    "gb_name": "keep_dimension",
+                    "default": true
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "reduced",
+                    "gb_name": "mean_result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "ReduceMin",
+                "gb_name": "minimum"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "data",
+                    "gb_name": "array"
+                },
+                {
+                    "onnx_name": "axes",
+                    "gb_name": "dimension_index",
+                    "default": 0
+                },
+                {
+                    "onnx_name": "keepdims",
+                    "gb_name": "keep_dimension",
+                    "default": true
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "reduced",
+                    "gb_name": "minimum_result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "ReduceSum",
+                "gb_name": "sum"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "data",
+                    "gb_name": "array"
+                },
+                {
+                    "onnx_name": "axes",
+                    "gb_name": "dimension_index",
+                    "default": 0
+                },
+                {
+                    "onnx_name": "keepdims",
+                    "gb_name": "keep_dimension",
+                    "default": true
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "reduced",
+                    "gb_name": "sum_result"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "RegexFullMatch",
+                "gb_name": "contain_text"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "text"
+                },
+                {
+                    "onnx_name": "pattern",
+                    "gb_name": "search_regex"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "is_contain"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Relu",
+                "gb_name": "ReLU"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "Input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "Output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Reshape",
+                "gb_name": "reshape"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "data",
+                    "gb_name": "input"
+                },
+                {
+                    "onnx_name": "shape",
+                    "gb_name": "new_shape"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "reshaped",
+                    "gb_name": "output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "SequenceAt",
+                "gb_name": "reduce_one_dimension"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input_sequence",
+                    "gb_name": "input"
+                },
+                {
+                    "gb_name": "dimension_index",
+                    "default": 0
+                },
+                {
+                    "onnx_name": "position",
+                    "gb_name": "selected_index"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "tensor",
+                    "gb_name": "output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "SequenceConstruct",
+                "gb_name": "identity"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "inputs",
+                    "gb_name": "input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output_sequence",
+                    "gb_name": "output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "SequenceLength",
+                "gb_name": "get_dimension_size"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input_sequence",
+                    "gb_name": "array"
+                },
+                {
+                    "gb_name": "dimension_index"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "length",
+                    "gb_name": "dimension_size"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Shape",
+                "gb_name": "get_shape"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "data",
+                    "gb_name": "input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "shape",
+                    "gb_name": "shape"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Size",
+                "gb_name": "get_shape"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "data",
+                    "gb_name": "input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "size",
+                    "gb_name": "shape"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Slice",
+                "gb_name": "slice"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "data",
+                    "gb_name": "array"
+                },
+                {
+                    "onnx_name": "starts",
+                    "gb_name": "start_index"
+                },
+                {
+                    "onnx_name": "ends",
+                    "gb_name": "end_index"
+                },
+                {
+                    "onnx_name": "axes",
+                    "gb_name": "dimension_index"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "sliced_array"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Softmax",
+                "gb_name": "Softmax"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input",
+                    "gb_name": "Input"
+                },
+                {
+                    "onnx_name": "axis",
+                    "gb_name": "Dim Index"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "Logits"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Split",
+                "gb_name": "split"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input",
+                    "gb_name": "array"
+                },
+                {
+                    "onnx_name": "split",
+                    "gb_name": "element_index"
+                },
+                {
+                    "onnx_name": "axis",
+                    "gb_name": "dimension_index",
+                    "default": 0
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "outputs",
+                    "gb_name": "split_array_left"
+                },
+                {
+                    "onnx_name": "outputs",
+                    "gb_name": "split_array_right"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "SplitToSequence",
+                "gb_name": "split"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "input",
+                    "gb_name": "array"
+                },
+                {
+                    "onnx_name": "split",
+                    "gb_name": "element_index"
+                },
+                {
+                    "onnx_name": "axis",
+                    "gb_name": "dimension_index",
+                    "default": 0
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output_sequence",
+                    "gb_name": "split_array_left"
+                },
+                {
+                    "onnx_name": "output_sequence",
+                    "gb_name": "split_array_right"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "StringConcat",
+                "gb_name": "split"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "text_1"
+                },
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "text_2"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Z",
+                    "gb_name": "concatenated_text"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "StringSplit",
+                "gb_name": "split"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "text"
+                },
+                {
+                    "onnx_name": "delimiter",
+                    "gb_name": "regex"
+                },
+                {
+                    "gb_name": "pad_tag",
+                    "default": "[PAD]"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "split_text"
+                },
+                {
+                    "onnx_name": "Z",
+                    "gb_name": "split_text"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "ThresholdedRelu",
+                "gb_name": "ReLU"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "Input"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "Output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "TopK",
+                "gb_name": "ReLU"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "array"
+                },
+                {
+                    "onnx_name": "K",
+                    "gb_name": "k"
+                },
+                {
+                    "onnx_name": "axis",
+                    "gb_name": "dimension_index",
+                    "default": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Values",
+                    "gb_name": "top_k_array"
+                },
+                {
+                    "onnx_name": "Indices",
+                    "gb_name": "top_k_indices"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Unique",
+                "gb_name": "deduplicate_to_vector"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "X",
+                    "gb_name": "array"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "deduped_vector"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "Where",
+                "gb_name": "conditional_filter"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "condition",
+                    "gb_name": "condition"
+                },
+                {
+                    "onnx_name": "X",
+                    "gb_name": "data_if_true"
+                },
+                {
+                    "onnx_name": "Y",
+                    "gb_name": "data_if_false"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "output_data"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "read_from_file",
+                "gb_name": "read_from_file"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "dir_name",
+                    "gb_name": "dir_path"
+                },
+                {
+                    "onnx_name": "file_name",
+                    "gb_name": "file_name"
+                },
+                {
+                    "onnx_name": "extraction_schema",
+                    "gb_name": "extraction_schema"
+                }
+            ],
+            "outputs": [
+                {
+                    "onnx_name": "output",
+                    "gb_name": "output"
+                }
+            ]
+        },
+        {
+            "op_name_map": {
+                "onnx_name": "write_to_file",
+                "gb_name": "write_to_file"
+            },
+            "inputs": [
+                {
+                    "onnx_name": "dir_name",
+                    "gb_name": "dir_path"
+                },
+                {
+                    "onnx_name": "file_name",
+                    "gb_name": "file_name"
+                },
+                {
+                    "onnx_name": "overwrite",
+                    "gb_name": "is_overwrite"
+                },
+                {
+                    "onnx_name": "data",
+                    "gb_name": "data"
+                }
+            ],
+            "outputs": [
+            ]
+        }
+    ]
+}

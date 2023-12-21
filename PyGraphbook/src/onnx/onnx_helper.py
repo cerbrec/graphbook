@@ -64,7 +64,7 @@ class ParsedOnnxFile:
 def convert_onnx_to_dict(onnx_file_name: str) -> ParsedOnnxFile:
     """ Convert onnx file to dict."""
 
-    onnx_model = onnx.load_model(onnx_file_name, load_external_data=False)
+    onnx_model = onnx.load_model(onnx_file_name, load_external_data=True)
     # onnx.checker.check_model(onnx_file_name)
 
     tensor_map = {}

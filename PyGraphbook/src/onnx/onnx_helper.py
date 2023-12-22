@@ -12,6 +12,8 @@ from netron.onnx import ModelFactory
 # pylint: disable=protected-access
 from netron.onnx import _Model as NetronModel
 from onnx import numpy_helper
+
+# from onnx.onnx_pb import TensorProto
 from pydantic import BaseModel, Field, AliasChoices
 
 
@@ -61,21 +63,45 @@ class ParsedOnnxFile:
             self.netron_json = {}
 
 
-def convert_onnx_to_dict(onnx_file_name: str) -> ParsedOnnxFile:
+# def _read_individual_weight(tensor: TensorProto, base_dir: str, out_dir: str):
+#     pass
+
+from onnx.onnx_pb import AttributeProto, GraphProto, ModelProto, TensorProto
+
+class ExternalDataInfo:
+    def __init__(self, tensor: TensorProto) -> None:
+        self.location = ""
+        self.offset = None
+        self.length = None
+        self.checksum = None
+        self.basepath = ""
+
+        for entry in tensor.external_data:
+            setattr(self, entry.key, entry.value)
+
+        if self.offset:
+            self.offset = int(self.offset)
+
+        if self.length:
+            self.length = int(self.length)
+
+def convert_onnx_to_dict(onnx_file_name: str, load_data: bool = False) -> ParsedOnnxFile:
     """ Convert onnx file to dict."""
 
-    onnx_model = onnx.load_model(onnx_file_name, load_external_data=True)
+    onnx_model = onnx.load_model(onnx_file_name, load_external_data=False)
     # onnx.checker.check_model(onnx_file_name)
 
     tensor_map = {}
     # for file in os.listdir(os.path.dirname(onnx_file_name + "/"))
     for tensor in onnx_model.graph.initializer:
-        try:
-            tensor_map[tensor.name] = numpy_helper.to_array(tensor)
-        except Exception as e:
-            tensor_map[tensor.name] = []
-            print("moving on from tensor: ", tensor.name)
-            continue
+        tensor_map[tensor.name] = []
+        if load_data:
+            # tensor_map[tensor.name] = (
+            logging.debug(f"Reading tensor: {tensor.name} from file {onnx_file_name}")
+            read_onnx_data(onnx_file_name, tensor, do_write=True)
+
+    # exit(1)
+    logging.debug('finished reading netron model')
 
     json_str_model = MessageToJson(onnx_model)
 
@@ -225,12 +251,12 @@ def _fetch_tensor_type_for_onnx_tensor(netron_model: NetronModel, opt_type: str,
     return type_list[onnx_tensor.dataType - 1]
 
 
-def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
+def onnx_to_graph(onnx_file: str, load_data: bool = False) -> Optional[OnnxGraph]:
     """ Convert given onnx file to list of OnnxOperation objects. and tensormap."""
 
     logging.info(f"Converting {onnx_file} to NetronModel")
     try:
-        parsed_onnx = convert_onnx_to_dict(onnx_file)
+        parsed_onnx = convert_onnx_to_dict(onnx_file, load_data=load_data)
     except Exception as e:
         print(f"Could not convert {onnx_file} to NetronModel. {e}")
         return None
@@ -445,12 +471,12 @@ def onnx_to_graph(onnx_file: str) -> Optional[OnnxGraph]:
     )
 
 
-def onnx_folder_to_onnx_list(onnx_folder: str) -> List[OnnxGraph]:
+def onnx_folder_to_onnx_list(onnx_folder: str, load_data: bool=False) -> List[OnnxGraph]:
     """Given folder of onnx files, convert to onnx list."""
     _onnx_list = []
     for file in os.listdir(onnx_folder):
         if file.endswith(".onnx"):
-            onnx_graph = onnx_to_graph(os.path.join(f"{onnx_folder}/{file}"))
+            onnx_graph = onnx_to_graph(os.path.join(f"{onnx_folder}/{file}"), load_data=load_data)
             if onnx_graph:
                 _onnx_list.append(onnx_graph)
 
@@ -466,3 +492,31 @@ class NumpyArrayEncoder(JSONEncoder):
 
 def numpy_to_json(numpy_data: np.ndarray):
     return json.dumps(numpy_data, cls=NumpyArrayEncoder)  # use dump() to write array into file
+
+
+def read_onnx_data(onnx_file_name: str, tensor: TensorProto, do_write: bool=True):
+    """ Read onnx data from external data file."""
+
+    info = ExternalDataInfo(tensor)
+    file_name = info.location.lstrip("/.")
+    base_dir = os.path.dirname(onnx_file_name)
+    external_data_file_path = os.path.join(base_dir, file_name)
+    with open(external_data_file_path, "rb") as data_file:
+        if info.offset:
+            data_file.seek(info.offset)
+
+        if info.length:
+            tensor.raw_data = data_file.read(info.length)
+        else:
+            tensor.raw_data = data_file.read()
+
+    tensor_numpy = numpy_helper.to_array(tensor, base_dir=base_dir)
+    if do_write:
+        as_json = numpy_to_json(tensor_numpy)
+        weight_dir = f"{onnx_file_name}_weights"
+        if not os.path.exists(weight_dir):
+            os.makedirs(weight_dir)
+        with open(f"{weight_dir}/{tensor.name}.json", 'w') as f:
+            f.write(as_json)
+
+    return tensor_numpy

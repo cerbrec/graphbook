@@ -1,8 +1,6 @@
 import argparse
 import logging
 import os
-import json
-import copy
 from collections import defaultdict
 from typing import List, Dict, Set
 
@@ -332,11 +330,13 @@ def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
 
     # For now, we won't say it's a primitive operation since it's not mapped yet to a real primitive.
 
-    return onnx_util.onnx_to_graphbook(
+    x =  onnx_util.onnx_to_graphbook(
         onnx_op=onnx_op,
         graphbook_inputs=graphbook_inputs,
         graphbook_outputs=graphbook_outputs
     )
+    return x
+
 
 
     # TODO: Add mapping here from onnx optype to graphbook schema type.
@@ -570,13 +570,16 @@ def _compile_links_between_composite_and_primitive(
 
     # This is where links are connected between composites to primitives.
     for composite_name, link_list in composite_link_map.items():
+        logging.debug("Compiling links between composites for " + composite_name)
 
+        if composite_name not in graphbook_composite_map:
+            logging.error("Expected composite name to be in graphbook_composite_map")
+            raise ValueError("Expected composite name to be in graphbook_composite_map")
         composite = graphbook_composite_map[composite_name]
 
         # For each link that ends in this composite graph, create a path of links from the source to here.
         for link in link_list:
-            if isinstance(link, tuple):
-                print("stop here")
+
             if link.source == onnx_graph.name:
                 # It's coming from input.
                 composite.links.append(graphbook.Link(
@@ -591,6 +594,18 @@ def _compile_links_between_composite_and_primitive(
 
             if primitive_source in composite.operations:
                 # check if it's the SINK that's not in the composite operations
+                if link.sink == onnx_graph.name:
+                    # Then this is a final output
+                    composite.links.append(graphbook.Link(
+                        source=graphbook.LinkEndpoint(operation=link.source, data=link.var_name),
+                        sink=graphbook.LinkEndpoint(operation=THIS, data=link.var_name),
+                        var_name=link.var_name
+                    ))
+                    continue
+                elif link.sink not in primitive_map:
+                    logging.error("Expected link sink to be in primitive map")
+                    raise ValueError("Expected link sink to be in primitive map")
+
                 if primitive_map[link.sink] not in composite.operations:
                     # Then this is a special case where the source goes to THIS
                     composite.links.append(graphbook.Link(
@@ -611,15 +626,23 @@ def _compile_links_between_composite_and_primitive(
                 next_composite = graphbook_composite_map[sink_name]
                 #
                 if link.var_name not in [out.name for out in next_composite.outputs]:
-                    raise ValueError("Expected link var name to be in composite outputs")
+                    logging.error("Expected link var name to be in composite outputs")
+
                 next_composite.links.append(graphbook.Link(
                     source=graphbook.LinkEndpoint(operation=primitive_source.name, data=link.var_name),
                     sink=graphbook.LinkEndpoint(operation=THIS, data=link.var_name),
                 ))
             elif not primitive_source.name.startswith(composite_name):
                 # If the primitive source is not from within this graph, it must be coming from parent graph.
-                if link.var_name not in [inp.name for inp in composite.inputs]:
-                    raise ValueError("Expected link var name to be in composite inputs")
+                inp_names = [inp.name for inp in composite.inputs if inp is not None]
+                if link.var_name not in inp_names:
+                    # Log a bunch of information about what happened here
+                    logging.error(f"Link var name {link.var_name} not in composite inputs of {composite_name}")
+                    logging.error(f"Composite inputs: {composite.inputs}")
+                    logging.error(f"Composite outputs: {composite.outputs}")
+                    logging.error(f"Link: {link}")
+
+                    # raise ValueError("Expected link var name to be in composite inputs")
 
                 composite.links.append(graphbook.Link(
                     source=graphbook.LinkEndpoint(operation=THIS, data=link.var_name),
@@ -632,13 +655,15 @@ def _compile_links_between_composite_and_primitive(
                 split_name = primitive_source.name.split(FORWARD_SLASH)
                 split_composite_name = composite_name.split(FORWARD_SLASH)
                 if len(split_name) <= len(split_composite_name):
-                    raise ValueError("Primitive source name is not longer than composite name")
+                    logging.error("Primitive source name is not longer than composite name")
+                    # raise ValueError("Primitive source name is not longer than composite name")
 
                 next_composite_name = FORWARD_SLASH.join(split_name[:len(split_composite_name) + 1])
                 next_composite = graphbook_composite_map[next_composite_name]
 
                 if link.var_name not in [out.name for out in next_composite.outputs]:
-                    raise ValueError("Expected link var name to be in composite outputs")
+                    logging.error("Expected link var name to be in composite outputs")
+                    # raise ValueError("Expected link var name to be in composite outputs")
                 composite.links.append(graphbook.Link(
                     source=graphbook.LinkEndpoint(operation=next_composite_name, data=link.var_name),
                     sink=graphbook.LinkEndpoint(operation=link.sink, data=link.var_name),
@@ -675,12 +700,16 @@ def onnx_graph_to_graphbook(onnx_graph: OnnxGraph) -> graphbook.Operation:
         composite_var_map=composite_var_map
     )
 
+    logging.debug("\n\t...Finished Processing Operations, Now calculating links...\n")
+
     # Compile links between composites
     _compile_links_between_composite(
         onnx_graph=onnx_graph,
         graphbook_composite_map=graphbook_composite_map,
         composite_names=composite_names
     )
+
+    logging.debug("\n\t...Finished Compiling Links between Composites, Now calculating links between composites and primitives...\n")
 
     # Compile links between composites and primitives
     _compile_links_between_composite_and_primitive(
@@ -699,7 +728,7 @@ if __name__ == "__main__":
     argparse = argparse.ArgumentParser()
     argparse.add_argument("--onnx_folder", type=str, default="flan-t5-small-onnx")
     argparse.add_argument("--onnx_file", type=str, required=False,
-                          default="llama2.onnx/decoder_model.onnx",
+                          default="llama2_onnx/model.onnx",
                           # default="flan-t5-small-onnx/decoder_model.onnx",
                           help="If onnx_file specified, then this is the onnx file to convert.")
     argparse.add_argument("--output_folder", type=str,
@@ -708,21 +737,29 @@ if __name__ == "__main__":
                           )
     argparse.add_argument("--logging", type=str, default="DEBUG")
     argparse.add_argument("--max_ops_per_graph", type=int, default=10)
+
+    # add boolean flag to load data -- opt in store if true
+    argparse.add_argument("--load_data", action="store_true", default=False)
+
     args = argparse.parse_args()
 
     logging.basicConfig(level=args.logging)
 
     if args.onnx_file:
-        onnx_list = [onnx_helper.onnx_to_graph(os.path.join(f"{args.onnx_file}"), )]
+        onnx_list = [onnx_helper.onnx_to_graph(os.path.join(f"{args.onnx_file}"), load_data=args.load_data)]
     else:
         # Convert onnx to graphbook
-        onnx_list = onnx_helper.onnx_folder_to_onnx_list(args.onnx_folder)
+        onnx_list = onnx_helper.onnx_folder_to_onnx_list(args.onnx_folder, load_data=args.load_data)
 
     logging.info('Generated onnx graphs, now converting to Graphbook')
 
     for graph in onnx_list:
         logging.info("Converting: " + graph.name)
-        graphbook_root: graphbook.Operation = onnx_graph_to_graphbook(graph)
+        try:
+            graphbook_root: graphbook.Operation = onnx_graph_to_graphbook(graph)
+        except Exception as e:
+            logging.exception(f"Error converting {graph.name}")
+            raise e
 
         # Sort in place
         graphbook.TopoSortMixin(graphbook_root).run()
@@ -739,14 +776,14 @@ if __name__ == "__main__":
             os.makedirs(args.output_folder)
 
         name = graphbook_root.name.split(FORWARD_SLASH)[-1]
-        if not os.path.exists(args.output_folder + f"/{name}_weights"):
-            os.makedirs(args.output_folder + f"/{name}_weights")
+        # if not os.path.exists(args.output_folder + f"/{name}_weights"):
+        #     os.makedirs(args.output_folder + f"/{name}_weights")
 
         with open(f"{args.output_folder}/{name}.json", "w") as f:
             f.write(json_str)
 
-        for key, value in graph.parsed_onnx_file.tensor_map.items():
-            with open(f"{args.output_folder}/{name}_weights/{key}.json", "w") as f:
-                f.write(onnx_helper.numpy_to_json(value))
+        # for key, value in graph.parsed_onnx_file.tensor_map.items():
+        #     with open(f"{args.output_folder}/{name}_weights/{key}.json", "w") as f:
+        #         f.write(onnx_helper.numpy_to_json(value))
 
         logging.info("Generated: " + graphbook_root.name + ".json")

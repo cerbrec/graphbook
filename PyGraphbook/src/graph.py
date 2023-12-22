@@ -189,3 +189,16 @@ class TopoSortMixin:
             TopoSortMixin(n).run()
 
         self.order.append(n)
+
+
+def get_all_primitives(root: Operation):
+    """ Get all primitives. """
+    primitives = []
+
+    for op in root.operations:
+        if op.type == OperationType.PRIMITIVE_OPERATION:
+            primitives.append(op)
+        elif op.operations is not None and len(op.operations) > 0:
+            primitives.extend(get_all_primitives(op))
+
+    return primitives

@@ -1,9 +1,10 @@
 from typing import List
 import os
 import json
+import logging
 import copy
 from src import graph as graphbook
-from src.onnx.onnx_helper import OnnxLink, OnnxGraph, OnnxOperation
+from src.onnx.onnx_helper import OnnxOperation
 
 
 def _produce_mapping() -> dict:
@@ -127,6 +128,7 @@ def _convert_from_primitive(
 
         gb_input_name = input_value_dict[onnx_input.primitive_name]
         if gb_input_name not in gb_input_value_dict:
+            logging.info(f"Input {gb_input_name} not found in {gb_op.name}")
             raise ValueError(f"Input {gb_input_name} not found in {gb_op.name}")
 
         gb_var = gb_input_value_dict[gb_input_name]
@@ -189,8 +191,9 @@ class Cast(Base):
         gb_op = _copy_primitive(primitive_name)
 
         gb_map = OP_GB_MAPPING[onnx_op.opType]
-
-        return _convert_from_primitive(graphbook_inputs, graphbook_outputs, gb_op, gb_map)
+        gb_op = _convert_from_primitive(graphbook_inputs, graphbook_outputs, gb_op, gb_map)
+        gb_op.name = onnx_op.name
+        return gb_op
 
 
 class Shape(Base):
@@ -208,12 +211,14 @@ class Shape(Base):
 
         # Determine if we need to slice
         if len(graphbook_inputs) != 3:
+            shape_gb_op.name = onnx_op.name
             return shape_gb_op
 
         end = graphbook_inputs[1].data
         start = graphbook_inputs[2].data
 
         if start is None and end is None:
+            shape_gb_op.name = onnx_op.name
             return shape_gb_op
 
         # Otherwise, we're slicing a 1D array
@@ -259,8 +264,8 @@ class Shape(Base):
             primitive_name=str(onnx_op.opType),
             assertions=[],
             type=graphbook.OperationType.COMPOSITE_OPERATION,
-            inputs=copy.copy([shape_gb_op.inputs[0]]),
-            outputs=copy.copy([slice_op.outputs[0]]),
+            inputs=copy.copy(shape_gb_op.inputs),
+            outputs=copy.copy(slice_op.outputs),
             operations=[shape_gb_op, slice_op],
             links=[
                 link,
@@ -297,6 +302,8 @@ class Unsqueeze(Base):
             gb_op.inputs[1].type = graphbook.DataType.INTEGER
 
         gb_op.outputs[0].name = graphbook_outputs[0].name
+
+        gb_op.name = onnx_op.name
 
         return gb_op
 
@@ -598,8 +605,6 @@ class Min(Base):
         )
 
 
-
-
 class Max(Base):
 
     def create_max_0th(self):
@@ -788,6 +793,8 @@ class ReadFromFile(Base):
             _copy_primitive("read_from_file"),
             OP_GB_MAPPING[onnx_op.opType])
 
+        op.name = onnx_op.name
+
         # Convert name over.
         op.outputs[0].name = graphbook_outputs[0].name
         return op
@@ -807,6 +814,8 @@ class WriteToFile(Base):
             _copy_primitive("write_to_file"),
             OP_GB_MAPPING[onnx_op.opType])
 
+        op.name = onnx_op.name
+
         return op
 
 
@@ -821,11 +830,15 @@ class Softmax(Base):
         softmax = _copy_primitive("Softmax")
         softmax.inputs[1].primitive_name = softmax.inputs[1].name
 
-        return _convert_from_primitive(
+        softmax_op = _convert_from_primitive(
             graphbook_inputs,
             graphbook_outputs,
             softmax,
             OP_GB_MAPPING[onnx_op.opType])
+
+        softmax_op.name = onnx_op.name
+
+        return softmax_op
 
 
 OP_MAPPING = {
@@ -859,9 +872,11 @@ def onnx_to_graphbook(
 
     if primitive_name in OP_GB_MAPPING:
         gb_map = OP_GB_MAPPING[onnx_op.opType]
-        gb_op = GB_OPS[gb_map["op_name_map"]["gb_name"]]
-
-        return _convert_from_primitive(graphbook_inputs, graphbook_outputs, gb_op, gb_map)
+        # gb_op = GB_OPS[gb_map["op_name_map"]["gb_name"]]
+        gb_op = _copy_primitive(gb_map["op_name_map"]["gb_name"])
+        gb_op = _convert_from_primitive(graphbook_inputs, graphbook_outputs, gb_op, gb_map)
+        gb_op.name = onnx_op.name
+        return gb_op
 
     # There's no special function or prescribed mapping so just create blank composite
     return graphbook.Operation(

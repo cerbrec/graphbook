@@ -9,6 +9,7 @@ from src import hierarchical_partition as hp
 from src.onnx import onnx_helper
 from src.onnx.onnx_helper import OnnxLink, OnnxGraph, OnnxOperation
 from src.onnx import util_onnx_ops_2_graphbook as onnx_util
+from src.onnx import post_processing as onnx_map_pp
 
 FORWARD_SLASH = "/"
 INPUT = "input"
@@ -740,6 +741,7 @@ if __name__ == "__main__":
 
     # add boolean flag to load data -- opt in store if true
     argparse.add_argument("--load_data", action="store_true", default=False)
+    argparse.add_argument("--no_post_process", action="store_true", default=False)
 
     args = argparse.parse_args()
 
@@ -761,11 +763,30 @@ if __name__ == "__main__":
             logging.exception(f"Error converting {graph.name}")
             raise e
 
+        # Report any onnx operations that were unmapped. Do this before simplifying names.
+        onnx_map_pp.report_unfilled_onnx_primitives(graphbook_root)
+
+        # not No means Yes post-process
+        if not args.no_post_process:
+            logging.info("Post-processing: " + graph.name)
+            # Write the weights to a new file only if we are loading data this time.
+            onnx_map_pp.remap_weight_paths_in_place(
+                root_op=graphbook_root,
+                old_path=graph.name + "_weights",
+                new_path=args.output_folder + "/" + graph.name + "_remapped",
+                do_write=args.load_data,
+                update_op=True)
+            onnx_map_pp.simplify_names_in_place(graphbook_root)
+
         # Sort in place
         graphbook.TopoSortMixin(graphbook_root).run()
 
         # Partition in place so that no graph is too large.
         hp.partition_algorithm(graphbook_root, args.max_ops_per_graph)
+
+        if not args.no_post_process:
+            logging.info("Adding BOOT_SOURCE")
+            onnx_map_pp.add_boot_flow_state_in_place(graphbook_root)
 
         logging.info("Converted: " + graphbook_root.name)
 

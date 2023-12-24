@@ -28,6 +28,15 @@ class DataType(str, Enum):
     INTEGER_OR_DECIMAL = "INTEGER_OR_DECIMAL"
     NULL = "NULL"
 
+class FlowState(str, Enum):
+    """ Flow State """
+
+    BOOT_SOURCE = "BOOT_SOURCE",
+    REF_SOURCE = "REF_SOURCE",
+    BOOT_SINK = "BOOT_SINK",
+    REF_SINK = "REF_SINK",
+    UNBOUND = "UNBOUND"
+
 
 class Variable(BaseModel):
     """ Variable object. """
@@ -38,6 +47,7 @@ class Variable(BaseModel):
     shape: Optional[List[int]] = Field(None, description="Description of the variable.")
     onnx_attribute: Optional[bool] = Field(None, description="Whether the variable is supplied for onnx attribute")
     data: Optional[object] = Field(None, description="Bootstrapped data of the variable.")
+    flow_state: Optional[FlowState] = Field(None, description="Flow state of the variable.")
 
 
 VariableModel = TypeVar("VariableModel", str, Variable)
@@ -202,3 +212,17 @@ def get_all_primitives(root: Operation):
             primitives.extend(get_all_primitives(op))
 
     return primitives
+
+
+def get_all_unfilled_composites(root: Operation):
+    """ Get all composites that have no operations. """
+    composites = []
+
+    for op in root.operations:
+        if op.type == OperationType.COMPOSITE_OPERATION and len(op.operations) == 0:
+            composites.append(op)
+        elif op.operations is not None and len(op.operations) > 0:
+            composites.extend(get_all_unfilled_composites(op))
+
+    return composites
+

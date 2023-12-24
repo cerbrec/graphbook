@@ -123,7 +123,12 @@ def _score_graph(graph: graphbook.Operation, new_op: graphbook.Operation) -> flo
     score += len(new_op.outputs)
 
     # reward for number of operations in the composite
-    score -= (len(new_op.operations) / 4)
+    if len(new_op.operations) <= 10:
+        # This rewards MORE operations in the composite, closer to 10
+        score -= len(new_op.operations)
+    elif len(new_op.operations) >= 20:
+        # This penalizes TOO MANY operations in the composite, closer to 20
+        score += len(new_op.operations)
 
     return score
 

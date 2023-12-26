@@ -2,9 +2,9 @@
     "name": "broadcast_to_shape",
     "primitive_name": "broadcast_to_shape",
     "aliases": [
-        "broadcast",
-        "tile",
-        "tile_to_shape"
+        "tile_to_shape",
+        "expand_to_shape",
+        "extend_to_shape"
     ],
     "type": "PRIMITIVE_OPERATION",
     "inputs": [

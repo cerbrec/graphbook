@@ -4,12 +4,15 @@
     "aliases": [
         "parse_to_decimal",
         "convert_to_decimal",
+        "cast_to_decimal",
         "parse_float",
         "parse_to_float",
         "convert_to_float",
+        "cast_to_float",
         "parse_double",
         "parse_to_double",
-        "convert_to_double"
+        "convert_to_double",
+        "cast_to_double"
     ],
     "type": "PRIMITIVE_OPERATION",
     "inputs": [

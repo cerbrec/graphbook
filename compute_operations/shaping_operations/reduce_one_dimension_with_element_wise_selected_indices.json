@@ -2,7 +2,9 @@
     "name": "reduce_one_dimension_with_element_wise_selected_indices",
     "primitive_name": "reduce_one_dimension_with_element_wise_selected_indices",
     "aliases": [
-        "element_wise_reduce_one_dimension"
+        "element_wise_reduce_one_dimension",
+        "decrease_one_dimension_with_element_wise_selected_indices",
+        "element_wise_decrease_one_dimension"
     ],
     "type": "PRIMITIVE_OPERATION",
     "inputs": [
@@ -27,7 +29,7 @@
         "{elements}_shape_is_the_same_as_{selected_indices}"
     ],
     "description": [
-        "Get `elements` in `array` across `dimension_index` specified by `selected_indices`"
+        "Reduce `array` by one dimension choosing element-wise `selected_indices` across `dimension_index`"
     ],
     "examples": [
         {

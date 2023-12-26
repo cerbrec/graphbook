@@ -3,7 +3,8 @@
     "primitive_name": "parse_boolean",
     "aliases": [
         "parse_to_boolean",
-        "convert_to_boolean"
+        "convert_to_boolean",
+        "cast_to_boolean"
     ],
     "type": "PRIMITIVE_OPERATION",
     "inputs": [

@@ -2,12 +2,7 @@
     "name": "expand_one_dimension",
     "primitive_name": "expand_one_dimension",
     "aliases": [
-        "expand",
-        "expand_dimension",
-        "extend",
-        "extend_dimension",
         "extend_one_dimension",
-        "increase_dimension",
         "increase_one_dimension"
     ],
     "type": "PRIMITIVE_OPERATION",

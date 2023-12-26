@@ -930,7 +930,7 @@
             ],
             "outputs": [
                 {
-                    "onnx_name": "C",
+                    "onnx_name": "Y",
                     "gb_name": "multiplied_result"
                 }
             ]

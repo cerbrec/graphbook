@@ -154,7 +154,7 @@ def _gen_candidate(graph: graphbook.Operation,
                    last_op: graphbook.Operation, ) -> Tuple[graphbook.Operation, graphbook.Operation]:
     """ Generate Candidate graph where first through last op are composed into composite """
 
-    new_composite_name = f"partition_{str(uuid.uuid4())[:4]}"
+    new_composite_name = f"partition_{str(uuid.uuid4())[:8]}"
 
     # Make a copy of the graph
     new_graph = copy.copy(graph)

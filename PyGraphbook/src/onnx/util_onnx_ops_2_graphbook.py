@@ -86,10 +86,14 @@ def _add_multi_dim_broadcasting(gb_op: graphbook.Operation):
 
 
 def _copy_primitive(primitive_name: str):
-    gb_copy = copy.copy(GB_OPS[primitive_name])
-    gb_copy.inputs = [copy.copy(inp) for inp in gb_copy.inputs]
-    gb_copy.outputs = [copy.copy(out) for out in gb_copy.outputs]
+    gb_copy = copy.deepcopy(GB_OPS[primitive_name])
+    gb_copy.inputs = [copy.deepcopy(inp) for inp in gb_copy.inputs]
+    gb_copy.outputs = [copy.deepcopy(out) for out in gb_copy.outputs]
     gb_copy.assertions = []
+    gb_copy.aliases = []
+
+    if gb_copy.links is not None:
+        gb_copy.links = [copy.deepcopy(link) for link in gb_copy.links]
 
     return gb_copy
 
@@ -115,12 +119,8 @@ def _convert_from_schema(
     output_value_dict = {val["onnx_name"]: val["gb_name"] for val in gb_map["outputs"]}
     default_dict = {val["gb_name"]: val["default"] for val in gb_map["inputs"] if "default" in val}
 
-    if gb_op.type != graphbook.OperationType.PRIMITIVE_OPERATION and gb_op.name not in ["Multiply by Negative One"]:
-        gb_input_value_dict = {val.name: val for val in gb_op.inputs}
-        gb_output_value_dict = {val.name: val for val in gb_op.outputs}
-    else:
-        gb_input_value_dict = {val.primitive_name: val for val in gb_op.inputs}
-        gb_output_value_dict = {val.primitive_name: val for val in gb_op.outputs}
+    gb_input_value_dict = {val.primitive_name: val for val in gb_op.inputs}
+    gb_output_value_dict = {val.primitive_name: val for val in gb_op.outputs}
 
     for onnx_input in graphbook_inputs:
         if onnx_input.primitive_name not in input_value_dict:
@@ -161,6 +161,8 @@ def _convert_from_schema(
 
     for onnx_output in graphbook_outputs:
         if onnx_output.primitive_name not in output_value_dict:
+            if gb_op.name != "read_from_file":
+                logging.debug(f"Output {onnx_output.primitive_name} not found in {gb_op.name}")
             continue
 
         gb_output_name = output_value_dict[onnx_output.primitive_name]
@@ -277,8 +279,8 @@ class Shape(Base):
             primitive_name=str(onnx_op.opType),
             assertions=[],
             type=graphbook.OperationType.COMPOSITE_OPERATION,
-            inputs=copy.copy(shape_gb_op.inputs),
-            outputs=copy.copy(slice_op.outputs),
+            inputs=copy.deepcopy(shape_gb_op.inputs),
+            outputs=copy.deepcopy(slice_op.outputs),
             operations=[shape_gb_op, slice_op],
             links=[
                 link,
@@ -352,6 +354,8 @@ class Concat(Base):
             if gb_op.inputs[2].data is None:
                 # then check for default
                 gb_op.inputs[2].data = 1
+                gb_op.inputs[2].shape = []
+                gb_op.inputs[2].type = graphbook.DataType.INTEGER
 
             gb_op.outputs[0].name = graphbook_outputs[0].name
             return gb_op
@@ -408,7 +412,7 @@ class Concat(Base):
             sink=graphbook.LinkEndpoint(operation="this", data=graphbook_outputs[0].name)
         ))
 
-        comp_inputs = [copy.copy(inp) for inp in graphbook_inputs]
+        comp_inputs = [copy.deepcopy(inp) for inp in graphbook_inputs]
 
         if comp_inputs[-1].data is None:
             # then check for default
@@ -466,18 +470,16 @@ class Sqrt(Base):
                 source=graphbook.LinkEndpoint(operation=get_shape.name, data=get_shape.outputs[0].name),
                 sink=graphbook.LinkEndpoint(operation=broadcast.name, data=broadcast.inputs[1].name)
             ),
+            # Broadcast to exponentiate
             graphbook.Link(
                 source=graphbook.LinkEndpoint(operation=broadcast.name, data=broadcast.outputs[0].name),
                 sink=graphbook.LinkEndpoint(operation=sqrt.name, data=sqrt.inputs[1].name)
             ),
-            graphbook.Link(
-                source=graphbook.LinkEndpoint(operation="this", data=graphbook_outputs[0].name),
-                sink=graphbook.LinkEndpoint(operation=sqrt.name, data=sqrt.outputs[0].name)
-            ),
+            # expnentiate to output
             graphbook.Link(
                 source=graphbook.LinkEndpoint(operation=sqrt.name, data=sqrt.outputs[0].name),
                 sink=graphbook.LinkEndpoint(operation="this", data=graphbook_outputs[0].name)
-            )
+            ),
         ]
 
         return graphbook.Operation(
@@ -485,8 +487,8 @@ class Sqrt(Base):
             primitive_name=str(onnx_op.opType),
             assertions=[],
             type=graphbook.OperationType.COMPOSITE_OPERATION,
-            inputs=copy.copy(graphbook_inputs),
-            outputs=copy.copy(graphbook_outputs),
+            inputs=copy.deepcopy(graphbook_inputs),
+            outputs=copy.deepcopy(graphbook_outputs),
             operations=[get_shape, broadcast, sqrt],
             links=links
         )

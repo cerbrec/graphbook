@@ -331,12 +331,12 @@ def onnx_op_to_graphbook(onnx_op: OnnxOperation) -> graphbook.Operation:
 
     # For now, we won't say it's a primitive operation since it's not mapped yet to a real primitive.
 
-    x =  onnx_util.onnx_to_graphbook(
+    return onnx_util.onnx_to_graphbook(
         onnx_op=onnx_op,
         graphbook_inputs=graphbook_inputs,
         graphbook_outputs=graphbook_outputs
     )
-    return x
+    # return x
 
 
 

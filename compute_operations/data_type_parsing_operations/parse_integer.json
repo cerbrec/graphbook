@@ -3,7 +3,8 @@
     "primitive_name": "parse_integer",
     "aliases": [
         "parse_to_integer",
-        "convert_to_integer"
+        "convert_to_integer",
+        "cast_to_integer"
     ],
     "type": "PRIMITIVE_OPERATION",
     "inputs": [

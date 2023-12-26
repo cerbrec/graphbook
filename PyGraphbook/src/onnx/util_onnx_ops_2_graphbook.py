@@ -59,6 +59,7 @@ MULTI_DIM_BROADCASTING_ONNX_OPS = [
     "Xor"
 ]
 
+
 def _add_multi_dim_broadcasting(gb_op: graphbook.Operation):
     """
     Add multi dimensionional broadcasting rules to second input on graphbook operation.
@@ -84,7 +85,6 @@ def _add_multi_dim_broadcasting(gb_op: graphbook.Operation):
     get_size = _copy_primitive("get_dimension_size")
 
 
-
 def _copy_primitive(primitive_name: str):
     gb_copy = copy.copy(GB_OPS[primitive_name])
     gb_copy.inputs = [copy.copy(inp) for inp in gb_copy.inputs]
@@ -104,7 +104,7 @@ class Base:
         pass
 
 
-def _convert_from_primitive(
+def _convert_from_schema(
         graphbook_inputs: List[graphbook.Variable],
         graphbook_outputs: List[graphbook.Variable],
         gb_op: graphbook.Operation,
@@ -151,7 +151,13 @@ def _convert_from_primitive(
             else:
                 gb_var.type = graphbook.DataType.TEXT
 
+        former_name = gb_var.name
         gb_var.name = onnx_input.name
+        if gb_op.type != graphbook.OperationType.PRIMITIVE_OPERATION:
+            # For each link internally, change name from former name to new name.
+            for link in gb_op.links:
+                if link.source.operation == "this" and link.source.data == former_name:
+                    link.source.data = gb_var.name
 
     for onnx_output in graphbook_outputs:
         if onnx_output.primitive_name not in output_value_dict:
@@ -162,7 +168,14 @@ def _convert_from_primitive(
             raise ValueError(f"Output {gb_output_name} not found in {gb_op.name}")
 
         gb_var = gb_output_value_dict[gb_output_name]
+        former_name = gb_var.name
         gb_var.name = onnx_output.name
+
+        if gb_op.type != graphbook.OperationType.PRIMITIVE_OPERATION:
+            # For each link internally, change name from former name to new name.
+            for link in gb_op.links:
+                if link.sink.operation == "this" and link.sink.data == former_name:
+                    link.sink.data = gb_var.name
 
     return gb_op
 
@@ -191,7 +204,7 @@ class Cast(Base):
         gb_op = _copy_primitive(primitive_name)
 
         gb_map = OP_GB_MAPPING[onnx_op.opType]
-        gb_op = _convert_from_primitive(graphbook_inputs, graphbook_outputs, gb_op, gb_map)
+        gb_op = _convert_from_schema(graphbook_inputs, graphbook_outputs, gb_op, gb_map)
         gb_op.name = onnx_op.name
         return gb_op
 
@@ -207,7 +220,7 @@ class Shape(Base):
 
         shape_op = _copy_primitive("get_shape")
         shape_op_map = OP_GB_MAPPING[onnx_op.opType]
-        shape_gb_op = _convert_from_primitive(graphbook_inputs, graphbook_outputs, shape_op, shape_op_map)
+        shape_gb_op = _convert_from_schema(graphbook_inputs, graphbook_outputs, shape_op, shape_op_map)
 
         # Determine if we need to slice
         if len(graphbook_inputs) != 3:
@@ -787,7 +800,7 @@ class ReadFromFile(Base):
             graphbook_outputs: List[graphbook.Variable]) -> graphbook.Operation:
         """ Convert read from file operation to Graphbook operation. """
 
-        op = _convert_from_primitive(
+        op = _convert_from_schema(
             graphbook_inputs,
             graphbook_outputs,
             _copy_primitive("read_from_file"),
@@ -808,7 +821,7 @@ class WriteToFile(Base):
             graphbook_outputs: List[graphbook.Variable]) -> graphbook.Operation:
         """ Convert read from file operation to Graphbook operation. """
 
-        op = _convert_from_primitive(
+        op = _convert_from_schema(
             graphbook_inputs,
             graphbook_outputs,
             _copy_primitive("write_to_file"),
@@ -830,7 +843,7 @@ class Softmax(Base):
         softmax = _copy_primitive("Softmax")
         softmax.inputs[1].primitive_name = softmax.inputs[1].name
 
-        softmax_op = _convert_from_primitive(
+        softmax_op = _convert_from_schema(
             graphbook_inputs,
             graphbook_outputs,
             softmax,
@@ -874,7 +887,7 @@ def onnx_to_graphbook(
         gb_map = OP_GB_MAPPING[onnx_op.opType]
         # gb_op = GB_OPS[gb_map["op_name_map"]["gb_name"]]
         gb_op = _copy_primitive(gb_map["op_name_map"]["gb_name"])
-        gb_op = _convert_from_primitive(graphbook_inputs, graphbook_outputs, gb_op, gb_map)
+        gb_op = _convert_from_schema(graphbook_inputs, graphbook_outputs, gb_op, gb_map)
         gb_op.name = onnx_op.name
         return gb_op
 

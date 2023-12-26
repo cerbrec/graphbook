@@ -2,13 +2,13 @@
     "name": "get_sub_arrays",
     "primitive_name": "get_sub_arrays",
     "aliases": [
-        "get_subarrays",
         "batch_get_sub_arrays",
         "batch_get_subarrays",
         "get_sub_arrays_by_batch",
         "get_subarrays_by_batch",
         "get_elements",
-        "get_sub_elements"
+        "get_sub_elements",
+        "get_subelements"
     ],
     "type": "PRIMITIVE_OPERATION",
     "inputs": [

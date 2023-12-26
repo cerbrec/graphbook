@@ -6,7 +6,8 @@
         "convert_to_text",
         "parse_string",
         "parse_to_string",
-        "convert_to_string"
+        "convert_to_string",
+        "cast_to_string"
     ],
     "type": "PRIMITIVE_OPERATION",
     "inputs": [

@@ -7,7 +7,13 @@
         "contain_words",
         "find_texts",
         "find_strings",
-        "find_words"
+        "find_words",
+        "search_texts",
+        "search_strings",
+        "search_words",
+        "match_texts",
+        "match_strings",
+        "match_words"
     ],
     "type": "PRIMITIVE_OPERATION",
     "inputs": [

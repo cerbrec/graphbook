@@ -2,13 +2,11 @@
     "name": "reduce_one_dimension",
     "primitive_name": "reduce_one_dimension",
     "aliases": [
-        "reduce_dimension",
-        "decrease_dimension",
         "decrease_one_dimension",
         "get_sub_array",
         "get_subarray",
-        "get_element",
-        "get_sub_element"
+        "get_sub_elements",
+        "get_subelements"
     ],
     "type": "PRIMITIVE_OPERATION",
     "inputs": [

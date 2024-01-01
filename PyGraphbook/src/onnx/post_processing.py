@@ -51,7 +51,10 @@ def remap_weight_paths_in_place(
         new_path: str,
         do_write=False,
         update_op=True) -> None:
-    """ Remap the weight paths to the new directory."""
+    """ Remap the weight paths to the new directory.
+
+        The file names are also all changed to be "weight" so that layers can more easily be copy pasted.
+    """
 
     all_prims = graphbook.get_all_primitives(root_op)
     read_list = [prim for prim in all_prims if prim.primitive_name in ["read_from_file"]]#, "write_to_file"]]
@@ -65,10 +68,10 @@ def remap_weight_paths_in_place(
         # print(f"dir_name: {dir_name}, file_name: {file_name}")
         if dir_name is None:
             dir_part = prim.name.split("onnx::")[0]
-            file_change_map[f"{file_name}.json"] = f"{dir_part}{file_name}.json"
+            file_change_map[f"{file_name}.json"] = f"{dir_part}weight"
         else:
             dir_part = str(dir_name).replace(".", "/")
-            file_change_map[f"{dir_name}.{file_name}.json"] = f"{dir_part}/{file_name}.json"
+            file_change_map[f"{dir_name}.{file_name}.json"] = f"{dir_part}/weight"
 
         if update_op:
             # Directory path
@@ -76,7 +79,7 @@ def remap_weight_paths_in_place(
                 dir_part = "/" + dir_part
 
             prim.inputs[0].data = dir_part
-            prim.inputs[1].data = f"{file_name}.json"
+            prim.inputs[1].data = "weight"
 
     if do_write:
         for key, value in file_change_map.items():

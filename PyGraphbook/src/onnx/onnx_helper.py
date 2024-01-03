@@ -3,6 +3,7 @@ from json import JSONEncoder
 import numpy as np
 import logging
 import os
+
 from contextlib import suppress
 from typing import List, Dict, Optional
 
@@ -91,6 +92,10 @@ def convert_onnx_to_dict(onnx_file_name: str, load_data: bool = False) -> Parsed
     onnx_model = onnx.load_model(onnx_file_name, load_external_data=False)
     # onnx.checker.check_model(onnx_file_name)
 
+    # folder_name = "/".join(onnx_file_name.split("/")[:-1])
+    # file_name = onnx_file_name.split("/")[-1]
+    needs_load = False
+
     tensor_map = {}
     # for file in os.listdir(os.path.dirname(onnx_file_name + "/"))
     for tensor in onnx_model.graph.initializer:
@@ -98,7 +103,19 @@ def convert_onnx_to_dict(onnx_file_name: str, load_data: bool = False) -> Parsed
         if load_data:
             # tensor_map[tensor.name] = (
             logging.debug(f"Reading tensor: {tensor.name} from file {onnx_file_name}")
-            read_onnx_data(onnx_file_name, tensor, do_write=True)
+
+            try:
+                read_onnx_data(onnx_file_name, tensor, do_write=True)
+            except Exception as e:
+                if needs_load:
+                    raise e
+                needs_load = True
+                onnx_model = onnx.load_model(onnx_file_name, load_external_data=True)
+                break
+
+    if needs_load:
+        for tensor in onnx_model.graph.initializer:
+            tensor_map[tensor.name] = numpy_helper.to_array(tensor)
 
     # exit(1)
     logging.debug('finished reading netron model')

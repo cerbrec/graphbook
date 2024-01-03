@@ -729,18 +729,18 @@ if __name__ == "__main__":
     argparse = argparse.ArgumentParser()
     argparse.add_argument("--onnx_folder", type=str, default="flan-t5-small-onnx")
     argparse.add_argument("--onnx_file", type=str, required=False,
-                          default="llama2_onnx/model.onnx",
-                          # default="flan-t5-small-onnx/decoder_model.onnx",
+                          # default="llama2_onnx/model.onnx",
+                          default="flan-t5-small-onnx/encoder_model.onnx",
                           help="If onnx_file specified, then this is the onnx file to convert.")
     argparse.add_argument("--output_folder", type=str,
-                          # default="flan-t5-small-graphbook"
-                          default="llama2-graphbook"
+                          default="flan-t5-small-graphbook"
+                          # default="llama2-graphbook"
                           )
     argparse.add_argument("--logging", type=str, default="DEBUG")
     argparse.add_argument("--max_ops_per_graph", type=int, default=10)
 
     # add boolean flag to load data -- opt in store if true
-    argparse.add_argument("--load_data", action="store_true", default=False)
+    argparse.add_argument("--load_data", action="store_true", default=True)
     argparse.add_argument("--no_post_process", action="store_true", default=False)
 
     args = argparse.parse_args()
@@ -797,14 +797,15 @@ if __name__ == "__main__":
             os.makedirs(args.output_folder)
 
         name = graphbook_root.name.split(FORWARD_SLASH)[-1]
-        # if not os.path.exists(args.output_folder + f"/{name}_weights"):
-        #     os.makedirs(args.output_folder + f"/{name}_weights")
+        if not os.path.exists(args.output_folder + f"/{name}_weights"):
+            os.makedirs(args.output_folder + f"/{name}_weights")
 
         with open(f"{args.output_folder}/{name}.json", "w") as f:
             f.write(json_str)
 
-        # for key, value in graph.parsed_onnx_file.tensor_map.items():
-        #     with open(f"{args.output_folder}/{name}_weights/{key}.json", "w") as f:
-        #         f.write(onnx_helper.numpy_to_json(value))
+        for key, value in graph.parsed_onnx_file.tensor_map.items():
+            if len(value) > 0:
+                with open(f"{args.output_folder}/{name}_weights/{key}.json", "w") as f:
+                    f.write(onnx_helper.numpy_to_json(value))
 
         logging.info("Generated: " + graphbook_root.name + ".json")

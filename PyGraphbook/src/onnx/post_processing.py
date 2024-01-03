@@ -2,6 +2,7 @@ import json
 from src import graph as graphbook
 import os
 import logging
+from collections import defaultdict
 
 
 def report_unfilled_onnx_primitives(root_op: graphbook.Operation) -> None:
@@ -82,22 +83,49 @@ def remap_weight_paths_in_place(
             prim.inputs[1].data = "weight"
 
     if do_write:
+        freq_starting_paths = defaultdict(int)
         for key, value in file_change_map.items():
             directory = new_path + "/" + "/".join(value.split("/")[:-1])
             if not os.path.exists(directory):
                 os.makedirs(directory)
 
-            print(f"{key} -> {value}")
+            logging.debug(f"{key} -> {value}")
+            # Make a file at blank file at {new_path}/{value}
+            # os.system(f"touch {new_path}/{value}")
             os.system(f"cp {old_path}/{key} {new_path}/{value}")
+            # os.system(f"cp {old_path}/{key} {new_path}/{value}")
+
+            for i in range(1, len(value.split("/"))):
+                if len("/".join(value.split("/")[:i])) == 0:
+                    continue
+
+                freq_starting_paths["/".join(value.split("/")[:i])] += 1
+
+        # Among all values > 7, create json config and write
+        global_constant_config = {}
+        for key, value in freq_starting_paths.items():
+            if value > 1:
+                logging.debug(f"freq_starting_paths: {key} -> {value}")
+                global_constant_config[key] = key
+
+        # Write global_constant_config to file
+        with open(f"{new_path}/global_constant_config.json", 'w') as f:
+            f.write(json.dumps(global_constant_config, indent=4))
+
 
 
 if __name__ == "__main__":
-    graphbook_dir = "./llama2-graphbook"
-    graphbook_json_file = "model.onnx_v1.json"
+    logging.basicConfig(level=logging.DEBUG)
+    # graphbook_dir = "./llama2-graphbook"
+    graphbook_dir = "./flan-t5-small-graphbook"
+    # graphbook_json_file = "model.onnx_v1.json"
+    graphbook_json_file = "encoder_model.onnx.json"
     graphbook_json_path = f"{graphbook_dir}/{graphbook_json_file}"
 
-    weight_path = "./llama2_onnx/model.onnx_weights"
-    remapped_path = "./llama2_onnx/model.onnx_weights_remapped"
+    # weight_path = "./llama2_onnx/model.onnx_weights"
+    # remapped_path = "./llama2_onnx/model.onnx_weights_remapped"
+    weight_path = "./flan-t5-small-onnx/encoder_model.onnx"
+    remapped_path = "./flan-t5-small-onnx/encoder_model.onnx_weights_remapped"
 
     graphbook_json = json.load(open(graphbook_json_path))
     graphbook_op = graphbook.Operation(**graphbook_json)
@@ -105,10 +133,10 @@ if __name__ == "__main__":
         graphbook_op,
         weight_path,
         remapped_path,
-        do_write=False,
+        do_write=True,
         update_op=True
     )
 
     # Write root_op to file
-    with open(f"{graphbook_dir}/{graphbook_json_file}_remapped.json", 'w') as f:
-        f.write(graphbook_op.model_dump_json(indent=4, exclude_none=True))
+    # with open(f"{graphbook_dir}/{graphbook_json_file}_remapped.json", 'w') as f:
+    #     f.write(graphbook_op.model_dump_json(indent=4, exclude_none=True))

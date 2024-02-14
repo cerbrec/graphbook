@@ -1,6 +1,5 @@
 import json
-from json import JSONEncoder
-import numpy as np
+
 import logging
 import os
 
@@ -13,6 +12,7 @@ from netron.onnx import ModelFactory
 # pylint: disable=protected-access
 from netron.onnx import _Model as NetronModel
 from onnx import numpy_helper
+from src import util
 
 # from onnx.onnx_pb import TensorProto
 from pydantic import BaseModel, Field, AliasChoices
@@ -500,16 +500,6 @@ def onnx_folder_to_onnx_list(onnx_folder: str, load_data: bool=False) -> List[On
     return _onnx_list
 
 
-class NumpyArrayEncoder(JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, np.ndarray):
-            return obj.tolist()
-        return JSONEncoder.default(self, obj)
-
-
-def numpy_to_json(numpy_data: np.ndarray):
-    return json.dumps(numpy_data, cls=NumpyArrayEncoder)  # use dump() to write array into file
-
 
 def read_onnx_data(onnx_file_name: str, tensor: TensorProto, do_write: bool=True):
     """ Read onnx data from external data file."""
@@ -529,7 +519,7 @@ def read_onnx_data(onnx_file_name: str, tensor: TensorProto, do_write: bool=True
 
     tensor_numpy = numpy_helper.to_array(tensor, base_dir=base_dir)
     if do_write:
-        as_json = numpy_to_json(tensor_numpy)
+        as_json = util.numpy_to_json(tensor_numpy)
         weight_dir = f"{onnx_file_name}_weights"
         if not os.path.exists(weight_dir):
             os.makedirs(weight_dir)

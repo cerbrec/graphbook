@@ -69,10 +69,20 @@ def remap_weight_paths_in_place(
         # print(f"dir_name: {dir_name}, file_name: {file_name}")
         if dir_name is None:
             dir_part = prim.name.split("onnx::")[0]
+            dir_part = str(dir_part).replace(".", "/")
             file_change_map[f"{file_name}.json"] = f"{dir_part}weight"
         else:
             dir_part = str(dir_name).replace(".", "/")
-            file_change_map[f"{dir_name}.{file_name}.json"] = f"{dir_part}/weight"
+            # dir_part = dir_part.replace("block/", "block.")
+            # dir_part = dir_part.replace("layer/", "layer.")
+            if not dir_part.endswith("/"):
+                dir_part += "/"
+
+            file_change_map[f"{dir_name}.{file_name}.json"] = f"{dir_part}weight"
+            # if dir_part.endswith("/"):
+            #
+            # else:
+            #     file_change_map[f"{dir_name}.{file_name}.json"] = f"{dir_part}/weight"
 
         if update_op:
             # Directory path
@@ -89,9 +99,10 @@ def remap_weight_paths_in_place(
             if not os.path.exists(directory):
                 os.makedirs(directory)
 
-            logging.debug(f"{key} -> {value}")
+            # logging.debug(f"{key} -> {value}")
             # Make a file at blank file at {new_path}/{value}
             # os.system(f"touch {new_path}/{value}")
+            logging.debug(f"cp {old_path}/{key} {new_path}/{value}")
             os.system(f"cp {old_path}/{key} {new_path}/{value}")
             # os.system(f"cp {old_path}/{key} {new_path}/{value}")
 
@@ -117,15 +128,15 @@ def remap_weight_paths_in_place(
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
     # graphbook_dir = "./llama2-graphbook"
-    graphbook_dir = "./flan-t5-small-graphbook"
+    graphbook_dir = "./flan-t5-base-graphbook"
     # graphbook_json_file = "model.onnx_v1.json"
-    graphbook_json_file = "encoder_model.onnx.json"
+    graphbook_json_file = "decoder_model.onnx.json"
     graphbook_json_path = f"{graphbook_dir}/{graphbook_json_file}"
 
     # weight_path = "./llama2_onnx/model.onnx_weights"
     # remapped_path = "./llama2_onnx/model.onnx_weights_remapped"
-    weight_path = "./flan-t5-small-onnx/encoder_model.onnx"
-    remapped_path = "./flan-t5-small-onnx/encoder_model.onnx_weights_remapped"
+    weight_path = "./flan-t5-base-graphbook/decoder_model.onnx_weights"
+    remapped_path = "./flan-t5-base-graphbook/decoder_model.onnx_weights_remapped"
 
     graphbook_json = json.load(open(graphbook_json_path))
     graphbook_op = graphbook.Operation(**graphbook_json)

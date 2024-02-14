@@ -730,10 +730,10 @@ if __name__ == "__main__":
     argparse.add_argument("--onnx_folder", type=str, default="flan-t5-small-onnx")
     argparse.add_argument("--onnx_file", type=str, required=False,
                           # default="llama2_onnx/model.onnx",
-                          default="flan-t5-small-onnx/encoder_model.onnx",
+                          default="flan-t5-base-onnx/encoder_model.onnx",
                           help="If onnx_file specified, then this is the onnx file to convert.")
     argparse.add_argument("--output_folder", type=str,
-                          default="flan-t5-small-graphbook"
+                          default="flan-t5-base-graphbook"
                           # default="llama2-graphbook"
                           )
     argparse.add_argument("--logging", type=str, default="DEBUG")
@@ -766,14 +766,23 @@ if __name__ == "__main__":
         # Report any onnx operations that were unmapped. Do this before simplifying names.
         onnx_map_pp.report_unfilled_onnx_primitives(graphbook_root)
 
+        name = graphbook_root.name.split(FORWARD_SLASH)[-1]
+        if not os.path.exists(args.output_folder + f"/{name}_weights"):
+            os.makedirs(args.output_folder + f"/{name}_weights")
+
+        for key, value in graph.parsed_onnx_file.tensor_map.items():
+            if len(value) > 0:
+                with open(f"{args.output_folder}/{name}_weights/{key}.json", "w") as f:
+                    f.write(onnx_helper.numpy_to_json(value))
+
         # not No means Yes post-process
         if not args.no_post_process:
             logging.info("Post-processing: " + graph.name)
             # Write the weights to a new file only if we are loading data this time.
             onnx_map_pp.remap_weight_paths_in_place(
                 root_op=graphbook_root,
-                old_path=graph.name + "_weights",
-                new_path=args.output_folder + "/" + graph.name + "_remapped",
+                old_path=f"{args.output_folder}/{name}_weights",
+                new_path=args.output_folder + "/" + graph.name.split("/")[-1] + "_remapped",
                 do_write=args.load_data,
                 update_op=True)
             onnx_map_pp.simplify_names_in_place(graphbook_root)
@@ -796,16 +805,7 @@ if __name__ == "__main__":
         if not os.path.exists(args.output_folder):
             os.makedirs(args.output_folder)
 
-        name = graphbook_root.name.split(FORWARD_SLASH)[-1]
-        if not os.path.exists(args.output_folder + f"/{name}_weights"):
-            os.makedirs(args.output_folder + f"/{name}_weights")
-
         with open(f"{args.output_folder}/{name}.json", "w") as f:
             f.write(json_str)
-
-        for key, value in graph.parsed_onnx_file.tensor_map.items():
-            if len(value) > 0:
-                with open(f"{args.output_folder}/{name}_weights/{key}.json", "w") as f:
-                    f.write(onnx_helper.numpy_to_json(value))
 
         logging.info("Generated: " + graphbook_root.name + ".json")

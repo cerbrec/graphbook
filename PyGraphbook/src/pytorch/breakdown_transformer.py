@@ -3,6 +3,7 @@ from transformers import (
     AutoModel,
     AutoTokenizer,
     AutoConfig,
+    AutoModelForSequenceClassification,
     AutoModelForSeq2SeqLM,
     AutoModelForCausalLM,
     AutoModelForTokenClassification,
@@ -171,6 +172,7 @@ def _write_module_to_file(module: nn.Module, out_path: str):
         os.mkdir("." + out_path)
 
     for key, value in module.named_parameters():
+        print(key)
         sub_folder_plus_weight = os.path.join(out_path, f"{key}").replace(".", "/")
 
         os.makedirs("." + "/".join(sub_folder_plus_weight.split("/")[:-1]), exist_ok=True)
@@ -181,16 +183,33 @@ def _write_module_to_file(module: nn.Module, out_path: str):
 
 
 if __name__ == "__main__":
+    do_write = True
+
     # model_id = "mistralai/Mistral-7B-Instruct-v0.2"
-    # model_id = "microsoft/phi-2"
+    # model_id = "microsoft/phi-1.5"
     # model = AutoModelForCausalLM.from_pretrained(model_id)
     # model = AutoModelForCausalLM.from_pretrained("lmsys/vicuna-7b-v1.5-16k")
     # model = GraphormerForGraphClassification.from_pretrained("clefourrier/graphormer-base-pcqm4mv2")
     # model = VisionEncoderDecoderModel.from_pretrained("naver-clova-ix/donut-base-finetuned-docvqa")
-    model = AutoModelForCausalLM.from_pretrained("allenai/OLMo-1B")
+    # model = AutoModelForCausalLM.from_pretrained("allenai/OLMo-1B")
 
-    # _write_module_to_file(model, "/public/" + "allenai-OLMo-1B")
+    model_id = "FacebookAI/roberta-large-mnli"
+    model = AutoModelForSequenceClassification.from_pretrained(model_id)
+    # print(model.config)
     # exit(1)
+
+    if do_write:
+        _write_module_to_file(model, "/public/" + "roberta-large-mnli")
+
+    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    vocab = sorted(tokenizer.get_vocab(), key=tokenizer.get_vocab().get)
+
+    if do_write:
+        with open("./public/roberta-large-mnli/vocabulary", 'w') as f:
+            f.write(json.dumps(vocab))
+
+    if do_write:
+        exit(1)
 
 
     #
@@ -199,7 +218,7 @@ if __name__ == "__main__":
     module_name = get_module_name(model)
     module_text = breakdown_module(module_name, model, class_text)
 
-    _pytorch_module_to_files(module_text, "./allenai-olmo-text/", flat_folder=False, escaped_json=False)
+    _pytorch_module_to_files(module_text, "./roberta-base/", flat_folder=False, escaped_json=False)
     exit(1)
     # tokenizer = AutoTokenizer.from_pretrained(model_id)
 

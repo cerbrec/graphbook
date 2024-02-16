@@ -2,8 +2,11 @@ import requests
 import json
 from pydantic import BaseModel, Field, validator
 from typing import List
+import dotenv
+import os
 
-TOKEN = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkV5Q0RTUDdHelBJZ3Q1Sl90UW52RCJ9.eyJuaWNrbmFtZSI6ImR3aW5lcjEzMSIsIm5hbWUiOiJkd2luZXIxMzFAZ21haWwuY29tIiwicGljdHVyZSI6Imh0dHBzOi8vcy5ncmF2YXRhci5jb20vYXZhdGFyL2NkM2EyZGYwNGE3NDQ4ZWFjNTk2ZWJlZGVhNjFkMmRiP3M9NDgwJnI9cGcmZD1odHRwcyUzQSUyRiUyRmNkbi5hdXRoMC5jb20lMkZhdmF0YXJzJTJGZHcucG5nIiwidXBkYXRlZF9hdCI6IjIwMjQtMDEtMDJUMDM6MjA6MzAuMzkxWiIsImVtYWlsIjoiZHdpbmVyMTMxQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczovL2xvZ2luLmNlcmJyZWMuY29tLyIsImF1ZCI6IjhveEsxakljMTQ1MjNweDlpTzlFVjZBeGpjSzZTYnEyIiwiaWF0IjoxNzA0MTY1NjYyLCJleHAiOjE3MTQxNjU2NjIsInN1YiI6ImF1dGgwfDYxNzZlNmNkZmUzOWJiMDA2OTI5NzUzNyIsImF1dGhfdGltZSI6MTcwNDE2NTYzMCwic2lkIjoicFozd2I0Mi1URnN4Slltd2xRZW1XdVpmaElwd3hjMDQifQ.pvU9_cHmHEinXBiFrR-dkLXdG1fbwrmnpsCoy63m29SUv-KkTlti93DQumQr9E_MvPuw03POG9OpkuGtdYNju2GEDP5VWlEkfiQvMX7qmp6Dv3Sy5kvDghx-67xGNVb477HJ0gf_i-puspA_FjYFtjUdEUPQ_UZXfOoEAO0fzQYMcgjgRRuq1_oEXy8JwVyZL8mbxtWBx4BbGYC_h8dqXS8tqVEFByPxe5IiMCf6Eg-82dONcbAgR5ASTXcIpN1_kakLQt9bksfQet0eo_hqcZUjA-DLFSMIJMUE-Nbdhj5UvD5dYP8BDt8AMONlgwjlCFnfy3VKAXnzoK4myOhY7w"
+dotenv.load_dotenv()
+TOKEN = os.getenv("TOKEN")
 
 """
  {
@@ -40,11 +43,11 @@ class Dataset(BaseModel):
     name: str = Field(..., description="Name of the dataset")
     sourceType: str = Field(..., description="Source Type")
     fullPath: str = Field(..., description="Full Path")
-    referenceId: str = Field(..., description="Reference ID")
+    referenceId: str | None = Field(..., description="Reference ID")
     createdAt: str = Field(..., description="Created At")
     updatedAt: str = Field(..., description="Updated At")
     extraction_schema: object = Field(..., alias="schema", description="Schema")
-    shape: List[int] = Field(..., description="Shape")
+    shape: List[int] | None = Field(..., description="Shape")
     dataSetSize: int = Field(..., description="Dataset Size")
     deleted: bool = Field(..., description="Deleted")
 

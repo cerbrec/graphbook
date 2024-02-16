@@ -3,7 +3,7 @@ from src.api import api_util
 import logging
 
 
-ALLOWED_FILE_NAMES = ["weight", "bias"]
+ALLOWED_FILE_NAMES = ["weight", "bias", "vocabulary"]
 
 
 # Recursively list all files in directory
@@ -42,6 +42,8 @@ def upload_weights_with_retry(dir_path: str, num_tries=10):
             if file.removeprefix(".") in full_paths:
                 continue
 
+            print(file)
+
             # print(f"python3 /Users/drw/cerbrec/graph-compute/scripts/upload_weights.py --weight_file_path {file}")
             os.system(f"python3 /Users/drw/cerbrec/graph-compute/scripts/upload_weights.py --weight_file_path {file}")
 
@@ -53,13 +55,14 @@ def upload_weights_with_retry(dir_path: str, num_tries=10):
 
 if __name__ == "__main__":
     paths = [
-        "./public/donut-base-finetuned-docvqa",
+        "./public/roberta-large-mnli"
+        # "./public/donut-base-finetuned-docvqa",
         # "./public/flan-t5-base",
         # "./public/flan-t5-large",
         # "./public/tinyllama-1.1B-Chat-v0.2",
         # "./public/phi-2",
         # "./public/Mistral-7B-Instruct-v0.2"
-        ]
+    ]
 
     print(paths)
     for path in paths:

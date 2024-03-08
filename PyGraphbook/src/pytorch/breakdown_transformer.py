@@ -101,6 +101,7 @@ def _pytorch_module_to_files(
 def _convert_pytorch_path_to_text(full_model_path: str, class_text: dict):
     """ Converts a model to text files, recursively"""
     previous_line_started: bool = False
+    model_text = None
 
     with open(full_model_path, 'r') as f:
         for line in f:
@@ -129,6 +130,8 @@ def _convert_pytorch_path_to_text(full_model_path: str, class_text: dict):
                         model_text = [line]
                         previous_line_started = True
                     break
+    if model_text and model_name not in class_text:
+        class_text[model_name] = model_text
 
 
 def get_module_name(module: nn.Module):
@@ -183,7 +186,7 @@ def _write_module_to_file(module: nn.Module, out_path: str):
 
 
 if __name__ == "__main__":
-    do_write = True
+    do_write = False
 
     # model_id = "mistralai/Mistral-7B-Instruct-v0.2"
     # model_id = "microsoft/phi-1.5"
@@ -193,19 +196,24 @@ if __name__ == "__main__":
     # model = VisionEncoderDecoderModel.from_pretrained("naver-clova-ix/donut-base-finetuned-docvqa")
     # model = AutoModelForCausalLM.from_pretrained("allenai/OLMo-1B")
 
-    model_id = "FacebookAI/roberta-large-mnli"
-    model = AutoModelForSequenceClassification.from_pretrained(model_id)
-    # print(model.config)
-    # exit(1)
+    # model_id = "FacebookAI/roberta-large-mnli"
+    # model_id = "microsoft/phi-1_5"
+    # folder = "/public/phi-1_5"
+    model_id = "clefourrier/graphormer-base-pcqm4mv2"
+    folder = "/public/graphormer-base-pcqm4mv2"
+    model = GraphormerForGraphClassification.from_pretrained(model_id)
+    print(model.config)
+    # # exit(1)
+    #
+    if do_write:
+        _write_module_to_file(model, folder)
+    #
+    # tokenizer = AutoTokenizer.from_pretrained(model_id)
+    vocab = None
+    # vocab = sorted(tokenizer.get_vocab(), key=tokenizer.get_vocab().get)
 
     if do_write:
-        _write_module_to_file(model, "/public/" + "roberta-large-mnli")
-
-    tokenizer = AutoTokenizer.from_pretrained(model_id)
-    vocab = sorted(tokenizer.get_vocab(), key=tokenizer.get_vocab().get)
-
-    if do_write:
-        with open("./public/roberta-large-mnli/vocabulary", 'w') as f:
+        with open(f".{folder}/vocabulary", 'w') as f:
             f.write(json.dumps(vocab))
 
     if do_write:
@@ -216,9 +224,9 @@ if __name__ == "__main__":
     class_text: dict = _prepare_pytorch_classes()
 
     module_name = get_module_name(model)
+    print(module_name)
     module_text = breakdown_module(module_name, model, class_text)
-
-    _pytorch_module_to_files(module_text, "./roberta-base/", flat_folder=False, escaped_json=False)
+    _pytorch_module_to_files(module_text, "./graphformer/", flat_folder=False, escaped_json=False)
     exit(1)
     # tokenizer = AutoTokenizer.from_pretrained(model_id)
 

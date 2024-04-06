@@ -17,7 +17,8 @@
         "skip_vocabulary",
         "subword_prefix",
         "unknown_tag",
-        "pad_tag"
+        "pad_tag",
+        "scan_from_right"
     ],
     "outputs": [
         "subwords"
@@ -36,12 +37,15 @@
         "{pad_tag}_is_scalar",
         "{subwords}_data_type_is_text",
         "{subwords}_number_of_dimensions_is_the_same_as_{words}_if_{words}_is_array",
-        "{subwords}_has_one_dimension_if_{words}_is_scalar"
+        "{subwords}_has_one_dimension_if_{words}_is_scalar",
+        "{scan_from_right}_data_type_is_boolean",
+        "{scan_from_right}_is_scalar"
     ],
     "description": [
-        "Split `words` across its last dimension into `subwords` based on `vocabulary` using longest-match-first algorithm, padding with `pad_tag`",
+        "Split `words` across its last dimension into `subwords` based on `vocabulary` using the longest-match-first algorithm, padding with `pad_tag`",
         "Skip splitting into subwords if a word exists in `skip_vocabulary`",
-        "Replace `words` with `unknown_tag` if cannot be split into subwords"
+        "Replace `words` with `unknown_tag` if cannot be split into subwords",
+        "Turn on `scan_from_right` if you wish to scan for longest subwords from the right"
     ],
     "examples": [
         {
@@ -81,6 +85,11 @@
                     "data": "[PAD]",
                     "name": "pad_tag",
                     "type": "TEXT"
+                },
+                {
+                    "data": false,
+                    "name": "scan_from_right",
+                    "type": "BOOLEAN"
                 }
             ],
             "outputs": [
@@ -139,6 +148,11 @@
                     "data": "[PAD]",
                     "name": "pad_tag",
                     "type": "TEXT"
+                },
+                {
+                    "data": false,
+                    "name": "scan_from_right",
+                    "type": "BOOLEAN"
                 }
             ],
             "outputs": [
@@ -208,6 +222,11 @@
                     "data": "[PAD]",
                     "name": "pad_tag",
                     "type": "TEXT"
+                },
+                {
+                    "data": false,
+                    "name": "scan_from_right",
+                    "type": "BOOLEAN"
                 }
             ],
             "outputs": [

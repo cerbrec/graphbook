@@ -1,0 +1,137 @@
+{
+    "name": "scatter",
+    "primitive_name": "scatter",
+    "aliases": [
+        "copy_cells_into_selected_indices"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "source_array",
+        "receiver_array",
+        "dimension_index",
+        "selected_indices"
+    ],
+    "outputs": [
+        "output"
+    ],
+    "assertions": [
+        "{source_array}_is_array",
+        "{receiver_array}_is_array",
+        "{source_array}_number_of_dimensions_is_the_same_as_{receiver_array}",
+        "{dimension_index}_is_scalar",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{dimension_index}_is_less_than_{source_array}_number_of_dimensions",
+        "{selected_indices}_is_array",
+        "{selected_indices}_data_type_is_integer",
+        "{selected_indices}_is_greater_than_or_equal_to_zero",
+        "{selected_indices}_number_of_dimensions_is_the_same_as_{source_array}"
+    ],
+    "description": [
+        "Make a copy of `receiver_array` and then copy cells from `source_array` into `receiver_array` with `selected_indices` across `dimension_index`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "source_array",
+                    "data": [
+                        [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
+                        [
+                            6,
+                            7,
+                            8,
+                            9,
+                            10
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "receiver_array",
+                    "data": [
+                        [
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        [
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        [
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "selected_indices",
+                    "data": [
+                        [
+                            0,
+                            1,
+                            2,
+                            0
+                        ]
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "shape": [
+                        3,
+                        5
+                    ],
+                    "data": [
+                        [
+                            1,
+                            0,
+                            0,
+                            4,
+                            0
+                        ],
+                        [
+                            0,
+                            2,
+                            0,
+                            0,
+                            0
+                        ],
+                        [
+                            0,
+                            0,
+                            3,
+                            0,
+                            0
+                        ]
+                    ],
+                    "type": "INTEGER"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,31 @@
+{
+    "name": "cumulative_sum",
+    "primitive_name": "cumulative_sum",
+    "aliases": [
+        "cum_sum",
+        "cumsum"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "array",
+        "dimension_index"
+    ],
+    "outputs": [
+        "cum_sum_array"
+    ],
+    "assertions": [
+        "{array}_is_array",
+        "{array}_data_type_is_integer_or_decimal",
+        "{dimension_index}_is_scalar",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{dimension_index}_is_less_than_{array}_number_of_dimensions",
+        "{cum_sum_array}_is_array",
+        "{cum_sum_array}_data_type_is_the_same_as_{array}",
+        "{cum_sum_array}_number_of_dimensions_is_the_same_as_{array}",
+        "every_dimension_size_of_{cum_sum_array}_is_equal_to_the_corresponding_dimension_size_of_{array}"
+    ],
+    "description": [
+        "Generate cumulative sum of `array` across `dimension_index`"
+    ]
+}

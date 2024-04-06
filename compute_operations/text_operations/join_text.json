@@ -42,7 +42,7 @@
                         "hello",
                         "world"
                     ],
-                    "type": "text"
+                    "type": "TEXT"
                 },
                 {
                     "name": "text_separator",

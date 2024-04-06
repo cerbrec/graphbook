@@ -1,0 +1,25 @@
+{
+    "name": "is_nan",
+    "primitive_name": "is_nan",
+    "aliases": [
+        "nan_check",
+        "is_not_a_number"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "array"
+    ],
+    "outputs": [
+        "result"
+    ],
+    "assertions": [
+        "{array}_data_type_is_integer_or_decimal",
+        "{result}_data_type_is_boolean",
+        "{array}_shape_is_the_same_as_{result}"
+    ],
+    "description": [
+        "Element-wise check `array` for NaN"
+    ],
+    "examples": [
+    ]
+}

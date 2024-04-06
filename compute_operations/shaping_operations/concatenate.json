@@ -20,13 +20,13 @@
         "{array_2}_is_array",
         "{array_1}_data_type_is_the_same_as_{array_2}",
         "{array_1}_number_of_dimensions_is_the_same_as_{array_2}",
+        "{dimension_index}_is_scalar",
         "{dimension_index}_data_type_is_integer",
         "{dimension_index}_is_greater_than_or_equal_to_zero",
         "{dimension_index}_is_less_than_{array_1}_number_of_dimensions",
-        "{dimension_index}_is_scalar",
         "every_dimension_size_of_{array_1}_is_equal_to_the_corresponding_dimension_size_of_{array_2}_except_on_dimension_{dimension_index}",
-        "{concatenated_array}_data_type_is_the_same_as_{array_2}",
         "{concatenated_array}_is_array",
+        "{concatenated_array}_data_type_is_the_same_as_{array_2}",
         "{concatenated_array}_number_of_dimensions_is_the_same_as_{array_2}"
     ],
     "description": [

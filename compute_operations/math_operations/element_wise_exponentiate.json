@@ -2,10 +2,9 @@
     "name": "element_wise_exponentiate",
     "primitive_name": "element_wise_exponentiate",
     "aliases": [
-        "exp",
+        "exponentiate",
         "pow",
-        "power",
-        "exponentiate"
+        "power"
     ],
     "type": "PRIMITIVE_OPERATION",
     "inputs": [

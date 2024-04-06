@@ -3,7 +3,8 @@
     "primitive_name": "top_k",
     "aliases": [
         "max_k",
-        "maximum_k"
+        "maximum_k",
+        "sort"
     ],
     "type": "PRIMITIVE_OPERATION",
     "inputs": [
@@ -16,22 +17,24 @@
         "top_k_indices"
     ],
     "assertions": [
-        "{array}_data_type_is_integer_or_decimal",
         "{array}_is_array",
-        "{dimension_index}_data_type_is_integer",
+        "{array}_data_type_is_integer_or_decimal",
         "{dimension_index}_is_scalar",
+        "{dimension_index}_data_type_is_integer",
         "{dimension_index}_is_greater_than_or_equal_to_zero",
         "{dimension_index}_is_less_than_{array}_number_of_dimensions",
-        "{k}_is_less_than_size_of_{array}_at_dimension_index_{dimension_index}",
         "{k}_is_scalar",
         "{k}_data_type_is_integer",
         "{k}_is_greater_than_zero",
-        "{top_k_array}_shape_is_the_same_as_{top_k_indices}",
+        "{k}_is_less_than_or_equal_to_size_of_{array}_at_dimension_index_{dimension_index}",
+        "{top_k_array}_is_array",
         "{top_k_array}_data_type_is_the_same_as_{array}",
+        "{top_k_array}_shape_is_the_same_as_{top_k_indices}",
+        "{top_k_indices}_is_array",
         "{top_k_indices}_data_type_is_integer"
     ],
     "description": [
-        "Return `k` largest elements and indices from `array` across `dimension_index`"
+        "Return sorted `k` largest elements and their corresponding indices from `array` across `dimension_index`"
     ],
     "examples": [
     ]

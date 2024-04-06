@@ -1,0 +1,21 @@
+{
+    "name": "sine",
+    "primitive_name": "sine",
+    "aliases": [
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "input"
+    ],
+    "outputs": [
+        "output"
+    ],
+    "assertions": [
+        "{input}_data_type_is_decimal",
+        "{output}_data_type_is_decimal",
+        "{input}_shape_is_the_same_as_{output}"
+    ],
+    "description": [
+        "Compute the sine value of each element in `input`"
+    ]
+}

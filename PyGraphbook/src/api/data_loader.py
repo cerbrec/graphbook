@@ -3,7 +3,7 @@ from src.api import api_util
 import logging
 
 
-ALLOWED_FILE_NAMES = ["weight", "bias", "vocabulary"]
+ALLOWED_FILE_NAMES = ["weight", "bias", "masked_bias", "vocabulary"]
 
 
 # Recursively list all files in directory
@@ -55,7 +55,10 @@ def upload_weights_with_retry(dir_path: str, num_tries=10):
 
 if __name__ == "__main__":
     paths = [
-        "./public/graphormer-base-pcqm4mv2"
+        #"./public/nvidia-segformer-b0-finetuned-ade-512-512",
+        # "./public/gena-lm-bert-base-t2t"
+        "./public/ProtGPT2"
+        # "./public/graphormer-base-pcqm4mv2"
         # "./public/phi-1_5",
         # "./public/roberta-large-mnli/classifier"
         # "./public/donut-base-finetuned-docvqa",

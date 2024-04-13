@@ -9,7 +9,9 @@ from transformers import (
     AutoModelForTokenClassification,
     AutoModelForQuestionAnswering,
     VisionEncoderDecoderModel,
-    GraphormerForGraphClassification
+    GraphormerForGraphClassification,
+    SegformerImageProcessor,
+    SegformerForSemanticSegmentation
 )
 import os, json
 import torch.nn as nn
@@ -174,7 +176,21 @@ def _write_module_to_file(module: nn.Module, out_path: str):
     if not os.path.exists(out_path):
         os.mkdir("." + out_path)
 
+    key_params = set()
     for key, value in module.named_parameters():
+        print(key)
+        key_params.add(key)
+        sub_folder_plus_weight = os.path.join(out_path, f"{key}").replace(".", "/")
+
+        os.makedirs("." + "/".join(sub_folder_plus_weight.split("/")[:-1]), exist_ok=True)
+
+        with open("." + sub_folder_plus_weight, 'w') as f:
+            f.write(util.numpy_to_json(value.detach().numpy()))
+
+    for key, value in module.named_buffers():
+        while key in key_params:
+            key = key + "_buffer"
+
         print(key)
         sub_folder_plus_weight = os.path.join(out_path, f"{key}").replace(".", "/")
 
@@ -184,9 +200,9 @@ def _write_module_to_file(module: nn.Module, out_path: str):
             f.write(util.numpy_to_json(value.detach().numpy()))
 
 
-
 if __name__ == "__main__":
-    do_write = False
+
+    do_write = True
 
     # model_id = "mistralai/Mistral-7B-Instruct-v0.2"
     # model_id = "microsoft/phi-1.5"
@@ -199,20 +215,27 @@ if __name__ == "__main__":
     # model_id = "FacebookAI/roberta-large-mnli"
     # model_id = "microsoft/phi-1_5"
     # folder = "/public/phi-1_5"
-    model_id = "clefourrier/graphormer-base-pcqm4mv2"
-    folder = "/public/graphormer-base-pcqm4mv2"
-    model = GraphormerForGraphClassification.from_pretrained(model_id)
+    # model_id = "clefourrier/graphormer-base-pcqm4mv2"
+    model_id = "AIRI-Institute/gena-lm-bert-base-t2t"
+    model_id = "nferruz/ProtGPT2"
+    # model_id= "nvidia/segformer-b0-finetuned-ade-512-512"
+    folder = "/public/gena-lm-bert-base-t2t"
+    folder = "/public/ProtGPT2"
+    # model = GraphormerForGraphClassification.from_pretrained(model_id)
+    # model = SegformerForSemanticSegmentation.from_pretrained(model_id)
+    model = AutoModel.from_pretrained(model_id, trust_remote_code=True)
+
     print(model.config)
     # # exit(1)
     #
     if do_write:
         _write_module_to_file(model, folder)
     #
-    # tokenizer = AutoTokenizer.from_pretrained(model_id)
+    tokenizer = AutoTokenizer.from_pretrained(model_id)
     vocab = None
-    # vocab = sorted(tokenizer.get_vocab(), key=tokenizer.get_vocab().get)
+    vocab = sorted(tokenizer.get_vocab(), key=tokenizer.get_vocab().get)
 
-    if do_write:
+    if do_write and vocab is not None:
         with open(f".{folder}/vocabulary", 'w') as f:
             f.write(json.dumps(vocab))
 

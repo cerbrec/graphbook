@@ -2,7 +2,7 @@
 
 Graphbook is a new visual IDE for AI and deep learning model development that lets you build and run directly on a visualization. For example, you can customize transformers directly in the platform, train, and serve them to a URL. Graphbook is still in beta mode and we are developing more models and product features over time.
 
-![Graphbook](GPT_Graphbook_Attention.png)
+![Graphbook](docs/GPT_Graphbook_Attention.png)
 
 We plan to open-source Graphbook progressively over time to create greater accessibility to the Graphbook APIs. Currently, all interaction with our backend services are done through the client application, which can be downloaded from the Releases page. 
 

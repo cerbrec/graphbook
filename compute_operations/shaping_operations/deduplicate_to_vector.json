@@ -3,7 +3,8 @@
     "primitive_name": "deduplicate_to_vector",
     "aliases": [
         "dedup",
-        "deduplicate"
+        "deduplicate",
+        "unique"
     ],
     "type": "PRIMITIVE_OPERATION",
     "inputs": [

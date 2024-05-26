@@ -55,7 +55,8 @@ def upload_weights_with_retry(dir_path: str, num_tries=10):
 
 if __name__ == "__main__":
     paths = [
-        "./public/graphormer-base-pcqm4mv2"
+        "./public/segformer-xray"
+        # "./public/graphormer-base-pcqm4mv2"
         # "./public/phi-1_5",
         # "./public/roberta-large-mnli/classifier"
         # "./public/donut-base-finetuned-docvqa",

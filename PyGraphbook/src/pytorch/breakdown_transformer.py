@@ -1,4 +1,4 @@
-import hf_olmo
+# import hf_olmo
 from transformers import (
     AutoModel,
     AutoTokenizer,
@@ -9,7 +9,9 @@ from transformers import (
     AutoModelForTokenClassification,
     AutoModelForQuestionAnswering,
     VisionEncoderDecoderModel,
-    GraphormerForGraphClassification
+    GraphormerForGraphClassification,
+    AutoImageProcessor,
+    SegformerForSemanticSegmentation
 )
 import os, json
 import torch.nn as nn
@@ -186,7 +188,7 @@ def _write_module_to_file(module: nn.Module, out_path: str):
 
 
 if __name__ == "__main__":
-    do_write = False
+    do_write = True
 
     # model_id = "mistralai/Mistral-7B-Instruct-v0.2"
     # model_id = "microsoft/phi-1.5"
@@ -199,12 +201,14 @@ if __name__ == "__main__":
     # model_id = "FacebookAI/roberta-large-mnli"
     # model_id = "microsoft/phi-1_5"
     # folder = "/public/phi-1_5"
-    model_id = "clefourrier/graphormer-base-pcqm4mv2"
-    folder = "/public/graphormer-base-pcqm4mv2"
-    model = GraphormerForGraphClassification.from_pretrained(model_id)
+    model_id = "awaisyaqoob/segformer-augumented-custom-xray2"
+    folder = "/public/segformer-xray"
+    # processor = AutoImageProcessor.from_pretrained("awaisyaqoob/segformer-augumented-custom-xray2")
+    model = SegformerForSemanticSegmentation.from_pretrained("awaisyaqoob/segformer-augumented-custom-xray2")
+    # model = AutoModel.from_pretrained(model_id)
     print(model.config)
-    # # exit(1)
-    #
+    # exit(1)
+
     if do_write:
         _write_module_to_file(model, folder)
     #
@@ -213,8 +217,9 @@ if __name__ == "__main__":
     # vocab = sorted(tokenizer.get_vocab(), key=tokenizer.get_vocab().get)
 
     if do_write:
-        with open(f".{folder}/vocabulary", 'w') as f:
-            f.write(json.dumps(vocab))
+        pass
+        # with open(f".{folder}/vocabulary", 'w') as f:
+        #     f.write(json.dumps(vocab))
 
     if do_write:
         exit(1)

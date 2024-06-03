@@ -1,0 +1,115 @@
+{
+    "name": "product",
+    "primitive_name": "product",
+    "aliases": [
+        "series"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "array",
+        "dimension_index",
+        "keep_dimension"
+    ],
+    "outputs": [
+        "prod_result"
+    ],
+    "assertions": [
+        "{array}_data_type_is_integer_or_decimal",
+        "{array}_is_array",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_scalar",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{dimension_index}_is_less_than_{array}_number_of_dimensions",
+        "{keep_dimension}_data_type_is_boolean",
+        "{keep_dimension}_is_scalar",
+        "{prod_result}_data_type_is_the_same_as_{array}"
+    ],
+    "description": [
+        "Return the product values of `array` across `dimension_index`",
+        "If `keep_dimension` is true, then `output` will keep the dimension at `dimension_index`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "keep_dimension",
+                    "data": true,
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "prod_result",
+                    "primitive_name": "prod_result",
+                    "data": [
+                        120
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        [
+                            1,
+                            2,
+                            3
+                        ],
+                        [
+                            4,
+                            5,
+                            6
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 1,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "keep_dimension",
+                    "data": false,
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "prod_result",
+                    "primitive_name": "prod_result",
+                    "data": [
+                        6,
+                        120
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2
+                    ]
+                }
+            ]
+        }
+    ]
+}

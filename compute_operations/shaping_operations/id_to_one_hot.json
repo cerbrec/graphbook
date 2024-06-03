@@ -1,0 +1,192 @@
+{
+    "name": "id_to_one_hot",
+    "primitive_name": "id_to_one_hot",
+    "aliases": [
+        "one_hot_encoding",
+        "one_hot",
+        "id_to_one_hot_encoding"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "id_array",
+        "num_classes"
+    ],
+    "outputs": [
+        "one_hot_encoding"
+    ],
+    "assertions": [
+        "{id_array}_is_array",
+        "{id_array}_data_type_is_integer",
+        "{num_classes}_is_scalar",
+        "{num_classes}_data_type_is_integer",
+        "{num_classes}_is_greater_than_or_equal_to_one"
+    ],
+    "description": [
+        "Creates a one-hot encoding matrix given an array of desired ids and number of classes. Any invalid hot ids are set to zero"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "id_array",
+                    "data": [
+                        [
+                            2,
+                            1,
+                            2
+                        ],
+                        [
+                            0,
+                            1,
+                            1
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "num_classes",
+                    "data": 3,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "one_hot_encoding",
+                    "primitive_name": "one_hot_encoding",
+                    "data": [
+                        [
+                            [
+                                0,
+                                0,
+                                1
+                            ],
+                            [
+                                0,
+                                1,
+                                0
+                            ],
+                            [
+                                0,
+                                0,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                1,
+                                0,
+                                0
+                            ],
+                            [
+                                0,
+                                1,
+                                0
+                            ],
+                            [
+                                0,
+                                1,
+                                0
+                            ]
+                        ]
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "id_array",
+                    "data": [
+                        [
+                            -1,
+                            0,
+                            1
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "num_classes",
+                    "data": 3,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "one_hot_encoding",
+                    "primitive_name": "one_hot_encoding",
+                    "data": [
+                        [
+                            [
+                                0,
+                                0,
+                                0
+                            ],
+                            [
+                                1,
+                                0,
+                                0
+                            ],
+                            [
+                                0,
+                                1,
+                                0
+                            ]
+                        ]
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "id_array",
+                    "data": [
+                        [
+                            1,
+                            2,
+                            3
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "num_classes",
+                    "data": 4,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "one_hot_encoding",
+                    "primitive_name": "one_hot_encoding",
+                    "data": [
+                        [
+                            [
+                                0,
+                                1,
+                                0,
+                                0
+                            ],
+                            [
+                                0,
+                                0,
+                                1,
+                                0
+                            ],
+                            [
+                                0,
+                                0,
+                                0,
+                                1
+                            ]
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+
+

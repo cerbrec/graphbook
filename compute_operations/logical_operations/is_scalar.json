@@ -1,0 +1,84 @@
+{
+    "name": "is_scalar",
+    "primitve_name": "is_scalar",
+    "aliases": [
+        "is_array",
+        "scalar_check",
+        "check_scalar",
+        "array_check",
+        "check_array",
+        "not_scalar",
+        "not_array"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "input"
+    ],
+    "output": [
+        "is_scalar"
+    ],
+    "assertions": [
+        "{is_scalar}_data_type_is_boolean",
+        "{is_scalar}_is_scalar"
+    ],
+    "description": [
+        "Check if input has a scalar shape"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": 2,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "is_scalar",
+                    "data": true,
+                    "type": "BOOLEAN",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "is_scalar",
+                    "data": false,
+                    "type": "BOOLEAN",
+                    "shape": []
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": "test",
+                    "type": "TEXT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "is_scalar",
+                    "data": true,
+                    "type": "TEXT",
+                    "shape": []
+                }
+            ]
+        }
+    ]
+}

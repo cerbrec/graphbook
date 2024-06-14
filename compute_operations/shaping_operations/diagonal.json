@@ -1,0 +1,118 @@
+{
+    "name": "diagonal",
+    "primitive_name": "diagonal",
+    "aliases": [
+        "set_diagonal",
+        "set_diagonal_elements",
+        "diagonal_values",
+        "diagonal_set"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "input",
+        "value"
+    ],
+    "outputs": [
+        "diagonal_array"
+    ],
+    "assertions": [
+        "{input}_has_one_more_dimension_than_{value}",
+        "{input}_data_type_is_the_same_as_{value}",
+        "{value}_is_scalar"
+    ],
+    "description": [
+        "Set all elements along the diagonal of a given 2D array to `value`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            0,
+                            0
+                        ],
+                        [
+                            0,
+                            0
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "value",
+                    "data": 1,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "diagonal_array",
+                    "data": [
+                        [
+                            1,
+                            0
+                        ],
+                        [
+                            0,
+                            1
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        2
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            2,
+                            2,
+                            2
+                        ],
+                        [
+                            3,
+                            3,
+                            3
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "value",
+                    "data": 0,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "diagonal_array",
+                    "data": [
+                        [
+                            0,
+                            2,
+                            2
+                        ],
+                        [
+                            3,
+                            0,
+                            3
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        3
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -22,7 +22,7 @@
         "{num_classes}_is_greater_than_or_equal_to_one"
     ],
     "description": [
-        "Creates a one-hot encoding matrix given an array of desired ids and number of classes. Any invalid hot ids are set to zero"
+        "Create a one-hot encoding matrix given an array of desired ids and number of classes. Any invalid hot ids are set to zero"
     ],
     "examples": [
         {

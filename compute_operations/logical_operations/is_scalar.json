@@ -1,6 +1,6 @@
 {
     "name": "is_scalar",
-    "primitve_name": "is_scalar",
+    "primitive_name": "is_scalar",
     "aliases": [
         "is_array",
         "scalar_check",
@@ -14,7 +14,7 @@
     "inputs": [
         "input"
     ],
-    "output": [
+    "outputs": [
         "is_scalar"
     ],
     "assertions": [

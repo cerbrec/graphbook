@@ -1,0 +1,611 @@
+{
+    "name": "scatter_add",
+    "primitive_name": "scatter_add",
+    "aliases": [
+        "scatter_addition"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "input",
+        "index_array",
+        "source_array",
+        "dimension_index"
+    ],
+    "outputs": [
+        "scatter_array"
+    ],
+    "assertions": [
+        "{dimension_index}_is_scalar",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{input}_is_array",
+        "{index_array}_is_array",
+        "{source_array}_is_array",
+        "{scatter_array}_array_is_array",
+        "{source_array}_shape_is_same_as_{index_array}",
+        "every_dimension_size_of_{index_array}_is_less_than_or_equal_to_the_corresponding_dimension_size_of_{input}_except_on_dimension_{dimension_index}",
+        "{index_array}_shape_is_the_same_as_{source_array}",
+        "{index_array}_data_type_is_integer",
+        "{source_array}_data_type_is_the_same_as_{input}",
+        "{source_array}_data_type_is_the_same_as_{scatter_array}"
+    ],
+    "description": [
+        "Add elements from `source_array` into `input` through indices specified by `index_array` along a `dimension_index`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        [
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        [
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "index_array",
+                    "data": [
+                        [
+                            0,
+                            1,
+                            2,
+                            0,
+                            0
+                        ],
+                        [
+                            0,
+                            1,
+                            2,
+                            2,
+                            2
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "source_array",
+                    "data": [
+                        [
+                            1,
+                            1,
+                            1,
+                            1,
+                            1
+                        ],
+                        [
+                            1,
+                            1,
+                            1,
+                            1,
+                            1
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "scatter_array",
+                    "primitive_name": "scatter_array",
+                    "data": [
+                        [
+                            2,
+                            0,
+                            0,
+                            1,
+                            1
+                        ],
+                        [
+                            0,
+                            2,
+                            0,
+                            0,
+                            0
+                        ],
+                        [
+                            0,
+                            0,
+                            2,
+                            1,
+                            1
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        3,
+                        5
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        [
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        [
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "index_array",
+                    "data": [
+                        [
+                            0,
+                            1,
+                            2,
+                            0,
+                            0
+                        ],
+                        [
+                            0,
+                            1,
+                            2,
+                            2,
+                            2
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "source_array",
+                    "data": [
+                        [
+                            1,
+                            1,
+                            1,
+                            1,
+                            1
+                        ],
+                        [
+                            1,
+                            1,
+                            1,
+                            1,
+                            1
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 1,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "scatter_array",
+                    "primitive_name": "scatter_array",
+                    "data": [
+                        [
+                            3,
+                            1,
+                            1,
+                            0,
+                            0
+                        ],
+                        [
+                            1,
+                            1,
+                            3,
+                            0,
+                            0
+                        ],
+                        [
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        3,
+                        5
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            [
+                                0,
+                                0,
+                                0
+                            ],
+                            [
+                                0,
+                                0,
+                                0
+                            ],
+                            [
+                                0,
+                                0,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                0,
+                                0,
+                                0
+                            ],
+                            [
+                                0,
+                                0,
+                                0
+                            ],
+                            [
+                                0,
+                                0,
+                                0
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "index_array",
+                    "data": [
+                        [
+                            [
+                                0,
+                                1,
+                                1
+                            ],
+                            [
+                                1,
+                                0,
+                                0
+                            ],
+                            [
+                                1,
+                                1,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                1,
+                                1,
+                                0
+                            ],
+                            [
+                                0,
+                                0,
+                                0
+                            ],
+                            [
+                                1,
+                                1,
+                                1
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "source_array",
+                    "data": [
+                        [
+                            [
+                                1,
+                                1,
+                                1
+                            ],
+                            [
+                                1,
+                                1,
+                                1
+                            ],
+                            [
+                                1,
+                                1,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                1,
+                                1,
+                                1
+                            ],
+                            [
+                                1,
+                                1,
+                                1
+                            ],
+                            [
+                                1,
+                                1,
+                                1
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "scatter_array",
+                    "primitive_name": "scatter_array",
+                    "data": [
+                        [
+                            [
+                                1,
+                                0,
+                                1
+                            ],
+                            [
+                                1,
+                                2,
+                                2
+                            ],
+                            [
+                                0,
+                                0,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                1,
+                                2,
+                                1
+                            ],
+                            [
+                                1,
+                                0,
+                                0
+                            ],
+                            [
+                                2,
+                                2,
+                                2
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        3,
+                        3
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            [
+                                0,
+                                0,
+                                0
+                            ],
+                            [
+                                0,
+                                0,
+                                0
+                            ],
+                            [
+                                0,
+                                0,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                0,
+                                0,
+                                0
+                            ],
+                            [
+                                0,
+                                0,
+                                0
+                            ],
+                            [
+                                0,
+                                0,
+                                0
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "index_array",
+                    "data": [
+                        [
+                            [
+                                0,
+                                1,
+                                1
+                            ],
+                            [
+                                1,
+                                0,
+                                0
+                            ],
+                            [
+                                1,
+                                1,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                1,
+                                1,
+                                0
+                            ],
+                            [
+                                0,
+                                0,
+                                0
+                            ],
+                            [
+                                1,
+                                1,
+                                1
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "source_array",
+                    "data": [
+                        [
+                            [
+                                1,
+                                1,
+                                1
+                            ],
+                            [
+                                1,
+                                1,
+                                1
+                            ],
+                            [
+                                1,
+                                1,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                1,
+                                1,
+                                1
+                            ],
+                            [
+                                1,
+                                1,
+                                1
+                            ],
+                            [
+                                1,
+                                1,
+                                1
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 1,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "scatter_array",
+                    "primitive_name": "scatter_array",
+                    "data": [
+                        [
+                            [
+                                1,
+                                1,
+                                1
+                            ],
+                            [
+                                2,
+                                2,
+                                2
+                            ],
+                            [
+                                0,
+                                0,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                1,
+                                1,
+                                2
+                            ],
+                            [
+                                2,
+                                2,
+                                1
+                            ],
+                            [
+                                0,
+                                0,
+                                0
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        3,
+                        3
+                    ]
+                }
+            ]
+        }
+    ]
+}

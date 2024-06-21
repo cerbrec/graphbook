@@ -1,0 +1,70 @@
+{
+    "name": "shuffle",
+    "primitive_name": "shuffle",
+    "aliases": [
+        "array_shuffle",
+        "shuffle_array",
+        "shuffle_data",
+        "tensor_shuffle"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "description": [
+        "Shuffle elements of `input` at `dimension_index`"
+    ],
+    "inputs": [
+        "input",
+        "dimension_index"
+    ],
+    "outputs": [
+        "shuffled_array"
+    ],
+    "assertions": [
+        "{input}_is_array",
+        "{dimension_index}_is_scalar",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{dimension_index}_is_less_than_{input}_number_of_dimensions",
+        "{shuffled_array}_is_array",
+        "{shuffled_array}_data_type_is_the_same_as_{input}",
+        "{shuffled_array}_shape_is_same_as_{input}"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "shuffled_array",
+                    "primitive_name": "shuffled_array",
+                    "data": [
+                        4,
+                        0,
+                        3,
+                        2,
+                        1
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        5
+                    ]
+                }
+            ]
+        }
+    ]
+}

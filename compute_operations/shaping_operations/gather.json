@@ -1,0 +1,463 @@
+{
+    "name": "gather",
+    "primitive_name": "gather",
+    "aliases": [
+        ""
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "description": [
+        "Select elements from `input` at indices specified by `index_array` along `dimension_index`"
+    ],
+    "inputs": [
+        "input",
+        "index_array",
+        "dimension_index"
+    ],
+    "outputs": [
+        "gather_array"
+    ],
+    "assertions": [
+        "{index_array}_shape_is_the_same_as_{gather_array}",
+        "{dimension_index}_is_scalar",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{index_array}_data_type_is_integer",
+        "{index_array}_is_array",
+        "{input}_is_array",
+        "{gather_array}_is_array",
+        "{gather_array}_data_type_is_the_same_as_{input}",
+        "every_dimension_size_of_{index_array}_is_less_that_or_equal_to_the_corresponding_dimension_size_of_{input}_except_on_dimension_{dimension_index}"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            1,
+                            2
+                        ],
+                        [
+                            3,
+                            4
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "index_array",
+                    "data": [
+                        [
+                            0,
+                            0
+                        ],
+                        [
+                            1,
+                            0
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "gather_array",
+                    "primitive_name": "gather_array",
+                    "data": [
+                        [
+                            1,
+                            2
+                        ],
+                        [
+                            3,
+                            2
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        2
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            1,
+                            2
+                        ],
+                        [
+                            3,
+                            4
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "index_array",
+                    "data": [
+                        [
+                            0,
+                            0
+                        ],
+                        [
+                            1,
+                            0
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 1,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "gather_array",
+                    "primitive_name": "gather_array",
+                    "data": [
+                        [
+                            1,
+                            1
+                        ],
+                        [
+                            4,
+                            3
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        2
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            [
+                                1,
+                                2
+                            ],
+                            [
+                                3,
+                                4
+                            ]
+                        ],
+                        [
+                            [
+                                5,
+                                6
+                            ],
+                            [
+                                7,
+                                8
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "index_array",
+                    "data": [
+                        [
+                            [
+                                0,
+                                0
+                            ],
+                            [
+                                1,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                0,
+                                1
+                            ],
+                            [
+                                1,
+                                1
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "gather_array",
+                    "primitive_name": "gather_array",
+                    "data": [
+                        [
+                            [
+                                1,
+                                2
+                            ],
+                            [
+                                7,
+                                4
+                            ]
+                        ],
+                        [
+                            [
+                                1,
+                                6
+                            ],
+                            [
+                                7,
+                                8
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        2,
+                        2
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            [
+                                1,
+                                2
+                            ],
+                            [
+                                3,
+                                4
+                            ]
+                        ],
+                        [
+                            [
+                                5,
+                                6
+                            ],
+                            [
+                                7,
+                                8
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "index_array",
+                    "data": [
+                        [
+                            [
+                                0,
+                                0
+                            ],
+                            [
+                                1,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                0,
+                                1
+                            ],
+                            [
+                                1,
+                                1
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 1,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "gather_array",
+                    "primitive_name": "gather_array",
+                    "data": [
+                        [
+                            [
+                                1,
+                                2
+                            ],
+                            [
+                                3,
+                                2
+                            ]
+                        ],
+                        [
+                            [
+                                5,
+                                8
+                            ],
+                            [
+                                7,
+                                8
+                            ]
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        2,
+                        2
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            1,
+                            2
+                        ],
+                        [
+                            3,
+                            4
+                        ],
+                        [
+                            5,
+                            6
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "index_array",
+                    "data": [
+                        [
+                            0,
+                            0
+                        ],
+                        [
+                            1,
+                            0
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 0,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "gather_array",
+                    "primitive_name": "gather_array",
+                    "data": [
+                        [
+                            1,
+                            2
+                        ],
+                        [
+                            3,
+                            2
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        2
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            1,
+                            2
+                        ],
+                        [
+                            3,
+                            4
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "index_array",
+                    "data": [
+                        [
+                            0,
+                            0,
+                            1
+                        ],
+                        [
+                            1,
+                            0,
+                            1
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 1,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "gather_array",
+                    "primitive_name": "gather_array",
+                    "data": [
+                        [
+                            1,
+                            1,
+                            2
+                        ],
+                        [
+                            4,
+                            3,
+                            4
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        3
+                    ]
+                }
+            ]
+        }
+    ]
+}

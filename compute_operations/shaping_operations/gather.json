@@ -17,7 +17,7 @@
         "gather_array"
     ],
     "assertions": [
-        "{index_array}_shape_is_the_same_as_{gather_array}",
+        "{index_array}_number_of_dimensions_is_the_same_as_{input}",
         "{dimension_index}_is_scalar",
         "{dimension_index}_data_type_is_integer",
         "{dimension_index}_is_greater_than_or_equal_to_zero",
@@ -26,6 +26,7 @@
         "{input}_is_array",
         "{gather_array}_is_array",
         "{gather_array}_data_type_is_the_same_as_{input}",
+        "{gather_array}_shape_is_the_same_as_{index_array}",
         "every_dimension_size_of_{index_array}_is_less_that_or_equal_to_the_corresponding_dimension_size_of_{input}_except_on_dimension_{dimension_index}"
     ],
     "examples": [

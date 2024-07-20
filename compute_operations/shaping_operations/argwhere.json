@@ -1,0 +1,109 @@
+{
+    "name": "argwhere",
+    "primitive_name": "argwhere",
+    "aliases": [
+        "arg_where",
+        "true_indices"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "description": [
+        "Returns `output` with shape (z, n) where z is the number of `true` entries and n is the number of `input` dimensions. Each row of `output` corresponds to the coordinates of a `true` entry in `input`"
+    ],
+    "inputs": [
+        "input"
+    ],
+    "outputs": [
+        "output"
+    ],
+    "assertions": [
+        "{input}_is_array",
+        "{input}_data_type_is_boolean",
+        "{output}_is_array",
+        "{output}_data_type_is_integer",
+        "{output}_has_two_dimensions",
+        "size_of_last_dimension_of_{output}_is_equal_to_{input}_number_of_dimensions"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        true,
+                        0,
+                        true
+                    ],
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": [
+                        [
+                            0
+                        ],
+                        [
+                            2
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        2,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            true,
+                            0,
+                            true
+                        ],
+                        [
+                            0,
+                            true,
+                            true
+                        ]
+                    ],
+                    "type": "BOOLEAN"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": [
+                        [
+                            0,
+                            0
+                        ],
+                        [
+                            0,
+                            2
+                        ],
+                        [
+                            1,
+                            1
+                        ],
+                        [
+                            1,
+                            2
+                        ]
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        4,
+                        2
+                    ]
+                }
+            ]
+        }
+    ]
+}

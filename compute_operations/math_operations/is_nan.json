@@ -13,7 +13,7 @@
         "result"
     ],
     "assertions": [
-        "{array}_data_type_is_integer_or_decimal",
+        "{array}_data_type_is_decimal",
         "{result}_data_type_is_boolean",
         "{array}_shape_is_the_same_as_{result}"
     ],

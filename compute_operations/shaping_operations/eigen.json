@@ -1,0 +1,86 @@
+{
+    "name": "eigen",
+    "primitive_name": "eigen",
+    "aliases": [
+        "eigen_values",
+        "eigen_vectors",
+        "eigendecomposition"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "description": [
+        "Returns eigen vectors and eigen values of a square array"
+    ],
+    "inputs": [
+        "input"
+    ],
+    "outputs": [
+        "eigen_vectors",
+        "eigen_values"
+    ],
+    "assertions": [
+        "{input}_has_two_dimensions",
+        "{input}_is_square_array",
+        "{input}_is_data_type_integer_or_decimal",
+        "{eigen_vectors}_has_two_dimensions",
+        "{eigen_values}_has_one_dimension"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        [
+                            1,
+                            2,
+                            3
+                        ],
+                        [
+                            4,
+                            5,
+                            6
+                        ],
+                        [
+                            7,
+                            8,
+                            9
+                        ]
+                    ],
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "eigen_vectors",
+                    "data": [
+                        [
+                            1,
+                            -2,
+                            1
+                        ],
+                        [
+                            -2,
+                            1,
+                            1
+                        ],
+                        [
+                            7,
+                            -5,
+                            1
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "eigen_values",
+                    "data": [
+                        15,
+                        3,
+                        6
+                    ],
+                    "type": "INTEGER"
+                }
+            ]
+        }
+    ]
+}

@@ -1,4 +1,4 @@
-# Cerbrec Graphbook: Expedite AI Discovery
+# Cerbrec Graphbook: Expedite Discovery
 
 Graphbook is a graphical deep learning framework designed to simplify the creation, inspection, and customization of AI models. With its intuitive point-and-click interface, Graphbook streamlines data preprocessing and model fine-tuning, enabling faster exploration and discovery using AI models.
 
@@ -7,7 +7,7 @@ Graphbook is a graphical deep learning framework designed to simplify the creati
 # Key Features
 
 - Interactive Visualization: Real-time data interaction and model debugging, ideal for GenAI tasks like document classification, rephrasing, image processing, as well as more specific tasks, such as DNA sequencing, and protein folding.
-- Pre-built GenAI Models: Includes domain-specific models such as ProtGPT2 for protein design and SMILES-BERT for molecular prediction.
+- Pre-built GenAI Models: Includes pre-trained model templates like BERT, GPT, and T5, as well as domain-specific models such as ProtGPT2 for protein design and SMILES-BERT for molecular prediction.
 - Efficient Workflow: Automates data cleaning and other routine tasks, allowing you to focus on high-impact research. Explore 8-10 times more research ideas with Graphbook.
 
 ### Get started in no time

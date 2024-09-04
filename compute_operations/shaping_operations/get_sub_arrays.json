@@ -8,7 +8,12 @@
         "get_subarrays_by_batch",
         "get_elements",
         "get_sub_elements",
-        "get_subelements"
+        "get_subelements",
+        "get_sub_items",
+        "get_subitems",
+        "advanced_index",
+        "advanced_indexing",
+        "advanced_indices"
     ],
     "type": "PRIMITIVE_OPERATION",
     "inputs": [
@@ -30,7 +35,7 @@
         "{selected_indices}_is_greater_than_or_equal_to_zero"
     ],
     "description": [
-        "Get sub-arrays from `input` across `dimension_index` selecting each index of `selected_indices`"
+        "Get sub-arrays from `input` for each index of `selected_indices` across `dimension_index`"
     ],
     "examples": [
         {

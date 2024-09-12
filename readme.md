@@ -1,3 +1,5 @@
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 # Cerbrec Graphbook: Expedite Discovery
 
 Graphbook is a graphical deep learning framework designed to simplify the creation, inspection, and customization of AI models. With its intuitive point-and-click interface, Graphbook streamlines data preprocessing and model fine-tuning, enabling faster exploration and discovery using AI models.

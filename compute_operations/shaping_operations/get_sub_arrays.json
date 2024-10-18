@@ -32,7 +32,8 @@
         "{dimension_index}_is_less_than_{input}_number_of_dimensions",
         "{selected_indices}_is_array",
         "{selected_indices}_data_type_is_integer",
-        "{selected_indices}_is_greater_than_or_equal_to_zero"
+        "{selected_indices}_is_greater_than_or_equal_to_zero",
+        "{selected_indices}_is_less_than_size_of_{input}_at_dimension_index_{dimension_index}"
     ],
     "description": [
         "Get sub-arrays from `input` for each index of `selected_indices` across `dimension_index`"

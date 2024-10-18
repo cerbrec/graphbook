@@ -10,24 +10,33 @@
     "type": "PRIMITIVE_OPERATION",
     "inputs": [
         "text",
-        "search_regex",
-        "replace_with"
+        "search_text",
+        "replace_with",
+        {
+            "name": "use_regex",
+            "primitive_name": "use_regex",
+            "flow_state": "BOOT_SOURCE",
+            "shape": [],
+            "type": "BOOLEAN",
+            "data": true
+        }
     ],
     "outputs": [
         "processed_text"
     ],
     "assertions": [
         "{text}_data_type_is_text",
-        "{search_regex}_data_type_is_text",
-        "{search_regex}_conforms_to_regular_expression",
-        "{text}_shape_is_the_same_as_{search_regex}",
+        "{search_text}_data_type_is_text",
+        "{search_text}_conforms_to_regular_expression",
+        "{text}_shape_is_the_same_as_{search_text}",
         "{replace_with}_data_type_is_text",
-        "{replace_with}_shape_is_the_same_as_{search_regex}",
+        "{replace_with}_shape_is_the_same_as_{search_text}",
         "{processed_text}_data_type_is_text",
         "{processed_text}_shape_is_the_same_as_{replace_with}"
     ],
     "description": [
-        "Element-wise replace `text` with `replace_with` based on regular expression `search_regex`",
+        "Element-wise replace `text` with `replace_with` based on regular expression `search_text`",
+        "if use_regex set as false, then search_text will be treated as plain text",
         "`replace_with` allows regular expression format specifiers"
     ],
     "examples": [
@@ -39,7 +48,7 @@
                     "type": "TEXT"
                 },
                 {
-                    "name": "search_regex",
+                    "name": "search_text",
                     "data": "\\s+",
                     "type": "TEXT"
                 },
@@ -70,7 +79,7 @@
                     "type": "TEXT"
                 },
                 {
-                    "name": "search_regex",
+                    "name": "search_text",
                     "data": [
                         "\\s+",
                         "\\d,\\s+"
@@ -116,7 +125,7 @@
                     "type": "TEXT"
                 },
                 {
-                    "name": "search_regex",
+                    "name": "search_text",
                     "data": [
                         [
                             "[^\\w\\s]"

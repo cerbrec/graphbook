@@ -23,7 +23,9 @@
         "{filtered_array}_data_type_is_the_same_as_{array}"
     ],
     "description": [
-        "Filter `array` based on `condition` accross `dimension_index`"
+        "Filter `array` based on `condition` across `dimension_index`",
+        "If a cell value of `condition` is true, then the corresponding `array` cell value will be kept",
+        "If a cell value of `condition` is false, then the corresponding `array` cell value will be removed"
     ],
     "examples": [
         {

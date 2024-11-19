@@ -3,8 +3,6 @@
     "primitive_name": "generate_uniform_random_number",
     "aliases": [
         "uniform",
-        "generate_weight",
-        "initialize_weight",
         "initialize_uniform_random_number"
     ],
     "type": "PRIMITIVE_OPERATION",

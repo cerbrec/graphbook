@@ -1,13 +1,15 @@
 {
-    "name": "conv2d",
-    "primitive_name": "conv2d",
+    "name": "max_pooling2d",
+    "primitive_name": "max_pooling2d",
     "aliases": [
-        "conv 2d"
+        "max pooling 2d",
+        "maxpool2d",
+        "maxpool_2d"
     ],
     "type": "PRIMITIVE_OPERATION",
     "inputs": [
         "input",
-        "kernel",
+        "kernel_size",
         "stride"
     ],
     "outputs": [
@@ -16,15 +18,19 @@
     "assertions": [
         "{input}_data_type_is_decimal",
         "{output}_data_type_is_decimal",
+        "{stride}_data_type_is_integer",
         "{stride}_has_one_dimension",
+        "{stride}_has_two_elements",
+        "{kernel_size}_data_type_is_integer",
+        "{kernel_size}_has_one_dimension",
+        "{kernel_size}_has_two_elements",
         "{input}_has_four_dimensions",
-        "{input}_number_of_dimensions_is_the_same_as_{kernel}",
-        "{input}_has_the_same_second_dimension_as_{kernel}"
+        "{input}_number_of_dimensions_is_the_same_as_{output}",
+        "{input}_has_the_same_second_dimension_as_{output}"
     ],
     "description": [
-        "Compute the convolution 2d results given `input`, `kernel` and `stride`",
-        "`input` will have exactly 4 dimension, batch size, number of input channel, input height and input width in order",
-        "`kernel` will have exactly 4 dimension, number of output channel, number of input channel, kernel height and kernel width in order"
+        "Compute the max pooling 2d results given `input`, `kernel_size` and `stride`",
+        "`input` will have exactly 4 dimension, batch size, number of input channel, input height and input width in order"
     ],
     "examples": [
         {
@@ -149,116 +155,12 @@
                     "type": "DECIMAL"
                 },
                 {
-                    "name": "kernel",
                     "data": [
-                        [
-                            [
-                                [
-                                    1.0,
-                                    1.0,
-                                    1.0
-                                ],
-                                [
-                                    1.0,
-                                    1.0,
-                                    1.0
-                                ],
-                                [
-                                    1.0,
-                                    1.0,
-                                    1.0
-                                ]
-                            ],
-                            [
-                                [
-                                    2.0,
-                                    0.0,
-                                    0.0
-                                ],
-                                [
-                                    0.0,
-                                    3.0,
-                                    0.0
-                                ],
-                                [
-                                    0.0,
-                                    0.0,
-                                    1.0
-                                ]
-                            ],
-                            [
-                                [
-                                    1.0,
-                                    0.0,
-                                    0.0
-                                ],
-                                [
-                                    0.0,
-                                    2.0,
-                                    0.0
-                                ],
-                                [
-                                    0.0,
-                                    0.0,
-                                    3.0
-                                ]
-                            ]
-                        ],
-                        [
-                            [
-                                [
-                                    -1.0,
-                                    0.0,
-                                    0.0
-                                ],
-                                [
-                                    0.0,
-                                    -2.0,
-                                    0.0
-                                ],
-                                [
-                                    0.0,
-                                    0.0,
-                                    -3.0
-                                ]
-                            ],
-                            [
-                                [
-                                    0.0,
-                                    0.0,
-                                    3.0
-                                ],
-                                [
-                                    0.0,
-                                    3.0,
-                                    0.0
-                                ],
-                                [
-                                    3.0,
-                                    0.0,
-                                    0.0
-                                ]
-                            ],
-                            [
-                                [
-                                    -10.0,
-                                    0.0,
-                                    0.0
-                                ],
-                                [
-                                    0.0,
-                                    -5.0,
-                                    0.0
-                                ],
-                                [
-                                    0.0,
-                                    0.0,
-                                    -7.0
-                                ]
-                            ]
-                        ]
+                        3,
+                        3
                     ],
-                    "type": "DECIMAL"
+                    "name": "kernel_size",
+                    "type": "INTEGER"
                 },
                 {
                     "name": "stride",
@@ -271,52 +173,70 @@
             ],
             "outputs": [
                 {
-                    "name": "output",
-                    "primitive_name": "output",
                     "data": [
                         [
                             [
                                 [
-                                    603.0,
-                                    624.0,
-                                    645.0
+                                    13.0,
+                                    14.0,
+                                    15.0
                                 ],
                                 [
-                                    708.0,
-                                    729.0,
-                                    750.0
+                                    18.0,
+                                    19.0,
+                                    20.0
                                 ],
                                 [
-                                    813.0,
-                                    834.0,
-                                    855.0
+                                    23.0,
+                                    24.0,
+                                    25.0
                                 ]
                             ],
                             [
                                 [
-                                    -1002.0,
-                                    -1021.0,
-                                    -1040.0
+                                    38.0,
+                                    39.0,
+                                    40.0
                                 ],
                                 [
-                                    -1097.0,
-                                    -1116.0,
-                                    -1135.0
+                                    43.0,
+                                    44.0,
+                                    45.0
                                 ],
                                 [
-                                    -1192.0,
-                                    -1211.0,
-                                    -1230.0
+                                    48.0,
+                                    49.0,
+                                    50.0
+                                ]
+                            ],
+                            [
+                                [
+                                    63.0,
+                                    64.0,
+                                    65.0
+                                ],
+                                [
+                                    68.0,
+                                    69.0,
+                                    70.0
+                                ],
+                                [
+                                    73.0,
+                                    74.0,
+                                    75.0
                                 ]
                             ]
                         ]
                     ],
+                    "name": "output",
+                    "primitive_name": "output",
                     "shape": [
                         1,
-                        2,
+                        3,
                         3,
                         3
-                    ]
+                    ],
+                    "type": "DECIMAL"
                 }
             ]
         }

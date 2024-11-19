@@ -17,6 +17,7 @@
     "assertions": [
         "{shape}_data_type_is_integer",
         "{shape}_has_one_dimension",
+        "{shape}_is_greater_than_zero",
         "{target}_shape_size_is_less_than_or_equal_to_{shape}_size",
         "every_dimension_size_of_{target}_is_less_than_or_equal_to_the_corresponding_value_of_array_{shape}",
         "{result}_data_type_is_the_same_as_{target}",

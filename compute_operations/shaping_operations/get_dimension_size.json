@@ -3,10 +3,14 @@
     "primitive_name": "get_dimension_size",
     "aliases": [
         "get_dim_size",
+        "get_dimension_size",
         "get_dimensional_size",
         "get_dim_length",
         "get_dimension_length",
-        "get_dimensional_length"
+        "get_dimensional_length",
+        "get_dim_count",
+        "get_dimension_count",
+        "get_dimensional_count"
     ],
     "type": "PRIMITIVE_OPERATION",
     "inputs": [

@@ -1,0 +1,25 @@
+{
+    "name": "generate_combinations",
+    "primitive_name": "generate_combinations",
+    "aliases": [
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "array",
+        "number_of_samples"
+    ],
+    "outputs": [
+        "samples"
+    ],
+    "assertions": [
+        "{array}_has_one_dimension",
+        "{number_of_samples}_is_scalar",
+        "{samples}_has_two_dimensions",
+        "{number_of_samples}_data_type_is_integer"
+    ],
+    "description": [
+        "Generate all combinations using objects in `array` with each combination having `number_of_samples`"
+    ],
+    "examples": [
+    ]
+}

@@ -1,0 +1,45 @@
+{
+    "name": "generate_combinations_batch",
+    "primitive_name": "generate_combinations_batch",
+    "aliases": [
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "array",
+        "number_of_samples",
+        {
+            "name": "batch_size",
+            "primitive_name": "batch_size",
+            "flow_state": "BOOT_SOURCE",
+            "shape": [],
+            "type": "INTEGER",
+            "data": -1
+        },
+        {
+            "name": "start_index",
+            "primitive_name": "start_index",
+            "flow_state": "BOOT_SOURCE",
+            "shape": [],
+            "type": "DECIMAL",
+            "data": 0.0
+        }
+    ],
+    "outputs": [
+        "samples"
+    ],
+    "assertions": [
+        "{array}_has_one_dimension",
+        "{number_of_samples}_is_scalar",
+        "{number_of_samples}_data_type_is_integer",
+        "{samples}_has_two_dimensions",
+        "{start_index}_data_type_is_decimal",
+        "{batch_size}_data_type_is_integer",
+        "{start_index}_is_scalar",
+        "{batch_size}_is_scalar"
+    ],
+    "description": [
+        "Generate all combinations using objects in `array` with each combination having `number_of_samples`"
+    ],
+    "examples": [
+    ]
+}

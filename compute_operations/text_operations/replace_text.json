@@ -27,16 +27,18 @@
     "assertions": [
         "{text}_data_type_is_text",
         "{search_text}_data_type_is_text",
+        "{search_text}_shape_is_the_same_as_{text}",
         "{search_text}_conforms_to_regular_expression",
-        "{text}_shape_is_the_same_as_{search_text}",
         "{replace_with}_data_type_is_text",
         "{replace_with}_shape_is_the_same_as_{search_text}",
         "{processed_text}_data_type_is_text",
-        "{processed_text}_shape_is_the_same_as_{replace_with}"
+        "{processed_text}_shape_is_the_same_as_{replace_with}",
+        "{use_regex}_data_type_is_boolean",
+        "{use_regex}_is_scalar"
     ],
     "description": [
         "Element-wise replace `text` with `replace_with` based on regular expression `search_text`",
-        "if use_regex set as false, then search_text will be treated as plain text",
+        "If `use_regex` is set as false, then `search_text` will be treated as plain text",
         "`replace_with` allows regular expression format specifiers"
     ],
     "examples": [

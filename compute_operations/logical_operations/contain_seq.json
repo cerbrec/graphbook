@@ -1,12 +1,13 @@
 {
-    "name": "contain_combination",
-    "primitive_name": "contain_combination",
+    "name": "contain_seq",
+    "primitive_name": "contain_seq",
     "aliases": [
     ],
     "type": "PRIMITIVE_OPERATION",
     "inputs": [
         "target",
-        "check_against"
+        "check_against",
+        "padding_value"
     ],
     "outputs": [
         "is_contain"
@@ -16,10 +17,12 @@
         "{check_against}_has_one_dimension",
         "{target}_data_type_is_the_same_as_{check_against}",
         "{target}_has_two_dimensions",
-        "{is_contain}_data_type_is_boolean"
+        "{is_contain}_data_type_is_boolean",
+        "{padding_value}_is_scalar",
+        "{padding_value}_data_type_is_integer"
     ],
     "description": [
-        "Check whether `check_against` contains any member in each row of `target`"
+        "Check whether `check_against` contains seq in each row of `target`"
     ],
     "examples": [
         {
@@ -58,8 +61,23 @@
                             1,
                             3,
                             4
+                        ],
+                        [
+                            1,
+                            2,
+                            0
+                        ],
+                        [
+                            1,
+                            0,
+                            0
                         ]
                     ],
+                    "type": "INTEGER"
+                },
+                {
+                    "data": 0,
+                    "name": "padding_value",
                     "type": "INTEGER"
                 }
             ],
@@ -70,12 +88,14 @@
                     "data": [
                         false,
                         true,
+                        false,
+                        false,
                         true,
                         true
                     ],
                     "type": "BOOLEAN",
                     "shape": [
-                        4
+                        6
                     ]
                 }
             ]

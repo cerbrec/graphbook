@@ -18,7 +18,15 @@
     "type": "PRIMITIVE_OPERATION",
     "inputs": [
         "text",
-        "search_regex"
+        "search_regex",
+        {
+            "name": "use_regex",
+            "primitive_name": "use_regex",
+            "flow_state": "BOOT_SOURCE",
+            "shape": [],
+            "type": "BOOLEAN",
+            "data": true
+        }
     ],
     "outputs": [
         "is_contain"
@@ -26,13 +34,16 @@
     "assertions": [
         "{text}_data_type_is_text",
         "{search_regex}_data_type_is_text",
+        "{search_regex}_shape_is_the_same_as_{text}",
         "{search_regex}_conforms_to_regular_expression",
-        "{text}_shape_is_the_same_as_{search_regex}",
         "{is_contain}_data_type_is_boolean",
-        "{is_contain}_shape_is_the_same_as_{search_regex}"
+        "{is_contain}_shape_is_the_same_as_{search_regex}",
+        "{use_regex}_data_type_is_boolean",
+        "{use_regex}_is_scalar"
     ],
     "description": [
-        "Element-wise check whether regular expression in `search_regex` is contained in `text`"
+        "Element-wise check whether regular expression in `search_regex` is contained in `text`",
+        "If `use_regex` is set as false, then `search_text` will be treated as plain text"
     ],
     "examples": [
         {

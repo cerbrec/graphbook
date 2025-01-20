@@ -1,5 +1,5 @@
 {
-    "name": "CELU-edit",
+    "name": "CELU",
     "type": "COMPOSITE_OPERATION",
     "description": [
         "Input \"alpha\": \"default value\":1.0,       \"description-of-parameter\": \"The alpha value for the CELU formulation (see formula section). Determines scaling of the activation for inputs < zero.\",       \"assertions\": \"Input should be a tensor of user's choice, must be a floating point number\"",

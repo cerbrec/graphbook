@@ -1,1 +1,275 @@
-{"name":"Hard Sigmoid","type":"COMPOSITE_OPERATION","inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":279,"y":470},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"Positive Three","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["tile_to_shape","expand_to_shape","extend_to_shape"],"position":{"x":870,"y":424},"inputs":[{"name":"target","data":3.0,"shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SOURCE"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]},{"name":"Greater Than Three","primitive_name":"greater_than","type":"PRIMITIVE_OPERATION","aliases":["gt","greater","larger","larger_than","bigger","bigger_than"],"position":{"x":1399,"y":182},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"is_greater_than","primitive_name":"is_greater_than","flow_state":"UNBOUND"}]},{"name":"Negative Three","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["tile_to_shape","expand_to_shape","extend_to_shape"],"position":{"x":872,"y":592},"inputs":[{"name":"target","data":-3.0,"shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SOURCE"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]},{"name":"Less Than Negative Three","primitive_name":"less_than","type":"PRIMITIVE_OPERATION","aliases":["lt","less","smaller","smaller_than"],"position":{"x":1398,"y":363},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"is_less_than","primitive_name":"is_less_than","flow_state":"UNBOUND"}]},{"name":"Return Result","type":"COMPOSITE_OPERATION","position":{"x":1972,"y":42},"inputs":[{"name":"less_than_neg_three_","primitive_name":"Input"},{"name":"greater_than_three","primitive_name":"Input (1)"},{"name":"array","primitive_name":"Input"}],"input_order":[2,1,0],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"Broadcast Zero to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":642,"y":111},"inputs":[{"name":"Target","data":[0.0],"shape":[1],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[1],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"Broadcast Target to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":341,"y":242},"inputs":[{"name":"Target","data":[1.0],"shape":[1],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[1],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"Otherwise Condition Calculations","type":"COMPOSITE_OPERATION","position":{"x":326,"y":477},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"Broadcast Six to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":396,"y":207},"inputs":[{"name":"Target","data":[6.0],"shape":[1],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[1],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"divide","primitive_name":"divide","type":"PRIMITIVE_OPERATION","aliases":["div"],"position":{"x":706,"y":47},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"divided_result","primitive_name":"divided_result","flow_state":"UNBOUND"}]},{"name":"Broadcast One-Half to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":396,"y":378},"inputs":[{"name":"Target","data":[0.5],"shape":[1],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[1],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"add","primitive_name":"add","type":"PRIMITIVE_OPERATION","aliases":["plus","increment"],"position":{"x":1106,"y":51},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"added_result","primitive_name":"added_result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"divide","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Six to Shape of Array","data":"Array"},"control_points":[{"x":306,"y":318}]},{"source":{"operation":"divide","data":"divided_result"},"sink":{"operation":"add","data":"left_operand"},"control_points":[]},{"source":{"operation":"Broadcast Six to Shape of Array","data":"Output"},"sink":{"operation":"divide","data":"right_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast One-Half to Shape of Array","data":"Array"},"control_points":[{"x":270,"y":489}]},{"source":{"operation":"Broadcast One-Half to Shape of Array","data":"Output"},"sink":{"operation":"add","data":"right_operand"},"control_points":[{"x":1114,"y":440}]},{"source":{"operation":"add","data":"added_result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"Less than Negative Three or Neither","primitive_name":"conditional_filter","type":"PRIMITIVE_OPERATION","aliases":["conditional_merge","replace","where"],"position":{"x":886,"y":376},"inputs":[{"name":"condition","primitive_name":"condition"},{"name":"data_if_true","primitive_name":"data_if_true"},{"name":"data_if_false","primitive_name":"data_if_false"}],"outputs":[{"name":"output_data","primitive_name":"output_data","flow_state":"UNBOUND"}]},{"name":"Greater Than Three","primitive_name":"conditional_filter","type":"PRIMITIVE_OPERATION","aliases":["conditional_merge","replace","where"],"position":{"x":1154,"y":17},"inputs":[{"name":"condition","primitive_name":"condition"},{"name":"data_if_true","primitive_name":"data_if_true"},{"name":"data_if_false","primitive_name":"data_if_false"}],"outputs":[{"name":"output_data","primitive_name":"output_data","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"Greater Than Three","data":"output_data"},"sink":{"operation":"this","data":"Output"},"control_points":[{"x":1486,"y":109}]},{"source":{"operation":"this","data":"array"},"sink":{"operation":"Broadcast Zero to Shape of Array","data":"Array"},"control_points":[]},{"source":{"operation":"this","data":"less_than_neg_three_"},"sink":{"operation":"Greater Than Three","data":"condition"},"control_points":[{"x":206,"y":79}]},{"source":{"operation":"this","data":"greater_than_three"},"sink":{"operation":"Less than Negative Three or Neither","data":"condition"},"control_points":[{"x":215,"y":443}]},{"source":{"operation":"Less than Negative Three or Neither","data":"output_data"},"sink":{"operation":"Greater Than Three","data":"data_if_false"},"control_points":[]},{"source":{"operation":"Broadcast Zero to Shape of Array","data":"Output"},"sink":{"operation":"Greater Than Three","data":"data_if_true"},"control_points":[{"x":962,"y":123}]},{"source":{"operation":"this","data":"array"},"sink":{"operation":"Broadcast Target to Shape of Array","data":"Array"},"control_points":[{"x":226,"y":348}]},{"source":{"operation":"Broadcast Target to Shape of Array","data":"Output"},"sink":{"operation":"Less than Negative Three or Neither","data":"data_if_true"},"control_points":[{"x":660,"y":482}]},{"source":{"operation":"this","data":"array"},"sink":{"operation":"Otherwise Condition Calculations","data":"Input"},"control_points":[{"x":178,"y":544}]},{"source":{"operation":"Otherwise Condition Calculations","data":"Output"},"sink":{"operation":"Less than Negative Three or Neither","data":"data_if_false"},"control_points":[{"x":770,"y":544}]}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Greater Than Three","data":"left_operand"},"control_points":[]},{"source":{"operation":"Return Result","data":"Output"},"sink":{"operation":"this","data":"Output"},"control_points":[]},{"source":{"operation":"Less Than Negative Three","data":"is_less_than"},"sink":{"operation":"Return Result","data":"less_than_neg_three_"},"control_points":[]},{"source":{"operation":"Greater Than Three","data":"is_greater_than"},"sink":{"operation":"Return Result","data":"greater_than_three"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"get_shape","data":"input"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"Positive Three","data":"shape"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"Negative Three","data":"shape"},"control_points":[]},{"source":{"operation":"Positive Three","data":"result"},"sink":{"operation":"Greater Than Three","data":"right_operand"},"control_points":[]},{"source":{"operation":"Negative Three","data":"result"},"sink":{"operation":"Less Than Negative Three","data":"right_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Less Than Negative Three","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Return Result","data":"array"},"control_points":[]}],"global_constants":[]}
+{
+   "name": "Hard Sigmoid(3)",
+   "type": "COMPOSITE_OPERATION",
+   "aliases": [
+     "Piecewise Sigmoid",
+     "Computational Sigmoid",
+     "Clip Sigmoid"
+   ],
+   "description": [
+     "The hard sigmoid activation operation is a faster, piecewise linear approximation of the sigmoid activation. Furthermore, its piecewise linear structure enables the operation to prioritize computational speed over precision, making it ideal for situations where quick calculations are crucial.",
+   
+     "Formula: Hardsigmoid(x) = {0 if x≤−3, 1 if x≥+3, (x/6)+1/2 if otherwise}",
+    
+     "References/Pytorch: Hardsigmoid, url: https://pytorch.org/docs/stable/generated/torch.nn.functional.hardsigmoid.html#torch.nn.functional.hardsigmoid",
+     "References/Paper: Hard Sigmoid, url: https://paperswithcode.com/method/hard-sigmoid#:~:text=The%20Hard%20Sigmoid%20is%20an,with%20binary%20weights%20during%20propagations"
+   ],
+   "inputs": [
+     {
+       "name": "Input",
+       "primitive_name": "Input",
+       "input_types_allowed": ["DECIMAL"],
+       "array_allowed": true,
+       "scalar_allowed": false
+     }
+   ],
+   "outputs": [
+     {
+       "name": "Output",
+       "primitive_name": "Output",
+       "flow_state": "UNBOUND"
+     }
+   ],
+   "operations": [
+     {
+       "name": "get_shape",
+       "primitive_name": "get_shape",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 279, "y": 470 },
+       "inputs": [
+         { "name": "input", "primitive_name": "input" }
+       ],
+       "outputs": [
+         { "name": "shape", "primitive_name": "shape", "flow_state": "UNBOUND" }
+       ]
+     },
+     {
+       "name": "Positive Three",
+       "primitive_name": "broadcast_to_shape",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 870, "y": 424 },
+       "inputs": [
+         { "name": "target", "data": 3.0, "shape": [], "type": "DECIMAL", "primitive_name": "target", "flow_state": "BOOT_SOURCE" },
+         { "name": "shape", "primitive_name": "shape" }
+       ],
+       "outputs": [
+         { "name": "result", "primitive_name": "result", "flow_state": "UNBOUND" }
+       ]
+     },
+     {
+       "name": "Greater Than Three",
+       "primitive_name": "greater_than",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 1399, "y": 182 },
+       "inputs": [
+         { "name": "left_operand", "primitive_name": "left_operand" },
+         { "name": "right_operand", "primitive_name": "right_operand" }
+       ],
+       "outputs": [
+         { "name": "is_greater_than", "primitive_name": "is_greater_than", "flow_state": "UNBOUND" }
+       ]
+     },
+     {
+       "name": "Negative Three",
+       "primitive_name": "broadcast_to_shape",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 872, "y": 592 },
+       "inputs": [
+         { "name": "target", "data": -3.0, "shape": [], "type": "DECIMAL", "primitive_name": "target", "flow_state": "BOOT_SOURCE" },
+         { "name": "shape", "primitive_name": "shape" }
+       ],
+       "outputs": [
+         { "name": "result", "primitive_name": "result", "flow_state": "UNBOUND" }
+       ]
+     },
+     {
+       "name": "Less Than Negative Three",
+       "primitive_name": "less_than",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 1398, "y": 363 },
+       "inputs": [
+         { "name": "left_operand", "primitive_name": "left_operand" },
+         { "name": "right_operand", "primitive_name": "right_operand" }
+       ],
+       "outputs": [
+         { "name": "is_less_than", "primitive_name": "is_less_than", "flow_state": "UNBOUND" }
+       ]
+     },
+     {
+       "name": "Return Result",
+       "type": "COMPOSITE_OPERATION",
+       "position": { "x": 1972, "y": 42 },
+       "inputs": [
+         { "name": "less_than_neg_three_", "primitive_name": "Input" },
+         { "name": "greater_than_three", "primitive_name": "Input (1)" },
+         { "name": "array", "primitive_name": "Input" }
+       ],
+       "input_order": [2, 1, 0],
+       "outputs": [
+         { "name": "Output", "primitive_name": "Output", "flow_state": "UNBOUND" }
+       ],
+       "operations": [
+         {
+           "name": "Broadcast Zero to Shape of Array",
+           "type": "COMPOSITE_OPERATION",
+           "position": { "x": 642, "y": 111 },
+           "inputs": [
+             { "name": "Target", "data": [0.0], "shape": [1], "type": "DECIMAL", "primitive_name": "Target", "flow_state": "BOOT_SOURCE" },
+             { "name": "Array", "primitive_name": "Array" }
+           ],
+           "outputs": [
+             { "name": "Output", "primitive_name": "Output", "flow_state": "UNBOUND" }
+           ],
+           "operations": [
+             {
+               "name": "get_shape",
+               "primitive_name": "get_shape",
+               "type": "PRIMITIVE_OPERATION",
+               "position": { "x": 601, "y": 346 },
+               "inputs": [
+                 { "name": "input", "primitive_name": "input" }
+               ],
+               "outputs": [
+                 { "name": "shape", "primitive_name": "shape", "flow_state": "UNBOUND" }
+               ]
+             },
+             {
+               "name": "broadcast_to_shape",
+               "primitive_name": "broadcast_to_shape",
+               "type": "PRIMITIVE_OPERATION",
+               "position": { "x": 1097, "y": 42 },
+               "inputs": [
+                 { "name": "target", "shape": [1], "type": "DECIMAL", "primitive_name": "target", "flow_state": "BOOT_SINK" },
+                 { "name": "shape", "primitive_name": "shape" }
+               ],
+               "outputs": [
+                 { "name": "result", "primitive_name": "result", "flow_state": "UNBOUND" }
+               ]
+             }
+           ],
+           "links": [
+             {
+               "source": { "operation": "this", "data": "Array" },
+               "sink": { "operation": "get_shape", "data": "input" },
+               "control_points": [{ "x": 427, "y": 404 }]
+             },
+             {
+               "source": { "operation": "this", "data": "Target" },
+               "sink": { "operation": "broadcast_to_shape", "data": "target" },
+               "control_points": []
+             },
+             {
+               "source": { "operation": "get_shape", "data": "shape" },
+               "sink": { "operation": "broadcast_to_shape", "data": "shape" },
+               "control_points": []
+             },
+             {
+               "source": { "operation": "broadcast_to_shape", "data": "result" },
+               "sink": { "operation": "this", "data": "Output" },
+               "control_points": []
+             }
+           ]
+         }
+       ]
+     },
+     {
+       "name": "Broadcast Target to Shape of Array",
+       "type": "COMPOSITE_OPERATION",
+       "position": { "x": 341, "y": 242 },
+       "inputs": [
+         { "name": "Target", "data": [1.0], "shape": [1], "type": "DECIMAL", "primitive_name": "Target", "flow_state": "BOOT_SOURCE" },
+         { "name": "Array", "primitive_name": "Array" }
+       ],
+       "outputs": [
+         { "name": "Output", "primitive_name": "Output", "flow_state": "UNBOUND" }
+       ],
+       "operations": [
+         {
+           "name": "get_shape",
+           "primitive_name": "get_shape",
+           "type": "PRIMITIVE_OPERATION",
+           "position": { "x": 601, "y": 346 },
+           "inputs": [
+             { "name": "input", "primitive_name": "input" }
+           ],
+           "outputs": [
+             { "name": "shape", "primitive_name": "shape", "flow_state": "UNBOUND" }
+           ]
+         },
+         {
+           "name": "broadcast_to_shape",
+           "primitive_name": "broadcast_to_shape",
+           "type": "PRIMITIVE_OPERATION",
+           "position": { "x": 1097, "y": 42 },
+           "inputs": [
+             { "name": "target", "shape": [1], "type": "DECIMAL", "primitive_name": "target", "flow_state": "BOOT_SINK" },
+             { "name": "shape", "primitive_name": "shape" }
+           ],
+           "outputs": [
+             { "name": "result", "primitive_name": "result", "flow_state": "UNBOUND" }
+           ]
+         }
+       ],
+       "links": [
+         {
+           "source": { "operation": "this", "data": "Array" },
+           "sink": { "operation": "get_shape", "data": "input" },
+           "control_points": [{ "x": 427, "y": 404 }]
+         },
+         {
+           "source": { "operation": "this", "data": "Target" },
+           "sink": { "operation": "broadcast_to_shape", "data": "target" },
+           "control_points": []
+         },
+         {
+           "source": { "operation": "get_shape", "data": "shape" },
+           "sink": { "operation": "broadcast_to_shape", "data": "shape" },
+           "control_points": []
+         },
+         {
+           "source": { "operation": "broadcast_to_shape", "data": "result" },
+           "sink": { "operation": "this", "data": "Output" },
+           "control_points": []
+         }
+       ]
+     }
+   ],
+   "links": [
+     {
+       "source": { "operation": "this", "data": "Input" },
+       "sink": { "operation": "divide", "data": "left_operand" },
+       "control_points": []
+     },
+     {
+       "source": { "operation": "this", "data": "Input" },
+       "sink": { "operation": "Broadcast Six to Shape of Array", "data": "Array" },
+       "control_points": [{ "x": 306, "y": 318 }]
+     },
+     {
+       "source": { "operation": "divide", "data": "divided_result" },
+       "sink": { "operation": "add", "data": "left_operand" },
+       "control_points": []
+     },
+     {
+       "source": { "operation": "Broadcast Six to Shape of Array", "data": "Output" },
+       "sink": { "operation": "divide", "data": "right_operand" },
+       "control_points": []
+     },
+     {
+       "source": { "operation": "this", "data": "Input" },
+       "sink": { "operation": "Broadcast One-Half to Shape of Array", "data": "Array" },
+       "control_points": [{ "x": 270, "y": 489 }]
+     },
+     {
+       "source": { "operation": "Broadcast One-Half to Shape of Array", "data": "Output" },
+       "sink": { "operation": "add", "data": "right_operand" },
+       "control_points": [{ "x": 1114, "y": 440 }]
+     },
+     {
+       "source": { "operation": "add", "data": "added_result" },
+       "sink": { "operation": "this", "data": "Output" },
+       "control_points": []
+     }
+   ]
+ }
+ 

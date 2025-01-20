@@ -1,5 +1,5 @@
 {
-    "name": "Hardswish-edit",
+    "name": "Hardswish",
     "type": "COMPOSITE_OPERATION",
     "description": [
         "Description: Applies the HardSwish activation function element-wise.",

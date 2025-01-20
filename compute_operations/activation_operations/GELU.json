@@ -1,5 +1,5 @@
 {
-    "name": "GELU-edit",
+    "name": "GELU",
     "type": "COMPOSITE_OPERATION",
     "description": [
         "Description: Applies the Gaussian Error Linear Unit (GELU) activation, which smooths input values using the Gaussian cumulative distribution function.",

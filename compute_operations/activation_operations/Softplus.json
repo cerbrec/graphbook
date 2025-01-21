@@ -1,1 +1,187 @@
-{"name":"Softplus","type":"COMPOSITE_OPERATION","inputs":[{"name":"Input","primitive_name":"Input"},{"name":"beta","primitive_name":"Input (1)"},{"name":"threshold","primitive_name":"Input (1)"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":274,"y":381},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"Broadcast Beta","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["tile_to_shape","expand_to_shape","extend_to_shape"],"position":{"x":678,"y":102},"inputs":[{"name":"target","primitive_name":"target"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]},{"name":"element_wise_multiply","primitive_name":"element_wise_multiply","type":"PRIMITIVE_OPERATION","aliases":["times"],"position":{"x":1062,"y":48},"inputs":[{"name":"left_array","primitive_name":"left_array"},{"name":"right_array","primitive_name":"right_array"}],"outputs":[{"name":"multiplied_array","primitive_name":"multiplied_array","flow_state":"UNBOUND"}]},{"name":"Broadcast Threshold","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["tile_to_shape","expand_to_shape","extend_to_shape"],"position":{"x":801,"y":560},"inputs":[{"name":"target","primitive_name":"target"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]},{"name":"greater_than","primitive_name":"greater_than","type":"PRIMITIVE_OPERATION","aliases":["gt","greater","larger","larger_than","bigger","bigger_than"],"position":{"x":1602,"y":294},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"is_greater_than","primitive_name":"is_greater_than","flow_state":"UNBOUND"}]},{"name":"Softplus Operations","type":"COMPOSITE_OPERATION","position":{"x":1649,"y":48},"inputs":[{"name":"Input","primitive_name":"Input"},{"name":"beta","primitive_name":"Input (1)"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"Natural Exponential (Arrays)","type":"COMPOSITE_OPERATION","position":{"x":239,"y":47},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"Broadcast Target to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":818,"y":3},"inputs":[{"name":"Target","data":2.7183,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"element_wise_exponentiate","primitive_name":"element_wise_exponentiate","type":"PRIMITIVE_OPERATION","aliases":["exp","pow","power"],"position":{"x":1601,"y":135},"inputs":[{"name":"base","primitive_name":"base"},{"name":"exponent","primitive_name":"exponent"}],"outputs":[{"name":"exponentiation","primitive_name":"exponentiation","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"element_wise_exponentiate","data":"exponent"},"control_points":[{"x":596,"y":360},{"x":1098,"y":360}]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Target to Shape of Array","data":"Array"},"control_points":[{"x":368,"y":109}]},{"source":{"operation":"Broadcast Target to Shape of Array","data":"Output"},"sink":{"operation":"element_wise_exponentiate","data":"base"},"control_points":[{"x":1264,"y":65},{"x":1396,"y":118}]},{"source":{"operation":"element_wise_exponentiate","data":"exponentiation"},"sink":{"operation":"this","data":"Output"},"control_points":[{"x":2074,"y":197}]}]},{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":362,"y":208},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["tile_to_shape","expand_to_shape","extend_to_shape"],"position":{"x":804,"y":164},"inputs":[{"name":"target","data":[1.0],"shape":[1],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SOURCE"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]},{"name":"add","primitive_name":"add","type":"PRIMITIVE_OPERATION","aliases":["plus","increment"],"position":{"x":1174,"y":47},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"added_result","primitive_name":"added_result","flow_state":"UNBOUND"}]},{"name":"Natural Logarithm","type":"COMPOSITE_OPERATION","position":{"x":1574,"y":47},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":515,"y":47},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1040,"y":135},"inputs":[{"name":"target","data":2.71828,"shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SOURCE"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]},{"name":"element_wise_logarithm","primitive_name":"element_wise_logarithm","type":"PRIMITIVE_OPERATION","aliases":["log"],"position":{"x":1631,"y":135},"inputs":[{"name":"base","primitive_name":"base"},{"name":"argument","primitive_name":"argument"}],"outputs":[{"name":"exponent","primitive_name":"exponent","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"get_shape","data":"input"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"element_wise_logarithm","data":"base"},"control_points":[]},{"source":{"operation":"element_wise_logarithm","data":"exponent"},"sink":{"operation":"this","data":"Output"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"element_wise_logarithm","data":"argument"},"control_points":[{"x":431,"y":390},{"x":1536,"y":390}]}]},{"name":"divide","primitive_name":"divide","type":"PRIMITIVE_OPERATION","aliases":["div"],"position":{"x":1589,"y":534},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"divided_result","primitive_name":"divided_result","flow_state":"UNBOUND"}]},{"name":"element_wise_multiply","primitive_name":"element_wise_multiply","type":"PRIMITIVE_OPERATION","aliases":["times"],"position":{"x":2141,"y":236},"inputs":[{"name":"left_array","primitive_name":"left_array"},{"name":"right_array","primitive_name":"right_array"}],"outputs":[{"name":"multiplied_array","primitive_name":"multiplied_array","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Natural Exponential (Arrays)","data":"Input"},"control_points":[]},{"source":{"operation":"Natural Exponential (Arrays)","data":"Output"},"sink":{"operation":"add","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":184,"y":270}]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"add","data":"right_operand"},"control_points":[]},{"source":{"operation":"add","data":"added_result"},"sink":{"operation":"Natural Logarithm","data":"Input"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"divide","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"beta"},"sink":{"operation":"divide","data":"right_operand"},"control_points":[{"x":266,"y":640}]},{"source":{"operation":"element_wise_multiply","data":"multiplied_array"},"sink":{"operation":"this","data":"Output"},"control_points":[]},{"source":{"operation":"divide","data":"divided_result"},"sink":{"operation":"element_wise_multiply","data":"right_array"},"control_points":[]},{"source":{"operation":"Natural Logarithm","data":"Output"},"sink":{"operation":"element_wise_multiply","data":"left_array"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]}]},{"name":"conditional_filter","primitive_name":"conditional_filter","type":"PRIMITIVE_OPERATION","aliases":["conditional_merge","replace","where"],"position":{"x":2582,"y":303},"inputs":[{"name":"condition","primitive_name":"condition"},{"name":"data_if_true","primitive_name":"data_if_true"},{"name":"data_if_false","primitive_name":"data_if_false"}],"outputs":[{"name":"output_data","primitive_name":"output_data","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"element_wise_multiply","data":"left_array"},"control_points":[{"x":230,"y":53},{"x":978,"y":53}]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":233,"y":443}]},{"source":{"operation":"this","data":"beta"},"sink":{"operation":"Broadcast Beta","data":"target"},"control_points":[{"x":481,"y":164}]},{"source":{"operation":"Broadcast Beta","data":"result"},"sink":{"operation":"element_wise_multiply","data":"right_array"},"control_points":[]},{"source":{"operation":"element_wise_multiply","data":"multiplied_array"},"sink":{"operation":"greater_than","data":"left_operand"},"control_points":[{"x":1531,"y":356}]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"Broadcast Threshold","data":"shape"},"control_points":[{"x":590,"y":666}]},{"source":{"operation":"this","data":"threshold"},"sink":{"operation":"Broadcast Threshold","data":"target"},"control_points":[{"x":197,"y":622}]},{"source":{"operation":"Broadcast Threshold","data":"result"},"sink":{"operation":"greater_than","data":"right_operand"},"control_points":[{"x":1249,"y":622}]},{"source":{"operation":"greater_than","data":"is_greater_than"},"sink":{"operation":"conditional_filter","data":"condition"},"control_points":[]},{"source":{"operation":"element_wise_multiply","data":"multiplied_array"},"sink":{"operation":"Softplus Operations","data":"Input"},"control_points":[]},{"source":{"operation":"Broadcast Beta","data":"result"},"sink":{"operation":"Softplus Operations","data":"beta"},"control_points":[{"x":1220,"y":287},{"x":1360,"y":287}]},{"source":{"operation":"Softplus Operations","data":"Output"},"sink":{"operation":"conditional_filter","data":"data_if_false"},"control_points":[{"x":2168,"y":453}]},{"source":{"operation":"conditional_filter","data":"output_data"},"sink":{"operation":"this","data":"Output"},"control_points":[{"x":2870,"y":355}]},{"source":{"operation":"element_wise_multiply","data":"multiplied_array"},"sink":{"operation":"conditional_filter","data":"data_if_true"},"control_points":[{"x":1527,"y":17},{"x":2332,"y":17}]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"Broadcast Beta","data":"shape"},"control_points":[]}],"global_constants":[]}
+{
+   "name": "Softplus",
+   "type": "COMPOSITE_OPERATION",
+   "aliases": [
+     "Smooth ReLU",
+     "Soft Rectified Linear Unit"
+   ],
+   "description": [
+     "Softplus is an activation function that is considered to be a smoother, more refined version of the Rectified Linear Unit Function, or RelU.",
+     "The Softplus function is mainly used in artificial neural networks to determine if a neuron should be activated.",
+     "Formula: Softplus(x)=log(1+exp(x))"
+   ],
+   "references": [
+     {
+       "type": "Paper",
+       "title": "Softplus",
+       "url": "https://paperswithcode.com/method/softplus"
+     },
+     {
+       "type": "Pytorch",
+       "title": "Softplus",
+       "url": "https://pytorch.org/docs/stable/generated/torch.nn.Softplus.html#softplus"
+     }
+   ],
+   "inputs": [
+     {
+       "name": "Input",
+       "primitive_name": "Input",
+       "input_types_allowed": ["DECIMAL"],
+       "array_allowed": true,
+       "scalar_allowed": false
+     },
+     {
+       "name": "beta",
+       "primitive_name": "Input (1)",
+       "input_types_allowed": ["DECIMAL"],
+       "array_allowed": false,
+       "scalar_allowed": true
+     },
+     {
+       "name": "threshold",
+       "primitive_name": "Input (1)",
+       "input_types_allowed": ["DECIMAL"],
+       "array_allowed": false,
+       "scalar_allowed": true
+     }
+   ],
+   "outputs": [
+     {
+       "name": "Output",
+       "primitive_name": "Output",
+       "flow_state": "UNBOUND"
+     }
+   ],
+   "operations": [
+     {
+       "name": "get_shape",
+       "primitive_name": "get_shape",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 274, "y": 381 },
+       "inputs": [{ "name": "input", "primitive_name": "input" }],
+       "outputs": [{ "name": "shape", "primitive_name": "shape", "flow_state": "UNBOUND" }]
+     },
+     {
+       "name": "Broadcast Beta",
+       "primitive_name": "broadcast_to_shape",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 678, "y": 102 },
+       "inputs": [
+         { "name": "target", "primitive_name": "target" },
+         { "name": "shape", "primitive_name": "shape" }
+       ],
+       "outputs": [{ "name": "result", "primitive_name": "result", "flow_state": "UNBOUND" }]
+     },
+     {
+       "name": "element_wise_multiply",
+       "primitive_name": "element_wise_multiply",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 1062, "y": 48 },
+       "inputs": [
+         { "name": "left_array", "primitive_name": "left_array" },
+         { "name": "right_array", "primitive_name": "right_array" }
+       ],
+       "outputs": [{ "name": "multiplied_array", "primitive_name": "multiplied_array", "flow_state": "UNBOUND" }]
+     },
+     {
+       "name": "Broadcast Threshold",
+       "primitive_name": "broadcast_to_shape",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 801, "y": 560 },
+       "inputs": [
+         { "name": "target", "primitive_name": "target" },
+         { "name": "shape", "primitive_name": "shape" }
+       ],
+       "outputs": [{ "name": "result", "primitive_name": "result", "flow_state": "UNBOUND" }]
+     },
+     {
+       "name": "greater_than",
+       "primitive_name": "greater_than",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 1602, "y": 294 },
+       "inputs": [
+         { "name": "left_operand", "primitive_name": "left_operand" },
+         { "name": "right_operand", "primitive_name": "right_operand" }
+       ],
+       "outputs": [{ "name": "is_greater_than", "primitive_name": "is_greater_than", "flow_state": "UNBOUND" }]
+     },
+     {
+       "name": "Softplus Operations",
+       "type": "COMPOSITE_OPERATION",
+       "position": { "x": 1649, "y": 48 },
+       "inputs": [
+         { "name": "Input", "primitive_name": "Input" },
+         { "name": "beta", "primitive_name": "Input (1)" }
+       ],
+       "outputs": [{ "name": "Output", "primitive_name": "Output", "flow_state": "UNBOUND" }],
+       "operations": [
+         {
+           "name": "Natural Exponential (Arrays)",
+           "type": "COMPOSITE_OPERATION",
+           "position": { "x": 239, "y": 47 },
+           "inputs": [{ "name": "Input", "primitive_name": "Input" }],
+           "outputs": [{ "name": "Output", "primitive_name": "Output", "flow_state": "UNBOUND" }],
+           "operations": [
+             {
+               "name": "Broadcast Target to Shape of Array",
+               "type": "COMPOSITE_OPERATION",
+               "position": { "x": 818, "y": 3 },
+               "inputs": [
+                 { "name": "Target", "data": 2.7183, "shape": [], "type": "DECIMAL", "primitive_name": "Target", "flow_state": "BOOT_SOURCE" },
+                 { "name": "Array", "primitive_name": "Array" }
+               ],
+               "outputs": [{ "name": "Output", "primitive_name": "Output", "flow_state": "UNBOUND" }],
+               "operations": [
+                 {
+                   "name": "get_shape",
+                   "primitive_name": "get_shape",
+                   "type": "PRIMITIVE_OPERATION",
+                   "position": { "x": 601, "y": 346 },
+                   "inputs": [{ "name": "input", "primitive_name": "input" }],
+                   "outputs": [{ "name": "shape", "primitive_name": "shape", "flow_state": "UNBOUND" }]
+                 },
+                 {
+                   "name": "broadcast_to_shape",
+                   "primitive_name": "broadcast_to_shape",
+                   "type": "PRIMITIVE_OPERATION",
+                   "position": { "x": 1097, "y": 42 },
+                   "inputs": [
+                     { "name": "target", "shape": [], "type": "DECIMAL", "primitive_name": "target", "flow_state": "BOOT_SINK" },
+                     { "name": "shape", "primitive_name": "shape" }
+                   ],
+                   "outputs": [{ "name": "result", "primitive_name": "result", "flow_state": "UNBOUND" }]
+                 }
+               ]
+             }
+           ]
+         }
+       ]
+     }
+   ],
+   "links": [
+     {
+       "source": { "operation": "this", "data": "Array" },
+       "sink": { "operation": "get_shape", "data": "input" },
+       "control_points": [{ "x": 427, "y": 404 }]
+     },
+     {
+       "source": { "operation": "this", "data": "Target" },
+       "sink": { "operation": "broadcast_to_shape", "data": "target" },
+       "control_points": []
+     },
+     {
+       "source": { "operation": "get_shape", "data": "shape" },
+       "sink": { "operation": "broadcast_to_shape", "data": "shape" },
+       "control_points": []
+     },
+     {
+       "source": { "operation": "broadcast_to_shape", "data": "result" },
+       "sink": { "operation": "this", "data": "Output" },
+       "control_points": []
+     }
+   ],
+   "global_constants": []
+ }
+ 
+ 
+ 

@@ -1,1 +1,143 @@
-{"name":"ReLU","type":"COMPOSITE_OPERATION","inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","position":{"x":376,"y":434},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","position":{"x":796,"y":393},"inputs":[{"name":"target","data":0.0,"shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SOURCE"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result"}]},{"name":"greater_than","primitive_name":"greater_than","type":"PRIMITIVE_OPERATION","position":{"x":1198,"y":229},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"is_greater_than","primitive_name":"is_greater_than"}]},{"name":"conditional_filter","primitive_name":"conditional_filter","type":"PRIMITIVE_OPERATION","position":{"x":1967,"y":41},"inputs":[{"name":"condition","primitive_name":"condition"},{"name":"data_if_true","primitive_name":"data_if_true"},{"name":"data_if_false","primitive_name":"data_if_false"}],"input_order":[1,2,0],"outputs":[{"name":"output_data","primitive_name":"output_data"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"get_shape","data":"input"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"greater_than","data":"right_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"greater_than","data":"left_operand"},"control_points":[]},{"source":{"operation":"greater_than","data":"is_greater_than"},"sink":{"operation":"conditional_filter","data":"condition"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"conditional_filter","data":"data_if_true"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"conditional_filter","data":"data_if_false"},"control_points":[{"x":1707,"y":447}]},{"source":{"operation":"conditional_filter","data":"output_data"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]}
+{
+   "name": "ReLU(3)",
+   "type": "COMPOSITE_OPERATION",
+   "aliases": [
+     "Rectified Linear Unit",
+     "Neural Activation Operation"
+   ],
+   "description": [
+     "ReLU is a mathematical function that introduces non-linearity to artificial neural networks. ReLUs are a type of activation function that are linear in the positive dimension, but negative in the zero dimension.",
+     "ReLUs help neural networks learn more complex relationships in data. It also helps to mitigate the vanishing gradient problem during machine model training, and enhances computational efficiency.",
+     "However, ReLUs still suffer from the 'dying ReLU' problem, where a neuron's weight is adjusted to make the bias very negative.",
+     "Formula: ReLU(x) = (x)^+ = max(0,x)",
+     "References/Pytorch: ReLU, url: https://pytorch.org/docs/stable/generated/torch.nn.ReLU.html#relu",
+     "References/Paper: ReLU Activation Function, url: https://www.dremio.com/wiki/relu-activation-function/",
+     "References/Paper: An Introduction to the ReLU Activation Function, url: https://builtin.com/machine-learning/relu-activation-function#:~:text=ReLU%2C%20short%20for%20rectified%20linear,the%20ReLU%20function%20outputs%20zero."
+   ],
+   "inputs": [
+     {
+       "name": "Input",
+       "primitive_name": "Input",
+       "input_types_allowed": ["DECIMAL"],
+       "array_allowed": true,
+       "scalar_allowed": false
+     }
+   ],
+   "outputs": [
+     {
+       "name": "Output",
+       "primitive_name": "Output",
+       "flow_state": "UNBOUND"
+     }
+   ],
+   "operations": [
+     {
+       "name": "get_shape",
+       "primitive_name": "get_shape",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 376, "y": 434 },
+       "inputs": [
+         { "name": "input", "primitive_name": "input" }
+       ],
+       "outputs": [
+         { "name": "shape", "primitive_name": "shape", "flow_state": "UNBOUND" }
+       ]
+     },
+     {
+       "name": "broadcast_to_shape",
+       "primitive_name": "broadcast_to_shape",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 796, "y": 393 },
+       "inputs": [
+         {
+           "name": "target",
+           "data": 0.0,
+           "shape": [],
+           "type": "DECIMAL",
+           "primitive_name": "target",
+           "flow_state": "BOOT_SOURCE"
+         },
+         { "name": "shape", "primitive_name": "shape" }
+       ],
+       "outputs": [
+         { "name": "result", "primitive_name": "result", "flow_state": "UNBOUND" }
+       ]
+     },
+     {
+       "name": "greater_than",
+       "primitive_name": "greater_than",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 1198, "y": 229 },
+       "inputs": [
+         { "name": "left_operand", "primitive_name": "left_operand" },
+         { "name": "right_operand", "primitive_name": "right_operand" }
+       ],
+       "outputs": [
+         { "name": "is_greater_than", "primitive_name": "is_greater_than", "flow_state": "UNBOUND" }
+       ]
+     },
+     {
+       "name": "conditional_filter",
+       "primitive_name": "conditional_filter",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 1967, "y": 41 },
+       "inputs": [
+         { "name": "condition", "primitive_name": "condition" },
+         { "name": "data_if_true", "primitive_name": "data_if_true" },
+         { "name": "data_if_false", "primitive_name": "data_if_false" }
+       ],
+       "input_order": [1, 2, 0],
+       "outputs": [
+         { "name": "output_data", "primitive_name": "output_data", "flow_state": "UNBOUND" }
+       ]
+     }
+   ],
+   "links": [
+     {
+       "source": { "operation": "this", "data": "Input" },
+       "sink": { "operation": "get_shape", "data": "input" },
+       "control_points": []
+     },
+     {
+       "source": { "operation": "get_shape", "data": "shape" },
+       "sink": { "operation": "broadcast_to_shape", "data": "shape" },
+       "control_points": []
+     },
+     {
+       "source": { "operation": "broadcast_to_shape", "data": "result" },
+       "sink": { "operation": "greater_than", "data": "right_operand" },
+       "control_points": []
+     },
+     {
+       "source": { "operation": "this", "data": "Input" },
+       "sink": { "operation": "greater_than", "data": "left_operand" },
+       "control_points": []
+     },
+     {
+       "source": { "operation": "greater_than", "data": "is_greater_than" },
+       "sink": { "operation": "conditional_filter", "data": "condition" },
+       "control_points": []
+     },
+     {
+       "source": { "operation": "this", "data": "Input" },
+       "sink": { "operation": "conditional_filter", "data": "data_if_true" },
+       "control_points": []
+     },
+     {
+       "source": { "operation": "broadcast_to_shape", "data": "result" },
+       "sink": { "operation": "conditional_filter", "data": "data_if_false" },
+       "control_points": [
+         { "x": 1707, "y": 447 }
+       ]
+     },
+     {
+       "source": { "operation": "conditional_filter", "data": "output_data" },
+       "sink": { "operation": "this", "data": "Output" },
+       "control_points": []
+     }
+   ],
+   "global_constants": []
+ }
+ 
+ 
+ 

@@ -1,0 +1,87 @@
+{
+    "name": "set",
+    "primitive_name": "set",
+    "aliases": [
+        "fill"
+    ],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "input",
+        "coordinates",
+        "values"
+    ],
+    "outputs": [
+        "output"
+    ],
+    "assertions": [
+        "{input}_data_type_is_the_same_as_{values}",
+        "{input}_shape_is_the_same_as_{output}",
+        "{input}_data_type_is_the_same_as_{output}",
+        "{coordinates}_data_type_is_integer",
+        "{coordinates}_has_two_dimensions",
+        "{values}_has_one_dimension"
+    ],
+    "description": [
+        "fill `values` into `input` at `coordinates`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "input",
+                    "data": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "coordinates",
+                    "data": [
+                        [
+                            0
+                        ],
+                        [
+                            1
+                        ],
+                        [
+                            2
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "data": [
+                        6,
+                        5,
+                        4
+                    ],
+                    "name": "values",
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "data": [
+                        6,
+                        5,
+                        4,
+                        4,
+                        5,
+                        6
+                    ],
+                    "type": "INTEGER",
+                    "shape": [
+                        6
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,140 @@
+{
+    "name": "element_wise_filter",
+    "primitive_name": "element_wise_filter",
+    "aliases": [],
+    "type": "PRIMITIVE_OPERATION",
+    "inputs": [
+        "array",
+        "dimension_index",
+        "condition",
+        "padding"
+    ],
+    "outputs": [
+        "filtered_array"
+    ],
+    "assertions": [
+        "{array}_is_array",
+        "{dimension_index}_data_type_is_integer",
+        "{dimension_index}_is_scalar",
+        "{dimension_index}_is_greater_than_or_equal_to_zero",
+        "{dimension_index}_is_less_than_{array}_number_of_dimensions",
+        "{condition}_data_type_is_boolean",
+        "{condition}_shape_is_the_same_as_{array}",
+        "{padding}_is_scalar",
+        "{filtered_array}_number_of_dimensions_is_the_same_as_{array}",
+        "{filtered_array}_data_type_is_the_same_as_{array}"
+    ],
+    "description": [
+        "Element-wise filter `array` based on `condition` across `dimension_index`",
+        "If a cell value of `condition` is true, then the corresponding `array` cell value will be kept",
+        "If a cell value of `condition` is false, then the corresponding `array` cell value will be removed",
+        "Output will be padded with `padding`"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "array",
+                    "data": [
+                        [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10
+                        ],
+                        [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10
+                        ]
+                    ],
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "dimension_index",
+                    "data": 1,
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "condition",
+                    "data": [
+                        [
+                            true,
+                            false,
+                            true,
+                            false,
+                            true,
+                            true,
+                            true,
+                            true,
+                            false,
+                            true
+                        ],
+                        [
+                            false,
+                            false,
+                            true,
+                            false,
+                            false,
+                            true,
+                            true,
+                            true,
+                            false,
+                            true
+                        ]
+                    ],
+                    "type": "BOOLEAN"
+                },
+                {
+                    "name": "padding",
+                    "data": -1,
+                    "type": "INTEGER"
+                }
+            ],
+            "outputs": [
+                {
+                    "data": [
+                        [
+                            1,
+                            3,
+                            5,
+                            6,
+                            7,
+                            8,
+                            10
+                        ],
+                        [
+                            3,
+                            6,
+                            7,
+                            8,
+                            10,
+                            -1,
+                            -1
+                        ]
+                    ],
+                    "name": "filtered_array",
+                    "primitive_name": "filtered_array",
+                    "shape": [
+                        2,
+                        7
+                    ],
+                    "type": "INTEGER"
+                }
+            ]
+        }
+    ]
+}

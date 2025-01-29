@@ -1,1 +1,1589 @@
-{"name":"Tanh","type":"COMPOSITE_OPERATION","inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"exp(Input) − exp(−Input)​","type":"COMPOSITE_OPERATION","position":{"x":624,"y":47},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"Multiply by Negative One","type":"COMPOSITE_OPERATION","position":{"x":559,"y":277},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"Broadcast Scalar to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":461,"y":316},"inputs":[{"name":"Scalar","data":-1.0,"shape":[],"type":"DECIMAL","primitive_name":"Scalar","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","data":-1.0,"shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Scalar"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"element_wise_multiply","primitive_name":"element_wise_multiply","type":"PRIMITIVE_OPERATION","aliases":["mul"],"position":{"x":1134,"y":42},"inputs":[{"name":"left_array","primitive_name":"left_array"},{"name":"right_array","primitive_name":"right_array"}],"outputs":[{"name":"multiplied_array","primitive_name":"multiplied_array"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Scalar to Shape of Array","data":"Array"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"element_wise_multiply","data":"left_array"},"control_points":[]},{"source":{"operation":"Broadcast Scalar to Shape of Array","data":"Output"},"sink":{"operation":"element_wise_multiply","data":"right_array"},"control_points":[]},{"source":{"operation":"element_wise_multiply","data":"multiplied_array"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"Natural Exponential (1)","type":"COMPOSITE_OPERATION","position":{"x":1054,"y":277},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":515,"y":45},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1040,"y":135},"inputs":[{"name":"target","data":2.71828,"shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SOURCE"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result"}]},{"name":"element_wise_exponentiate","primitive_name":"element_wise_exponentiate","type":"PRIMITIVE_OPERATION","aliases":["exp","pow","power"],"position":{"x":1601,"y":131},"inputs":[{"name":"base","primitive_name":"base"},{"name":"exponent","primitive_name":"exponent"}],"outputs":[{"name":"exponentiation","primitive_name":"exponentiation"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"get_shape","data":"input"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"element_wise_exponentiate","data":"base"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"element_wise_exponentiate","data":"exponent"},"control_points":[{"x":451,"y":369},{"x":1491,"y":369}]},{"source":{"operation":"element_wise_exponentiate","data":"exponentiation"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"Natural Exponential","type":"COMPOSITE_OPERATION","position":{"x":559,"y":47},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":515,"y":45},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1040,"y":135},"inputs":[{"name":"target","data":2.71828,"shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SOURCE"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result"}]},{"name":"element_wise_exponentiate","primitive_name":"element_wise_exponentiate","type":"PRIMITIVE_OPERATION","aliases":["exp","pow","power"],"position":{"x":1601,"y":131},"inputs":[{"name":"base","primitive_name":"base"},{"name":"exponent","primitive_name":"exponent"}],"outputs":[{"name":"exponentiation","primitive_name":"exponentiation"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"get_shape","data":"input"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"element_wise_exponentiate","data":"base"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"element_wise_exponentiate","data":"exponent"},"control_points":[{"x":451,"y":369},{"x":1491,"y":369}]},{"source":{"operation":"element_wise_exponentiate","data":"exponentiation"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"subtract","primitive_name":"subtract","type":"PRIMITIVE_OPERATION","aliases":["sub","minus"],"position":{"x":1497,"y":46},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"subtracted_result","primitive_name":"subtracted_result"}]}],"links":[{"source":{"operation":"Multiply by Negative One","data":"Output"},"sink":{"operation":"Natural Exponential (1)","data":"Input"},"control_points":[]},{"source":{"operation":"Natural Exponential","data":"Output"},"sink":{"operation":"subtract","data":"left_operand"},"control_points":[]},{"source":{"operation":"Natural Exponential (1)","data":"Output"},"sink":{"operation":"subtract","data":"right_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Natural Exponential","data":"Input"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Multiply by Negative One","data":"Input"},"control_points":[]},{"source":{"operation":"subtract","data":"subtracted_result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"exp(Input) + exp(−Input)​","type":"COMPOSITE_OPERATION","position":{"x":621,"y":306},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"Multiply by Negative One","type":"COMPOSITE_OPERATION","position":{"x":559,"y":277},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"Broadcast Scalar to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":461,"y":316},"inputs":[{"name":"Scalar","data":-1.0,"shape":[],"type":"DECIMAL","primitive_name":"Scalar","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","data":-1.0,"shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Scalar"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"element_wise_multiply","primitive_name":"element_wise_multiply","type":"PRIMITIVE_OPERATION","aliases":["mul"],"position":{"x":1134,"y":42},"inputs":[{"name":"left_array","primitive_name":"left_array"},{"name":"right_array","primitive_name":"right_array"}],"outputs":[{"name":"multiplied_array","primitive_name":"multiplied_array"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Scalar to Shape of Array","data":"Array"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"element_wise_multiply","data":"left_array"},"control_points":[]},{"source":{"operation":"Broadcast Scalar to Shape of Array","data":"Output"},"sink":{"operation":"element_wise_multiply","data":"right_array"},"control_points":[]},{"source":{"operation":"element_wise_multiply","data":"multiplied_array"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"Natural Exponential (1)","type":"COMPOSITE_OPERATION","position":{"x":1054,"y":277},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":515,"y":45},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1040,"y":135},"inputs":[{"name":"target","data":2.71828,"shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SOURCE"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result"}]},{"name":"element_wise_exponentiate","primitive_name":"element_wise_exponentiate","type":"PRIMITIVE_OPERATION","aliases":["exp","pow","power"],"position":{"x":1601,"y":134},"inputs":[{"name":"base","primitive_name":"base"},{"name":"exponent","primitive_name":"exponent"}],"outputs":[{"name":"exponentiation","primitive_name":"exponentiation"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"get_shape","data":"input"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"element_wise_exponentiate","data":"base"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"element_wise_exponentiate","data":"exponent"},"control_points":[{"x":451,"y":369},{"x":1491,"y":369}]},{"source":{"operation":"element_wise_exponentiate","data":"exponentiation"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"Natural Exponential","type":"COMPOSITE_OPERATION","position":{"x":559,"y":45},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":515,"y":45},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1040,"y":135},"inputs":[{"name":"target","data":2.71828,"shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SOURCE"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result"}]},{"name":"element_wise_exponentiate","primitive_name":"element_wise_exponentiate","type":"PRIMITIVE_OPERATION","aliases":["exp","pow","power"],"position":{"x":1601,"y":131},"inputs":[{"name":"base","primitive_name":"base"},{"name":"exponent","primitive_name":"exponent"}],"outputs":[{"name":"exponentiation","primitive_name":"exponentiation"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"get_shape","data":"input"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"element_wise_exponentiate","data":"base"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"element_wise_exponentiate","data":"exponent"},"control_points":[{"x":451,"y":369},{"x":1491,"y":369}]},{"source":{"operation":"element_wise_exponentiate","data":"exponentiation"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"add","primitive_name":"add","type":"PRIMITIVE_OPERATION","aliases":["plus"],"position":{"x":1628,"y":44},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"added_result","primitive_name":"added_result"}]}],"links":[{"source":{"operation":"Multiply by Negative One","data":"Output"},"sink":{"operation":"Natural Exponential (1)","data":"Input"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Natural Exponential","data":"Input"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Multiply by Negative One","data":"Input"},"control_points":[]},{"source":{"operation":"Natural Exponential","data":"Output"},"sink":{"operation":"add","data":"left_operand"},"control_points":[]},{"source":{"operation":"Natural Exponential (1)","data":"Output"},"sink":{"operation":"add","data":"right_operand"},"control_points":[]},{"source":{"operation":"add","data":"added_result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"divide","primitive_name":"divide","type":"PRIMITIVE_OPERATION","aliases":["div"],"position":{"x":1236,"y":44},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"divided_result","primitive_name":"divided_result"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"exp(Input) − exp(−Input)​","data":"Input"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"exp(Input) + exp(−Input)​","data":"Input"},"control_points":[]},{"source":{"operation":"exp(Input) − exp(−Input)​","data":"Output"},"sink":{"operation":"divide","data":"left_operand"},"control_points":[]},{"source":{"operation":"exp(Input) + exp(−Input)​","data":"Output"},"sink":{"operation":"divide","data":"right_operand"},"control_points":[]},{"source":{"operation":"divide","data":"divided_result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]}
+{
+    "name": "Tanh",
+    "type": "COMPOSITE_OPERATION",
+    "inputs": [
+        {
+            "name": "Input",
+            "primitive_name": "Input"
+        }
+    ],
+    "outputs": [
+        {
+            "name": "Output",
+            "primitive_name": "Output"
+        }
+    ],
+    "operations": [
+        {
+            "name": "exp(Input) − exp(−Input)​",
+            "type": "COMPOSITE_OPERATION",
+            "position": {
+                "x": 624,
+                "y": 47
+            },
+            "inputs": [
+                {
+                    "name": "Input",
+                    "primitive_name": "Input"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "Output",
+                    "primitive_name": "Output"
+                }
+            ],
+            "operations": [
+                {
+                    "name": "Multiply by Negative One",
+                    "type": "COMPOSITE_OPERATION",
+                    "position": {
+                        "x": 559,
+                        "y": 277
+                    },
+                    "inputs": [
+                        {
+                            "name": "Input",
+                            "primitive_name": "Input"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Output",
+                            "primitive_name": "Output"
+                        }
+                    ],
+                    "operations": [
+                        {
+                            "name": "Broadcast Scalar to Shape of Array",
+                            "type": "COMPOSITE_OPERATION",
+                            "position": {
+                                "x": 461,
+                                "y": 316
+                            },
+                            "inputs": [
+                                {
+                                    "name": "Scalar",
+                                    "data": -1.0,
+                                    "shape": [],
+                                    "type": "DECIMAL",
+                                    "primitive_name": "Scalar",
+                                    "flow_state": "BOOT_SOURCE"
+                                },
+                                {
+                                    "name": "Array",
+                                    "primitive_name": "Array"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "Output",
+                                    "primitive_name": "Output"
+                                }
+                            ],
+                            "operations": [
+                                {
+                                    "name": "get_shape",
+                                    "primitive_name": "get_shape",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "aliases": [
+                                        "shape",
+                                        "size",
+                                        "get_size"
+                                    ],
+                                    "position": {
+                                        "x": 601,
+                                        "y": 346
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "input",
+                                            "primitive_name": "input"
+                                        }
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "shape",
+                                            "primitive_name": "shape"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "broadcast_to_shape",
+                                    "primitive_name": "broadcast_to_shape",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "aliases": [
+                                        "broadcast",
+                                        "tile",
+                                        "tile_to_shape"
+                                    ],
+                                    "position": {
+                                        "x": 1097,
+                                        "y": 42
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "target",
+                                            "data": -1.0,
+                                            "shape": [],
+                                            "type": "DECIMAL",
+                                            "primitive_name": "target",
+                                            "flow_state": "BOOT_SINK"
+                                        },
+                                        {
+                                            "name": "shape",
+                                            "primitive_name": "shape"
+                                        }
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "result",
+                                            "primitive_name": "result"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "links": [
+                                {
+                                    "source": {
+                                        "operation": "this",
+                                        "data": "Array"
+                                    },
+                                    "sink": {
+                                        "operation": "get_shape",
+                                        "data": "input"
+                                    },
+                                    "control_points": [
+                                        {
+                                            "x": 427,
+                                            "y": 404
+                                        }
+                                    ]
+                                },
+                                {
+                                    "source": {
+                                        "operation": "this",
+                                        "data": "Scalar"
+                                    },
+                                    "sink": {
+                                        "operation": "broadcast_to_shape",
+                                        "data": "target"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "get_shape",
+                                        "data": "shape"
+                                    },
+                                    "sink": {
+                                        "operation": "broadcast_to_shape",
+                                        "data": "shape"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "broadcast_to_shape",
+                                        "data": "result"
+                                    },
+                                    "sink": {
+                                        "operation": "this",
+                                        "data": "Output"
+                                    },
+                                    "control_points": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "element_wise_multiply",
+                            "primitive_name": "element_wise_multiply",
+                            "type": "PRIMITIVE_OPERATION",
+                            "aliases": [
+                                "mul"
+                            ],
+                            "position": {
+                                "x": 1134,
+                                "y": 42
+                            },
+                            "inputs": [
+                                {
+                                    "name": "left_array",
+                                    "primitive_name": "left_array"
+                                },
+                                {
+                                    "name": "right_array",
+                                    "primitive_name": "right_array"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "multiplied_array",
+                                    "primitive_name": "multiplied_array"
+                                }
+                            ]
+                        }
+                    ],
+                    "links": [
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input"
+                            },
+                            "sink": {
+                                "operation": "Broadcast Scalar to Shape of Array",
+                                "data": "Array"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input"
+                            },
+                            "sink": {
+                                "operation": "element_wise_multiply",
+                                "data": "left_array"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "Broadcast Scalar to Shape of Array",
+                                "data": "Output"
+                            },
+                            "sink": {
+                                "operation": "element_wise_multiply",
+                                "data": "right_array"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "element_wise_multiply",
+                                "data": "multiplied_array"
+                            },
+                            "sink": {
+                                "operation": "this",
+                                "data": "Output"
+                            },
+                            "control_points": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Natural Exponential (1)",
+                    "type": "COMPOSITE_OPERATION",
+                    "position": {
+                        "x": 1054,
+                        "y": 277
+                    },
+                    "inputs": [
+                        {
+                            "name": "Input",
+                            "primitive_name": "Input"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Output",
+                            "primitive_name": "Output"
+                        }
+                    ],
+                    "operations": [
+                        {
+                            "name": "get_shape",
+                            "primitive_name": "get_shape",
+                            "type": "PRIMITIVE_OPERATION",
+                            "aliases": [
+                                "shape",
+                                "size",
+                                "get_size"
+                            ],
+                            "position": {
+                                "x": 515,
+                                "y": 45
+                            },
+                            "inputs": [
+                                {
+                                    "name": "input",
+                                    "primitive_name": "input"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "shape",
+                                    "primitive_name": "shape"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "broadcast_to_shape",
+                            "primitive_name": "broadcast_to_shape",
+                            "type": "PRIMITIVE_OPERATION",
+                            "aliases": [
+                                "broadcast",
+                                "tile",
+                                "tile_to_shape"
+                            ],
+                            "position": {
+                                "x": 1040,
+                                "y": 135
+                            },
+                            "inputs": [
+                                {
+                                    "name": "target",
+                                    "data": 2.71828,
+                                    "shape": [],
+                                    "type": "DECIMAL",
+                                    "primitive_name": "target",
+                                    "flow_state": "BOOT_SOURCE"
+                                },
+                                {
+                                    "name": "shape",
+                                    "primitive_name": "shape"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "result",
+                                    "primitive_name": "result"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "element_wise_exponentiate",
+                            "primitive_name": "element_wise_exponentiate",
+                            "type": "PRIMITIVE_OPERATION",
+                            "aliases": [
+                                "exp",
+                                "pow",
+                                "power"
+                            ],
+                            "position": {
+                                "x": 1601,
+                                "y": 131
+                            },
+                            "inputs": [
+                                {
+                                    "name": "base",
+                                    "primitive_name": "base"
+                                },
+                                {
+                                    "name": "exponent",
+                                    "primitive_name": "exponent"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "exponentiation",
+                                    "primitive_name": "exponentiation"
+                                }
+                            ]
+                        }
+                    ],
+                    "links": [
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input"
+                            },
+                            "sink": {
+                                "operation": "get_shape",
+                                "data": "input"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "get_shape",
+                                "data": "shape"
+                            },
+                            "sink": {
+                                "operation": "broadcast_to_shape",
+                                "data": "shape"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "broadcast_to_shape",
+                                "data": "result"
+                            },
+                            "sink": {
+                                "operation": "element_wise_exponentiate",
+                                "data": "base"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input"
+                            },
+                            "sink": {
+                                "operation": "element_wise_exponentiate",
+                                "data": "exponent"
+                            },
+                            "control_points": [
+                                {
+                                    "x": 451,
+                                    "y": 369
+                                },
+                                {
+                                    "x": 1491,
+                                    "y": 369
+                                }
+                            ]
+                        },
+                        {
+                            "source": {
+                                "operation": "element_wise_exponentiate",
+                                "data": "exponentiation"
+                            },
+                            "sink": {
+                                "operation": "this",
+                                "data": "Output"
+                            },
+                            "control_points": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Natural Exponential",
+                    "type": "COMPOSITE_OPERATION",
+                    "position": {
+                        "x": 559,
+                        "y": 47
+                    },
+                    "inputs": [
+                        {
+                            "name": "Input",
+                            "primitive_name": "Input"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Output",
+                            "primitive_name": "Output"
+                        }
+                    ],
+                    "operations": [
+                        {
+                            "name": "get_shape",
+                            "primitive_name": "get_shape",
+                            "type": "PRIMITIVE_OPERATION",
+                            "aliases": [
+                                "shape",
+                                "size",
+                                "get_size"
+                            ],
+                            "position": {
+                                "x": 515,
+                                "y": 45
+                            },
+                            "inputs": [
+                                {
+                                    "name": "input",
+                                    "primitive_name": "input"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "shape",
+                                    "primitive_name": "shape"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "broadcast_to_shape",
+                            "primitive_name": "broadcast_to_shape",
+                            "type": "PRIMITIVE_OPERATION",
+                            "aliases": [
+                                "broadcast",
+                                "tile",
+                                "tile_to_shape"
+                            ],
+                            "position": {
+                                "x": 1040,
+                                "y": 135
+                            },
+                            "inputs": [
+                                {
+                                    "name": "target",
+                                    "data": 2.71828,
+                                    "shape": [],
+                                    "type": "DECIMAL",
+                                    "primitive_name": "target",
+                                    "flow_state": "BOOT_SOURCE"
+                                },
+                                {
+                                    "name": "shape",
+                                    "primitive_name": "shape"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "result",
+                                    "primitive_name": "result"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "element_wise_exponentiate",
+                            "primitive_name": "element_wise_exponentiate",
+                            "type": "PRIMITIVE_OPERATION",
+                            "aliases": [
+                                "exp",
+                                "pow",
+                                "power"
+                            ],
+                            "position": {
+                                "x": 1601,
+                                "y": 131
+                            },
+                            "inputs": [
+                                {
+                                    "name": "base",
+                                    "primitive_name": "base"
+                                },
+                                {
+                                    "name": "exponent",
+                                    "primitive_name": "exponent"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "exponentiation",
+                                    "primitive_name": "exponentiation"
+                                }
+                            ]
+                        }
+                    ],
+                    "links": [
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input"
+                            },
+                            "sink": {
+                                "operation": "get_shape",
+                                "data": "input"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "get_shape",
+                                "data": "shape"
+                            },
+                            "sink": {
+                                "operation": "broadcast_to_shape",
+                                "data": "shape"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "broadcast_to_shape",
+                                "data": "result"
+                            },
+                            "sink": {
+                                "operation": "element_wise_exponentiate",
+                                "data": "base"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input"
+                            },
+                            "sink": {
+                                "operation": "element_wise_exponentiate",
+                                "data": "exponent"
+                            },
+                            "control_points": [
+                                {
+                                    "x": 451,
+                                    "y": 369
+                                },
+                                {
+                                    "x": 1491,
+                                    "y": 369
+                                }
+                            ]
+                        },
+                        {
+                            "source": {
+                                "operation": "element_wise_exponentiate",
+                                "data": "exponentiation"
+                            },
+                            "sink": {
+                                "operation": "this",
+                                "data": "Output"
+                            },
+                            "control_points": []
+                        }
+                    ]
+                },
+                {
+                    "name": "subtract",
+                    "primitive_name": "subtract",
+                    "type": "PRIMITIVE_OPERATION",
+                    "aliases": [
+                        "sub",
+                        "minus"
+                    ],
+                    "position": {
+                        "x": 1497,
+                        "y": 46
+                    },
+                    "inputs": [
+                        {
+                            "name": "left_operand",
+                            "primitive_name": "left_operand"
+                        },
+                        {
+                            "name": "right_operand",
+                            "primitive_name": "right_operand"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "subtracted_result",
+                            "primitive_name": "subtracted_result"
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "source": {
+                        "operation": "Multiply by Negative One",
+                        "data": "Output"
+                    },
+                    "sink": {
+                        "operation": "Natural Exponential (1)",
+                        "data": "Input"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "Natural Exponential",
+                        "data": "Output"
+                    },
+                    "sink": {
+                        "operation": "subtract",
+                        "data": "left_operand"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "Natural Exponential (1)",
+                        "data": "Output"
+                    },
+                    "sink": {
+                        "operation": "subtract",
+                        "data": "right_operand"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Input"
+                    },
+                    "sink": {
+                        "operation": "Natural Exponential",
+                        "data": "Input"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Input"
+                    },
+                    "sink": {
+                        "operation": "Multiply by Negative One",
+                        "data": "Input"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "subtract",
+                        "data": "subtracted_result"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                    },
+                    "control_points": []
+                }
+            ]
+        },
+        {
+            "name": "exp(Input) + exp(−Input)​",
+            "type": "COMPOSITE_OPERATION",
+            "position": {
+                "x": 621,
+                "y": 306
+            },
+            "inputs": [
+                {
+                    "name": "Input",
+                    "primitive_name": "Input"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "Output",
+                    "primitive_name": "Output"
+                }
+            ],
+            "operations": [
+                {
+                    "name": "Multiply by Negative One",
+                    "type": "COMPOSITE_OPERATION",
+                    "position": {
+                        "x": 559,
+                        "y": 277
+                    },
+                    "inputs": [
+                        {
+                            "name": "Input",
+                            "primitive_name": "Input"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Output",
+                            "primitive_name": "Output"
+                        }
+                    ],
+                    "operations": [
+                        {
+                            "name": "Broadcast Scalar to Shape of Array",
+                            "type": "COMPOSITE_OPERATION",
+                            "position": {
+                                "x": 461,
+                                "y": 316
+                            },
+                            "inputs": [
+                                {
+                                    "name": "Scalar",
+                                    "data": -1.0,
+                                    "shape": [],
+                                    "type": "DECIMAL",
+                                    "primitive_name": "Scalar",
+                                    "flow_state": "BOOT_SOURCE"
+                                },
+                                {
+                                    "name": "Array",
+                                    "primitive_name": "Array"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "Output",
+                                    "primitive_name": "Output"
+                                }
+                            ],
+                            "operations": [
+                                {
+                                    "name": "get_shape",
+                                    "primitive_name": "get_shape",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "aliases": [
+                                        "shape",
+                                        "size",
+                                        "get_size"
+                                    ],
+                                    "position": {
+                                        "x": 601,
+                                        "y": 346
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "input",
+                                            "primitive_name": "input"
+                                        }
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "shape",
+                                            "primitive_name": "shape"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "broadcast_to_shape",
+                                    "primitive_name": "broadcast_to_shape",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "aliases": [
+                                        "broadcast",
+                                        "tile",
+                                        "tile_to_shape"
+                                    ],
+                                    "position": {
+                                        "x": 1097,
+                                        "y": 42
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "target",
+                                            "data": -1.0,
+                                            "shape": [],
+                                            "type": "DECIMAL",
+                                            "primitive_name": "target",
+                                            "flow_state": "BOOT_SINK"
+                                        },
+                                        {
+                                            "name": "shape",
+                                            "primitive_name": "shape"
+                                        }
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "result",
+                                            "primitive_name": "result"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "links": [
+                                {
+                                    "source": {
+                                        "operation": "this",
+                                        "data": "Array"
+                                    },
+                                    "sink": {
+                                        "operation": "get_shape",
+                                        "data": "input"
+                                    },
+                                    "control_points": [
+                                        {
+                                            "x": 427,
+                                            "y": 404
+                                        }
+                                    ]
+                                },
+                                {
+                                    "source": {
+                                        "operation": "this",
+                                        "data": "Scalar"
+                                    },
+                                    "sink": {
+                                        "operation": "broadcast_to_shape",
+                                        "data": "target"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "get_shape",
+                                        "data": "shape"
+                                    },
+                                    "sink": {
+                                        "operation": "broadcast_to_shape",
+                                        "data": "shape"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "broadcast_to_shape",
+                                        "data": "result"
+                                    },
+                                    "sink": {
+                                        "operation": "this",
+                                        "data": "Output"
+                                    },
+                                    "control_points": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "element_wise_multiply",
+                            "primitive_name": "element_wise_multiply",
+                            "type": "PRIMITIVE_OPERATION",
+                            "aliases": [
+                                "mul"
+                            ],
+                            "position": {
+                                "x": 1134,
+                                "y": 42
+                            },
+                            "inputs": [
+                                {
+                                    "name": "left_array",
+                                    "primitive_name": "left_array"
+                                },
+                                {
+                                    "name": "right_array",
+                                    "primitive_name": "right_array"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "multiplied_array",
+                                    "primitive_name": "multiplied_array"
+                                }
+                            ]
+                        }
+                    ],
+                    "links": [
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input"
+                            },
+                            "sink": {
+                                "operation": "Broadcast Scalar to Shape of Array",
+                                "data": "Array"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input"
+                            },
+                            "sink": {
+                                "operation": "element_wise_multiply",
+                                "data": "left_array"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "Broadcast Scalar to Shape of Array",
+                                "data": "Output"
+                            },
+                            "sink": {
+                                "operation": "element_wise_multiply",
+                                "data": "right_array"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "element_wise_multiply",
+                                "data": "multiplied_array"
+                            },
+                            "sink": {
+                                "operation": "this",
+                                "data": "Output"
+                            },
+                            "control_points": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Natural Exponential (1)",
+                    "type": "COMPOSITE_OPERATION",
+                    "position": {
+                        "x": 1054,
+                        "y": 277
+                    },
+                    "inputs": [
+                        {
+                            "name": "Input",
+                            "primitive_name": "Input"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Output",
+                            "primitive_name": "Output"
+                        }
+                    ],
+                    "operations": [
+                        {
+                            "name": "get_shape",
+                            "primitive_name": "get_shape",
+                            "type": "PRIMITIVE_OPERATION",
+                            "aliases": [
+                                "shape",
+                                "size",
+                                "get_size"
+                            ],
+                            "position": {
+                                "x": 515,
+                                "y": 45
+                            },
+                            "inputs": [
+                                {
+                                    "name": "input",
+                                    "primitive_name": "input"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "shape",
+                                    "primitive_name": "shape"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "broadcast_to_shape",
+                            "primitive_name": "broadcast_to_shape",
+                            "type": "PRIMITIVE_OPERATION",
+                            "aliases": [
+                                "broadcast",
+                                "tile",
+                                "tile_to_shape"
+                            ],
+                            "position": {
+                                "x": 1040,
+                                "y": 135
+                            },
+                            "inputs": [
+                                {
+                                    "name": "target",
+                                    "data": 2.71828,
+                                    "shape": [],
+                                    "type": "DECIMAL",
+                                    "primitive_name": "target",
+                                    "flow_state": "BOOT_SOURCE"
+                                },
+                                {
+                                    "name": "shape",
+                                    "primitive_name": "shape"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "result",
+                                    "primitive_name": "result"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "element_wise_exponentiate",
+                            "primitive_name": "element_wise_exponentiate",
+                            "type": "PRIMITIVE_OPERATION",
+                            "aliases": [
+                                "exp",
+                                "pow",
+                                "power"
+                            ],
+                            "position": {
+                                "x": 1601,
+                                "y": 134
+                            },
+                            "inputs": [
+                                {
+                                    "name": "base",
+                                    "primitive_name": "base"
+                                },
+                                {
+                                    "name": "exponent",
+                                    "primitive_name": "exponent"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "exponentiation",
+                                    "primitive_name": "exponentiation"
+                                }
+                            ]
+                        }
+                    ],
+                    "links": [
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input"
+                            },
+                            "sink": {
+                                "operation": "get_shape",
+                                "data": "input"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "get_shape",
+                                "data": "shape"
+                            },
+                            "sink": {
+                                "operation": "broadcast_to_shape",
+                                "data": "shape"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "broadcast_to_shape",
+                                "data": "result"
+                            },
+                            "sink": {
+                                "operation": "element_wise_exponentiate",
+                                "data": "base"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input"
+                            },
+                            "sink": {
+                                "operation": "element_wise_exponentiate",
+                                "data": "exponent"
+                            },
+                            "control_points": [
+                                {
+                                    "x": 451,
+                                    "y": 369
+                                },
+                                {
+                                    "x": 1491,
+                                    "y": 369
+                                }
+                            ]
+                        },
+                        {
+                            "source": {
+                                "operation": "element_wise_exponentiate",
+                                "data": "exponentiation"
+                            },
+                            "sink": {
+                                "operation": "this",
+                                "data": "Output"
+                            },
+                            "control_points": []
+                        }
+                    ]
+                },
+                {
+                    "name": "Natural Exponential",
+                    "type": "COMPOSITE_OPERATION",
+                    "position": {
+                        "x": 559,
+                        "y": 45
+                    },
+                    "inputs": [
+                        {
+                            "name": "Input",
+                            "primitive_name": "Input"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Output",
+                            "primitive_name": "Output"
+                        }
+                    ],
+                    "operations": [
+                        {
+                            "name": "get_shape",
+                            "primitive_name": "get_shape",
+                            "type": "PRIMITIVE_OPERATION",
+                            "aliases": [
+                                "shape",
+                                "size",
+                                "get_size"
+                            ],
+                            "position": {
+                                "x": 515,
+                                "y": 45
+                            },
+                            "inputs": [
+                                {
+                                    "name": "input",
+                                    "primitive_name": "input"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "shape",
+                                    "primitive_name": "shape"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "broadcast_to_shape",
+                            "primitive_name": "broadcast_to_shape",
+                            "type": "PRIMITIVE_OPERATION",
+                            "aliases": [
+                                "broadcast",
+                                "tile",
+                                "tile_to_shape"
+                            ],
+                            "position": {
+                                "x": 1040,
+                                "y": 135
+                            },
+                            "inputs": [
+                                {
+                                    "name": "target",
+                                    "data": 2.71828,
+                                    "shape": [],
+                                    "type": "DECIMAL",
+                                    "primitive_name": "target",
+                                    "flow_state": "BOOT_SOURCE"
+                                },
+                                {
+                                    "name": "shape",
+                                    "primitive_name": "shape"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "result",
+                                    "primitive_name": "result"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "element_wise_exponentiate",
+                            "primitive_name": "element_wise_exponentiate",
+                            "type": "PRIMITIVE_OPERATION",
+                            "aliases": [
+                                "exp",
+                                "pow",
+                                "power"
+                            ],
+                            "position": {
+                                "x": 1601,
+                                "y": 131
+                            },
+                            "inputs": [
+                                {
+                                    "name": "base",
+                                    "primitive_name": "base"
+                                },
+                                {
+                                    "name": "exponent",
+                                    "primitive_name": "exponent"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "exponentiation",
+                                    "primitive_name": "exponentiation"
+                                }
+                            ]
+                        }
+                    ],
+                    "links": [
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input"
+                            },
+                            "sink": {
+                                "operation": "get_shape",
+                                "data": "input"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "get_shape",
+                                "data": "shape"
+                            },
+                            "sink": {
+                                "operation": "broadcast_to_shape",
+                                "data": "shape"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "broadcast_to_shape",
+                                "data": "result"
+                            },
+                            "sink": {
+                                "operation": "element_wise_exponentiate",
+                                "data": "base"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input"
+                            },
+                            "sink": {
+                                "operation": "element_wise_exponentiate",
+                                "data": "exponent"
+                            },
+                            "control_points": [
+                                {
+                                    "x": 451,
+                                    "y": 369
+                                },
+                                {
+                                    "x": 1491,
+                                    "y": 369
+                                }
+                            ]
+                        },
+                        {
+                            "source": {
+                                "operation": "element_wise_exponentiate",
+                                "data": "exponentiation"
+                            },
+                            "sink": {
+                                "operation": "this",
+                                "data": "Output"
+                            },
+                            "control_points": []
+                        }
+                    ]
+                },
+                {
+                    "name": "add",
+                    "primitive_name": "add",
+                    "type": "PRIMITIVE_OPERATION",
+                    "aliases": [
+                        "plus"
+                    ],
+                    "position": {
+                        "x": 1628,
+                        "y": 44
+                    },
+                    "inputs": [
+                        {
+                            "name": "left_operand",
+                            "primitive_name": "left_operand"
+                        },
+                        {
+                            "name": "right_operand",
+                            "primitive_name": "right_operand"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "added_result",
+                            "primitive_name": "added_result"
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "source": {
+                        "operation": "Multiply by Negative One",
+                        "data": "Output"
+                    },
+                    "sink": {
+                        "operation": "Natural Exponential (1)",
+                        "data": "Input"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Input"
+                    },
+                    "sink": {
+                        "operation": "Natural Exponential",
+                        "data": "Input"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Input"
+                    },
+                    "sink": {
+                        "operation": "Multiply by Negative One",
+                        "data": "Input"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "Natural Exponential",
+                        "data": "Output"
+                    },
+                    "sink": {
+                        "operation": "add",
+                        "data": "left_operand"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "Natural Exponential (1)",
+                        "data": "Output"
+                    },
+                    "sink": {
+                        "operation": "add",
+                        "data": "right_operand"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "add",
+                        "data": "added_result"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                    },
+                    "control_points": []
+                }
+            ]
+        },
+        {
+            "name": "divide",
+            "primitive_name": "divide",
+            "type": "PRIMITIVE_OPERATION",
+            "aliases": [
+                "div"
+            ],
+            "position": {
+                "x": 1236,
+                "y": 44
+            },
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "primitive_name": "left_operand"
+                },
+                {
+                    "name": "right_operand",
+                    "primitive_name": "right_operand"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "divided_result",
+                    "primitive_name": "divided_result"
+                }
+            ]
+        }
+    ],
+    "links": [
+        {
+            "source": {
+                "operation": "this",
+                "data": "Input"
+            },
+            "sink": {
+                "operation": "exp(Input) − exp(−Input)​",
+                "data": "Input"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Input"
+            },
+            "sink": {
+                "operation": "exp(Input) + exp(−Input)​",
+                "data": "Input"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "exp(Input) − exp(−Input)​",
+                "data": "Output"
+            },
+            "sink": {
+                "operation": "divide",
+                "data": "left_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "exp(Input) + exp(−Input)​",
+                "data": "Output"
+            },
+            "sink": {
+                "operation": "divide",
+                "data": "right_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "divide",
+                "data": "divided_result"
+            },
+            "sink": {
+                "operation": "this",
+                "data": "Output"
+            },
+            "control_points": []
+        }
+    ],
+    "assertions": [
+        "{input}_data_type_is_float_or_tensor",
+        "{input}_is_tensor", 
+        "{input}_values_are_real_numbers",  
+        "{output}_data_type_is_the_same_as_{input}",
+        "{output}_values_are_between_minus_one_and_one"
+    ],
+    "description": [
+        "tanh is a hyperbolic tangent function with range -1 to 1 that takes an input and outputs the value according to the equation f(x) = ((e^x)-(e^(-x)))/(e^x)+(e^(-x))"
+    ],
+    "examples": [
+        {
+            "inputs": [
+                {
+                    "name": "Input",
+                    "data": 1.0000,
+                    "type": "DECIMAL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "Output",
+                    "primitive_name": "Output",
+                    "data": [
+                        0.7616
+                    ],
+                    "type": "DECIMAL",
+                    "shape": [
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "Input",
+                    "data": [
+                        21.0000,
+                        -2.0000
+                    ],
+                    "type": "DECIMAL",
+                    "shape": [
+                        2
+                    ]
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "Output",
+                    "primitive_name": "Output",
+                    "data": [
+                        1.0000,
+                        -0.9640
+                    ],
+                    "type": "DECIMAL",
+                    "shape": [
+                        2
+                    ]
+                }
+            ]
+        }
+    ]
+}

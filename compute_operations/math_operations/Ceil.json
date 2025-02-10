@@ -1,9 +1,6 @@
 {
-    "name": "Ceil",
+    "name": "Ceil.json",
     "type": "COMPOSITE_OPERATION",
-    "description": [
-        "Returns the smallest integer value greater than or equal to each `input`"
-    ],
     "aliases": [
         "ceil_to_integer",
         "ceiling_to_integer"
@@ -26,7 +23,7 @@
             "name": "Floor",
             "type": "COMPOSITE_OPERATION",
             "position": {
-                "x": 482,
+                "x": 467,
                 "y": 41
             },
             "inputs": [
@@ -70,7 +67,7 @@
                     "primitive_name": "parse_decimal",
                     "type": "PRIMITIVE_OPERATION",
                     "position": {
-                        "x": 709,
+                        "x": 725,
                         "y": 41
                     },
                     "inputs": [
@@ -92,8 +89,8 @@
                     "primitive_name": "greater_than",
                     "type": "PRIMITIVE_OPERATION",
                     "position": {
-                        "x": 1238,
-                        "y": 203
+                        "x": 1333,
+                        "y": 217
                     },
                     "inputs": [
                         {
@@ -117,7 +114,7 @@
                     "name": "Subtract By 1",
                     "type": "COMPOSITE_OPERATION",
                     "position": {
-                        "x": 1501,
+                        "x": 1304,
                         "y": 41
                     },
                     "inputs": [
@@ -273,7 +270,7 @@
                             "type": "PRIMITIVE_OPERATION",
                             "position": {
                                 "x": 888,
-                                "y": 43
+                                "y": 41
                             },
                             "inputs": [
                                 {
@@ -346,8 +343,8 @@
                     "primitive_name": "conditional_filter",
                     "type": "PRIMITIVE_OPERATION",
                     "position": {
-                        "x": 2080,
-                        "y": 203
+                        "x": 1846,
+                        "y": 218
                     },
                     "inputs": [
                         {
@@ -404,7 +401,12 @@
                         "operation": "greater_than",
                         "data": "left_operand"
                     },
-                    "control_points": []
+                    "control_points": [
+                        {
+                            "x": 1168,
+                            "y": 282
+                        }
+                    ]
                 },
                 {
                     "source": {
@@ -477,8 +479,8 @@
                     },
                     "control_points": [
                         {
-                            "x": 1218,
-                            "y": 352
+                            "x": 1242,
+                            "y": 367
                         }
                     ]
                 }
@@ -489,7 +491,7 @@
             "primitive_name": "less_than",
             "type": "PRIMITIVE_OPERATION",
             "position": {
-                "x": 1106,
+                "x": 978,
                 "y": 197
             },
             "inputs": [
@@ -514,7 +516,7 @@
             "name": "Add By 1",
             "type": "COMPOSITE_OPERATION",
             "position": {
-                "x": 982,
+                "x": 955,
                 "y": 41
             },
             "inputs": [
@@ -670,7 +672,7 @@
                     "type": "PRIMITIVE_OPERATION",
                     "position": {
                         "x": 942,
-                        "y": 62
+                        "y": 41
                     },
                     "inputs": [
                         {
@@ -743,8 +745,8 @@
             "primitive_name": "conditional_filter",
             "type": "PRIMITIVE_OPERATION",
             "position": {
-                "x": 1606,
-                "y": 197
+                "x": 1478,
+                "y": 198
             },
             "inputs": [
                 {
@@ -779,7 +781,12 @@
                 "operation": "conditional_filter",
                 "data": "data_if_true"
             },
-            "control_points": []
+            "control_points": [
+                {
+                    "x": 1365,
+                    "y": 306
+                }
+            ]
         },
         {
             "source": {
@@ -836,16 +843,8 @@
             },
             "control_points": [
                 {
-                    "x": 977,
-                    "y": 393
-                },
-                {
-                    "x": 1314,
-                    "y": 393
-                },
-                {
-                    "x": 1314,
-                    "y": 346
+                    "x": 904,
+                    "y": 348
                 }
             ]
         },
@@ -858,7 +857,12 @@
                 "operation": "less_than",
                 "data": "right_operand"
             },
-            "control_points": []
+            "control_points": [
+                {
+                    "x": 239,
+                    "y": 304
+                }
+            ]
         },
         {
             "source": {
@@ -869,40 +873,42 @@
                 "operation": "less_than",
                 "data": "left_operand"
             },
-            "control_points": []
-        }
-    ],
-    "global_constants": [],
-    "examples": [
-        {
-            "inputs": [
+            "control_points": [
                 {
-                    "name": "Input",
-                    "data": [
-                        -21.24,
-                        -7.9999,
-                        0.0,
-                        1.000001
-                    ],
-                    "type": "DECIMAL"
-                }
-            ],
-            "outputs": [
-                {
-                    "name": "random_number",
-                    "primitive_name": "random_number",
-                    "data": [
-                        -21.0,
-                        -7.0,
-                        0.0,
-                        2.0
-                    ],
-                    "type": "DECIMAL",
-                    "shape": [
-                        4
-                    ]
+                    "x": 864,
+                    "y": 262
                 }
             ]
+        }
+    ],
+    "global_constants": [
+        {
+            "name": "Input",
+            "data": [
+                -21.24,
+                -7.9999,
+                0.0,
+                1.000001
+            ],
+            "shape": [
+                4
+            ],
+            "type": "DECIMAL",
+            "primitive_name": "Input"
+        },
+        {
+            "name": "Input (1)",
+            "data": [
+                -21.24,
+                -7.9999,
+                0.0,
+                1.000001
+            ],
+            "shape": [
+                4
+            ],
+            "type": "DECIMAL",
+            "primitive_name": "Input (1)"
         }
     ]
 }

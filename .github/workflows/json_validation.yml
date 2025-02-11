@@ -1,0 +1,36 @@
+name: JSON Validation
+
+on:
+    pull_request:
+      branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+    validate:
+        name: Validate JSON with graph_validation
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Graphbook
+              uses: actions/checkout@v4
+
+            - name: Install Python & Dependancies
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.10'
+
+            - name: Install graph_validation
+              run: pip install git+https://${{ secrets.ACCESS_TO_REPO_TOKEN }}@github.com/cerbrec/graph_validation.git@master
+            
+            - name: Validate JSON Files
+              run: |
+                python -c "
+                import os
+                from graph_validation import from_json_text
+                for root, _, files in os.walk('.'):
+                    for file in files:
+                        if file.endswith('.json'):
+                            from_json_text(os.path.join(root, file))
+                "

@@ -1,1 +1,243 @@
-{"name":"SELU","type":"COMPOSITE_OPERATION","inputs":[{"name":"Input","primitive_name":"Input"},{"name":"Scale","data":1.0507,"shape":[],"type":"DECIMAL","primitive_name":"Input (1)","flow_state":"BOOT_SOURCE"},{"name":"Alpha","data":1.6733,"shape":[],"type":"DECIMAL","primitive_name":"Input (2)","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"alpha_calculation","type":"COMPOSITE_OPERATION","position":{"x":622,"y":448},"inputs":[{"name":"Input","primitive_name":"Input"},{"name":"alpha","shape":[],"type":"DECIMAL","primitive_name":"Input (1)","flow_state":"BOOT_SINK"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"Natural Exponential","type":"COMPOSITE_OPERATION","position":{"x":616,"y":43},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"Broadcast Target to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":818,"y":1},"inputs":[{"name":"Target","data":2.7183,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"element_wise_exponentiate","primitive_name":"element_wise_exponentiate","type":"PRIMITIVE_OPERATION","aliases":["exp","pow","power"],"position":{"x":1601,"y":135},"inputs":[{"name":"base","primitive_name":"base"},{"name":"exponent","primitive_name":"exponent"}],"outputs":[{"name":"exponentiation","primitive_name":"exponentiation","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"element_wise_exponentiate","data":"exponent"},"control_points":[{"x":596,"y":360},{"x":1098,"y":360}]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Target to Shape of Array","data":"Array"},"control_points":[{"x":368,"y":105}]},{"source":{"operation":"Broadcast Target to Shape of Array","data":"Output"},"sink":{"operation":"element_wise_exponentiate","data":"base"},"control_points":[{"x":1264,"y":63},{"x":1396,"y":118}]},{"source":{"operation":"element_wise_exponentiate","data":"exponentiation"},"sink":{"operation":"this","data":"Output"},"control_points":[{"x":2074,"y":197}]}]},{"name":"Broadcast Target to Shape of Array (1)","type":"COMPOSITE_OPERATION","position":{"x":622,"y":194},"inputs":[{"name":"Target","data":1.0,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"subtract","primitive_name":"subtract","type":"PRIMITIVE_OPERATION","aliases":["minus","decrement"],"position":{"x":1168,"y":43},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"subtracted_result","primitive_name":"subtracted_result","flow_state":"UNBOUND"}]},{"name":"Get Alpha Array","type":"COMPOSITE_OPERATION","position":{"x":629,"y":370},"inputs":[{"name":"Target","shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SINK"},{"name":"Array","primitive_name":"Array"}],"input_order":[1,0],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"element_wise_multiply","primitive_name":"element_wise_multiply","type":"PRIMITIVE_OPERATION","aliases":["times"],"position":{"x":1650,"y":43},"inputs":[{"name":"left_array","primitive_name":"left_array"},{"name":"right_array","primitive_name":"right_array"}],"outputs":[{"name":"multiplied_array","primitive_name":"multiplied_array","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"Natural Exponential","data":"Output"},"sink":{"operation":"subtract","data":"left_operand"},"control_points":[]},{"source":{"operation":"subtract","data":"subtracted_result"},"sink":{"operation":"element_wise_multiply","data":"left_array"},"control_points":[]},{"source":{"operation":"element_wise_multiply","data":"multiplied_array"},"sink":{"operation":"this","data":"Output"},"control_points":[]},{"source":{"operation":"this","data":"alpha"},"sink":{"operation":"Get Alpha Array","data":"Target"},"control_points":[{"x":367,"y":474}]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Get Alpha Array","data":"Array"},"control_points":[{"x":399,"y":432}]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Target to Shape of Array (1)","data":"Array"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Natural Exponential","data":"Input"},"control_points":[]},{"source":{"operation":"Broadcast Target to Shape of Array (1)","data":"Output"},"sink":{"operation":"subtract","data":"right_operand"},"control_points":[]},{"source":{"operation":"Get Alpha Array","data":"Output"},"sink":{"operation":"element_wise_multiply","data":"right_array"},"control_points":[]}]},{"name":"Broadcast Scale & Zeros","type":"COMPOSITE_OPERATION","position":{"x":585,"y":42},"inputs":[{"name":"Input","primitive_name":"Input"},{"name":"Input (1)","shape":[],"type":"DECIMAL","primitive_name":"Input (1)","flow_state":"BOOT_SINK"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"},{"name":"Zeros Array","primitive_name":"Output (1)","flow_state":"UNBOUND"}],"operations":[{"name":"Get Scale Array","type":"COMPOSITE_OPERATION","position":{"x":439,"y":50},"inputs":[{"name":"Target","shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SINK"},{"name":"Array","primitive_name":"Array"}],"input_order":[1,0],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":342},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":43},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"Get Zeros Array","type":"COMPOSITE_OPERATION","position":{"x":440,"y":199},"inputs":[{"name":"Target","data":0.0,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"input_order":[1,0],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":342},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":43},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Get Scale Array","data":"Array"},"control_points":[]},{"source":{"operation":"this","data":"Input (1)"},"sink":{"operation":"Get Scale Array","data":"Target"},"control_points":[]},{"source":{"operation":"Get Scale Array","data":"Output"},"sink":{"operation":"this","data":"Output"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Get Zeros Array","data":"Array"},"control_points":[]},{"source":{"operation":"Get Zeros Array","data":"Output"},"sink":{"operation":"this","data":"Zeros Array"},"control_points":[]}]},{"name":"Min 2 Arrays","type":"COMPOSITE_OPERATION","position":{"x":1294,"y":409},"inputs":[{"name":"Input 1","primitive_name":"Input"},{"name":"Input 2","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"less_than","primitive_name":"less_than","type":"PRIMITIVE_OPERATION","aliases":["lt","less","smaller","smaller_than"],"position":{"x":486,"y":44},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"is_less_than","primitive_name":"is_less_than","flow_state":"UNBOUND"}]},{"name":"conditional_filter","primitive_name":"conditional_filter","type":"PRIMITIVE_OPERATION","aliases":["conditional_merge","replace","where"],"position":{"x":975,"y":316},"inputs":[{"name":"condition","primitive_name":"condition"},{"name":"data_if_true","primitive_name":"data_if_true"},{"name":"data_if_false","primitive_name":"data_if_false"}],"outputs":[{"name":"output_data","primitive_name":"output_data","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Input 1"},"sink":{"operation":"less_than","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input 2"},"sink":{"operation":"less_than","data":"right_operand"},"control_points":[]},{"source":{"operation":"less_than","data":"is_less_than"},"sink":{"operation":"conditional_filter","data":"condition"},"control_points":[]},{"source":{"operation":"this","data":"Input 1"},"sink":{"operation":"conditional_filter","data":"data_if_true"},"control_points":[{"x":517,"y":420}]},{"source":{"operation":"this","data":"Input 2"},"sink":{"operation":"conditional_filter","data":"data_if_false"},"control_points":[{"x":477,"y":462}]},{"source":{"operation":"conditional_filter","data":"output_data"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"Max 2 Arrays","type":"COMPOSITE_OPERATION","position":{"x":1294,"y":222},"inputs":[{"name":"array_1","primitive_name":"Input (1)"},{"name":"array_2","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"greater_than","primitive_name":"greater_than","type":"PRIMITIVE_OPERATION","aliases":["gt","greater","larger","larger_than","bigger","bigger_than"],"position":{"x":401,"y":48},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"is_greater_than","primitive_name":"is_greater_than","flow_state":"UNBOUND"}]},{"name":"conditional_filter","primitive_name":"conditional_filter","type":"PRIMITIVE_OPERATION","aliases":["conditional_merge","replace","where"],"position":{"x":833,"y":247},"inputs":[{"name":"condition","primitive_name":"condition"},{"name":"data_if_true","primitive_name":"data_if_true"},{"name":"data_if_false","primitive_name":"data_if_false"}],"outputs":[{"name":"output_data","primitive_name":"output_data","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"array_2"},"sink":{"operation":"conditional_filter","data":"data_if_false"},"control_points":[{"x":290,"y":388}]},{"source":{"operation":"this","data":"array_1"},"sink":{"operation":"conditional_filter","data":"data_if_true"},"control_points":[{"x":300,"y":346}]},{"source":{"operation":"this","data":"array_1"},"sink":{"operation":"greater_than","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"array_2"},"sink":{"operation":"greater_than","data":"right_operand"},"control_points":[]},{"source":{"operation":"greater_than","data":"is_greater_than"},"sink":{"operation":"conditional_filter","data":"condition"},"control_points":[]},{"source":{"operation":"conditional_filter","data":"output_data"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"add","primitive_name":"add","type":"PRIMITIVE_OPERATION","aliases":["plus","increment"],"position":{"x":1808,"y":308},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"added_result","primitive_name":"added_result","flow_state":"UNBOUND"}]},{"name":"element_wise_multiply","primitive_name":"element_wise_multiply","type":"PRIMITIVE_OPERATION","aliases":["times"],"position":{"x":2520,"y":43},"inputs":[{"name":"left_array","primitive_name":"left_array"},{"name":"right_array","primitive_name":"right_array"}],"outputs":[{"name":"multiplied_array","primitive_name":"multiplied_array","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"alpha_calculation","data":"Input"},"control_points":[]},{"source":{"operation":"this","data":"Alpha"},"sink":{"operation":"alpha_calculation","data":"alpha"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Max 2 Arrays","data":"array_2"},"control_points":[{"x":698,"y":329}]},{"source":{"operation":"alpha_calculation","data":"Output"},"sink":{"operation":"Min 2 Arrays","data":"Input 2"},"control_points":[]},{"source":{"operation":"Max 2 Arrays","data":"Output"},"sink":{"operation":"add","data":"left_operand"},"control_points":[]},{"source":{"operation":"Min 2 Arrays","data":"Output"},"sink":{"operation":"add","data":"right_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Scale & Zeros","data":"Input"},"control_points":[]},{"source":{"operation":"this","data":"Scale"},"sink":{"operation":"Broadcast Scale & Zeros","data":"Input (1)"},"control_points":[]},{"source":{"operation":"Broadcast Scale & Zeros","data":"Zeros Array"},"sink":{"operation":"Max 2 Arrays","data":"array_1"},"control_points":[]},{"source":{"operation":"Broadcast Scale & Zeros","data":"Zeros Array"},"sink":{"operation":"Min 2 Arrays","data":"Input 1"},"control_points":[]},{"source":{"operation":"Broadcast Scale & Zeros","data":"Output"},"sink":{"operation":"element_wise_multiply","data":"left_array"},"control_points":[]},{"source":{"operation":"add","data":"added_result"},"sink":{"operation":"element_wise_multiply","data":"right_array"},"control_points":[]},{"source":{"operation":"element_wise_multiply","data":"multiplied_array"},"sink":{"operation":"this","data":"Output"},"control_points":[]}],"global_constants":[]}
+{
+   "name": "SELU",
+   "type": "COMPOSITE_OPERATION",
+   "aliases": [
+     "Scaled Exponential Linear Unit",
+     "Self-Normalizing Activation Function"
+   ],
+   "inputs": [
+     {
+       "name": "Input",
+       "primitive_name": "Input"
+     },
+     {
+       "name": "Scale",
+       "data": 1.0507,
+       "shape": [],
+       "type": "DECIMAL",
+       "primitive_name": "Input (1)",
+       "flow_state": "BOOT_SOURCE"
+     },
+     {
+       "name": "Alpha",
+       "data": 1.6733,
+       "shape": [],
+       "type": "DECIMAL",
+       "primitive_name": "Input (2)",
+       "flow_state": "BOOT_SOURCE"
+     }
+   ],
+   "outputs": [
+     {
+       "name": "Output",
+       "primitive_name": "Output",
+       "flow_state": "UNBOUND"
+     }
+   ],
+   "description": {
+       "summary": "Applies the SELU function element-wise.",
+       "formula": "SELU(x) = scale*(max(0,x))+min(0, α*(exp(x)−1)))",
+       "constants": {
+           "α": {
+               "description": "α=1.6732632423543772848170429916717"
+           },
+           "scale": {
+               "description": "scale=1.0507009873554804934193349852946 "
+           }
+       },
+       "warning": "When using kaiming_normal or kaiming_normal_ for initialisation, nonlinearity='linear' should be used instead of nonlinearity='selu' in order to get Self-Normalizing Neural Networks. See torch.nn.init.calculate_gain() for more information.",
+       "parameters": {
+         "inplace": {
+           "description": "Can optionally do the operation in-place.",
+           "type": "bool",
+           "default": false
+         }
+       },
+       "shape": {
+           "input": "(*)",
+           "output": "(*)",
+           "note": "The output shape is the same as the input shape."
+         } 
+     },
+   "operations": [
+     {
+       "name": "alpha_calculation",
+       "type": "COMPOSITE_OPERATION",
+       "position": { "x": 622, "y": 448 },
+       "inputs": [
+         { "name": "Input", "primitive_name": "Input" },
+         {
+           "name": "alpha",
+           "shape": [],
+           "type": "DECIMAL",
+           "primitive_name": "Input (1)",
+           "flow_state": "BOOT_SINK"
+         }
+       ],
+       "outputs": [
+         {
+           "name": "Output",
+           "primitive_name": "Output",
+           "flow_state": "UNBOUND"
+         }
+       ],
+       "operations": [
+         {
+           "name": "Natural Exponential",
+           "type": "COMPOSITE_OPERATION",
+           "position": { "x": 616, "y": 43 },
+           "inputs": [
+             { "name": "Input", "primitive_name": "Input" }
+           ],
+           "outputs": [
+             {
+               "name": "Output",
+               "primitive_name": "Output",
+               "flow_state": "UNBOUND"
+             }
+           ],
+           "operations": [
+             {
+               "name": "Broadcast Target to Shape of Array",
+               "type": "COMPOSITE_OPERATION",
+               "position": { "x": 818, "y": 1 },
+               "inputs": [
+                 {
+                   "name": "Target",
+                   "data": 2.7183,
+                   "shape": [],
+                   "type": "DECIMAL",
+                   "primitive_name": "Target",
+                   "flow_state": "BOOT_SOURCE"
+                 },
+                 { "name": "Array", "primitive_name": "Array" }
+               ],
+               "outputs": [
+                 {
+                   "name": "Output",
+                   "primitive_name": "Output",
+                   "flow_state": "UNBOUND"
+                 }
+               ],
+               "operations": [
+                 {
+                   "name": "get_shape",
+                   "primitive_name": "get_shape",
+                   "type": "PRIMITIVE_OPERATION",
+                   "position": { "x": 601, "y": 346 },
+                   "inputs": [{ "name": "input", "primitive_name": "input" }],
+                   "outputs": [
+                     {
+                       "name": "shape",
+                       "primitive_name": "shape",
+                       "flow_state": "UNBOUND"
+                     }
+                   ],
+                   "is_disabled": false
+                 },
+                 {
+                   "name": "broadcast_to_shape",
+                   "primitive_name": "broadcast_to_shape",
+                   "type": "PRIMITIVE_OPERATION",
+                   "position": { "x": 1097, "y": 42 },
+                   "inputs": [
+                     {
+                       "name": "target",
+                       "shape": [],
+                       "type": "DECIMAL",
+                       "primitive_name": "target",
+                       "flow_state": "BOOT_SINK"
+                     },
+                     { "name": "shape", "primitive_name": "shape" }
+                   ],
+                   "outputs": [
+                     {
+                       "name": "result",
+                       "primitive_name": "result",
+                       "flow_state": "UNBOUND"
+                     }
+                   ],
+                   "is_disabled": false
+                 }
+               ],
+               "links": [
+                 {
+                   "source": { "operation": "this", "data": "Array" },
+                   "sink": { "operation": "get_shape", "data": "input" },
+                   "control_points": [{ "x": 427, "y": 404 }]
+                 },
+                 {
+                   "source": { "operation": "this", "data": "Target" },
+                   "sink": { "operation": "broadcast_to_shape", "data": "target" },
+                   "control_points": []
+                 },
+                 {
+                   "source": { "operation": "get_shape", "data": "shape" },
+                   "sink": { "operation": "broadcast_to_shape", "data": "shape" },
+                   "control_points": []
+                 },
+                 {
+                   "source": { "operation": "broadcast_to_shape", "data": "result" },
+                   "sink": { "operation": "this", "data": "Output" },
+                   "control_points": []
+                 }
+               ],
+               "is_disabled": false
+             },
+             {
+               "name": "element_wise_exponentiate",
+               "primitive_name": "element_wise_exponentiate",
+               "type": "PRIMITIVE_OPERATION",
+               "position": { "x": 1601, "y": 135 },
+               "inputs": [
+                 { "name": "base", "primitive_name": "base" },
+                 { "name": "exponent", "primitive_name": "exponent" }
+               ],
+               "outputs": [
+                 {
+                   "name": "exponentiation",
+                   "primitive_name": "exponentiation",
+                   "flow_state": "UNBOUND"
+                 }
+               ],
+               "is_disabled": false
+             }
+           ],
+           "links": [
+             {
+               "source": { "operation": "this", "data": "Input" },
+               "sink": { "operation": "element_wise_exponentiate", "data": "exponent" },
+               "control_points": [
+                 { "x": 596, "y": 360 },
+                 { "x": 1098, "y": 360 }
+               ]
+             },
+             {
+               "source": { "operation": "this", "data": "Input" },
+               "sink": { "operation": "Broadcast Target to Shape of Array", "data": "Array" },
+               "control_points": [{ "x": 368, "y": 105 }]
+             },
+             {
+               "source": { "operation": "Broadcast Target to Shape of Array", "data": "Output" },
+               "sink": { "operation": "element_wise_exponentiate", "data": "base" },
+               "control_points": [
+                 { "x": 1264, "y": 63 },
+                 { "x": 1396, "y": 118 }
+               ]
+             },
+             {
+               "source": { "operation": "element_wise_exponentiate", "data": "exponentiation" },
+               "sink": { "operation": "this", "data": "Output" },
+               "control_points": [{ "x": 2074, "y": 197 }]
+             }
+           ],
+           "is_disabled": false
+         }
+       ],
+       "is_disabled": false
+     }
+   ],
+   "global_constants": [],
+   "is_disabled": false
+ }
+ 

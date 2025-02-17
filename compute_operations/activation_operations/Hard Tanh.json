@@ -1,1 +1,409 @@
-{"name":"Hard Tanh","type":"COMPOSITE_OPERATION","inputs":[{"name":"Input","primitive_name":"Input"},{"name":"max_val","primitive_name":"Input (1)"},{"name":"min_val","primitive_name":"Input (1)"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":284,"y":249},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"conditional_filter","primitive_name":"conditional_filter","type":"PRIMITIVE_OPERATION","aliases":["conditional_merge","replace","where"],"position":{"x":2551,"y":11},"inputs":[{"name":"condition","primitive_name":"condition"},{"name":"data_if_true","primitive_name":"data_if_true"},{"name":"data_if_false","primitive_name":"data_if_false"}],"outputs":[{"name":"output_data","primitive_name":"output_data","flow_state":"UNBOUND"}]},{"name":"Min_val and Input Comparison","type":"COMPOSITE_OPERATION","position":{"x":1116,"y":494},"inputs":[{"name":"Input","primitive_name":"Input"},{"name":"shape","primitive_name":"Input (1)"},{"name":"min_val","primitive_name":"Input (1)"}],"subgraph_input_order":[0,2,1],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"Broadcast min_val","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["tile_to_shape","expand_to_shape","extend_to_shape"],"position":{"x":290,"y":97},"inputs":[{"name":"target","primitive_name":"target"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]},{"name":"Less than min_val","primitive_name":"less_than","type":"PRIMITIVE_OPERATION","aliases":["lt","less","smaller","smaller_than"],"position":{"x":1079,"y":-2},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"is_less_than","primitive_name":"is_less_than","flow_state":"UNBOUND"}]},{"name":"conditional_filter","primitive_name":"conditional_filter","type":"PRIMITIVE_OPERATION","aliases":["conditional_merge","replace","where"],"position":{"x":1672,"y":113},"inputs":[{"name":"condition","primitive_name":"condition"},{"name":"data_if_true","primitive_name":"data_if_true"},{"name":"data_if_false","primitive_name":"data_if_false"}],"outputs":[{"name":"output_data","primitive_name":"output_data","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"shape"},"sink":{"operation":"Broadcast min_val","data":"shape"},"control_points":[]},{"source":{"operation":"this","data":"min_val"},"sink":{"operation":"Broadcast min_val","data":"target"},"control_points":[{"x":220,"y":164}]},{"source":{"operation":"Broadcast min_val","data":"result"},"sink":{"operation":"Less than min_val","data":"right_operand"},"control_points":[{"x":775,"y":105}]},{"source":{"operation":"Less than min_val","data":"is_less_than"},"sink":{"operation":"conditional_filter","data":"condition"},"control_points":[]},{"source":{"operation":"Broadcast min_val","data":"result"},"sink":{"operation":"conditional_filter","data":"data_if_true"},"control_points":[{"x":774,"y":282},{"x":1403,"y":282}]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Less than min_val","data":"left_operand"},"control_points":[{"x":201,"y":60}]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"conditional_filter","data":"data_if_false"},"control_points":[{"x":278,"y":470},{"x":1406,"y":470}]},{"source":{"operation":"conditional_filter","data":"output_data"},"sink":{"operation":"this","data":"Output"},"control_points":[{"x":2198,"y":175}]}]},{"name":"Max_val and Input Comparison","type":"COMPOSITE_OPERATION","position":{"x":1238,"y":46},"inputs":[{"name":"Input","primitive_name":"Input"},{"name":"max_val","primitive_name":"Input (1)"},{"name":"shape","primitive_name":"Input (2)"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"},{"name":"cond","primitive_name":"Output (1)","flow_state":"UNBOUND"}],"subgraph_output_order":[1,0],"operations":[{"name":"Broadcast max_val","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["tile_to_shape","expand_to_shape","extend_to_shape"],"position":{"x":426,"y":98},"inputs":[{"name":"target","primitive_name":"target"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]},{"name":"greater_than max","primitive_name":"greater_than","type":"PRIMITIVE_OPERATION","aliases":["gt","greater","larger","larger_than","bigger","bigger_than"],"position":{"x":1127,"y":99},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"is_greater_than","primitive_name":"is_greater_than","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"max_val"},"sink":{"operation":"Broadcast max_val","data":"target"},"control_points":[]},{"source":{"operation":"this","data":"shape"},"sink":{"operation":"Broadcast max_val","data":"shape"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"greater_than max","data":"left_operand"},"control_points":[{"x":264,"y":40},{"x":836,"y":40}]},{"source":{"operation":"Broadcast max_val","data":"result"},"sink":{"operation":"greater_than max","data":"right_operand"},"control_points":[{"x":852,"y":205}]},{"source":{"operation":"greater_than max","data":"is_greater_than"},"sink":{"operation":"this","data":"cond"},"control_points":[{"x":1522,"y":109}]},{"source":{"operation":"Broadcast max_val","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[{"x":934,"y":422},{"x":1488,"y":422}]}]}],"links":[{"source":{"operation":"conditional_filter","data":"output_data"},"sink":{"operation":"this","data":"Output"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":246,"y":311}]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"Min_val and Input Comparison","data":"shape"},"control_points":[{"x":648,"y":352}]},{"source":{"operation":"Min_val and Input Comparison","data":"Output"},"sink":{"operation":"conditional_filter","data":"data_if_false"},"control_points":[{"x":1996,"y":560}]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"Max_val and Input Comparison","data":"shape"},"control_points":[]},{"source":{"operation":"this","data":"max_val"},"sink":{"operation":"Max_val and Input Comparison","data":"max_val"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Max_val and Input Comparison","data":"Input"},"control_points":[]},{"source":{"operation":"Max_val and Input Comparison","data":"Output"},"sink":{"operation":"conditional_filter","data":"data_if_true"},"control_points":[]},{"source":{"operation":"Max_val and Input Comparison","data":"cond"},"sink":{"operation":"conditional_filter","data":"condition"},"control_points":[{"x":1736,"y":73}]}],"global_constants":[]}
+{
+   "name": "Hard Tanh",
+   "type": "COMPOSITE_OPERATION",
+   "aliases": [
+     "Hard Hyperbolic Tangent",
+     "Clipped Tanh",
+     "Piecewise Tanh"
+   ],
+   "description": [
+     "Hard Tanh is an activation function used for neural networks. It is a cheaper, and more computationally-efficient version of the tanh activation function. The Hard Tanh function output ranges from -1 to 1 and has a more rigid graphical structure.",
+     "The Hard Tanh activation function clamps the output to be within the range of min_val and max_val, acting like a tanh function but with a piecewise linear approximation.",
+     "Formula: { f(x)= -1 if x<-1, f(x)= x if is within[-1,1], f(x) = 1 if x>1}",
+
+
+     "References/Pytorch: Hardtanh, url: https://pytorch.org/docs/stable/generated/torch.nn.Hardtanh.html#torch.nn.Hardtanh",
+
+
+     "References/Paper: Hardtanh activation, url: https://paperswithcode.com/method/hardtanh-activation",
+
+
+     "References/Lecture Notes: CS 224D: Deep Learning for NLP, url: https://cs224d.stanford.edu/lecture_notes/LectureNotes3.pdf",
+    
+     "References/Paper: Activation Hardtanh, url: https://help.autodesk.com/view/BIFROST/ENU/?guid=Bifrost_Common_reference_MachineLearning_Activation_MachineLearning_Activation_activation_hard_tanh_html"
+   ],
+   "inputs": [
+     {
+       "name": "Input",
+       "primitive_name": "Input",
+       "input_types_allowed": ["DECIMAL"],
+       "array_allowed": true,
+       "scalar_allowed": false
+     },
+     {
+       "name": "max_val",
+       "primitive_name": "Input (1)",
+       "input_types_allowed": ["DECIMAL"],
+       "array_allowed": false,
+       "scalar_allowed": true
+     },
+     {
+       "name": "min_val",
+       "primitive_name": "Input (1)",
+       "input_types_allowed": ["TEXT"],
+       "array_allowed": false,
+       "scalar_allowed": true
+     }
+   ],
+   "outputs": [
+     {
+       "name": "Output",
+       "primitive_name": "Output",
+       "flow_state": "UNBOUND"
+     }
+   ],
+   "operations": [
+     {
+       "name": "get_shape",
+       "primitive_name": "get_shape",
+       "type": "PRIMITIVE_OPERATION",
+       "position": {"x": 284, "y": 249},
+       "inputs": [
+         {
+           "name": "input",
+           "primitive_name": "input"
+         }
+       ],
+       "outputs": [
+         {
+           "name": "shape",
+           "primitive_name": "shape",
+           "flow_state": "UNBOUND"
+         }
+       ]
+     },
+     {
+       "name": "Min_val and Input Comparison",
+       "type": "COMPOSITE_OPERATION",
+       "position": {"x": 1116, "y": 494},
+       "inputs": [
+         {
+           "name": "Input",
+           "primitive_name": "Input"
+         },
+         {
+           "name": "shape",
+           "primitive_name": "Input (1)"
+         },
+         {
+           "name": "min_val",
+           "primitive_name": "Input (1)"
+         }
+       ],
+       "subgraph_input_order": [0, 2, 1],
+       "outputs": [
+         {
+           "name": "Output",
+           "primitive_name": "Output",
+           "flow_state": "UNBOUND"
+         }
+       ],
+       "operations": [
+         {
+           "name": "Broadcast min_val",
+           "primitive_name": "broadcast_to_shape",
+           "type": "PRIMITIVE_OPERATION",
+           "position": {"x": 290, "y": 97},
+           "inputs": [
+             {
+               "name": "target",
+               "primitive_name": "target"
+             },
+             {
+               "name": "shape",
+               "primitive_name": "shape"
+             }
+           ],
+           "outputs": [
+             {
+               "name": "result",
+               "primitive_name": "result",
+               "flow_state": "UNBOUND"
+             }
+           ]
+         },
+         {
+           "name": "Less than min_val",
+           "primitive_name": "less_than",
+           "type": "PRIMITIVE_OPERATION",
+           "position": {"x": 1079, "y": -2},
+           "inputs": [
+             {
+               "name": "left_operand",
+               "primitive_name": "left_operand"
+             },
+             {
+               "name": "right_operand",
+               "primitive_name": "right_operand"
+             }
+           ],
+           "outputs": [
+             {
+               "name": "is_less_than",
+               "primitive_name": "is_less_than",
+               "flow_state": "UNBOUND"
+             }
+           ]
+         },
+         {
+           "name": "conditional_filter",
+           "primitive_name": "conditional_filter",
+           "type": "PRIMITIVE_OPERATION",
+           "position": {"x": 1672, "y": 113},
+           "inputs": [
+             {
+               "name": "condition",
+               "primitive_name": "condition"
+             },
+             {
+               "name": "data_if_true",
+               "primitive_name": "data_if_true"
+             },
+             {
+               "name": "data_if_false",
+               "primitive_name": "data_if_false"
+             }
+           ],
+           "outputs": [
+             {
+               "name": "output_data",
+               "primitive_name": "output_data",
+               "flow_state": "UNBOUND"
+             }
+           ]
+         }
+       ],
+       "links": [
+         {
+           "source": {"operation": "this", "data": "shape"},
+           "sink": {"operation": "Broadcast min_val", "data": "shape"},
+           "control_points": []
+         },
+         {
+           "source": {"operation": "this", "data": "min_val"},
+           "sink": {"operation": "Broadcast min_val", "data": "target"},
+           "control_points": [{"x": 220, "y": 164}]
+         },
+         {
+           "source": {"operation": "Broadcast min_val", "data": "result"},
+           "sink": {"operation": "Less than min_val", "data": "right_operand"},
+           "control_points": [{"x": 775, "y": 105}]
+         },
+         {
+           "source": {"operation": "Less than min_val", "data": "is_less_than"},
+           "sink": {"operation": "conditional_filter", "data": "condition"},
+           "control_points": []
+         },
+         {
+           "source": {"operation": "Broadcast min_val", "data": "result"},
+           "sink": {"operation": "conditional_filter", "data": "data_if_true"},
+           "control_points": [{"x": 774, "y": 282}, {"x": 1403, "y": 282}]
+         },
+         {
+           "source": {"operation": "this", "data": "Input"},
+           "sink": {"operation": "Less than min_val", "data": "left_operand"},
+           "control_points": [{"x": 201, "y": 60}]
+         },
+         {
+           "source": {"operation": "this", "data": "Input"},
+           "sink": {"operation": "conditional_filter", "data": "data_if_false"},
+           "control_points": [{"x": 278, "y": 470}, {"x": 1406, "y": 470}]
+         },
+         {
+           "source": {"operation": "conditional_filter", "data": "output_data"},
+           "sink": {"operation": "this", "data": "Output"},
+           "control_points": [{"x": 2198, "y": 175}]
+         }
+       ]
+     },
+     {
+       "name": "Max_val and Input Comparison",
+       "type": "COMPOSITE_OPERATION",
+       "position": {"x": 1238, "y": 46},
+       "inputs": [
+         {
+           "name": "Input",
+           "primitive_name": "Input"
+         },
+         {
+           "name": "max_val",
+           "primitive_name": "Input (1)"
+         },
+         {
+           "name": "shape",
+           "primitive_name": "Input (2)"
+         }
+       ],
+       "outputs": [
+         {
+           "name": "Output",
+           "primitive_name": "Output",
+           "flow_state": "UNBOUND"
+         },
+         {
+           "name": "cond",
+           "primitive_name": "Output (1)",
+           "flow_state": "UNBOUND"
+         }
+       ],
+       "subgraph_output_order": [1, 0],
+       "operations": [
+         {
+           "name": "Broadcast max_val",
+           "primitive_name": "broadcast_to_shape",
+           "type": "PRIMITIVE_OPERATION",
+           "position": {"x": 426, "y": 98},
+           "inputs": [
+             {
+               "name": "target",
+               "primitive_name": "target"
+             },
+             {
+               "name": "shape",
+               "primitive_name": "shape"
+             }
+           ],
+           "outputs": [
+             {
+               "name": "result",
+               "primitive_name": "result",
+               "flow_state": "UNBOUND"
+             }
+           ]
+         },
+         {
+           "name": "greater_than max",
+           "primitive_name": "greater_than",
+           "type": "PRIMITIVE_OPERATION",
+           "position": {"x": 1127, "y": 99},
+           "inputs": [
+             {
+               "name": "left_operand",
+               "primitive_name": "left_operand"
+             },
+             {
+               "name": "right_operand",
+               "primitive_name": "right_operand"
+             }
+           ],
+           "outputs": [
+             {
+               "name": "is_greater_than",
+               "primitive_name": "is_greater_than",
+               "flow_state": "UNBOUND"
+             }
+           ]
+         }
+       ],
+       "links": [
+         {
+           "source": {"operation": "this", "data": "max_val"},
+           "sink": {"operation": "Broadcast max_val", "data": "target"},
+           "control_points": []
+         },
+         {
+           "source": {"operation": "this", "data": "shape"},
+           "sink": {"operation": "Broadcast max_val", "data": "shape"},
+           "control_points": []
+         },
+         {
+           "source": {"operation": "this", "data": "Input"},
+           "sink": {"operation": "greater_than max", "data": "left_operand"},
+           "control_points": [{"x": 264, "y": 40}, {"x": 836, "y": 40}]
+         },
+         {
+           "source": {"operation": "Broadcast max_val", "data": "result"},
+           "sink": {"operation": "greater_than max", "data": "right_operand"},
+           "control_points": [{"x": 852, "y": 205}]
+         },
+         {
+           "source": {"operation": "greater_than max", "data": "is_greater_than"},
+           "sink": {"operation": "this", "data": "cond"},
+           "control_points": [{"x": 1522, "y": 109}]
+         },
+         {
+           "source": {"operation": "Broadcast max_val", "data": "result"},
+           "sink": {"operation": "this", "data": "Output"},
+           "control_points": [{"x": 934, "y": 422}, {"x": 1488, "y": 422}]
+         }
+       ]
+     },
+     {
+       "name": "conditional_filter",
+       "primitive_name": "conditional_filter",
+       "type": "PRIMITIVE_OPERATION",
+       "position": {"x": 2551, "y": 11},
+       "inputs": [
+         {
+           "name": "condition",
+           "primitive_name": "condition"
+         },
+         {
+           "name": "data_if_true",
+           "primitive_name": "data_if_true"
+         },
+         {
+           "name": "data_if_false",
+           "primitive_name": "data_if_false"
+         }
+       ],
+       "outputs": [
+         {
+           "name": "output_data",
+           "primitive_name": "output_data",
+           "flow_state": "UNBOUND"
+         }
+       ]
+     }
+   ],
+   "links": [
+     {
+       "source": {"operation": "conditional_filter", "data": "output_data"},
+       "sink": {"operation": "this", "data": "Output"},
+       "control_points": []
+     },
+     {
+       "source": {"operation": "this", "data": "Input"},
+       "sink": {"operation": "get_shape", "data": "input"},
+       "control_points": [{"x": 246, "y": 311}]
+     },
+     {
+       "source": {"operation": "get_shape", "data": "shape"},
+       "sink": {"operation": "Min_val and Input Comparison", "data": "shape"},
+       "control_points": [{"x": 648, "y": 352}]
+     },
+     {
+       "source": {"operation": "Min_val and Input Comparison", "data": "Output"},
+       "sink": {"operation": "conditional_filter", "data": "data_if_false"},
+       "control_points": [{"x": 1996, "y": 560}]
+     },
+     {
+       "source": {"operation": "get_shape", "data": "shape"},
+       "sink": {"operation": "Max_val and Input Comparison", "data": "shape"},
+       "control_points": []
+     },
+     {
+       "source": {"operation": "this", "data": "max_val"},
+       "sink": {"operation": "Max_val and Input Comparison", "data": "max_val"},
+       "control_points": []
+     },
+     {
+       "source": {"operation": "this", "data": "Input"},
+       "sink": {"operation": "Max_val and Input Comparison", "data": "Input"},
+       "control_points": []
+     },
+     {
+       "source": {"operation": "Max_val and Input Comparison", "data": "Output"},
+       "sink": {"operation": "conditional_filter", "data": "data_if_true"},
+       "control_points": []
+     },
+     {
+       "source": {"operation": "Max_val and Input Comparison", "data": "cond"},
+       "sink": {"operation": "conditional_filter", "data": "condition"},
+       "control_points": [{"x": 1736, "y": 73}]
+     }
+   ],
+   "global_constants": []
+ }
+ 
+ 

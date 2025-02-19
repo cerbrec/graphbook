@@ -149,7 +149,7 @@
                     "type": "DECIMAL"
                 },
                 {
-                    "name": "weight",
+                    "name": "kernel",
                     "data": [
                         [
                             [

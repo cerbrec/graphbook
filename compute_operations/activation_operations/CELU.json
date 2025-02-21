@@ -1,1 +1,1644 @@
-{"name":"CELU","type":"COMPOSITE_OPERATION","inputs":[{"name":"Input","primitive_name":"Input"},{"name":"alpha","primitive_name":"Input (1)"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"Broadcast Zero to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":540,"y":1},"inputs":[{"name":"Target","data":[0.0],"shape":[1],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[1],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"Max 2 Arrays","type":"COMPOSITE_OPERATION","position":{"x":1366,"y":111},"inputs":[{"name":"array_1","primitive_name":"Input (1)"},{"name":"array_2","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"greater_than","primitive_name":"greater_than","type":"PRIMITIVE_OPERATION","aliases":["gt","greater","larger","larger_than","bigger","bigger_than"],"position":{"x":316,"y":43},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"is_greater_than","primitive_name":"is_greater_than","flow_state":"UNBOUND"}]},{"name":"conditional_filter","primitive_name":"conditional_filter","type":"PRIMITIVE_OPERATION","aliases":["conditional_merge","replace","where"],"position":{"x":748,"y":240},"inputs":[{"name":"condition","primitive_name":"condition"},{"name":"data_if_true","primitive_name":"data_if_true"},{"name":"data_if_false","primitive_name":"data_if_false"}],"outputs":[{"name":"output_data","primitive_name":"output_data","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"array_2"},"sink":{"operation":"conditional_filter","data":"data_if_false"},"control_points":[{"x":290,"y":390}]},{"source":{"operation":"this","data":"array_1"},"sink":{"operation":"conditional_filter","data":"data_if_true"},"control_points":[{"x":300,"y":346}]},{"source":{"operation":"conditional_filter","data":"output_data"},"sink":{"operation":"this","data":"Output"},"control_points":[{"x":1133,"y":109}]},{"source":{"operation":"this","data":"array_1"},"sink":{"operation":"greater_than","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"array_2"},"sink":{"operation":"greater_than","data":"right_operand"},"control_points":[{"x":257,"y":154}]},{"source":{"operation":"greater_than","data":"is_greater_than"},"sink":{"operation":"conditional_filter","data":"condition"},"control_points":[{"x":757,"y":105}]}]},{"name":"Min 2 Arrays","type":"COMPOSITE_OPERATION","position":{"x":1368,"y":340},"inputs":[{"name":"Input 1","primitive_name":"Input"},{"name":"Input 2","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"less_than","primitive_name":"less_than","type":"PRIMITIVE_OPERATION","aliases":["lt","less","smaller","smaller_than"],"position":{"x":478,"y":166},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"is_less_than","primitive_name":"is_less_than","flow_state":"UNBOUND"}]},{"name":"conditional_filter","primitive_name":"conditional_filter","type":"PRIMITIVE_OPERATION","aliases":["conditional_merge","replace","where"],"position":{"x":1080,"y":322},"inputs":[{"name":"condition","primitive_name":"condition"},{"name":"data_if_true","primitive_name":"data_if_true"},{"name":"data_if_false","primitive_name":"data_if_false"}],"outputs":[{"name":"output_data","primitive_name":"output_data","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Input 1"},"sink":{"operation":"less_than","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input 2"},"sink":{"operation":"less_than","data":"right_operand"},"control_points":[]},{"source":{"operation":"less_than","data":"is_less_than"},"sink":{"operation":"conditional_filter","data":"condition"},"control_points":[]},{"source":{"operation":"this","data":"Input 1"},"sink":{"operation":"conditional_filter","data":"data_if_true"},"control_points":[]},{"source":{"operation":"this","data":"Input 2"},"sink":{"operation":"conditional_filter","data":"data_if_false"},"control_points":[]},{"source":{"operation":"conditional_filter","data":"output_data"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"add","primitive_name":"add","type":"PRIMITIVE_OPERATION","aliases":["plus","increment"],"position":{"x":2158,"y":196},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"added_result","primitive_name":"added_result","flow_state":"UNBOUND"}]},{"name":"Calculate Alpha","type":"COMPOSITE_OPERATION","position":{"x":538,"y":381},"inputs":[{"name":"Input","primitive_name":"Input"},{"name":"alpha","primitive_name":"Input (1)"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"Broadcast Alpha & Ones","type":"COMPOSITE_OPERATION","position":{"x":528,"y":189},"inputs":[{"name":"Input","primitive_name":"Input"},{"name":"Input (1)","primitive_name":"Input (1)"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"},{"name":"Ones Array","primitive_name":"Output (1)","flow_state":"UNBOUND"}],"output_order":[1,0],"operations":[{"name":"Broadcast Target to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":381,"y":51},"inputs":[{"name":"Target","primitive_name":"Target"},{"name":"Array","primitive_name":"Array"}],"input_order":[1,0],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","primitive_name":"target"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"Broadcast Target to Shape of Array (1)","type":"COMPOSITE_OPERATION","position":{"x":384,"y":206},"inputs":[{"name":"Target","data":1.0,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"input_order":[1,0],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Target to Shape of Array","data":"Array"},"control_points":[]},{"source":{"operation":"this","data":"Input (1)"},"sink":{"operation":"Broadcast Target to Shape of Array","data":"Target"},"control_points":[]},{"source":{"operation":"Broadcast Target to Shape of Array","data":"Output"},"sink":{"operation":"this","data":"Output"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Target to Shape of Array (1)","data":"Array"},"control_points":[]},{"source":{"operation":"Broadcast Target to Shape of Array (1)","data":"Output"},"sink":{"operation":"this","data":"Ones Array"},"control_points":[]}]},{"name":"divide","primitive_name":"divide","type":"PRIMITIVE_OPERATION","aliases":["div"],"position":{"x":1027,"y":43},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"divided_result","primitive_name":"divided_result","flow_state":"UNBOUND"}]},{"name":"Natural Exponential (Arrays)","type":"COMPOSITE_OPERATION","position":{"x":1444,"y":40},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"Broadcast Target to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":817,"y":1},"inputs":[{"name":"Target","data":2.7183,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"element_wise_exponentiate","primitive_name":"element_wise_exponentiate","type":"PRIMITIVE_OPERATION","aliases":["exp","pow","power"],"position":{"x":1601,"y":135},"inputs":[{"name":"base","primitive_name":"base"},{"name":"exponent","primitive_name":"exponent"}],"outputs":[{"name":"exponentiation","primitive_name":"exponentiation","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"element_wise_exponentiate","data":"exponent"},"control_points":[{"x":596,"y":360},{"x":1098,"y":360}]},{"source":{"operation":"Broadcast Target to Shape of Array","data":"Output"},"sink":{"operation":"element_wise_exponentiate","data":"base"},"control_points":[{"x":1264,"y":63},{"x":1396,"y":118}]},{"source":{"operation":"element_wise_exponentiate","data":"exponentiation"},"sink":{"operation":"this","data":"Output"},"control_points":[{"x":2074,"y":197}]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Target to Shape of Array","data":"Array"},"control_points":[]}]},{"name":"subtract","primitive_name":"subtract","type":"PRIMITIVE_OPERATION","aliases":["minus","decrement"],"position":{"x":1863,"y":146},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"subtracted_result","primitive_name":"subtracted_result","flow_state":"UNBOUND"}]},{"name":"element_wise_multiply","primitive_name":"element_wise_multiply","type":"PRIMITIVE_OPERATION","aliases":["times"],"position":{"x":2304,"y":301},"inputs":[{"name":"left_array","primitive_name":"left_array"},{"name":"right_array","primitive_name":"right_array"}],"outputs":[{"name":"multiplied_array","primitive_name":"multiplied_array","flow_state":"UNBOUND"}]},{"name":"Broadcast Target to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":2769,"y":447},"inputs":[{"name":"Target","primitive_name":"Target"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":342},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":47},"inputs":[{"name":"target","primitive_name":"target"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]}],"links":[{"source":{"operation":"Natural Exponential (Arrays)","data":"Output"},"sink":{"operation":"subtract","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Target to Shape of Array","data":"Array"},"control_points":[{"x":514,"y":551},{"x":1914,"y":551}]},{"source":{"operation":"subtract","data":"subtracted_result"},"sink":{"operation":"element_wise_multiply","data":"left_array"},"control_points":[]},{"source":{"operation":"element_wise_multiply","data":"multiplied_array"},"sink":{"operation":"Broadcast Target to Shape of Array","data":"Target"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"divide","data":"left_operand"},"control_points":[]},{"source":{"operation":"divide","data":"divided_result"},"sink":{"operation":"Natural Exponential (Arrays)","data":"Input"},"control_points":[]},{"source":{"operation":"Broadcast Target to Shape of Array","data":"Output"},"sink":{"operation":"this","data":"Output"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Alpha & Ones","data":"Input"},"control_points":[]},{"source":{"operation":"this","data":"alpha"},"sink":{"operation":"Broadcast Alpha & Ones","data":"Input (1)"},"control_points":[]},{"source":{"operation":"Broadcast Alpha & Ones","data":"Output"},"sink":{"operation":"divide","data":"right_operand"},"control_points":[]},{"source":{"operation":"Broadcast Alpha & Ones","data":"Ones Array"},"sink":{"operation":"subtract","data":"right_operand"},"control_points":[{"x":1479,"y":251}]},{"source":{"operation":"Broadcast Alpha & Ones","data":"Output"},"sink":{"operation":"element_wise_multiply","data":"right_array"},"control_points":[{"x":1260,"y":405}]}]}],"links":[{"source":{"operation":"Broadcast Zero to Shape of Array","data":"Output"},"sink":{"operation":"Min 2 Arrays","data":"Input 1"},"control_points":[]},{"source":{"operation":"Min 2 Arrays","data":"Output"},"sink":{"operation":"add","data":"right_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Zero to Shape of Array","data":"Array"},"control_points":[]},{"source":{"operation":"Max 2 Arrays","data":"Output"},"sink":{"operation":"add","data":"left_operand"},"control_points":[]},{"source":{"operation":"Broadcast Zero to Shape of Array","data":"Output"},"sink":{"operation":"Max 2 Arrays","data":"array_1"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Max 2 Arrays","data":"array_2"},"control_points":[{"x":495,"y":215}]},{"source":{"operation":"add","data":"added_result"},"sink":{"operation":"this","data":"Output"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Calculate Alpha","data":"Input"},"control_points":[{"x":325,"y":446}]},{"source":{"operation":"this","data":"alpha"},"sink":{"operation":"Calculate Alpha","data":"alpha"},"control_points":[{"x":297,"y":488}]},{"source":{"operation":"Calculate Alpha","data":"Output"},"sink":{"operation":"Min 2 Arrays","data":"Input 2"},"control_points":[]}],"global_constants":[]}
+{
+    "name": "CELU",
+    "type": "COMPOSITE_OPERATION",
+    "description": [
+        "Input \"alpha\": \"default value\":1.0,       \"description-of-parameter\": \"The alpha value for the CELU formulation (see formula section). Determines scaling of the activation for inputs < zero.\",       \"assertions\": \"Input should be a tensor of user's choice, must be a floating point number\"",
+        "Input \"inplace\": \"type\": \"bool\",       \"default\": \"False\",       \"description\": \"If True, modifies the input tensor in-place. Default is false.\"",
+        "Output: \"value-type\": \"DECIMAL\",       \"description\": \"A tensor of the same shape as the input, where the CELU activation function has been applied element wise.\"     }",
+        "Notes: \"title\": \"PyTorch Documentation - CELU\",       \"url\": \"https://pytorch.org/docs/stable/generated/torch.nn.CELU.html\"     }"
+    ],
+    "inputs": [
+        {
+            "name": "Input",
+            "primitive_name": "Input"
+        },
+        {
+            "name": "alpha",
+            "primitive_name": "Input (1)"
+        }
+    ],
+    "outputs": [
+        {
+            "name": "Output",
+            "primitive_name": "Output",
+            "flow_state": "UNBOUND"
+        }
+    ],
+    "operations": [
+        {
+            "name": "Broadcast Zero to Shape of Array",
+            "type": "COMPOSITE_OPERATION",
+            "position": {
+                "x": 540,
+                "y": -1
+            },
+            "inputs": [
+                {
+                    "name": "Target",
+                    "data": [
+                        0.0
+                    ],
+                    "shape": [
+                        1
+                    ],
+                    "type": "DECIMAL",
+                    "primitive_name": "Target",
+                    "flow_state": "BOOT_SOURCE"
+                },
+                {
+                    "name": "Array",
+                    "primitive_name": "Array"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "Output",
+                    "primitive_name": "Output",
+                    "flow_state": "UNBOUND"
+                }
+            ],
+            "operations": [
+                {
+                    "name": "get_shape",
+                    "primitive_name": "get_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 601,
+                        "y": 346
+                    },
+                    "inputs": [
+                        {
+                            "name": "input",
+                            "primitive_name": "input"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape",
+                            "flow_state": "UNBOUND"
+                        }
+                    ]
+                },
+                {
+                    "name": "broadcast_to_shape",
+                    "primitive_name": "broadcast_to_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 1097,
+                        "y": 42
+                    },
+                    "inputs": [
+                        {
+                            "name": "target",
+                            "shape": [
+                                1
+                            ],
+                            "type": "DECIMAL",
+                            "primitive_name": "target",
+                            "flow_state": "BOOT_SINK"
+                        },
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "result",
+                            "primitive_name": "result",
+                            "flow_state": "UNBOUND"
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Array"
+                    },
+                    "sink": {
+                        "operation": "get_shape",
+                        "data": "input"
+                    },
+                    "control_points": [
+                        {
+                            "x": 427,
+                            "y": 404
+                        }
+                    ]
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Target"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape",
+                        "data": "target"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "get_shape",
+                        "data": "shape"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape",
+                        "data": "shape"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "broadcast_to_shape",
+                        "data": "result"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                    },
+                    "control_points": []
+                }
+            ]
+        },
+        {
+            "name": "Max 2 Arrays",
+            "type": "COMPOSITE_OPERATION",
+            "position": {
+                "x": 1366,
+                "y": 108
+            },
+            "inputs": [
+                {
+                    "name": "array_1",
+                    "primitive_name": "Input (1)"
+                },
+                {
+                    "name": "array_2",
+                    "primitive_name": "Input"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "Output",
+                    "primitive_name": "Output",
+                    "flow_state": "UNBOUND"
+                }
+            ],
+            "operations": [
+                {
+                    "name": "greater_than",
+                    "primitive_name": "greater_than",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 316,
+                        "y": 43
+                    },
+                    "inputs": [
+                        {
+                            "name": "left_operand",
+                            "primitive_name": "left_operand"
+                        },
+                        {
+                            "name": "right_operand",
+                            "primitive_name": "right_operand"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "is_greater_than",
+                            "primitive_name": "is_greater_than",
+                            "flow_state": "UNBOUND"
+                        }
+                    ]
+                },
+                {
+                    "name": "conditional_filter",
+                    "primitive_name": "conditional_filter",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 748,
+                        "y": 240
+                    },
+                    "inputs": [
+                        {
+                            "name": "condition",
+                            "primitive_name": "condition"
+                        },
+                        {
+                            "name": "data_if_true",
+                            "primitive_name": "data_if_true"
+                        },
+                        {
+                            "name": "data_if_false",
+                            "primitive_name": "data_if_false"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "output_data",
+                            "primitive_name": "output_data",
+                            "flow_state": "UNBOUND"
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "array_2"
+                    },
+                    "sink": {
+                        "operation": "conditional_filter",
+                        "data": "data_if_false"
+                    },
+                    "control_points": [
+                        {
+                            "x": 290,
+                            "y": 390
+                        }
+                    ]
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "array_1"
+                    },
+                    "sink": {
+                        "operation": "conditional_filter",
+                        "data": "data_if_true"
+                    },
+                    "control_points": [
+                        {
+                            "x": 300,
+                            "y": 346
+                        }
+                    ]
+                },
+                {
+                    "source": {
+                        "operation": "conditional_filter",
+                        "data": "output_data"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                    },
+                    "control_points": [
+                        {
+                            "x": 1133,
+                            "y": 109
+                        }
+                    ]
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "array_1"
+                    },
+                    "sink": {
+                        "operation": "greater_than",
+                        "data": "left_operand"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "array_2"
+                    },
+                    "sink": {
+                        "operation": "greater_than",
+                        "data": "right_operand"
+                    },
+                    "control_points": [
+                        {
+                            "x": 257,
+                            "y": 154
+                        }
+                    ]
+                },
+                {
+                    "source": {
+                        "operation": "greater_than",
+                        "data": "is_greater_than"
+                    },
+                    "sink": {
+                        "operation": "conditional_filter",
+                        "data": "condition"
+                    },
+                    "control_points": [
+                        {
+                            "x": 757,
+                            "y": 105
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Calculate Alpha",
+            "type": "COMPOSITE_OPERATION",
+            "position": {
+                "x": 538,
+                "y": 381
+            },
+            "inputs": [
+                {
+                    "name": "Input",
+                    "primitive_name": "Input"
+                },
+                {
+                    "name": "alpha",
+                    "primitive_name": "Input (1)"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "Output",
+                    "primitive_name": "Output",
+                    "flow_state": "UNBOUND"
+                }
+            ],
+            "operations": [
+                {
+                    "name": "Broadcast Alpha & Ones",
+                    "type": "COMPOSITE_OPERATION",
+                    "position": {
+                        "x": 528,
+                        "y": 189
+                    },
+                    "inputs": [
+                        {
+                            "name": "Input",
+                            "primitive_name": "Input"
+                        },
+                        {
+                            "name": "Input (1)",
+                            "primitive_name": "Input (1)"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Output",
+                            "primitive_name": "Output",
+                            "flow_state": "UNBOUND"
+                        },
+                        {
+                            "name": "Ones Array",
+                            "primitive_name": "Output (1)",
+                            "flow_state": "UNBOUND"
+                        }
+                    ],
+                    "output_order": [
+                        1,
+                        0
+                    ],
+                    "operations": [
+                        {
+                            "name": "Broadcast Target to Shape of Array",
+                            "type": "COMPOSITE_OPERATION",
+                            "position": {
+                                "x": 381,
+                                "y": 51
+                            },
+                            "inputs": [
+                                {
+                                    "name": "Target",
+                                    "primitive_name": "Target"
+                                },
+                                {
+                                    "name": "Array",
+                                    "primitive_name": "Array"
+                                }
+                            ],
+                            "input_order": [
+                                1,
+                                0
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "Output",
+                                    "primitive_name": "Output",
+                                    "flow_state": "UNBOUND"
+                                }
+                            ],
+                            "operations": [
+                                {
+                                    "name": "get_shape",
+                                    "primitive_name": "get_shape",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "position": {
+                                        "x": 601,
+                                        "y": 346
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "input",
+                                            "primitive_name": "input"
+                                        }
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "shape",
+                                            "primitive_name": "shape",
+                                            "flow_state": "UNBOUND"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "broadcast_to_shape",
+                                    "primitive_name": "broadcast_to_shape",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "position": {
+                                        "x": 1097,
+                                        "y": 42
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "target",
+                                            "primitive_name": "target"
+                                        },
+                                        {
+                                            "name": "shape",
+                                            "primitive_name": "shape"
+                                        }
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "result",
+                                            "primitive_name": "result",
+                                            "flow_state": "UNBOUND"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "links": [
+                                {
+                                    "source": {
+                                        "operation": "this",
+                                        "data": "Array"
+                                    },
+                                    "sink": {
+                                        "operation": "get_shape",
+                                        "data": "input"
+                                    },
+                                    "control_points": [
+                                        {
+                                            "x": 427,
+                                            "y": 404
+                                        }
+                                    ]
+                                },
+                                {
+                                    "source": {
+                                        "operation": "this",
+                                        "data": "Target"
+                                    },
+                                    "sink": {
+                                        "operation": "broadcast_to_shape",
+                                        "data": "target"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "get_shape",
+                                        "data": "shape"
+                                    },
+                                    "sink": {
+                                        "operation": "broadcast_to_shape",
+                                        "data": "shape"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "broadcast_to_shape",
+                                        "data": "result"
+                                    },
+                                    "sink": {
+                                        "operation": "this",
+                                        "data": "Output"
+                                    },
+                                    "control_points": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Broadcast Target to Shape of Array (1)",
+                            "type": "COMPOSITE_OPERATION",
+                            "position": {
+                                "x": 384,
+                                "y": 206
+                            },
+                            "inputs": [
+                                {
+                                    "name": "Target",
+                                    "data": 1.0,
+                                    "shape": [],
+                                    "type": "DECIMAL",
+                                    "primitive_name": "Target",
+                                    "flow_state": "BOOT_SOURCE"
+                                },
+                                {
+                                    "name": "Array",
+                                    "primitive_name": "Array"
+                                }
+                            ],
+                            "input_order": [
+                                1,
+                                0
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "Output",
+                                    "primitive_name": "Output",
+                                    "flow_state": "UNBOUND"
+                                }
+                            ],
+                            "operations": [
+                                {
+                                    "name": "get_shape",
+                                    "primitive_name": "get_shape",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "position": {
+                                        "x": 601,
+                                        "y": 346
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "input",
+                                            "primitive_name": "input"
+                                        }
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "shape",
+                                            "primitive_name": "shape",
+                                            "flow_state": "UNBOUND"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "broadcast_to_shape",
+                                    "primitive_name": "broadcast_to_shape",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "position": {
+                                        "x": 1097,
+                                        "y": 42
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "target",
+                                            "shape": [],
+                                            "type": "DECIMAL",
+                                            "primitive_name": "target",
+                                            "flow_state": "BOOT_SINK"
+                                        },
+                                        {
+                                            "name": "shape",
+                                            "primitive_name": "shape"
+                                        }
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "result",
+                                            "primitive_name": "result",
+                                            "flow_state": "UNBOUND"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "links": [
+                                {
+                                    "source": {
+                                        "operation": "this",
+                                        "data": "Array"
+                                    },
+                                    "sink": {
+                                        "operation": "get_shape",
+                                        "data": "input"
+                                    },
+                                    "control_points": [
+                                        {
+                                            "x": 427,
+                                            "y": 404
+                                        }
+                                    ]
+                                },
+                                {
+                                    "source": {
+                                        "operation": "this",
+                                        "data": "Target"
+                                    },
+                                    "sink": {
+                                        "operation": "broadcast_to_shape",
+                                        "data": "target"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "get_shape",
+                                        "data": "shape"
+                                    },
+                                    "sink": {
+                                        "operation": "broadcast_to_shape",
+                                        "data": "shape"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "broadcast_to_shape",
+                                        "data": "result"
+                                    },
+                                    "sink": {
+                                        "operation": "this",
+                                        "data": "Output"
+                                    },
+                                    "control_points": []
+                                }
+                            ]
+                        }
+                    ],
+                    "links": [
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input"
+                            },
+                            "sink": {
+                                "operation": "Broadcast Target to Shape of Array",
+                                "data": "Array"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input (1)"
+                            },
+                            "sink": {
+                                "operation": "Broadcast Target to Shape of Array",
+                                "data": "Target"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "Broadcast Target to Shape of Array",
+                                "data": "Output"
+                            },
+                            "sink": {
+                                "operation": "this",
+                                "data": "Output"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input"
+                            },
+                            "sink": {
+                                "operation": "Broadcast Target to Shape of Array (1)",
+                                "data": "Array"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "Broadcast Target to Shape of Array (1)",
+                                "data": "Output"
+                            },
+                            "sink": {
+                                "operation": "this",
+                                "data": "Ones Array"
+                            },
+                            "control_points": []
+                        }
+                    ]
+                },
+                {
+                    "name": "divide",
+                    "primitive_name": "divide",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 1027,
+                        "y": 43
+                    },
+                    "inputs": [
+                        {
+                            "name": "left_operand",
+                            "primitive_name": "left_operand"
+                        },
+                        {
+                            "name": "right_operand",
+                            "primitive_name": "right_operand"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "divided_result",
+                            "primitive_name": "divided_result",
+                            "flow_state": "UNBOUND"
+                        }
+                    ]
+                },
+                {
+                    "name": "Natural Exponential (Arrays)",
+                    "type": "COMPOSITE_OPERATION",
+                    "position": {
+                        "x": 1444,
+                        "y": 40
+                    },
+                    "inputs": [
+                        {
+                            "name": "Input",
+                            "primitive_name": "Input"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Output",
+                            "primitive_name": "Output",
+                            "flow_state": "UNBOUND"
+                        }
+                    ],
+                    "operations": [
+                        {
+                            "name": "Broadcast Target to Shape of Array",
+                            "type": "COMPOSITE_OPERATION",
+                            "position": {
+                                "x": 817,
+                                "y": 1
+                            },
+                            "inputs": [
+                                {
+                                    "name": "Target",
+                                    "data": 2.7183,
+                                    "shape": [],
+                                    "type": "DECIMAL",
+                                    "primitive_name": "Target",
+                                    "flow_state": "BOOT_SOURCE"
+                                },
+                                {
+                                    "name": "Array",
+                                    "primitive_name": "Array"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "Output",
+                                    "primitive_name": "Output",
+                                    "flow_state": "UNBOUND"
+                                }
+                            ],
+                            "operations": [
+                                {
+                                    "name": "get_shape",
+                                    "primitive_name": "get_shape",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "position": {
+                                        "x": 601,
+                                        "y": 346
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "input",
+                                            "primitive_name": "input"
+                                        }
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "shape",
+                                            "primitive_name": "shape",
+                                            "flow_state": "UNBOUND"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "broadcast_to_shape",
+                                    "primitive_name": "broadcast_to_shape",
+                                    "type": "PRIMITIVE_OPERATION",
+                                    "position": {
+                                        "x": 1097,
+                                        "y": 42
+                                    },
+                                    "inputs": [
+                                        {
+                                            "name": "target",
+                                            "shape": [],
+                                            "type": "DECIMAL",
+                                            "primitive_name": "target",
+                                            "flow_state": "BOOT_SINK"
+                                        },
+                                        {
+                                            "name": "shape",
+                                            "primitive_name": "shape"
+                                        }
+                                    ],
+                                    "outputs": [
+                                        {
+                                            "name": "result",
+                                            "primitive_name": "result",
+                                            "flow_state": "UNBOUND"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "links": [
+                                {
+                                    "source": {
+                                        "operation": "this",
+                                        "data": "Array"
+                                    },
+                                    "sink": {
+                                        "operation": "get_shape",
+                                        "data": "input"
+                                    },
+                                    "control_points": [
+                                        {
+                                            "x": 427,
+                                            "y": 404
+                                        }
+                                    ]
+                                },
+                                {
+                                    "source": {
+                                        "operation": "this",
+                                        "data": "Target"
+                                    },
+                                    "sink": {
+                                        "operation": "broadcast_to_shape",
+                                        "data": "target"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "get_shape",
+                                        "data": "shape"
+                                    },
+                                    "sink": {
+                                        "operation": "broadcast_to_shape",
+                                        "data": "shape"
+                                    },
+                                    "control_points": []
+                                },
+                                {
+                                    "source": {
+                                        "operation": "broadcast_to_shape",
+                                        "data": "result"
+                                    },
+                                    "sink": {
+                                        "operation": "this",
+                                        "data": "Output"
+                                    },
+                                    "control_points": []
+                                }
+                            ]
+                        },
+                        {
+                            "name": "element_wise_exponentiate",
+                            "primitive_name": "element_wise_exponentiate",
+                            "type": "PRIMITIVE_OPERATION",
+                            "position": {
+                                "x": 1601,
+                                "y": 135
+                            },
+                            "inputs": [
+                                {
+                                    "name": "base",
+                                    "primitive_name": "base"
+                                },
+                                {
+                                    "name": "exponent",
+                                    "primitive_name": "exponent"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "exponentiation",
+                                    "primitive_name": "exponentiation",
+                                    "flow_state": "UNBOUND"
+                                }
+                            ]
+                        }
+                    ],
+                    "links": [
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input"
+                            },
+                            "sink": {
+                                "operation": "element_wise_exponentiate",
+                                "data": "exponent"
+                            },
+                            "control_points": [
+                                {
+                                    "x": 596,
+                                    "y": 360
+                                },
+                                {
+                                    "x": 1098,
+                                    "y": 360
+                                }
+                            ]
+                        },
+                        {
+                            "source": {
+                                "operation": "Broadcast Target to Shape of Array",
+                                "data": "Output"
+                            },
+                            "sink": {
+                                "operation": "element_wise_exponentiate",
+                                "data": "base"
+                            },
+                            "control_points": [
+                                {
+                                    "x": 1264,
+                                    "y": 63
+                                },
+                                {
+                                    "x": 1396,
+                                    "y": 118
+                                }
+                            ]
+                        },
+                        {
+                            "source": {
+                                "operation": "element_wise_exponentiate",
+                                "data": "exponentiation"
+                            },
+                            "sink": {
+                                "operation": "this",
+                                "data": "Output"
+                            },
+                            "control_points": [
+                                {
+                                    "x": 2074,
+                                    "y": 197
+                                }
+                            ]
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Input"
+                            },
+                            "sink": {
+                                "operation": "Broadcast Target to Shape of Array",
+                                "data": "Array"
+                            },
+                            "control_points": []
+                        }
+                    ]
+                },
+                {
+                    "name": "subtract",
+                    "primitive_name": "subtract",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 1863,
+                        "y": 146
+                    },
+                    "inputs": [
+                        {
+                            "name": "left_operand",
+                            "primitive_name": "left_operand"
+                        },
+                        {
+                            "name": "right_operand",
+                            "primitive_name": "right_operand"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "subtracted_result",
+                            "primitive_name": "subtracted_result",
+                            "flow_state": "UNBOUND"
+                        }
+                    ]
+                },
+                {
+                    "name": "element_wise_multiply",
+                    "primitive_name": "element_wise_multiply",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 2304,
+                        "y": 301
+                    },
+                    "inputs": [
+                        {
+                            "name": "left_array",
+                            "primitive_name": "left_array"
+                        },
+                        {
+                            "name": "right_array",
+                            "primitive_name": "right_array"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "multiplied_array",
+                            "primitive_name": "multiplied_array",
+                            "flow_state": "UNBOUND"
+                        }
+                    ]
+                },
+                {
+                    "name": "Broadcast Target to Shape of Array",
+                    "type": "COMPOSITE_OPERATION",
+                    "position": {
+                        "x": 2769,
+                        "y": 447
+                    },
+                    "inputs": [
+                        {
+                            "name": "Target",
+                            "primitive_name": "Target"
+                        },
+                        {
+                            "name": "Array",
+                            "primitive_name": "Array"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "Output",
+                            "primitive_name": "Output",
+                            "flow_state": "UNBOUND"
+                        }
+                    ],
+                    "operations": [
+                        {
+                            "name": "get_shape",
+                            "primitive_name": "get_shape",
+                            "type": "PRIMITIVE_OPERATION",
+                            "position": {
+                                "x": 601,
+                                "y": 342
+                            },
+                            "inputs": [
+                                {
+                                    "name": "input",
+                                    "primitive_name": "input"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "shape",
+                                    "primitive_name": "shape",
+                                    "flow_state": "UNBOUND"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "broadcast_to_shape",
+                            "primitive_name": "broadcast_to_shape",
+                            "type": "PRIMITIVE_OPERATION",
+                            "position": {
+                                "x": 1097,
+                                "y": 47
+                            },
+                            "inputs": [
+                                {
+                                    "name": "target",
+                                    "primitive_name": "target"
+                                },
+                                {
+                                    "name": "shape",
+                                    "primitive_name": "shape"
+                                }
+                            ],
+                            "outputs": [
+                                {
+                                    "name": "result",
+                                    "primitive_name": "result",
+                                    "flow_state": "UNBOUND"
+                                }
+                            ]
+                        }
+                    ],
+                    "links": [
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Array"
+                            },
+                            "sink": {
+                                "operation": "get_shape",
+                                "data": "input"
+                            },
+                            "control_points": [
+                                {
+                                    "x": 427,
+                                    "y": 404
+                                }
+                            ]
+                        },
+                        {
+                            "source": {
+                                "operation": "this",
+                                "data": "Target"
+                            },
+                            "sink": {
+                                "operation": "broadcast_to_shape",
+                                "data": "target"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "get_shape",
+                                "data": "shape"
+                            },
+                            "sink": {
+                                "operation": "broadcast_to_shape",
+                                "data": "shape"
+                            },
+                            "control_points": []
+                        },
+                        {
+                            "source": {
+                                "operation": "broadcast_to_shape",
+                                "data": "result"
+                            },
+                            "sink": {
+                                "operation": "this",
+                                "data": "Output"
+                            },
+                            "control_points": []
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "source": {
+                        "operation": "Natural Exponential (Arrays)",
+                        "data": "Output"
+                    },
+                    "sink": {
+                        "operation": "subtract",
+                        "data": "left_operand"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Input"
+                    },
+                    "sink": {
+                        "operation": "Broadcast Target to Shape of Array",
+                        "data": "Array"
+                    },
+                    "control_points": [
+                        {
+                            "x": 514,
+                            "y": 551
+                        },
+                        {
+                            "x": 1914,
+                            "y": 551
+                        }
+                    ]
+                },
+                {
+                    "source": {
+                        "operation": "subtract",
+                        "data": "subtracted_result"
+                    },
+                    "sink": {
+                        "operation": "element_wise_multiply",
+                        "data": "left_array"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "element_wise_multiply",
+                        "data": "multiplied_array"
+                    },
+                    "sink": {
+                        "operation": "Broadcast Target to Shape of Array",
+                        "data": "Target"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Input"
+                    },
+                    "sink": {
+                        "operation": "divide",
+                        "data": "left_operand"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "divide",
+                        "data": "divided_result"
+                    },
+                    "sink": {
+                        "operation": "Natural Exponential (Arrays)",
+                        "data": "Input"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "Broadcast Target to Shape of Array",
+                        "data": "Output"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Input"
+                    },
+                    "sink": {
+                        "operation": "Broadcast Alpha & Ones",
+                        "data": "Input"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "alpha"
+                    },
+                    "sink": {
+                        "operation": "Broadcast Alpha & Ones",
+                        "data": "Input (1)"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "Broadcast Alpha & Ones",
+                        "data": "Output"
+                    },
+                    "sink": {
+                        "operation": "divide",
+                        "data": "right_operand"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "Broadcast Alpha & Ones",
+                        "data": "Ones Array"
+                    },
+                    "sink": {
+                        "operation": "subtract",
+                        "data": "right_operand"
+                    },
+                    "control_points": [
+                        {
+                            "x": 1479,
+                            "y": 251
+                        }
+                    ]
+                },
+                {
+                    "source": {
+                        "operation": "Broadcast Alpha & Ones",
+                        "data": "Output"
+                    },
+                    "sink": {
+                        "operation": "element_wise_multiply",
+                        "data": "right_array"
+                    },
+                    "control_points": [
+                        {
+                            "x": 1260,
+                            "y": 405
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Min 2 Arrays",
+            "type": "COMPOSITE_OPERATION",
+            "position": {
+                "x": 1368,
+                "y": 339
+            },
+            "inputs": [
+                {
+                    "name": "Input 1",
+                    "primitive_name": "Input"
+                },
+                {
+                    "name": "Input 2",
+                    "primitive_name": "Input"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "Output",
+                    "primitive_name": "Output",
+                    "flow_state": "UNBOUND"
+                }
+            ],
+            "operations": [
+                {
+                    "name": "less_than",
+                    "primitive_name": "less_than",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 478,
+                        "y": 166
+                    },
+                    "inputs": [
+                        {
+                            "name": "left_operand",
+                            "primitive_name": "left_operand"
+                        },
+                        {
+                            "name": "right_operand",
+                            "primitive_name": "right_operand"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "is_less_than",
+                            "primitive_name": "is_less_than",
+                            "flow_state": "UNBOUND"
+                        }
+                    ]
+                },
+                {
+                    "name": "conditional_filter",
+                    "primitive_name": "conditional_filter",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 1080,
+                        "y": 322
+                    },
+                    "inputs": [
+                        {
+                            "name": "condition",
+                            "primitive_name": "condition"
+                        },
+                        {
+                            "name": "data_if_true",
+                            "primitive_name": "data_if_true"
+                        },
+                        {
+                            "name": "data_if_false",
+                            "primitive_name": "data_if_false"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "output_data",
+                            "primitive_name": "output_data",
+                            "flow_state": "UNBOUND"
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Input 1"
+                    },
+                    "sink": {
+                        "operation": "less_than",
+                        "data": "left_operand"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Input 2"
+                    },
+                    "sink": {
+                        "operation": "less_than",
+                        "data": "right_operand"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "less_than",
+                        "data": "is_less_than"
+                    },
+                    "sink": {
+                        "operation": "conditional_filter",
+                        "data": "condition"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Input 1"
+                    },
+                    "sink": {
+                        "operation": "conditional_filter",
+                        "data": "data_if_true"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Input 2"
+                    },
+                    "sink": {
+                        "operation": "conditional_filter",
+                        "data": "data_if_false"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "conditional_filter",
+                        "data": "output_data"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                    },
+                    "control_points": []
+                }
+            ]
+        },
+        {
+            "name": "add",
+            "primitive_name": "add",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 2158,
+                "y": 196
+            },
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "primitive_name": "left_operand"
+                },
+                {
+                    "name": "right_operand",
+                    "primitive_name": "right_operand"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "added_result",
+                    "primitive_name": "added_result",
+                    "flow_state": "UNBOUND"
+                }
+            ]
+        }
+    ],
+    "links": [
+        {
+            "source": {
+                "operation": "Broadcast Zero to Shape of Array",
+                "data": "Output"
+            },
+            "sink": {
+                "operation": "Min 2 Arrays",
+                "data": "Input 1"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Min 2 Arrays",
+                "data": "Output"
+            },
+            "sink": {
+                "operation": "add",
+                "data": "right_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Input"
+            },
+            "sink": {
+                "operation": "Broadcast Zero to Shape of Array",
+                "data": "Array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Max 2 Arrays",
+                "data": "Output"
+            },
+            "sink": {
+                "operation": "add",
+                "data": "left_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Broadcast Zero to Shape of Array",
+                "data": "Output"
+            },
+            "sink": {
+                "operation": "Max 2 Arrays",
+                "data": "array_1"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Input"
+            },
+            "sink": {
+                "operation": "Max 2 Arrays",
+                "data": "array_2"
+            },
+            "control_points": [
+                {
+                    "x": 495,
+                    "y": 215
+                }
+            ]
+        },
+        {
+            "source": {
+                "operation": "add",
+                "data": "added_result"
+            },
+            "sink": {
+                "operation": "this",
+                "data": "Output"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Input"
+            },
+            "sink": {
+                "operation": "Calculate Alpha",
+                "data": "Input"
+            },
+            "control_points": [
+                {
+                    "x": 325,
+                    "y": 446
+                }
+            ]
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "alpha"
+            },
+            "sink": {
+                "operation": "Calculate Alpha",
+                "data": "alpha"
+            },
+            "control_points": [
+                {
+                    "x": 297,
+                    "y": 488
+                }
+            ]
+        },
+        {
+            "source": {
+                "operation": "Calculate Alpha",
+                "data": "Output"
+            },
+            "sink": {
+                "operation": "Min 2 Arrays",
+                "data": "Input 2"
+            },
+            "control_points": []
+        }
+    ],
+    "global_constants": []
+}

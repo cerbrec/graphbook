@@ -1,1 +1,180 @@
-{"name":"Soft Sign","type":"COMPOSITE_OPERATION","inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"absolute_value","primitive_name":"absolute_value","type":"PRIMITIVE_OPERATION","aliases":["abs"],"position":{"x":394,"y":182},"inputs":[{"name":"target","primitive_name":"target"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]},{"name":"Broadcast Target to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":212,"y":462},"inputs":[{"name":"Target","data":1.0,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"add","primitive_name":"add","type":"PRIMITIVE_OPERATION","aliases":["plus","increment"],"position":{"x":656,"y":424},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"added_result","primitive_name":"added_result","flow_state":"UNBOUND"}]},{"name":"divide","primitive_name":"divide","type":"PRIMITIVE_OPERATION","aliases":["div"],"position":{"x":919,"y":40},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"divided_result","primitive_name":"divided_result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"divide","data":"left_operand"},"control_points":[]},{"source":{"operation":"divide","data":"divided_result"},"sink":{"operation":"this","data":"Output"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"absolute_value","data":"target"},"control_points":[]},{"source":{"operation":"absolute_value","data":"result"},"sink":{"operation":"add","data":"left_operand"},"control_points":[]},{"source":{"operation":"Broadcast Target to Shape of Array","data":"Output"},"sink":{"operation":"add","data":"right_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Target to Shape of Array","data":"Array"},"control_points":[{"x":166,"y":569}]},{"source":{"operation":"add","data":"added_result"},"sink":{"operation":"divide","data":"right_operand"},"control_points":[]}],"global_constants":[]}
+{
+   "name": "Soft Sign",
+   "type": "COMPOSITE_OPERATION",
+   "aliases": [
+     "Smooth Sign Operation",
+     "Hyperbolic Tangent Approximation"
+   ],
+   "inputs": [
+     {
+       "name": "Input",
+       "primitive_name": "Input",
+       "input_types_allowed": ["DECIMAL"],
+       "array_allowed": true,
+       "scalar_allowed": false
+     }
+   ],
+   "outputs": [
+     {
+       "name": "Output",
+       "primitive_name": "Output",
+       "flow_state": "UNBOUND"
+     }
+   ],
+   "description": {
+       "summary": "Applies the element-wise Softsign function.",
+       "formula": "Softsign(x)=(x)/(1+|x|)",
+       "shape": {
+           "input": "(*)",
+           "output": "(*)",
+           "note": "The output shape is the same as the input shape."
+         } 
+     },
+   "operations": [
+     {
+       "name": "absolute_value",
+       "primitive_name": "absolute_value",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 394, "y": 182 },
+       "inputs": [
+         { "name": "target", "primitive_name": "target" }
+       ],
+       "outputs": [
+         { "name": "result", "primitive_name": "result", "flow_state": "UNBOUND" }
+       ]
+     },
+     {
+       "name": "Broadcast Target to Shape of Array",
+       "type": "COMPOSITE_OPERATION",
+       "position": { "x": 212, "y": 462 },
+       "inputs": [
+         {
+           "name": "Target",
+           "data": 1.0,
+           "shape": [],
+           "type": "DECIMAL",
+           "primitive_name": "Target",
+           "flow_state": "BOOT_SOURCE"
+         },
+         { "name": "Array", "primitive_name": "Array" }
+       ],
+       "outputs": [
+         { "name": "Output", "primitive_name": "Output", "flow_state": "UNBOUND" }
+       ],
+       "operations": [
+         {
+           "name": "get_shape",
+           "primitive_name": "get_shape",
+           "type": "PRIMITIVE_OPERATION",
+           "position": { "x": 601, "y": 346 },
+           "inputs": [
+             { "name": "input", "primitive_name": "input" }
+           ],
+           "outputs": [
+             { "name": "shape", "primitive_name": "shape", "flow_state": "UNBOUND" }
+           ]
+         },
+         {
+           "name": "broadcast_to_shape",
+           "primitive_name": "broadcast_to_shape",
+           "type": "PRIMITIVE_OPERATION",
+           "position": { "x": 1097, "y": 42 },
+           "inputs": [
+             { "name": "target", "shape": [], "type": "DECIMAL", "primitive_name": "target", "flow_state": "BOOT_SINK" },
+             { "name": "shape", "primitive_name": "shape" }
+           ],
+           "outputs": [
+             { "name": "result", "primitive_name": "result", "flow_state": "UNBOUND" }
+           ]
+         }
+       ],
+       "links": [
+         {
+           "source": { "operation": "this", "data": "Array" },
+           "sink": { "operation": "get_shape", "data": "input" },
+           "control_points": [{ "x": 427, "y": 404 }]
+         },
+         {
+           "source": { "operation": "this", "data": "Target" },
+           "sink": { "operation": "broadcast_to_shape", "data": "target" },
+           "control_points": []
+         },
+         {
+           "source": { "operation": "get_shape", "data": "shape" },
+           "sink": { "operation": "broadcast_to_shape", "data": "shape" },
+           "control_points": []
+         },
+         {
+           "source": { "operation": "broadcast_to_shape", "data": "result" },
+           "sink": { "operation": "this", "data": "Output" },
+           "control_points": []
+         }
+       ]
+     },
+     {
+       "name": "add",
+       "primitive_name": "add",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 656, "y": 424 },
+       "inputs": [
+         { "name": "left_operand", "primitive_name": "left_operand" },
+         { "name": "right_operand", "primitive_name": "right_operand" }
+       ],
+       "outputs": [
+         { "name": "added_result", "primitive_name": "added_result", "flow_state": "UNBOUND" }
+       ]
+     },
+     {
+       "name": "divide",
+       "primitive_name": "divide",
+       "type": "PRIMITIVE_OPERATION",
+       "position": { "x": 919, "y": 40 },
+       "inputs": [
+         { "name": "left_operand", "primitive_name": "left_operand" },
+         { "name": "right_operand", "primitive_name": "right_operand" }
+       ],
+       "outputs": [
+         { "name": "divided_result", "primitive_name": "divided_result", "flow_state": "UNBOUND" }
+       ]
+     }
+   ],
+   "links": [
+     {
+       "source": { "operation": "this", "data": "Input" },
+       "sink": { "operation": "divide", "data": "left_operand" },
+       "control_points": []
+     },
+     {
+       "source": { "operation": "divide", "data": "divided_result" },
+       "sink": { "operation": "this", "data": "Output" },
+       "control_points": []
+     },
+     {
+       "source": { "operation": "this", "data": "Input" },
+       "sink": { "operation": "absolute_value", "data": "target" },
+       "control_points": []
+     },
+     {
+       "source": { "operation": "absolute_value", "data": "result" },
+       "sink": { "operation": "add", "data": "left_operand" },
+       "control_points": []
+     },
+     {
+       "source": { "operation": "Broadcast Target to Shape of Array", "data": "Output" },
+       "sink": { "operation": "add", "data": "right_operand" },
+       "control_points": []
+     },
+     {
+       "source": { "operation": "this", "data": "Input" },
+       "sink": { "operation": "Broadcast Target to Shape of Array", "data": "Array" },
+       "control_points": [{ "x": 166, "y": 569 }]
+     },
+     {
+       "source": { "operation": "add", "data": "added_result" },
+       "sink": { "operation": "divide", "data": "right_operand" },
+       "control_points": []
+     }
+   ],
+   "global_constants": []
+ }
+ 

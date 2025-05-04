@@ -1,1 +1,761 @@
-{"name":"GELU","type":"COMPOSITE_OPERATION","inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"Broadcast Scalar to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":557,"y":158},"inputs":[{"name":"Scalar","data":0.5,"shape":[],"type":"DECIMAL","primitive_name":"Scalar","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","data":0.5,"shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Scalar"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"element_wise_multiply","primitive_name":"element_wise_multiply","type":"PRIMITIVE_OPERATION","aliases":["mul"],"position":{"x":1268,"y":46},"inputs":[{"name":"left_array","primitive_name":"left_array"},{"name":"right_array","primitive_name":"right_array"}],"outputs":[{"name":"multiplied_array","primitive_name":"multiplied_array"}]},{"name":"element_wise_exponentiate","primitive_name":"element_wise_exponentiate","type":"PRIMITIVE_OPERATION","aliases":["exp","pow","power"],"position":{"x":498,"y":514},"inputs":[{"name":"base","data":0.5,"shape":[],"type":"DECIMAL","primitive_name":"base","flow_state":"BOOT_SOURCE"},{"name":"exponent","data":0.5,"shape":[],"type":"DECIMAL","primitive_name":"exponent","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"exponentiation","data":0.7071067811865476,"shape":[],"type":"DECIMAL","primitive_name":"exponentiation"}]},{"name":"Broadcast Scalar to Shape of Array (1)","type":"COMPOSITE_OPERATION","position":{"x":933,"y":512},"inputs":[{"name":"Scalar","data":0.7071067811865476,"shape":[],"type":"DECIMAL","primitive_name":"Input"},{"name":"Array","primitive_name":"New Input"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","data":0.7071067811865476,"shape":[],"type":"DECIMAL","primitive_name":"target"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Scalar"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"element_wise_multiply_1","primitive_name":"element_wise_multiply","type":"PRIMITIVE_OPERATION","aliases":["mul"],"position":{"x":1562,"y":347},"inputs":[{"name":"left_array","primitive_name":"left_array"},{"name":"right_array","primitive_name":"right_array"}],"outputs":[{"name":"multiplied_array","primitive_name":"multiplied_array"}]},{"name":"error_function","primitive_name":"error_function","type":"PRIMITIVE_OPERATION","aliases":["erf"],"position":{"x":2100,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output"}]},{"name":"Broadcast Scalar to Shape of Array (2)","type":"COMPOSITE_OPERATION","position":{"x":2656,"y":502},"inputs":[{"name":"Scalar","data":1.0,"shape":[],"type":"DECIMAL","primitive_name":"Input","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"New Input"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","data":1.0,"shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Scalar"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"add","primitive_name":"add","type":"PRIMITIVE_OPERATION","aliases":["plus","increment"],"position":{"x":3239,"y":341},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"added_result","primitive_name":"added_result"}]},{"name":"element_wise_multiply_2","primitive_name":"element_wise_multiply","type":"PRIMITIVE_OPERATION","aliases":["mul"],"position":{"x":3782,"y":47},"inputs":[{"name":"left_array","primitive_name":"left_array"},{"name":"right_array","primitive_name":"right_array"}],"outputs":[{"name":"multiplied_array","primitive_name":"multiplied_array"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"element_wise_multiply","data":"left_array"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Scalar to Shape of Array","data":"Array"},"control_points":[]},{"source":{"operation":"Broadcast Scalar to Shape of Array","data":"Output"},"sink":{"operation":"element_wise_multiply","data":"right_array"},"control_points":[]},{"source":{"operation":"element_wise_exponentiate","data":"exponentiation"},"sink":{"operation":"Broadcast Scalar to Shape of Array (1)","data":"Scalar"},"control_points":[]},{"source":{"operation":"Broadcast Scalar to Shape of Array (1)","data":"Output"},"sink":{"operation":"element_wise_multiply_1","data":"right_array"},"control_points":[]},{"source":{"operation":"element_wise_multiply","data":"multiplied_array"},"sink":{"operation":"element_wise_multiply_2","data":"left_array"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"element_wise_multiply_1","data":"left_array"},"control_points":[{"x":262,"y":401}]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Scalar to Shape of Array (1)","data":"Array"},"control_points":[{"x":387,"y":695},{"x":855,"y":695}]},{"source":{"operation":"element_wise_multiply_1","data":"multiplied_array"},"sink":{"operation":"error_function","data":"input"},"control_points":[]},{"source":{"operation":"Broadcast Scalar to Shape of Array (2)","data":"Output"},"sink":{"operation":"add","data":"right_operand"},"control_points":[]},{"source":{"operation":"add","data":"added_result"},"sink":{"operation":"element_wise_multiply_2","data":"right_array"},"control_points":[]},{"source":{"operation":"error_function","data":"output"},"sink":{"operation":"Broadcast Scalar to Shape of Array (2)","data":"Array"},"control_points":[]},{"source":{"operation":"error_function","data":"output"},"sink":{"operation":"add","data":"left_operand"},"control_points":[]},{"source":{"operation":"element_wise_multiply_2","data":"multiplied_array"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]}
+{
+    "name": "GELU",
+    "type": "COMPOSITE_OPERATION",
+    "description": [
+        "Description: Applies the Gaussian Error Linear Unit (GELU) activation, which smooths input values using the Gaussian cumulative distribution function.",
+        "Input \"Input\": Tensor",
+        "Input Description: The input tensor to which the GELU function is applied.",
+        "Input \"approximate\"; Type: Str; Description: If set to 'tanh', uses a faster approximation of the GELU function. Default is 'none', which uses the exact computation.",
+        "Returns: A tensor with the same shape as the input tensor, containing the GELU-activated values.",
+        "Example:\"example\": {     \"code\": \"import torch\\nimport torch.nn.functional as F\\n\\ninput = torch.tensor([[-1.0, 0.0, 1.0], [2.0, -0.5, 0.5]])\\noutput = F.gelu(input)\\nprint(output)\",     \"output\": \"tensor([[-0.1588,  0.0000,  0.8413],\\n        [ 1.9546, -0.1543,  0.3457]])\"",
+        "Notes: \"GELU is smoother than ReLU and Leaky ReLU, making it better suited for models where smooth gradients improve performance.\",     \"The 'tanh' approximation for GELU is faster and often used in large-scale models.\",     \"It is widely used in transformer-based architectures like BERT.\"",
+        "References:  \"PyTorch Documentation: gelu\",       \"url\": \"https://pytorch.org/docs/stable/nn.functional.html#torch.nn.functional.gelu",
+        "References: \"title\": \"Paper: Gaussian Error Linear Units (GELUs)\",       \"url\": \"https://arxiv.org/abs/1606.08415\""
+    ],
+    "inputs": [
+        {
+            "name": "Input",
+            "primitive_name": "Input"
+        }
+    ],
+    "outputs": [
+        {
+            "name": "Output",
+            "primitive_name": "Output",
+            "flow_state": "UNBOUND"
+        }
+    ],
+    "operations": [
+        {
+            "name": "Broadcast Scalar to Shape of Array",
+            "type": "COMPOSITE_OPERATION",
+            "position": {
+                "x": 557,
+                "y": 158
+            },
+            "inputs": [
+                {
+                    "name": "Scalar",
+                    "data": 0.5,
+                    "shape": [],
+                    "type": "DECIMAL",
+                    "primitive_name": "Scalar",
+                    "flow_state": "BOOT_SOURCE"
+                },
+                {
+                    "name": "Array",
+                    "primitive_name": "Array"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "Output",
+                    "primitive_name": "Output",
+                    "flow_state": "UNBOUND"
+                }
+            ],
+            "operations": [
+                {
+                    "name": "get_shape",
+                    "primitive_name": "get_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 601,
+                        "y": 346
+                    },
+                    "inputs": [
+                        {
+                            "name": "input",
+                            "primitive_name": "input"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape",
+                            "flow_state": "UNBOUND"
+                        }
+                    ]
+                },
+                {
+                    "name": "broadcast_to_shape",
+                    "primitive_name": "broadcast_to_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 1097,
+                        "y": 42
+                    },
+                    "inputs": [
+                        {
+                            "name": "target",
+                            "shape": [],
+                            "type": "DECIMAL",
+                            "primitive_name": "target",
+                            "flow_state": "BOOT_SINK"
+                        },
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "result",
+                            "primitive_name": "result",
+                            "flow_state": "UNBOUND"
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Array"
+                    },
+                    "sink": {
+                        "operation": "get_shape",
+                        "data": "input"
+                    },
+                    "control_points": [
+                        {
+                            "x": 427,
+                            "y": 404
+                        }
+                    ]
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Scalar"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape",
+                        "data": "target"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "get_shape",
+                        "data": "shape"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape",
+                        "data": "shape"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "broadcast_to_shape",
+                        "data": "result"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                    },
+                    "control_points": []
+                }
+            ]
+        },
+        {
+            "name": "element_wise_multiply",
+            "primitive_name": "element_wise_multiply",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 1268,
+                "y": 46
+            },
+            "inputs": [
+                {
+                    "name": "left_array",
+                    "primitive_name": "left_array"
+                },
+                {
+                    "name": "right_array",
+                    "primitive_name": "right_array"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "multiplied_array",
+                    "primitive_name": "multiplied_array",
+                    "flow_state": "UNBOUND"
+                }
+            ]
+        },
+        {
+            "name": "element_wise_exponentiate",
+            "primitive_name": "element_wise_exponentiate",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 498,
+                "y": 514
+            },
+            "inputs": [
+                {
+                    "name": "base",
+                    "data": 0.5,
+                    "shape": [],
+                    "type": "DECIMAL",
+                    "primitive_name": "base",
+                    "flow_state": "BOOT_SOURCE"
+                },
+                {
+                    "name": "exponent",
+                    "data": 0.5,
+                    "shape": [],
+                    "type": "DECIMAL",
+                    "primitive_name": "exponent",
+                    "flow_state": "BOOT_SOURCE"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "exponentiation",
+                    "shape": [],
+                    "type": "DECIMAL",
+                    "primitive_name": "exponentiation",
+                    "flow_state": "UNBOUND"
+                }
+            ]
+        },
+        {
+            "name": "Broadcast Scalar to Shape of Array (1)",
+            "type": "COMPOSITE_OPERATION",
+            "position": {
+                "x": 933,
+                "y": 512
+            },
+            "inputs": [
+                {
+                    "name": "Scalar",
+                    "shape": [],
+                    "type": "DECIMAL",
+                    "primitive_name": "Input",
+                    "flow_state": "REF_SINK"
+                },
+                {
+                    "name": "Array",
+                    "primitive_name": "New Input"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "Output",
+                    "primitive_name": "Output",
+                    "flow_state": "UNBOUND"
+                }
+            ],
+            "operations": [
+                {
+                    "name": "get_shape",
+                    "primitive_name": "get_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 601,
+                        "y": 346
+                    },
+                    "inputs": [
+                        {
+                            "name": "input",
+                            "primitive_name": "input"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape",
+                            "flow_state": "UNBOUND"
+                        }
+                    ]
+                },
+                {
+                    "name": "broadcast_to_shape",
+                    "primitive_name": "broadcast_to_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 1097,
+                        "y": 42
+                    },
+                    "inputs": [
+                        {
+                            "name": "target",
+                            "shape": [],
+                            "type": "DECIMAL",
+                            "primitive_name": "target",
+                            "flow_state": "REF_SINK"
+                        },
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "result",
+                            "primitive_name": "result",
+                            "flow_state": "UNBOUND"
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Array"
+                    },
+                    "sink": {
+                        "operation": "get_shape",
+                        "data": "input"
+                    },
+                    "control_points": [
+                        {
+                            "x": 427,
+                            "y": 404
+                        }
+                    ]
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Scalar"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape",
+                        "data": "target"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "get_shape",
+                        "data": "shape"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape",
+                        "data": "shape"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "broadcast_to_shape",
+                        "data": "result"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                    },
+                    "control_points": []
+                }
+            ]
+        },
+        {
+            "name": "element_wise_multiply_1",
+            "primitive_name": "element_wise_multiply",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 1562,
+                "y": 347
+            },
+            "inputs": [
+                {
+                    "name": "left_array",
+                    "primitive_name": "left_array"
+                },
+                {
+                    "name": "right_array",
+                    "primitive_name": "right_array"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "multiplied_array",
+                    "primitive_name": "multiplied_array",
+                    "flow_state": "UNBOUND"
+                }
+            ]
+        },
+        {
+            "name": "error_function",
+            "primitive_name": "error_function",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 2100,
+                "y": 346
+            },
+            "inputs": [
+                {
+                    "name": "input",
+                    "primitive_name": "input"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "output",
+                    "primitive_name": "output",
+                    "flow_state": "UNBOUND"
+                }
+            ]
+        },
+        {
+            "name": "Broadcast Scalar to Shape of Array (2)",
+            "type": "COMPOSITE_OPERATION",
+            "position": {
+                "x": 2656,
+                "y": 502
+            },
+            "inputs": [
+                {
+                    "name": "Scalar",
+                    "data": 1.0,
+                    "shape": [],
+                    "type": "DECIMAL",
+                    "primitive_name": "Input",
+                    "flow_state": "BOOT_SOURCE"
+                },
+                {
+                    "name": "Array",
+                    "primitive_name": "New Input"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "Output",
+                    "primitive_name": "Output",
+                    "flow_state": "UNBOUND"
+                }
+            ],
+            "operations": [
+                {
+                    "name": "get_shape",
+                    "primitive_name": "get_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 601,
+                        "y": 346
+                    },
+                    "inputs": [
+                        {
+                            "name": "input",
+                            "primitive_name": "input"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape",
+                            "flow_state": "UNBOUND"
+                        }
+                    ]
+                },
+                {
+                    "name": "broadcast_to_shape",
+                    "primitive_name": "broadcast_to_shape",
+                    "type": "PRIMITIVE_OPERATION",
+                    "position": {
+                        "x": 1097,
+                        "y": 42
+                    },
+                    "inputs": [
+                        {
+                            "name": "target",
+                            "shape": [],
+                            "type": "DECIMAL",
+                            "primitive_name": "target",
+                            "flow_state": "BOOT_SINK"
+                        },
+                        {
+                            "name": "shape",
+                            "primitive_name": "shape"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "result",
+                            "primitive_name": "result",
+                            "flow_state": "UNBOUND"
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Array"
+                    },
+                    "sink": {
+                        "operation": "get_shape",
+                        "data": "input"
+                    },
+                    "control_points": [
+                        {
+                            "x": 427,
+                            "y": 404
+                        }
+                    ]
+                },
+                {
+                    "source": {
+                        "operation": "this",
+                        "data": "Scalar"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape",
+                        "data": "target"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "get_shape",
+                        "data": "shape"
+                    },
+                    "sink": {
+                        "operation": "broadcast_to_shape",
+                        "data": "shape"
+                    },
+                    "control_points": []
+                },
+                {
+                    "source": {
+                        "operation": "broadcast_to_shape",
+                        "data": "result"
+                    },
+                    "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                    },
+                    "control_points": []
+                }
+            ]
+        },
+        {
+            "name": "add",
+            "primitive_name": "add",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 3239,
+                "y": 341
+            },
+            "inputs": [
+                {
+                    "name": "left_operand",
+                    "primitive_name": "left_operand"
+                },
+                {
+                    "name": "right_operand",
+                    "primitive_name": "right_operand"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "added_result",
+                    "primitive_name": "added_result",
+                    "flow_state": "UNBOUND"
+                }
+            ]
+        },
+        {
+            "name": "element_wise_multiply_2",
+            "primitive_name": "element_wise_multiply",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 3782,
+                "y": 47
+            },
+            "inputs": [
+                {
+                    "name": "left_array",
+                    "primitive_name": "left_array"
+                },
+                {
+                    "name": "right_array",
+                    "primitive_name": "right_array"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "multiplied_array",
+                    "primitive_name": "multiplied_array",
+                    "flow_state": "UNBOUND"
+                }
+            ]
+        }
+    ],
+    "links": [
+        {
+            "source": {
+                "operation": "this",
+                "data": "Input"
+            },
+            "sink": {
+                "operation": "element_wise_multiply",
+                "data": "left_array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Input"
+            },
+            "sink": {
+                "operation": "Broadcast Scalar to Shape of Array",
+                "data": "Array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Broadcast Scalar to Shape of Array",
+                "data": "Output"
+            },
+            "sink": {
+                "operation": "element_wise_multiply",
+                "data": "right_array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "element_wise_exponentiate",
+                "data": "exponentiation"
+            },
+            "sink": {
+                "operation": "Broadcast Scalar to Shape of Array (1)",
+                "data": "Scalar"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Broadcast Scalar to Shape of Array (1)",
+                "data": "Output"
+            },
+            "sink": {
+                "operation": "element_wise_multiply_1",
+                "data": "right_array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "element_wise_multiply",
+                "data": "multiplied_array"
+            },
+            "sink": {
+                "operation": "element_wise_multiply_2",
+                "data": "left_array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Input"
+            },
+            "sink": {
+                "operation": "element_wise_multiply_1",
+                "data": "left_array"
+            },
+            "control_points": [
+                {
+                    "x": 262,
+                    "y": 401
+                }
+            ]
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "Input"
+            },
+            "sink": {
+                "operation": "Broadcast Scalar to Shape of Array (1)",
+                "data": "Array"
+            },
+            "control_points": [
+                {
+                    "x": 387,
+                    "y": 695
+                },
+                {
+                    "x": 855,
+                    "y": 695
+                }
+            ]
+        },
+        {
+            "source": {
+                "operation": "element_wise_multiply_1",
+                "data": "multiplied_array"
+            },
+            "sink": {
+                "operation": "error_function",
+                "data": "input"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "Broadcast Scalar to Shape of Array (2)",
+                "data": "Output"
+            },
+            "sink": {
+                "operation": "add",
+                "data": "right_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "add",
+                "data": "added_result"
+            },
+            "sink": {
+                "operation": "element_wise_multiply_2",
+                "data": "right_array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "error_function",
+                "data": "output"
+            },
+            "sink": {
+                "operation": "Broadcast Scalar to Shape of Array (2)",
+                "data": "Array"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "error_function",
+                "data": "output"
+            },
+            "sink": {
+                "operation": "add",
+                "data": "left_operand"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "element_wise_multiply_2",
+                "data": "multiplied_array"
+            },
+            "sink": {
+                "operation": "this",
+                "data": "Output"
+            },
+            "control_points": []
+        }
+    ],
+    "global_constants": []
+}

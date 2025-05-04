@@ -1,1 +1,205 @@
-{"name":"Randint","type":"COMPOSITE_OPERATION","inputs":[{"name":"size","primitive_name":"Input"},{"name":"seed","primitive_name":"Input (1)"},{"name":"lower","primitive_name":"Input (2)"},{"name":"upper","primitive_name":"Input (3)"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"generate_uniform_random_number","primitive_name":"generate_uniform_random_number","type":"PRIMITIVE_OPERATION","aliases":["uniform","generate_weight","initialize_weight","initialize_uniform_random_number"],"position":{"x":1127,"y":79},"inputs":[{"name":"shape","primitive_name":"shape"},{"name":"random_seed","primitive_name":"random_seed"},{"name":"left_limit","primitive_name":"left_limit"},{"name":"right_limit","primitive_name":"right_limit"}],"outputs":[{"name":"random_number","primitive_name":"random_number","flow_state":"UNBOUND"}]},{"name":"Data Type Is Integer","primitive_name":"Data Type Is Integer","type":"CLIENT_SIDE_CONSTRAINT_OPERATION","aliases":["constraint"],"position":{"x":317,"y":485},"inputs":[{"name":"variable","primitive_name":"variable"}],"outputs":[]},{"name":"Data Type Is Integer_1","primitive_name":"Data Type Is Integer","type":"CLIENT_SIDE_CONSTRAINT_OPERATION","aliases":["constraint"],"position":{"x":440,"y":256},"inputs":[{"name":"variable","primitive_name":"variable"}],"outputs":[]}],"links":[{"source":{"operation":"this","data":"size"},"sink":{"operation":"generate_uniform_random_number","data":"shape"},"control_points":[]},{"source":{"operation":"this","data":"seed"},"sink":{"operation":"generate_uniform_random_number","data":"random_seed"},"control_points":[]},{"source":{"operation":"generate_uniform_random_number","data":"random_number"},"sink":{"operation":"this","data":"Output"},"control_points":[]},{"source":{"operation":"this","data":"lower"},"sink":{"operation":"Data Type Is Integer_1","data":"variable"},"control_points":[]},{"source":{"operation":"this","data":"lower"},"sink":{"operation":"generate_uniform_random_number","data":"left_limit"},"control_points":[]},{"source":{"operation":"this","data":"upper"},"sink":{"operation":"Data Type Is Integer","data":"variable"},"control_points":[]},{"source":{"operation":"this","data":"upper"},"sink":{"operation":"generate_uniform_random_number","data":"right_limit"},"control_points":[{"x":533,"y":404},{"x":880,"y":404}]}],"global_constants":[]}
+{
+    "name": "Randint",
+    "type": "COMPOSITE_OPERATION",
+    "description": [
+        "Generates a tensor of random integers within a specified range.",
+        "Input \"size\" (tuple):",
+        "Desc: The shape of the output tensor.",
+        "Input \"lower\" (Integer):",
+        "Desc: The inclusive lower bound of the range of generated integers.",
+        "Input \"upper\" (Integer):",
+        "Desc: The exclusive upper bound of the range of generated integers.",
+        "Input \"dtype\" (torch.dtype):",
+        "Desc: (Optional) The desired data type of the output tensor. Default is `torch.int64`.",
+        "Input \"device\" (torch.device):",
+        "Desc: (Optional) The desired device of the output tensor. Default is the current device.",
+        "Input \"requires_grad\" (Boolean):",
+        "If True, the returned tensor will be part of the computation graph and will require gradients. Default is False.",
+        "Output (Tensor): A tensor of random integers within the specified range, with the specified shape, dtype, and device.",
+        "Notes: ",
+        "The range is defined as [low, high), meaning the lower bound is inclusive and the upper bound is exclusive., Ensure the range specified by `low` and `high` is valid; `low` must be less than `high` ,The function can generate tensors on both CPU and GPU, depending on the `device` parameter.",
+        "Reference: \"https://pytorch.org/docs/stable/generated/torch.randint.html\""
+    ],
+    "inputs": [
+        {
+            "name": "size",
+            "primitive_name": "Input"
+        },
+        {
+            "name": "seed",
+            "primitive_name": "Input (1)"
+        },
+        {
+            "name": "lower",
+            "primitive_name": "Input (2)"
+        },
+        {
+            "name": "upper",
+            "primitive_name": "Input (3)"
+        }
+    ],
+    "outputs": [
+        {
+            "name": "Output",
+            "primitive_name": "Output",
+            "flow_state": "UNBOUND"
+        }
+    ],
+    "operations": [
+        {
+            "name": "generate_uniform_random_number",
+            "primitive_name": "generate_uniform_random_number",
+            "type": "PRIMITIVE_OPERATION",
+            "position": {
+                "x": 1127,
+                "y": 79
+            },
+            "inputs": [
+                {
+                    "name": "shape",
+                    "primitive_name": "shape"
+                },
+                {
+                    "name": "random_seed",
+                    "primitive_name": "random_seed"
+                },
+                {
+                    "name": "left_limit",
+                    "primitive_name": "left_limit"
+                },
+                {
+                    "name": "right_limit",
+                    "primitive_name": "right_limit"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "random_number",
+                    "primitive_name": "random_number",
+                    "flow_state": "UNBOUND"
+                }
+            ]
+        },
+        {
+            "name": "Data Type Is Integer",
+            "primitive_name": "Data Type Is Integer",
+            "type": "CLIENT_SIDE_CONSTRAINT_OPERATION",
+            "position": {
+                "x": 317,
+                "y": 485
+            },
+            "inputs": [
+                {
+                    "name": "variable",
+                    "primitive_name": "variable"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "Data Type Is Integer_1",
+            "primitive_name": "Data Type Is Integer",
+            "type": "CLIENT_SIDE_CONSTRAINT_OPERATION",
+            "position": {
+                "x": 440,
+                "y": 256
+            },
+            "inputs": [
+                {
+                    "name": "variable",
+                    "primitive_name": "variable"
+                }
+            ],
+            "outputs": []
+        }
+    ],
+    "links": [
+        {
+            "source": {
+                "operation": "this",
+                "data": "size"
+            },
+            "sink": {
+                "operation": "generate_uniform_random_number",
+                "data": "shape"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "seed"
+            },
+            "sink": {
+                "operation": "generate_uniform_random_number",
+                "data": "random_seed"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "generate_uniform_random_number",
+                "data": "random_number"
+            },
+            "sink": {
+                "operation": "this",
+                "data": "Output"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "lower"
+            },
+            "sink": {
+                "operation": "Data Type Is Integer_1",
+                "data": "variable"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "lower"
+            },
+            "sink": {
+                "operation": "generate_uniform_random_number",
+                "data": "left_limit"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "upper"
+            },
+            "sink": {
+                "operation": "Data Type Is Integer",
+                "data": "variable"
+            },
+            "control_points": []
+        },
+        {
+            "source": {
+                "operation": "this",
+                "data": "upper"
+            },
+            "sink": {
+                "operation": "generate_uniform_random_number",
+                "data": "right_limit"
+            },
+            "control_points": [
+                {
+                    "x": 533,
+                    "y": 404
+                },
+                {
+                    "x": 880,
+                    "y": 404
+                }
+            ]
+        }
+    ],
+    "global_constants": []
+}

@@ -22,7 +22,7 @@ jobs:
                 python-version: '3.10'
 
             - name: Install graph_validation
-              run: pip install git+https://${{ secrets.ACCESS_TO_REPO_TOKEN }}@github.com/cerbrec/graph_validation.git@master
+              run: pip install git+https://drwiner:${{ secrets.ACCESS_TO_REPO_TOKEN }}@github.com/cerbrec/graph_validation.git
             
             - name: Validate JSON Files
               run: |

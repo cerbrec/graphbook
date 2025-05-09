@@ -1,1 +1,1235 @@
-{"name":"Element-Wise Exp with Clamp","type":"COMPOSITE_OPERATION","inputs":[{"name":"Base","primitive_name":"Input"},{"name":"Exp","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"element_wise_exponentiate","primitive_name":"element_wise_exponentiate","type":"PRIMITIVE_OPERATION","aliases":["exp","pow","power","exponentiate"],"position":{"x":203,"y":43},"inputs":[{"name":"base","primitive_name":"base"},{"name":"exponent","primitive_name":"exponent"}],"outputs":[{"name":"exponentiation","primitive_name":"exponentiation","flow_state":"UNBOUND"}]},{"name":"Broadcast Zero, Pos, Neg Clamps","type":"COMPOSITE_OPERATION","position":{"x":290,"y":392},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Zero","primitive_name":"Output","flow_state":"UNBOUND"},{"name":"Pos","primitive_name":"Output","flow_state":"UNBOUND"},{"name":"Neg","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":264,"y":185},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"Broadcast Zero","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":632,"y":110},"inputs":[{"name":"target","data":0.0,"shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SOURCE"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]},{"name":"Broadcast Pos Clamp","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":636,"y":268},"inputs":[{"name":"target","data":66504.0,"shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SOURCE"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]},{"name":"Broadcast Neg Clamp","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":653,"y":414},"inputs":[{"name":"target","data":-66504.0,"shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SOURCE"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"Broadcast Zero","data":"shape"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"Broadcast Pos Clamp","data":"shape"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"Broadcast Neg Clamp","data":"shape"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"get_shape","data":"input"},"control_points":[]},{"source":{"operation":"Broadcast Zero","data":"result"},"sink":{"operation":"this","data":"Zero"},"control_points":[]},{"source":{"operation":"Broadcast Pos Clamp","data":"result"},"sink":{"operation":"this","data":"Pos"},"control_points":[]},{"source":{"operation":"Broadcast Neg Clamp","data":"result"},"sink":{"operation":"this","data":"Neg"},"control_points":[]}]},{"name":"Is Inf Pos / Neg","type":"COMPOSITE_OPERATION","position":{"x":689,"y":231},"inputs":[{"name":"Input","primitive_name":"Input"},{"name":"Zeros","primitive_name":"Input (1)"}],"outputs":[{"name":"Is Pos Inf","primitive_name":"Output","flow_state":"UNBOUND"},{"name":"Is Neg Inf","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"greater_than","primitive_name":"greater_than","type":"PRIMITIVE_OPERATION","aliases":["gt","greater","larger","larger_than","bigger","bigger_than"],"position":{"x":381,"y":297},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"is_greater_than","primitive_name":"is_greater_than","flow_state":"UNBOUND"}]},{"name":"logical_not","primitive_name":"logical_not","type":"PRIMITIVE_OPERATION","aliases":["not","negate","negation"],"position":{"x":1002,"y":310},"inputs":[{"name":"condition","primitive_name":"condition"}],"outputs":[{"name":"new_condition","primitive_name":"new_condition","flow_state":"UNBOUND"}]},{"name":"Is Inf","type":"COMPOSITE_OPERATION","position":{"x":329,"y":42},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"Broadcast Target to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":437,"y":230},"inputs":[{"name":"Target","data":1.0,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"divide","primitive_name":"divide","type":"PRIMITIVE_OPERATION","aliases":["div"],"position":{"x":950,"y":7},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"divided_result","primitive_name":"divided_result","flow_state":"UNBOUND"}]},{"name":"Broadcast Target to Shape of Array (1)","type":"COMPOSITE_OPERATION","position":{"x":472,"y":471},"inputs":[{"name":"Target","data":0.0,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"equal","primitive_name":"equal","type":"PRIMITIVE_OPERATION","aliases":["eq"],"position":{"x":1634,"y":432},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"is_equal","primitive_name":"is_equal","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"Broadcast Target to Shape of Array","data":"Output"},"sink":{"operation":"divide","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Target to Shape of Array","data":"Array"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"divide","data":"right_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Target to Shape of Array (1)","data":"Array"},"control_points":[]},{"source":{"operation":"Broadcast Target to Shape of Array (1)","data":"Output"},"sink":{"operation":"equal","data":"right_operand"},"control_points":[]},{"source":{"operation":"divide","data":"divided_result"},"sink":{"operation":"equal","data":"left_operand"},"control_points":[]},{"source":{"operation":"equal","data":"is_equal"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"logical_and","primitive_name":"logical_and","type":"PRIMITIVE_OPERATION","aliases":["and"],"position":{"x":997,"y":42},"inputs":[{"name":"condition_1","primitive_name":"condition_1"},{"name":"condition_2","primitive_name":"condition_2"}],"outputs":[{"name":"new_condition","primitive_name":"new_condition","flow_state":"UNBOUND"}]},{"name":"logical_and_1","primitive_name":"logical_and","type":"PRIMITIVE_OPERATION","aliases":["and"],"position":{"x":1439,"y":272},"inputs":[{"name":"condition_1","primitive_name":"condition_1"},{"name":"condition_2","primitive_name":"condition_2"}],"outputs":[{"name":"new_condition","primitive_name":"new_condition","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"greater_than","data":"is_greater_than"},"sink":{"operation":"logical_and","data":"condition_2"},"control_points":[]},{"source":{"operation":"Is Inf","data":"Output"},"sink":{"operation":"logical_and","data":"condition_1"},"control_points":[]},{"source":{"operation":"greater_than","data":"is_greater_than"},"sink":{"operation":"logical_not","data":"condition"},"control_points":[]},{"source":{"operation":"logical_not","data":"new_condition"},"sink":{"operation":"logical_and_1","data":"condition_2"},"control_points":[]},{"source":{"operation":"Is Inf","data":"Output"},"sink":{"operation":"logical_and_1","data":"condition_1"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Is Inf","data":"Input"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"greater_than","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"Zeros"},"sink":{"operation":"greater_than","data":"right_operand"},"control_points":[]},{"source":{"operation":"logical_and","data":"new_condition"},"sink":{"operation":"this","data":"Is Pos Inf"},"control_points":[]},{"source":{"operation":"logical_and_1","data":"new_condition"},"sink":{"operation":"this","data":"Is Neg Inf"},"control_points":[]}]},{"name":"conditional_filter Pos","primitive_name":"conditional_filter","type":"PRIMITIVE_OPERATION","aliases":["conditional_merge","replace","where"],"position":{"x":1480,"y":108},"inputs":[{"name":"condition","primitive_name":"condition"},{"name":"data_if_true","primitive_name":"data_if_true"},{"name":"data_if_false","primitive_name":"data_if_false"}],"outputs":[{"name":"output_data","primitive_name":"output_data","flow_state":"UNBOUND"}]},{"name":"conditional_filter Neg","primitive_name":"conditional_filter","type":"PRIMITIVE_OPERATION","aliases":["conditional_merge","replace","where"],"position":{"x":1928,"y":430},"inputs":[{"name":"condition","primitive_name":"condition"},{"name":"data_if_true","primitive_name":"data_if_true"},{"name":"data_if_false","primitive_name":"data_if_false"}],"outputs":[{"name":"output_data","primitive_name":"output_data","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"element_wise_exponentiate","data":"exponentiation"},"sink":{"operation":"conditional_filter Pos","data":"data_if_false"},"control_points":[{"x":1320,"y":105}]},{"source":{"operation":"this","data":"Base"},"sink":{"operation":"element_wise_exponentiate","data":"base"},"control_points":[]},{"source":{"operation":"this","data":"Exp"},"sink":{"operation":"element_wise_exponentiate","data":"exponent"},"control_points":[]},{"source":{"operation":"conditional_filter Pos","data":"output_data"},"sink":{"operation":"conditional_filter Neg","data":"data_if_false"},"control_points":[]},{"source":{"operation":"conditional_filter Neg","data":"output_data"},"sink":{"operation":"this","data":"Output"},"control_points":[]},{"source":{"operation":"this","data":"Exp"},"sink":{"operation":"Broadcast Zero, Pos, Neg Clamps","data":"Input"},"control_points":[]},{"source":{"operation":"Broadcast Zero, Pos, Neg Clamps","data":"Neg"},"sink":{"operation":"conditional_filter Neg","data":"data_if_true"},"control_points":[]},{"source":{"operation":"Broadcast Zero, Pos, Neg Clamps","data":"Pos"},"sink":{"operation":"conditional_filter Pos","data":"data_if_true"},"control_points":[{"x":976,"y":496}]},{"source":{"operation":"element_wise_exponentiate","data":"exponentiation"},"sink":{"operation":"Is Inf Pos / Neg","data":"Input"},"control_points":[]},{"source":{"operation":"Broadcast Zero, Pos, Neg Clamps","data":"Zero"},"sink":{"operation":"Is Inf Pos / Neg","data":"Zeros"},"control_points":[]},{"source":{"operation":"Is Inf Pos / Neg","data":"Is Pos Inf"},"sink":{"operation":"conditional_filter Pos","data":"condition"},"control_points":[{"x":1248,"y":293}]},{"source":{"operation":"Is Inf Pos / Neg","data":"Is Neg Inf"},"sink":{"operation":"conditional_filter Neg","data":"condition"},"control_points":[{"x":1265,"y":492}]}],"description":"Takes two tensors of equal shape and exponentiates bases with their corresponding exponents, clamping the exponent to pos/negative 66504.0"}
+{
+  "name": "Element-Wise Exp with Clamp",
+  "type": "COMPOSITE_OPERATION",
+  "inputs": [
+    {
+      "name": "Base",
+      "primitive_name": "Input"
+    },
+    {
+      "name": "Exp",
+      "primitive_name": "Input"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "Output",
+      "primitive_name": "Output",
+      "flow_state": "UNBOUND"
+    }
+  ],
+  "operations": [
+    {
+      "name": "element_wise_exponentiate",
+      "primitive_name": "element_wise_exponentiate",
+      "type": "PRIMITIVE_OPERATION",
+      "aliases": [
+        "exp",
+        "pow",
+        "power",
+        "exponentiate"
+      ],
+      "position": {
+        "x": 203,
+        "y": 43
+      },
+      "inputs": [
+        {
+          "name": "base",
+          "primitive_name": "base"
+        },
+        {
+          "name": "exponent",
+          "primitive_name": "exponent"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "exponentiation",
+          "primitive_name": "exponentiation",
+          "flow_state": "UNBOUND"
+        }
+      ]
+    },
+    {
+      "name": "Broadcast Zero, Pos, Neg Clamps",
+      "type": "COMPOSITE_OPERATION",
+      "position": {
+        "x": 290,
+        "y": 392
+      },
+      "inputs": [
+        {
+          "name": "Input",
+          "primitive_name": "Input"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Zero",
+          "primitive_name": "Output",
+          "flow_state": "UNBOUND"
+        },
+        {
+          "name": "Pos",
+          "primitive_name": "Output",
+          "flow_state": "UNBOUND"
+        },
+        {
+          "name": "Neg",
+          "primitive_name": "Output",
+          "flow_state": "UNBOUND"
+        }
+      ],
+      "operations": [
+        {
+          "name": "get_shape",
+          "primitive_name": "get_shape",
+          "type": "PRIMITIVE_OPERATION",
+          "aliases": [
+            "shape",
+            "size",
+            "get_size"
+          ],
+          "position": {
+            "x": 264,
+            "y": 185
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "primitive_name": "input"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "shape",
+              "primitive_name": "shape",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "Broadcast Zero",
+          "primitive_name": "broadcast_to_shape",
+          "type": "PRIMITIVE_OPERATION",
+          "aliases": [
+            "broadcast",
+            "tile",
+            "tile_to_shape"
+          ],
+          "position": {
+            "x": 632,
+            "y": 110
+          },
+          "inputs": [
+            {
+              "name": "target",
+              "data": 0.0,
+              "shape": [],
+              "type": "DECIMAL",
+              "primitive_name": "target",
+              "flow_state": "BOOT_SOURCE"
+            },
+            {
+              "name": "shape",
+              "primitive_name": "shape"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "primitive_name": "result",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "Broadcast Pos Clamp",
+          "primitive_name": "broadcast_to_shape",
+          "type": "PRIMITIVE_OPERATION",
+          "aliases": [
+            "broadcast",
+            "tile",
+            "tile_to_shape"
+          ],
+          "position": {
+            "x": 636,
+            "y": 268
+          },
+          "inputs": [
+            {
+              "name": "target",
+              "data": 66504.0,
+              "shape": [],
+              "type": "DECIMAL",
+              "primitive_name": "target",
+              "flow_state": "BOOT_SOURCE"
+            },
+            {
+              "name": "shape",
+              "primitive_name": "shape"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "primitive_name": "result",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "Broadcast Neg Clamp",
+          "primitive_name": "broadcast_to_shape",
+          "type": "PRIMITIVE_OPERATION",
+          "aliases": [
+            "broadcast",
+            "tile",
+            "tile_to_shape"
+          ],
+          "position": {
+            "x": 653,
+            "y": 414
+          },
+          "inputs": [
+            {
+              "name": "target",
+              "data": -66504.0,
+              "shape": [],
+              "type": "DECIMAL",
+              "primitive_name": "target",
+              "flow_state": "BOOT_SOURCE"
+            },
+            {
+              "name": "shape",
+              "primitive_name": "shape"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "primitive_name": "result",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": {
+            "operation": "get_shape",
+            "data": "shape"
+          },
+          "sink": {
+            "operation": "Broadcast Zero",
+            "data": "shape"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "get_shape",
+            "data": "shape"
+          },
+          "sink": {
+            "operation": "Broadcast Pos Clamp",
+            "data": "shape"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "get_shape",
+            "data": "shape"
+          },
+          "sink": {
+            "operation": "Broadcast Neg Clamp",
+            "data": "shape"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "Input"
+          },
+          "sink": {
+            "operation": "get_shape",
+            "data": "input"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "Broadcast Zero",
+            "data": "result"
+          },
+          "sink": {
+            "operation": "this",
+            "data": "Zero"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "Broadcast Pos Clamp",
+            "data": "result"
+          },
+          "sink": {
+            "operation": "this",
+            "data": "Pos"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "Broadcast Neg Clamp",
+            "data": "result"
+          },
+          "sink": {
+            "operation": "this",
+            "data": "Neg"
+          },
+          "control_points": []
+        }
+      ]
+    },
+    {
+      "name": "Is Inf Pos / Neg",
+      "type": "COMPOSITE_OPERATION",
+      "position": {
+        "x": 689,
+        "y": 231
+      },
+      "inputs": [
+        {
+          "name": "Input",
+          "primitive_name": "Input"
+        },
+        {
+          "name": "Zeros",
+          "primitive_name": "Input (1)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Is Pos Inf",
+          "primitive_name": "Output",
+          "flow_state": "UNBOUND"
+        },
+        {
+          "name": "Is Neg Inf",
+          "primitive_name": "Output",
+          "flow_state": "UNBOUND"
+        }
+      ],
+      "operations": [
+        {
+          "name": "greater_than",
+          "primitive_name": "greater_than",
+          "type": "PRIMITIVE_OPERATION",
+          "aliases": [
+            "gt",
+            "greater",
+            "larger",
+            "larger_than",
+            "bigger",
+            "bigger_than"
+          ],
+          "position": {
+            "x": 381,
+            "y": 297
+          },
+          "inputs": [
+            {
+              "name": "left_operand",
+              "primitive_name": "left_operand"
+            },
+            {
+              "name": "right_operand",
+              "primitive_name": "right_operand"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "is_greater_than",
+              "primitive_name": "is_greater_than",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "logical_not",
+          "primitive_name": "logical_not",
+          "type": "PRIMITIVE_OPERATION",
+          "aliases": [
+            "not",
+            "negate",
+            "negation"
+          ],
+          "position": {
+            "x": 1002,
+            "y": 310
+          },
+          "inputs": [
+            {
+              "name": "condition",
+              "primitive_name": "condition"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "new_condition",
+              "primitive_name": "new_condition",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "Is Inf",
+          "type": "COMPOSITE_OPERATION",
+          "position": {
+            "x": 329,
+            "y": 42
+          },
+          "inputs": [
+            {
+              "name": "Input",
+              "primitive_name": "Input"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "Output",
+              "primitive_name": "Output",
+              "flow_state": "UNBOUND"
+            }
+          ],
+          "operations": [
+            {
+              "name": "Broadcast Target to Shape of Array",
+              "type": "COMPOSITE_OPERATION",
+              "position": {
+                "x": 437,
+                "y": 230
+              },
+              "inputs": [
+                {
+                  "name": "Target",
+                  "data": 1.0,
+                  "shape": [],
+                  "type": "DECIMAL",
+                  "primitive_name": "Target",
+                  "flow_state": "BOOT_SOURCE"
+                },
+                {
+                  "name": "Array",
+                  "primitive_name": "Array"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "Output",
+                  "primitive_name": "Output",
+                  "flow_state": "UNBOUND"
+                }
+              ],
+              "operations": [
+                {
+                  "name": "get_shape",
+                  "primitive_name": "get_shape",
+                  "type": "PRIMITIVE_OPERATION",
+                  "aliases": [
+                    "shape",
+                    "size",
+                    "get_size"
+                  ],
+                  "position": {
+                    "x": 601,
+                    "y": 346
+                  },
+                  "inputs": [
+                    {
+                      "name": "input",
+                      "primitive_name": "input"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "shape",
+                      "primitive_name": "shape",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "broadcast_to_shape",
+                  "primitive_name": "broadcast_to_shape",
+                  "type": "PRIMITIVE_OPERATION",
+                  "aliases": [
+                    "broadcast",
+                    "tile",
+                    "tile_to_shape"
+                  ],
+                  "position": {
+                    "x": 1097,
+                    "y": 42
+                  },
+                  "inputs": [
+                    {
+                      "name": "target",
+                      "shape": [],
+                      "type": "DECIMAL",
+                      "primitive_name": "target",
+                      "flow_state": "BOOT_SINK"
+                    },
+                    {
+                      "name": "shape",
+                      "primitive_name": "shape"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "result",
+                      "primitive_name": "result",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                }
+              ],
+              "links": [
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Array"
+                  },
+                  "sink": {
+                    "operation": "get_shape",
+                    "data": "input"
+                  },
+                  "control_points": [
+                    {
+                      "x": 427,
+                      "y": 404
+                    }
+                  ]
+                },
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Target"
+                  },
+                  "sink": {
+                    "operation": "broadcast_to_shape",
+                    "data": "target"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "get_shape",
+                    "data": "shape"
+                  },
+                  "sink": {
+                    "operation": "broadcast_to_shape",
+                    "data": "shape"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "broadcast_to_shape",
+                    "data": "result"
+                  },
+                  "sink": {
+                    "operation": "this",
+                    "data": "Output"
+                  },
+                  "control_points": []
+                }
+              ]
+            },
+            {
+              "name": "divide",
+              "primitive_name": "divide",
+              "type": "PRIMITIVE_OPERATION",
+              "aliases": [
+                "div"
+              ],
+              "position": {
+                "x": 950,
+                "y": 7
+              },
+              "inputs": [
+                {
+                  "name": "left_operand",
+                  "primitive_name": "left_operand"
+                },
+                {
+                  "name": "right_operand",
+                  "primitive_name": "right_operand"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "divided_result",
+                  "primitive_name": "divided_result",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "Broadcast Target to Shape of Array (1)",
+              "type": "COMPOSITE_OPERATION",
+              "position": {
+                "x": 472,
+                "y": 471
+              },
+              "inputs": [
+                {
+                  "name": "Target",
+                  "data": 0.0,
+                  "shape": [],
+                  "type": "DECIMAL",
+                  "primitive_name": "Target",
+                  "flow_state": "BOOT_SOURCE"
+                },
+                {
+                  "name": "Array",
+                  "primitive_name": "Array"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "Output",
+                  "primitive_name": "Output",
+                  "flow_state": "UNBOUND"
+                }
+              ],
+              "operations": [
+                {
+                  "name": "get_shape",
+                  "primitive_name": "get_shape",
+                  "type": "PRIMITIVE_OPERATION",
+                  "aliases": [
+                    "shape",
+                    "size",
+                    "get_size"
+                  ],
+                  "position": {
+                    "x": 601,
+                    "y": 346
+                  },
+                  "inputs": [
+                    {
+                      "name": "input",
+                      "primitive_name": "input"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "shape",
+                      "primitive_name": "shape",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "broadcast_to_shape",
+                  "primitive_name": "broadcast_to_shape",
+                  "type": "PRIMITIVE_OPERATION",
+                  "aliases": [
+                    "broadcast",
+                    "tile",
+                    "tile_to_shape"
+                  ],
+                  "position": {
+                    "x": 1097,
+                    "y": 42
+                  },
+                  "inputs": [
+                    {
+                      "name": "target",
+                      "shape": [],
+                      "type": "DECIMAL",
+                      "primitive_name": "target",
+                      "flow_state": "BOOT_SINK"
+                    },
+                    {
+                      "name": "shape",
+                      "primitive_name": "shape"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "result",
+                      "primitive_name": "result",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                }
+              ],
+              "links": [
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Array"
+                  },
+                  "sink": {
+                    "operation": "get_shape",
+                    "data": "input"
+                  },
+                  "control_points": [
+                    {
+                      "x": 427,
+                      "y": 404
+                    }
+                  ]
+                },
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Target"
+                  },
+                  "sink": {
+                    "operation": "broadcast_to_shape",
+                    "data": "target"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "get_shape",
+                    "data": "shape"
+                  },
+                  "sink": {
+                    "operation": "broadcast_to_shape",
+                    "data": "shape"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "broadcast_to_shape",
+                    "data": "result"
+                  },
+                  "sink": {
+                    "operation": "this",
+                    "data": "Output"
+                  },
+                  "control_points": []
+                }
+              ]
+            },
+            {
+              "name": "equal",
+              "primitive_name": "equal",
+              "type": "PRIMITIVE_OPERATION",
+              "aliases": [
+                "eq"
+              ],
+              "position": {
+                "x": 1634,
+                "y": 432
+              },
+              "inputs": [
+                {
+                  "name": "left_operand",
+                  "primitive_name": "left_operand"
+                },
+                {
+                  "name": "right_operand",
+                  "primitive_name": "right_operand"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "is_equal",
+                  "primitive_name": "is_equal",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "source": {
+                "operation": "Broadcast Target to Shape of Array",
+                "data": "Output"
+              },
+              "sink": {
+                "operation": "divide",
+                "data": "left_operand"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Input"
+              },
+              "sink": {
+                "operation": "Broadcast Target to Shape of Array",
+                "data": "Array"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Input"
+              },
+              "sink": {
+                "operation": "divide",
+                "data": "right_operand"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Input"
+              },
+              "sink": {
+                "operation": "Broadcast Target to Shape of Array (1)",
+                "data": "Array"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "Broadcast Target to Shape of Array (1)",
+                "data": "Output"
+              },
+              "sink": {
+                "operation": "equal",
+                "data": "right_operand"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "divide",
+                "data": "divided_result"
+              },
+              "sink": {
+                "operation": "equal",
+                "data": "left_operand"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "equal",
+                "data": "is_equal"
+              },
+              "sink": {
+                "operation": "this",
+                "data": "Output"
+              },
+              "control_points": []
+            }
+          ]
+        },
+        {
+          "name": "logical_and",
+          "primitive_name": "logical_and",
+          "type": "PRIMITIVE_OPERATION",
+          "aliases": [
+            "and"
+          ],
+          "position": {
+            "x": 997,
+            "y": 42
+          },
+          "inputs": [
+            {
+              "name": "condition_1",
+              "primitive_name": "condition_1"
+            },
+            {
+              "name": "condition_2",
+              "primitive_name": "condition_2"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "new_condition",
+              "primitive_name": "new_condition",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "logical_and_1",
+          "primitive_name": "logical_and",
+          "type": "PRIMITIVE_OPERATION",
+          "aliases": [
+            "and"
+          ],
+          "position": {
+            "x": 1439,
+            "y": 272
+          },
+          "inputs": [
+            {
+              "name": "condition_1",
+              "primitive_name": "condition_1"
+            },
+            {
+              "name": "condition_2",
+              "primitive_name": "condition_2"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "new_condition",
+              "primitive_name": "new_condition",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": {
+            "operation": "greater_than",
+            "data": "is_greater_than"
+          },
+          "sink": {
+            "operation": "logical_and",
+            "data": "condition_2"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "Is Inf",
+            "data": "Output"
+          },
+          "sink": {
+            "operation": "logical_and",
+            "data": "condition_1"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "greater_than",
+            "data": "is_greater_than"
+          },
+          "sink": {
+            "operation": "logical_not",
+            "data": "condition"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "logical_not",
+            "data": "new_condition"
+          },
+          "sink": {
+            "operation": "logical_and_1",
+            "data": "condition_2"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "Is Inf",
+            "data": "Output"
+          },
+          "sink": {
+            "operation": "logical_and_1",
+            "data": "condition_1"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "Input"
+          },
+          "sink": {
+            "operation": "Is Inf",
+            "data": "Input"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "Input"
+          },
+          "sink": {
+            "operation": "greater_than",
+            "data": "left_operand"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "Zeros"
+          },
+          "sink": {
+            "operation": "greater_than",
+            "data": "right_operand"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "logical_and",
+            "data": "new_condition"
+          },
+          "sink": {
+            "operation": "this",
+            "data": "Is Pos Inf"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "logical_and_1",
+            "data": "new_condition"
+          },
+          "sink": {
+            "operation": "this",
+            "data": "Is Neg Inf"
+          },
+          "control_points": []
+        }
+      ]
+    },
+    {
+      "name": "conditional_filter Pos",
+      "primitive_name": "conditional_filter",
+      "type": "PRIMITIVE_OPERATION",
+      "aliases": [
+        "conditional_merge",
+        "replace",
+        "where"
+      ],
+      "position": {
+        "x": 1480,
+        "y": 108
+      },
+      "inputs": [
+        {
+          "name": "condition",
+          "primitive_name": "condition"
+        },
+        {
+          "name": "data_if_true",
+          "primitive_name": "data_if_true"
+        },
+        {
+          "name": "data_if_false",
+          "primitive_name": "data_if_false"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_data",
+          "primitive_name": "output_data",
+          "flow_state": "UNBOUND"
+        }
+      ]
+    },
+    {
+      "name": "conditional_filter Neg",
+      "primitive_name": "conditional_filter",
+      "type": "PRIMITIVE_OPERATION",
+      "aliases": [
+        "conditional_merge",
+        "replace",
+        "where"
+      ],
+      "position": {
+        "x": 1928,
+        "y": 430
+      },
+      "inputs": [
+        {
+          "name": "condition",
+          "primitive_name": "condition"
+        },
+        {
+          "name": "data_if_true",
+          "primitive_name": "data_if_true"
+        },
+        {
+          "name": "data_if_false",
+          "primitive_name": "data_if_false"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_data",
+          "primitive_name": "output_data",
+          "flow_state": "UNBOUND"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "source": {
+        "operation": "element_wise_exponentiate",
+        "data": "exponentiation"
+      },
+      "sink": {
+        "operation": "conditional_filter Pos",
+        "data": "data_if_false"
+      },
+      "control_points": [
+        {
+          "x": 1320,
+          "y": 105
+        }
+      ]
+    },
+    {
+      "source": {
+        "operation": "this",
+        "data": "Base"
+      },
+      "sink": {
+        "operation": "element_wise_exponentiate",
+        "data": "base"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "this",
+        "data": "Exp"
+      },
+      "sink": {
+        "operation": "element_wise_exponentiate",
+        "data": "exponent"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "conditional_filter Pos",
+        "data": "output_data"
+      },
+      "sink": {
+        "operation": "conditional_filter Neg",
+        "data": "data_if_false"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "conditional_filter Neg",
+        "data": "output_data"
+      },
+      "sink": {
+        "operation": "this",
+        "data": "Output"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "this",
+        "data": "Exp"
+      },
+      "sink": {
+        "operation": "Broadcast Zero, Pos, Neg Clamps",
+        "data": "Input"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "Broadcast Zero, Pos, Neg Clamps",
+        "data": "Neg"
+      },
+      "sink": {
+        "operation": "conditional_filter Neg",
+        "data": "data_if_true"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "Broadcast Zero, Pos, Neg Clamps",
+        "data": "Pos"
+      },
+      "sink": {
+        "operation": "conditional_filter Pos",
+        "data": "data_if_true"
+      },
+      "control_points": [
+        {
+          "x": 976,
+          "y": 496
+        }
+      ]
+    },
+    {
+      "source": {
+        "operation": "element_wise_exponentiate",
+        "data": "exponentiation"
+      },
+      "sink": {
+        "operation": "Is Inf Pos / Neg",
+        "data": "Input"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "Broadcast Zero, Pos, Neg Clamps",
+        "data": "Zero"
+      },
+      "sink": {
+        "operation": "Is Inf Pos / Neg",
+        "data": "Zeros"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "Is Inf Pos / Neg",
+        "data": "Is Pos Inf"
+      },
+      "sink": {
+        "operation": "conditional_filter Pos",
+        "data": "condition"
+      },
+      "control_points": [
+        {
+          "x": 1248,
+          "y": 293
+        }
+      ]
+    },
+    {
+      "source": {
+        "operation": "Is Inf Pos / Neg",
+        "data": "Is Neg Inf"
+      },
+      "sink": {
+        "operation": "conditional_filter Neg",
+        "data": "condition"
+      },
+      "control_points": [
+        {
+          "x": 1265,
+          "y": 492
+        }
+      ]
+    }
+  ],
+  "description": [
+    "Takes two tensors of equal shape and exponentiates bases with their corresponding exponents, clamping the exponent to pos/negative 66504.0"
+  ]
+}

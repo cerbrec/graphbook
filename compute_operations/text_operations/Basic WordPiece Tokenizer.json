@@ -1,1 +1,139 @@
-{"name":"Basic WordPiece Tokenizer","type":"COMPOSITE_OPERATION","inputs":[{"name":"Input","primitive_name":"Input"},{"name":"Vocabulary","primitive_name":"Vocabulary"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"split_subwords_longest_match_first","primitive_name":"split_subwords_longest_match_first","type":"PRIMITIVE_OPERATION","aliases":["split_subtexts","split_substrings","split_substrs","split_subtokens","subword_tokenizer","wordpiece_tokenizer","word_piece_tokenizer"],"position":{"x":698,"y":46},"inputs":[{"name":"words","primitive_name":"words"},{"name":"vocabulary","primitive_name":"vocabulary"},{"name":"skip_vocabulary","data":["[PAD]"],"shape":[1],"type":"TEXT","primitive_name":"skip_vocabulary","flow_state":"BOOT_SOURCE"},{"name":"subword_prefix","data":"##","shape":[],"type":"TEXT","primitive_name":"subword_prefix","flow_state":"BOOT_SOURCE"},{"name":"unknown_tag","data":"[UNK]","shape":[],"type":"TEXT","primitive_name":"unknown_tag","flow_state":"BOOT_SOURCE"},{"name":"pad_tag","data":"[PAD]","shape":[],"type":"TEXT","primitive_name":"pad_tag","flow_state":"BOOT_SOURCE"},{"name":"scan_from_right","data":false,"shape":[],"type":"BOOLEAN","primitive_name":"scan_from_right","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"subwords","primitive_name":"subwords"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"split_subwords_longest_match_first","data":"words"},"control_points":[]},{"source":{"operation":"this","data":"Vocabulary"},"sink":{"operation":"split_subwords_longest_match_first","data":"vocabulary"},"control_points":[]},{"source":{"operation":"split_subwords_longest_match_first","data":"subwords"},"sink":{"operation":"this","data":"Output"},"control_points":[]}],"global_constants":[]}
+{
+  "name": "Basic WordPiece Tokenizer",
+  "type": "COMPOSITE_OPERATION",
+  "inputs": [
+    {
+      "name": "Input",
+      "primitive_name": "Input"
+    },
+    {
+      "name": "Vocabulary",
+      "primitive_name": "Vocabulary"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "Output",
+      "primitive_name": "Output"
+    }
+  ],
+  "operations": [
+    {
+      "name": "split_subwords_longest_match_first",
+      "primitive_name": "split_subwords_longest_match_first",
+      "type": "PRIMITIVE_OPERATION",
+      "aliases": [
+        "split_subtexts",
+        "split_substrings",
+        "split_substrs",
+        "split_subtokens",
+        "subword_tokenizer",
+        "wordpiece_tokenizer",
+        "word_piece_tokenizer"
+      ],
+      "position": {
+        "x": 698,
+        "y": 46
+      },
+      "inputs": [
+        {
+          "name": "words",
+          "primitive_name": "words"
+        },
+        {
+          "name": "vocabulary",
+          "primitive_name": "vocabulary"
+        },
+        {
+          "name": "skip_vocabulary",
+          "data": [
+            "[PAD]"
+          ],
+          "shape": [
+            1
+          ],
+          "type": "TEXT",
+          "primitive_name": "skip_vocabulary",
+          "flow_state": "BOOT_SOURCE"
+        },
+        {
+          "name": "subword_prefix",
+          "data": "##",
+          "shape": [],
+          "type": "TEXT",
+          "primitive_name": "subword_prefix",
+          "flow_state": "BOOT_SOURCE"
+        },
+        {
+          "name": "unknown_tag",
+          "data": "[UNK]",
+          "shape": [],
+          "type": "TEXT",
+          "primitive_name": "unknown_tag",
+          "flow_state": "BOOT_SOURCE"
+        },
+        {
+          "name": "pad_tag",
+          "data": "[PAD]",
+          "shape": [],
+          "type": "TEXT",
+          "primitive_name": "pad_tag",
+          "flow_state": "BOOT_SOURCE"
+        },
+        {
+          "name": "scan_from_right",
+          "data": false,
+          "shape": [],
+          "type": "BOOLEAN",
+          "primitive_name": "scan_from_right",
+          "flow_state": "BOOT_SOURCE"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "subwords",
+          "primitive_name": "subwords"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "source": {
+        "operation": "this",
+        "data": "Input"
+      },
+      "sink": {
+        "operation": "split_subwords_longest_match_first",
+        "data": "words"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "this",
+        "data": "Vocabulary"
+      },
+      "sink": {
+        "operation": "split_subwords_longest_match_first",
+        "data": "vocabulary"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "split_subwords_longest_match_first",
+        "data": "subwords"
+      },
+      "sink": {
+        "operation": "this",
+        "data": "Output"
+      },
+      "control_points": []
+    }
+  ],
+  "global_constants": [],
+  "description": [
+    "Tokenizes an inputted string by a given vocabulary. splitting words into individual subwords."
+  ]
+}

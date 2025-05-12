@@ -1,1 +1,4353 @@
-{"name":"Row-Normalized Binary Confusion Matrix","type":"COMPOSITE_OPERATION","inputs":[{"name":"Pred Labels","primitive_name":"Input"},{"name":"Actual Labels","primitive_name":"Input (1)"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"Binary Confusion Matrix","type":"COMPOSITE_OPERATION","position":{"x":304,"y":106},"inputs":[{"name":"Pred","primitive_name":"Input"},{"name":"Actual","primitive_name":"Input (1)"}],"outputs":[{"name":"TP","primitive_name":"Output","flow_state":"UNBOUND"},{"name":"TN","primitive_name":"Output (1)","flow_state":"UNBOUND"},{"name":"FP","primitive_name":"Output (2)","flow_state":"UNBOUND"},{"name":"FN","primitive_name":"Output (3)","flow_state":"UNBOUND"}],"output_order":[1,2,0,3],"operations":[{"name":"Get True Positives","type":"COMPOSITE_OPERATION","position":{"x":422,"y":163},"inputs":[{"name":"Pred","primitive_name":"Input"},{"name":"Actual","primitive_name":"Input (1)"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"parse_boolean","primitive_name":"parse_boolean","type":"PRIMITIVE_OPERATION","position":{"x":304,"y":21},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"parse_boolean_1","primitive_name":"parse_boolean","type":"PRIMITIVE_OPERATION","position":{"x":308,"y":165},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"logical_and","primitive_name":"logical_and","type":"PRIMITIVE_OPERATION","position":{"x":742,"y":26},"inputs":[{"name":"condition_1","primitive_name":"condition_1"},{"name":"condition_2","primitive_name":"condition_2"}],"outputs":[{"name":"new_condition","primitive_name":"new_condition","flow_state":"UNBOUND"}]},{"name":"count_occurrences","primitive_name":"count_occurrences","type":"PRIMITIVE_OPERATION","position":{"x":1132,"y":28},"inputs":[{"name":"target","primitive_name":"target"},{"name":"count_against","data":[true],"shape":[1],"type":"BOOLEAN","primitive_name":"count_against","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"occurrences","primitive_name":"occurrences","flow_state":"UNBOUND"}]},{"name":"sum","primitive_name":"sum","type":"PRIMITIVE_OPERATION","position":{"x":1590,"y":58},"inputs":[{"name":"array","primitive_name":"array"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"},{"name":"keep_dimension","data":false,"shape":[],"type":"BOOLEAN","primitive_name":"keep_dimension","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"sum_result","primitive_name":"sum_result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Pred"},"sink":{"operation":"parse_boolean","data":"input"},"control_points":[]},{"source":{"operation":"this","data":"Actual"},"sink":{"operation":"parse_boolean_1","data":"input"},"control_points":[]},{"source":{"operation":"parse_boolean","data":"output"},"sink":{"operation":"logical_and","data":"condition_1"},"control_points":[]},{"source":{"operation":"parse_boolean_1","data":"output"},"sink":{"operation":"logical_and","data":"condition_2"},"control_points":[]},{"source":{"operation":"logical_and","data":"new_condition"},"sink":{"operation":"count_occurrences","data":"target"},"control_points":[]},{"source":{"operation":"count_occurrences","data":"occurrences"},"sink":{"operation":"sum","data":"array"},"control_points":[]},{"source":{"operation":"sum","data":"sum_result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"Get True Negatives","type":"COMPOSITE_OPERATION","position":{"x":364,"y":537},"inputs":[{"name":"Pred","primitive_name":"Input"},{"name":"Actual","primitive_name":"Input (1)"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"parse_boolean","primitive_name":"parse_boolean","type":"PRIMITIVE_OPERATION","position":{"x":322,"y":43},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"parse_boolean_1","primitive_name":"parse_boolean","type":"PRIMITIVE_OPERATION","position":{"x":312,"y":205},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"logical_not","primitive_name":"logical_not","type":"PRIMITIVE_OPERATION","position":{"x":655,"y":202},"inputs":[{"name":"condition","primitive_name":"condition"}],"outputs":[{"name":"new_condition","primitive_name":"new_condition","flow_state":"UNBOUND"}]},{"name":"logical_not_1","primitive_name":"logical_not","type":"PRIMITIVE_OPERATION","position":{"x":680,"y":41},"inputs":[{"name":"condition","primitive_name":"condition"}],"outputs":[{"name":"new_condition","primitive_name":"new_condition","flow_state":"UNBOUND"}]},{"name":"logical_and","primitive_name":"logical_and","type":"PRIMITIVE_OPERATION","position":{"x":1010,"y":43},"inputs":[{"name":"condition_1","primitive_name":"condition_1"},{"name":"condition_2","primitive_name":"condition_2"}],"outputs":[{"name":"new_condition","primitive_name":"new_condition","flow_state":"UNBOUND"}]},{"name":"count_occurrences","primitive_name":"count_occurrences","type":"PRIMITIVE_OPERATION","position":{"x":1400,"y":43},"inputs":[{"name":"target","primitive_name":"target"},{"name":"count_against","data":[true],"shape":[1],"type":"BOOLEAN","primitive_name":"count_against","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"occurrences","primitive_name":"occurrences","flow_state":"UNBOUND"}]},{"name":"sum","primitive_name":"sum","type":"PRIMITIVE_OPERATION","position":{"x":1858,"y":43},"inputs":[{"name":"array","primitive_name":"array"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"},{"name":"keep_dimension","data":false,"shape":[],"type":"BOOLEAN","primitive_name":"keep_dimension","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"sum_result","primitive_name":"sum_result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Pred"},"sink":{"operation":"parse_boolean","data":"input"},"control_points":[]},{"source":{"operation":"this","data":"Actual"},"sink":{"operation":"parse_boolean_1","data":"input"},"control_points":[]},{"source":{"operation":"logical_and","data":"new_condition"},"sink":{"operation":"count_occurrences","data":"target"},"control_points":[]},{"source":{"operation":"count_occurrences","data":"occurrences"},"sink":{"operation":"sum","data":"array"},"control_points":[]},{"source":{"operation":"sum","data":"sum_result"},"sink":{"operation":"this","data":"Output"},"control_points":[]},{"source":{"operation":"parse_boolean_1","data":"output"},"sink":{"operation":"logical_not","data":"condition"},"control_points":[]},{"source":{"operation":"logical_not","data":"new_condition"},"sink":{"operation":"logical_and","data":"condition_2"},"control_points":[]},{"source":{"operation":"parse_boolean","data":"output"},"sink":{"operation":"logical_not_1","data":"condition"},"control_points":[]},{"source":{"operation":"logical_not_1","data":"new_condition"},"sink":{"operation":"logical_and","data":"condition_1"},"control_points":[]}]},{"name":"Get False Positives","type":"COMPOSITE_OPERATION","position":{"x":820,"y":8},"inputs":[{"name":"Pred","primitive_name":"Input"},{"name":"TP","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"sum","primitive_name":"sum","type":"PRIMITIVE_OPERATION","position":{"x":344,"y":37},"inputs":[{"name":"array","primitive_name":"array"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"},{"name":"keep_dimension","data":true,"shape":[],"type":"BOOLEAN","primitive_name":"keep_dimension","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"sum_result","primitive_name":"sum_result","flow_state":"UNBOUND"}]},{"name":"expand_one_dimension","primitive_name":"expand_one_dimension","type":"PRIMITIVE_OPERATION","position":{"x":259,"y":252},"inputs":[{"name":"input","primitive_name":"input"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"subtract","primitive_name":"subtract","type":"PRIMITIVE_OPERATION","position":{"x":906,"y":74},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"subtracted_result","primitive_name":"subtracted_result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Pred"},"sink":{"operation":"sum","data":"array"},"control_points":[]},{"source":{"operation":"sum","data":"sum_result"},"sink":{"operation":"subtract","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"TP"},"sink":{"operation":"expand_one_dimension","data":"input"},"control_points":[]},{"source":{"operation":"expand_one_dimension","data":"output"},"sink":{"operation":"subtract","data":"right_operand"},"control_points":[]},{"source":{"operation":"subtract","data":"subtracted_result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"Get False Negatives","type":"COMPOSITE_OPERATION","position":{"x":849,"y":354},"inputs":[{"name":"Pred","primitive_name":"Input"},{"name":"TN","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"expand_one_dimension","primitive_name":"expand_one_dimension","type":"PRIMITIVE_OPERATION","position":{"x":653,"y":262},"inputs":[{"name":"input","primitive_name":"input"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"parse_boolean","primitive_name":"parse_boolean","type":"PRIMITIVE_OPERATION","position":{"x":283,"y":54},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"logical_not","primitive_name":"logical_not","type":"PRIMITIVE_OPERATION","position":{"x":685,"y":51},"inputs":[{"name":"condition","primitive_name":"condition"}],"outputs":[{"name":"new_condition","primitive_name":"new_condition","flow_state":"UNBOUND"}]},{"name":"parse_integer","primitive_name":"parse_integer","type":"PRIMITIVE_OPERATION","position":{"x":1050,"y":47},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"sum","primitive_name":"sum","type":"PRIMITIVE_OPERATION","position":{"x":1565,"y":44},"inputs":[{"name":"array","primitive_name":"array"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"},{"name":"keep_dimension","data":true,"shape":[],"type":"BOOLEAN","primitive_name":"keep_dimension","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"sum_result","primitive_name":"sum_result","flow_state":"UNBOUND"}]},{"name":"subtract","primitive_name":"subtract","type":"PRIMITIVE_OPERATION","position":{"x":2145,"y":43},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"subtracted_result","primitive_name":"subtracted_result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"sum","data":"sum_result"},"sink":{"operation":"subtract","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"TN"},"sink":{"operation":"expand_one_dimension","data":"input"},"control_points":[]},{"source":{"operation":"expand_one_dimension","data":"output"},"sink":{"operation":"subtract","data":"right_operand"},"control_points":[{"x":1777,"y":324}]},{"source":{"operation":"subtract","data":"subtracted_result"},"sink":{"operation":"this","data":"Output"},"control_points":[]},{"source":{"operation":"this","data":"Pred"},"sink":{"operation":"parse_boolean","data":"input"},"control_points":[]},{"source":{"operation":"parse_boolean","data":"output"},"sink":{"operation":"logical_not","data":"condition"},"control_points":[]},{"source":{"operation":"logical_not","data":"new_condition"},"sink":{"operation":"parse_integer","data":"input"},"control_points":[]},{"source":{"operation":"parse_integer","data":"output"},"sink":{"operation":"sum","data":"array"},"control_points":[]}]},{"name":"expand_one_dimension","primitive_name":"expand_one_dimension","type":"PRIMITIVE_OPERATION","position":{"x":858,"y":167},"inputs":[{"name":"input","primitive_name":"input"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"expand_one_dimension_1","primitive_name":"expand_one_dimension","type":"PRIMITIVE_OPERATION","position":{"x":1003,"y":533},"inputs":[{"name":"input","primitive_name":"input"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Pred"},"sink":{"operation":"Get True Positives","data":"Pred"},"control_points":[]},{"source":{"operation":"this","data":"Actual"},"sink":{"operation":"Get True Positives","data":"Actual"},"control_points":[]},{"source":{"operation":"this","data":"Pred"},"sink":{"operation":"Get True Negatives","data":"Pred"},"control_points":[]},{"source":{"operation":"this","data":"Actual"},"sink":{"operation":"Get True Negatives","data":"Actual"},"control_points":[]},{"source":{"operation":"this","data":"Pred"},"sink":{"operation":"Get False Positives","data":"Pred"},"control_points":[{"x":346,"y":71}]},{"source":{"operation":"Get True Positives","data":"Output"},"sink":{"operation":"Get False Positives","data":"TP"},"control_points":[]},{"source":{"operation":"Get True Negatives","data":"Output"},"sink":{"operation":"Get False Negatives","data":"TN"},"control_points":[]},{"source":{"operation":"this","data":"Pred"},"sink":{"operation":"Get False Negatives","data":"Pred"},"control_points":[{"x":437,"y":416}]},{"source":{"operation":"Get False Positives","data":"Output"},"sink":{"operation":"this","data":"FP"},"control_points":[]},{"source":{"operation":"Get False Negatives","data":"Output"},"sink":{"operation":"this","data":"FN"},"control_points":[]},{"source":{"operation":"Get True Positives","data":"Output"},"sink":{"operation":"expand_one_dimension","data":"input"},"control_points":[]},{"source":{"operation":"expand_one_dimension","data":"output"},"sink":{"operation":"this","data":"TP"},"control_points":[]},{"source":{"operation":"Get True Negatives","data":"Output"},"sink":{"operation":"expand_one_dimension_1","data":"input"},"control_points":[]},{"source":{"operation":"expand_one_dimension_1","data":"output"},"sink":{"operation":"this","data":"TN"},"control_points":[]}]},{"name":"Row for Positive Class","type":"COMPOSITE_OPERATION","position":{"x":764,"y":293},"inputs":[{"name":"TP","primitive_name":"Input"},{"name":"FN","primitive_name":"Input (1)"}],"outputs":[{"name":"Positive Row","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"add","primitive_name":"add","type":"PRIMITIVE_OPERATION","position":{"x":275,"y":322},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"added_result","primitive_name":"added_result","flow_state":"UNBOUND"}]},{"name":"parse_decimal","primitive_name":"parse_decimal","type":"PRIMITIVE_OPERATION","position":{"x":277,"y":17},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"parse_decimal_2","primitive_name":"parse_decimal","type":"PRIMITIVE_OPERATION","position":{"x":270,"y":169},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"equal","primitive_name":"equal","type":"PRIMITIVE_OPERATION","position":{"x":641,"y":324},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","data":[0],"shape":[1],"type":"INTEGER","primitive_name":"right_operand","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"is_equal","primitive_name":"is_equal","flow_state":"UNBOUND"}]},{"name":"reduce_one_dimension","primitive_name":"reduce_one_dimension","type":"PRIMITIVE_OPERATION","position":{"x":1019,"y":328},"inputs":[{"name":"input","primitive_name":"input"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"},{"name":"selected_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"selected_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"If Else","type":"CONDITIONAL_OPERATION","position":{"x":1460,"y":125},"inputs":[{"name":"Is True","primitive_name":"Is True"},{"name":"TP","primitive_name":"Input"},{"name":"FN","primitive_name":"Input (1)"},{"name":"Add","primitive_name":"Input (2)"}],"input_order":[1,2,3,0],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations_if_true":[{"name":"concatenate","primitive_name":"concatenate","type":"PRIMITIVE_OPERATION","position":{"x":548,"y":61},"inputs":[{"name":"array_1","data":["N/A"],"shape":[1],"type":"TEXT","primitive_name":"array_1","flow_state":"BOOT_SOURCE"},{"name":"array_2","data":["N/A"],"shape":[1],"type":"TEXT","primitive_name":"array_2","flow_state":"BOOT_SOURCE"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"concatenated_array","primitive_name":"concatenated_array","flow_state":"UNBOUND"}]},{"name":"Transpose 1D and 2D","type":"COMPOSITE_OPERATION","position":{"x":1042,"y":67},"inputs":[{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Transposed Array","primitive_name":"Transposed Array","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","position":{"x":416,"y":195},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"get_dimension_size","primitive_name":"get_dimension_size","type":"PRIMITIVE_OPERATION","position":{"x":874,"y":196},"inputs":[{"name":"array","primitive_name":"array"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"dimension_size","primitive_name":"dimension_size","flow_state":"UNBOUND"}]},{"name":"greater_than","primitive_name":"greater_than","type":"PRIMITIVE_OPERATION","position":{"x":1356,"y":196},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","data":1,"shape":[],"type":"INTEGER","primitive_name":"right_operand","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"is_greater_than","primitive_name":"is_greater_than","flow_state":"UNBOUND"}]},{"name":"Transpose","type":"CONDITIONAL_OPERATION","position":{"x":1878,"y":196},"inputs":[{"name":"Is True","primitive_name":"Is True"},{"name":"Array","primitive_name":"New Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations_if_true":[{"name":"swap_dimensions","primitive_name":"swap_dimensions","type":"PRIMITIVE_OPERATION","position":{"x":592,"y":47},"inputs":[{"name":"array","primitive_name":"array"},{"name":"dimension_index_1","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index_1","flow_state":"BOOT_SOURCE"},{"name":"dimension_index_2","data":1,"shape":[],"type":"INTEGER","primitive_name":"dimension_index_2","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"swapped_array","primitive_name":"swapped_array","flow_state":"UNBOUND"}]}],"links_if_true":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"swap_dimensions","data":"array"},"control_points":[]},{"source":{"operation":"swap_dimensions","data":"swapped_array"},"sink":{"operation":"this","data":"Output"},"control_points":[]}],"operations_if_false":[{"name":"expand_one_dimension","primitive_name":"expand_one_dimension","type":"PRIMITIVE_OPERATION","position":{"x":534,"y":47},"inputs":[{"name":"input","primitive_name":"input"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]}],"links_if_false":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"expand_one_dimension","data":"input"},"control_points":[]},{"source":{"operation":"expand_one_dimension","data":"output"},"sink":{"operation":"this","data":"Output"},"control_points":[]}],"condition":{"name":"Is True"}}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"get_dimension_size","data":"array"},"control_points":[]},{"source":{"operation":"Transpose","data":"Output"},"sink":{"operation":"this","data":"Transposed Array"},"control_points":[]},{"source":{"operation":"get_dimension_size","data":"dimension_size"},"sink":{"operation":"greater_than","data":"left_operand"},"control_points":[]},{"source":{"operation":"greater_than","data":"is_greater_than"},"sink":{"operation":"Transpose","data":"Is True"},"control_points":[]},{"source":{"operation":"this","data":"Array"},"sink":{"operation":"Transpose","data":"Array"},"control_points":[{"x":344,"y":432},{"x":1756,"y":432}]}]}],"links_if_true":[{"source":{"operation":"concatenate","data":"concatenated_array"},"sink":{"operation":"Transpose 1D and 2D","data":"Array"},"control_points":[]},{"source":{"operation":"Transpose 1D and 2D","data":"Transposed Array"},"sink":{"operation":"this","data":"Output"},"control_points":[]}],"operations_if_false":[{"name":"Handle Non-Empty Case","type":"COMPOSITE_OPERATION","position":{"x":440,"y":82},"inputs":[{"name":"TP","primitive_name":"Input"},{"name":"FN","primitive_name":"Input (1)"},{"name":"Add","primitive_name":"Input (2)"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"parse_decimal_1","primitive_name":"parse_decimal","type":"PRIMITIVE_OPERATION","position":{"x":310,"y":277},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"divide_1","primitive_name":"divide","type":"PRIMITIVE_OPERATION","position":{"x":1079,"y":235},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"divided_result","primitive_name":"divided_result","flow_state":"UNBOUND"}]},{"name":"divide","primitive_name":"divide","type":"PRIMITIVE_OPERATION","position":{"x":939,"y":43},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"divided_result","primitive_name":"divided_result","flow_state":"UNBOUND"}]},{"name":"concatenate","primitive_name":"concatenate","type":"PRIMITIVE_OPERATION","position":{"x":1476,"y":92},"inputs":[{"name":"array_1","primitive_name":"array_1"},{"name":"array_2","primitive_name":"array_2"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"input_order":[1,0,2],"outputs":[{"name":"concatenated_array","primitive_name":"concatenated_array","flow_state":"UNBOUND"}]},{"name":"Transpose 1D and 2D","type":"COMPOSITE_OPERATION","position":{"x":1919,"y":96},"inputs":[{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Transposed Array","primitive_name":"Transposed Array","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","position":{"x":416,"y":195},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"get_dimension_size","primitive_name":"get_dimension_size","type":"PRIMITIVE_OPERATION","position":{"x":874,"y":196},"inputs":[{"name":"array","primitive_name":"array"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"dimension_size","primitive_name":"dimension_size","flow_state":"UNBOUND"}]},{"name":"greater_than","primitive_name":"greater_than","type":"PRIMITIVE_OPERATION","position":{"x":1356,"y":196},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","data":1,"shape":[],"type":"INTEGER","primitive_name":"right_operand","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"is_greater_than","primitive_name":"is_greater_than","flow_state":"UNBOUND"}]},{"name":"Transpose","type":"CONDITIONAL_OPERATION","position":{"x":1878,"y":196},"inputs":[{"name":"Is True","primitive_name":"Is True"},{"name":"Array","primitive_name":"New Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations_if_true":[{"name":"swap_dimensions","primitive_name":"swap_dimensions","type":"PRIMITIVE_OPERATION","position":{"x":592,"y":47},"inputs":[{"name":"array","primitive_name":"array"},{"name":"dimension_index_1","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index_1","flow_state":"BOOT_SOURCE"},{"name":"dimension_index_2","data":1,"shape":[],"type":"INTEGER","primitive_name":"dimension_index_2","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"swapped_array","primitive_name":"swapped_array","flow_state":"UNBOUND"}]}],"links_if_true":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"swap_dimensions","data":"array"},"control_points":[]},{"source":{"operation":"swap_dimensions","data":"swapped_array"},"sink":{"operation":"this","data":"Output"},"control_points":[]}],"operations_if_false":[{"name":"expand_one_dimension","primitive_name":"expand_one_dimension","type":"PRIMITIVE_OPERATION","position":{"x":534,"y":47},"inputs":[{"name":"input","primitive_name":"input"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]}],"links_if_false":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"expand_one_dimension","data":"input"},"control_points":[]},{"source":{"operation":"expand_one_dimension","data":"output"},"sink":{"operation":"this","data":"Output"},"control_points":[]}],"condition":{"name":"Is True"}}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"get_dimension_size","data":"array"},"control_points":[]},{"source":{"operation":"Transpose","data":"Output"},"sink":{"operation":"this","data":"Transposed Array"},"control_points":[]},{"source":{"operation":"get_dimension_size","data":"dimension_size"},"sink":{"operation":"greater_than","data":"left_operand"},"control_points":[]},{"source":{"operation":"greater_than","data":"is_greater_than"},"sink":{"operation":"Transpose","data":"Is True"},"control_points":[]},{"source":{"operation":"this","data":"Array"},"sink":{"operation":"Transpose","data":"Array"},"control_points":[{"x":344,"y":432},{"x":1756,"y":432}]}]}],"links":[{"source":{"operation":"parse_decimal_1","data":"output"},"sink":{"operation":"divide","data":"right_operand"},"control_points":[]},{"source":{"operation":"parse_decimal_1","data":"output"},"sink":{"operation":"divide_1","data":"right_operand"},"control_points":[]},{"source":{"operation":"divide_1","data":"divided_result"},"sink":{"operation":"concatenate","data":"array_1"},"control_points":[]},{"source":{"operation":"divide","data":"divided_result"},"sink":{"operation":"concatenate","data":"array_2"},"control_points":[]},{"source":{"operation":"this","data":"TP"},"sink":{"operation":"divide","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"FN"},"sink":{"operation":"divide_1","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"Add"},"sink":{"operation":"parse_decimal_1","data":"input"},"control_points":[]},{"source":{"operation":"concatenate","data":"concatenated_array"},"sink":{"operation":"Transpose 1D and 2D","data":"Array"},"control_points":[]},{"source":{"operation":"Transpose 1D and 2D","data":"Transposed Array"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"element_wise_multiply","primitive_name":"element_wise_multiply","type":"PRIMITIVE_OPERATION","position":{"x":934,"y":98},"inputs":[{"name":"left_array","primitive_name":"left_array"},{"name":"right_array","data":[[100.0,100.0]],"shape":[1,2],"type":"DECIMAL","primitive_name":"right_array","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"multiplied_array","primitive_name":"multiplied_array","flow_state":"UNBOUND"}]},{"name":"parse_text","primitive_name":"parse_text","type":"PRIMITIVE_OPERATION","position":{"x":1329,"y":95},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]}],"links_if_false":[{"source":{"operation":"this","data":"TP"},"sink":{"operation":"Handle Non-Empty Case","data":"TP"},"control_points":[]},{"source":{"operation":"this","data":"FN"},"sink":{"operation":"Handle Non-Empty Case","data":"FN"},"control_points":[]},{"source":{"operation":"this","data":"Add"},"sink":{"operation":"Handle Non-Empty Case","data":"Add"},"control_points":[]},{"source":{"operation":"Handle Non-Empty Case","data":"Output"},"sink":{"operation":"element_wise_multiply","data":"left_array"},"control_points":[]},{"source":{"operation":"element_wise_multiply","data":"multiplied_array"},"sink":{"operation":"parse_text","data":"input"},"control_points":[]},{"source":{"operation":"parse_text","data":"output"},"sink":{"operation":"this","data":"Output"},"control_points":[]}],"condition":{"name":"Is True"}}],"links":[{"source":{"operation":"this","data":"TP"},"sink":{"operation":"add","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"FN"},"sink":{"operation":"add","data":"right_operand"},"control_points":[]},{"source":{"operation":"this","data":"TP"},"sink":{"operation":"parse_decimal","data":"input"},"control_points":[]},{"source":{"operation":"this","data":"FN"},"sink":{"operation":"parse_decimal_2","data":"input"},"control_points":[]},{"source":{"operation":"add","data":"added_result"},"sink":{"operation":"equal","data":"left_operand"},"control_points":[]},{"source":{"operation":"equal","data":"is_equal"},"sink":{"operation":"reduce_one_dimension","data":"input"},"control_points":[]},{"source":{"operation":"reduce_one_dimension","data":"output"},"sink":{"operation":"If Else","data":"Is True"},"control_points":[]},{"source":{"operation":"parse_decimal","data":"output"},"sink":{"operation":"If Else","data":"TP"},"control_points":[]},{"source":{"operation":"parse_decimal_2","data":"output"},"sink":{"operation":"If Else","data":"FN"},"control_points":[]},{"source":{"operation":"add","data":"added_result"},"sink":{"operation":"If Else","data":"Add"},"control_points":[{"x":599,"y":271}]},{"source":{"operation":"If Else","data":"Output"},"sink":{"operation":"this","data":"Positive Row"},"control_points":[]}]},{"name":"Row for Negative Class","type":"COMPOSITE_OPERATION","position":{"x":764,"y":3},"inputs":[{"name":"TN","primitive_name":"Input"},{"name":"FP","primitive_name":"Input (1)"}],"outputs":[{"name":"Negative Row","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"add","primitive_name":"add","type":"PRIMITIVE_OPERATION","position":{"x":275,"y":322},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"added_result","primitive_name":"added_result","flow_state":"UNBOUND"}]},{"name":"parse_decimal","primitive_name":"parse_decimal","type":"PRIMITIVE_OPERATION","position":{"x":277,"y":43},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"parse_decimal_2","primitive_name":"parse_decimal","type":"PRIMITIVE_OPERATION","position":{"x":270,"y":169},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"equal","primitive_name":"equal","type":"PRIMITIVE_OPERATION","position":{"x":641,"y":322},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","data":[0],"shape":[1],"type":"INTEGER","primitive_name":"right_operand","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"is_equal","primitive_name":"is_equal","flow_state":"UNBOUND"}]},{"name":"reduce_one_dimension","primitive_name":"reduce_one_dimension","type":"PRIMITIVE_OPERATION","position":{"x":1019,"y":322},"inputs":[{"name":"input","primitive_name":"input"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"},{"name":"selected_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"selected_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"If Else","type":"CONDITIONAL_OPERATION","position":{"x":1460,"y":127},"inputs":[{"name":"Is True","primitive_name":"Is True"},{"name":"TN","primitive_name":"Input"},{"name":"FP","primitive_name":"Input (1)"},{"name":"Add","primitive_name":"Input (2)"}],"input_order":[1,2,3,0],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations_if_true":[{"name":"concatenate","primitive_name":"concatenate","type":"PRIMITIVE_OPERATION","position":{"x":548,"y":61},"inputs":[{"name":"array_1","data":["N/A"],"shape":[1],"type":"TEXT","primitive_name":"array_1","flow_state":"BOOT_SOURCE"},{"name":"array_2","data":["N/A"],"shape":[1],"type":"TEXT","primitive_name":"array_2","flow_state":"BOOT_SOURCE"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"concatenated_array","primitive_name":"concatenated_array","flow_state":"UNBOUND"}]},{"name":"Transpose 1D and 2D","type":"COMPOSITE_OPERATION","position":{"x":1042,"y":67},"inputs":[{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Transposed Array","primitive_name":"Transposed Array","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","position":{"x":416,"y":195},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"get_dimension_size","primitive_name":"get_dimension_size","type":"PRIMITIVE_OPERATION","position":{"x":874,"y":196},"inputs":[{"name":"array","primitive_name":"array"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"dimension_size","primitive_name":"dimension_size","flow_state":"UNBOUND"}]},{"name":"greater_than","primitive_name":"greater_than","type":"PRIMITIVE_OPERATION","position":{"x":1356,"y":196},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","data":1,"shape":[],"type":"INTEGER","primitive_name":"right_operand","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"is_greater_than","primitive_name":"is_greater_than","flow_state":"UNBOUND"}]},{"name":"Transpose","type":"CONDITIONAL_OPERATION","position":{"x":1878,"y":196},"inputs":[{"name":"Is True","primitive_name":"Is True"},{"name":"Array","primitive_name":"New Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations_if_true":[{"name":"swap_dimensions","primitive_name":"swap_dimensions","type":"PRIMITIVE_OPERATION","position":{"x":592,"y":47},"inputs":[{"name":"array","primitive_name":"array"},{"name":"dimension_index_1","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index_1","flow_state":"BOOT_SOURCE"},{"name":"dimension_index_2","data":1,"shape":[],"type":"INTEGER","primitive_name":"dimension_index_2","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"swapped_array","primitive_name":"swapped_array","flow_state":"UNBOUND"}]}],"links_if_true":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"swap_dimensions","data":"array"},"control_points":[]},{"source":{"operation":"swap_dimensions","data":"swapped_array"},"sink":{"operation":"this","data":"Output"},"control_points":[]}],"operations_if_false":[{"name":"expand_one_dimension","primitive_name":"expand_one_dimension","type":"PRIMITIVE_OPERATION","position":{"x":534,"y":47},"inputs":[{"name":"input","primitive_name":"input"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]}],"links_if_false":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"expand_one_dimension","data":"input"},"control_points":[]},{"source":{"operation":"expand_one_dimension","data":"output"},"sink":{"operation":"this","data":"Output"},"control_points":[]}],"condition":{"name":"Is True"}}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"get_dimension_size","data":"array"},"control_points":[]},{"source":{"operation":"Transpose","data":"Output"},"sink":{"operation":"this","data":"Transposed Array"},"control_points":[]},{"source":{"operation":"get_dimension_size","data":"dimension_size"},"sink":{"operation":"greater_than","data":"left_operand"},"control_points":[]},{"source":{"operation":"greater_than","data":"is_greater_than"},"sink":{"operation":"Transpose","data":"Is True"},"control_points":[]},{"source":{"operation":"this","data":"Array"},"sink":{"operation":"Transpose","data":"Array"},"control_points":[{"x":344,"y":432},{"x":1756,"y":432}]}]}],"links_if_true":[{"source":{"operation":"concatenate","data":"concatenated_array"},"sink":{"operation":"Transpose 1D and 2D","data":"Array"},"control_points":[]},{"source":{"operation":"Transpose 1D and 2D","data":"Transposed Array"},"sink":{"operation":"this","data":"Output"},"control_points":[]}],"operations_if_false":[{"name":"Handle Non-Empty Case","type":"COMPOSITE_OPERATION","position":{"x":440,"y":43},"inputs":[{"name":"TN","primitive_name":"Input"},{"name":"FP","primitive_name":"Input (1)"},{"name":"Add","primitive_name":"Input (2)"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"parse_decimal_1","primitive_name":"parse_decimal","type":"PRIMITIVE_OPERATION","position":{"x":310,"y":277},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"divide_1","primitive_name":"divide","type":"PRIMITIVE_OPERATION","position":{"x":1079,"y":235},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"divided_result","primitive_name":"divided_result","flow_state":"UNBOUND"}]},{"name":"divide","primitive_name":"divide","type":"PRIMITIVE_OPERATION","position":{"x":939,"y":43},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"divided_result","primitive_name":"divided_result","flow_state":"UNBOUND"}]},{"name":"concatenate","primitive_name":"concatenate","type":"PRIMITIVE_OPERATION","position":{"x":1476,"y":92},"inputs":[{"name":"array_1","primitive_name":"array_1"},{"name":"array_2","primitive_name":"array_2"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"concatenated_array","primitive_name":"concatenated_array","flow_state":"UNBOUND"}]},{"name":"Transpose 1D and 2D","type":"COMPOSITE_OPERATION","position":{"x":1919,"y":92},"inputs":[{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Transposed Array","primitive_name":"Transposed Array","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","position":{"x":416,"y":195},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"get_dimension_size","primitive_name":"get_dimension_size","type":"PRIMITIVE_OPERATION","position":{"x":874,"y":196},"inputs":[{"name":"array","primitive_name":"array"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"dimension_size","primitive_name":"dimension_size","flow_state":"UNBOUND"}]},{"name":"greater_than","primitive_name":"greater_than","type":"PRIMITIVE_OPERATION","position":{"x":1356,"y":196},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","data":1,"shape":[],"type":"INTEGER","primitive_name":"right_operand","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"is_greater_than","primitive_name":"is_greater_than","flow_state":"UNBOUND"}]},{"name":"Transpose","type":"CONDITIONAL_OPERATION","position":{"x":1878,"y":196},"inputs":[{"name":"Is True","primitive_name":"Is True"},{"name":"Array","primitive_name":"New Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations_if_true":[{"name":"swap_dimensions","primitive_name":"swap_dimensions","type":"PRIMITIVE_OPERATION","position":{"x":592,"y":47},"inputs":[{"name":"array","primitive_name":"array"},{"name":"dimension_index_1","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index_1","flow_state":"BOOT_SOURCE"},{"name":"dimension_index_2","data":1,"shape":[],"type":"INTEGER","primitive_name":"dimension_index_2","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"swapped_array","primitive_name":"swapped_array","flow_state":"UNBOUND"}]}],"links_if_true":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"swap_dimensions","data":"array"},"control_points":[]},{"source":{"operation":"swap_dimensions","data":"swapped_array"},"sink":{"operation":"this","data":"Output"},"control_points":[]}],"operations_if_false":[{"name":"expand_one_dimension","primitive_name":"expand_one_dimension","type":"PRIMITIVE_OPERATION","position":{"x":534,"y":47},"inputs":[{"name":"input","primitive_name":"input"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]}],"links_if_false":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"expand_one_dimension","data":"input"},"control_points":[]},{"source":{"operation":"expand_one_dimension","data":"output"},"sink":{"operation":"this","data":"Output"},"control_points":[]}],"condition":{"name":"Is True"}}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"get_dimension_size","data":"array"},"control_points":[]},{"source":{"operation":"Transpose","data":"Output"},"sink":{"operation":"this","data":"Transposed Array"},"control_points":[]},{"source":{"operation":"get_dimension_size","data":"dimension_size"},"sink":{"operation":"greater_than","data":"left_operand"},"control_points":[]},{"source":{"operation":"greater_than","data":"is_greater_than"},"sink":{"operation":"Transpose","data":"Is True"},"control_points":[]},{"source":{"operation":"this","data":"Array"},"sink":{"operation":"Transpose","data":"Array"},"control_points":[{"x":344,"y":432},{"x":1756,"y":432}]}]}],"links":[{"source":{"operation":"parse_decimal_1","data":"output"},"sink":{"operation":"divide","data":"right_operand"},"control_points":[]},{"source":{"operation":"parse_decimal_1","data":"output"},"sink":{"operation":"divide_1","data":"right_operand"},"control_points":[]},{"source":{"operation":"this","data":"TN"},"sink":{"operation":"divide","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"FP"},"sink":{"operation":"divide_1","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"Add"},"sink":{"operation":"parse_decimal_1","data":"input"},"control_points":[]},{"source":{"operation":"concatenate","data":"concatenated_array"},"sink":{"operation":"Transpose 1D and 2D","data":"Array"},"control_points":[]},{"source":{"operation":"Transpose 1D and 2D","data":"Transposed Array"},"sink":{"operation":"this","data":"Output"},"control_points":[]},{"source":{"operation":"divide_1","data":"divided_result"},"sink":{"operation":"concatenate","data":"array_2"},"control_points":[]},{"source":{"operation":"divide","data":"divided_result"},"sink":{"operation":"concatenate","data":"array_1"},"control_points":[]}]},{"name":"element_wise_multiply","primitive_name":"element_wise_multiply","type":"PRIMITIVE_OPERATION","position":{"x":934,"y":98},"inputs":[{"name":"left_array","primitive_name":"left_array"},{"name":"right_array","data":[[100.0,100.0]],"shape":[1,2],"type":"DECIMAL","primitive_name":"right_array","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"multiplied_array","primitive_name":"multiplied_array","flow_state":"UNBOUND"}]},{"name":"parse_text","primitive_name":"parse_text","type":"PRIMITIVE_OPERATION","position":{"x":1329,"y":98},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]}],"links_if_false":[{"source":{"operation":"this","data":"TN"},"sink":{"operation":"Handle Non-Empty Case","data":"TN"},"control_points":[]},{"source":{"operation":"this","data":"FP"},"sink":{"operation":"Handle Non-Empty Case","data":"FP"},"control_points":[]},{"source":{"operation":"this","data":"Add"},"sink":{"operation":"Handle Non-Empty Case","data":"Add"},"control_points":[]},{"source":{"operation":"Handle Non-Empty Case","data":"Output"},"sink":{"operation":"element_wise_multiply","data":"left_array"},"control_points":[]},{"source":{"operation":"element_wise_multiply","data":"multiplied_array"},"sink":{"operation":"parse_text","data":"input"},"control_points":[]},{"source":{"operation":"parse_text","data":"output"},"sink":{"operation":"this","data":"Output"},"control_points":[]}],"condition":{"name":"Is True"}}],"links":[{"source":{"operation":"this","data":"TN"},"sink":{"operation":"add","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"FP"},"sink":{"operation":"add","data":"right_operand"},"control_points":[]},{"source":{"operation":"this","data":"TN"},"sink":{"operation":"parse_decimal","data":"input"},"control_points":[]},{"source":{"operation":"this","data":"FP"},"sink":{"operation":"parse_decimal_2","data":"input"},"control_points":[]},{"source":{"operation":"add","data":"added_result"},"sink":{"operation":"equal","data":"left_operand"},"control_points":[]},{"source":{"operation":"equal","data":"is_equal"},"sink":{"operation":"reduce_one_dimension","data":"input"},"control_points":[]},{"source":{"operation":"reduce_one_dimension","data":"output"},"sink":{"operation":"If Else","data":"Is True"},"control_points":[]},{"source":{"operation":"parse_decimal","data":"output"},"sink":{"operation":"If Else","data":"TN"},"control_points":[]},{"source":{"operation":"parse_decimal_2","data":"output"},"sink":{"operation":"If Else","data":"FP"},"control_points":[]},{"source":{"operation":"add","data":"added_result"},"sink":{"operation":"If Else","data":"Add"},"control_points":[{"x":599,"y":273}]},{"source":{"operation":"If Else","data":"Output"},"sink":{"operation":"this","data":"Negative Row"},"control_points":[]}]},{"name":"concatenate","primitive_name":"concatenate","type":"PRIMITIVE_OPERATION","position":{"x":1231,"y":129},"inputs":[{"name":"array_1","primitive_name":"array_1"},{"name":"array_2","primitive_name":"array_2"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"concatenated_array","primitive_name":"concatenated_array","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"Row for Positive Class","data":"Positive Row"},"sink":{"operation":"concatenate","data":"array_2"},"control_points":[]},{"source":{"operation":"Binary Confusion Matrix","data":"TP"},"sink":{"operation":"Row for Positive Class","data":"TP"},"control_points":[]},{"source":{"operation":"Binary Confusion Matrix","data":"FN"},"sink":{"operation":"Row for Positive Class","data":"FN"},"control_points":[]},{"source":{"operation":"this","data":"Pred Labels"},"sink":{"operation":"Binary Confusion Matrix","data":"Pred"},"control_points":[]},{"source":{"operation":"this","data":"Actual Labels"},"sink":{"operation":"Binary Confusion Matrix","data":"Actual"},"control_points":[]},{"source":{"operation":"concatenate","data":"concatenated_array"},"sink":{"operation":"this","data":"Output"},"control_points":[]},{"source":{"operation":"Binary Confusion Matrix","data":"TN"},"sink":{"operation":"Row for Negative Class","data":"TN"},"control_points":[]},{"source":{"operation":"Binary Confusion Matrix","data":"FP"},"sink":{"operation":"Row for Negative Class","data":"FP"},"control_points":[]},{"source":{"operation":"Row for Negative Class","data":"Negative Row"},"sink":{"operation":"concatenate","data":"array_1"},"control_points":[]}],"global_constants":[]}
+{
+  "name": "Row-Normalized Binary Confusion Matrix",
+  "type": "COMPOSITE_OPERATION",
+  "inputs": [
+    {
+      "name": "Pred Labels",
+      "primitive_name": "Input"
+    },
+    {
+      "name": "Actual Labels",
+      "primitive_name": "Input (1)"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "Output",
+      "primitive_name": "Output",
+      "flow_state": "UNBOUND"
+    }
+  ],
+  "operations": [
+    {
+      "name": "Binary Confusion Matrix",
+      "type": "COMPOSITE_OPERATION",
+      "position": {
+        "x": 304,
+        "y": 106
+      },
+      "inputs": [
+        {
+          "name": "Pred",
+          "primitive_name": "Input"
+        },
+        {
+          "name": "Actual",
+          "primitive_name": "Input (1)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "TP",
+          "primitive_name": "Output",
+          "flow_state": "UNBOUND"
+        },
+        {
+          "name": "TN",
+          "primitive_name": "Output (1)",
+          "flow_state": "UNBOUND"
+        },
+        {
+          "name": "FP",
+          "primitive_name": "Output (2)",
+          "flow_state": "UNBOUND"
+        },
+        {
+          "name": "FN",
+          "primitive_name": "Output (3)",
+          "flow_state": "UNBOUND"
+        }
+      ],
+      "output_order": [
+        1,
+        2,
+        0,
+        3
+      ],
+      "operations": [
+        {
+          "name": "Get True Positives",
+          "type": "COMPOSITE_OPERATION",
+          "position": {
+            "x": 422,
+            "y": 163
+          },
+          "inputs": [
+            {
+              "name": "Pred",
+              "primitive_name": "Input"
+            },
+            {
+              "name": "Actual",
+              "primitive_name": "Input (1)"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "Output",
+              "primitive_name": "Output",
+              "flow_state": "UNBOUND"
+            }
+          ],
+          "operations": [
+            {
+              "name": "parse_boolean",
+              "primitive_name": "parse_boolean",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 304,
+                "y": 21
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "primitive_name": "input"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "primitive_name": "output",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "parse_boolean_1",
+              "primitive_name": "parse_boolean",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 308,
+                "y": 165
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "primitive_name": "input"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "primitive_name": "output",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "logical_and",
+              "primitive_name": "logical_and",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 742,
+                "y": 26
+              },
+              "inputs": [
+                {
+                  "name": "condition_1",
+                  "primitive_name": "condition_1"
+                },
+                {
+                  "name": "condition_2",
+                  "primitive_name": "condition_2"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "new_condition",
+                  "primitive_name": "new_condition",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "count_occurrences",
+              "primitive_name": "count_occurrences",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 1132,
+                "y": 28
+              },
+              "inputs": [
+                {
+                  "name": "target",
+                  "primitive_name": "target"
+                },
+                {
+                  "name": "count_against",
+                  "data": [
+                    true
+                  ],
+                  "shape": [
+                    1
+                  ],
+                  "type": "BOOLEAN",
+                  "primitive_name": "count_against",
+                  "flow_state": "BOOT_SOURCE"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "occurrences",
+                  "primitive_name": "occurrences",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "sum",
+              "primitive_name": "sum",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 1590,
+                "y": 58
+              },
+              "inputs": [
+                {
+                  "name": "array",
+                  "primitive_name": "array"
+                },
+                {
+                  "name": "dimension_index",
+                  "data": 0,
+                  "shape": [],
+                  "type": "INTEGER",
+                  "primitive_name": "dimension_index",
+                  "flow_state": "BOOT_SOURCE"
+                },
+                {
+                  "name": "keep_dimension",
+                  "data": false,
+                  "shape": [],
+                  "type": "BOOLEAN",
+                  "primitive_name": "keep_dimension",
+                  "flow_state": "BOOT_SOURCE"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "sum_result",
+                  "primitive_name": "sum_result",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "source": {
+                "operation": "this",
+                "data": "Pred"
+              },
+              "sink": {
+                "operation": "parse_boolean",
+                "data": "input"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Actual"
+              },
+              "sink": {
+                "operation": "parse_boolean_1",
+                "data": "input"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "parse_boolean",
+                "data": "output"
+              },
+              "sink": {
+                "operation": "logical_and",
+                "data": "condition_1"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "parse_boolean_1",
+                "data": "output"
+              },
+              "sink": {
+                "operation": "logical_and",
+                "data": "condition_2"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "logical_and",
+                "data": "new_condition"
+              },
+              "sink": {
+                "operation": "count_occurrences",
+                "data": "target"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "count_occurrences",
+                "data": "occurrences"
+              },
+              "sink": {
+                "operation": "sum",
+                "data": "array"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "sum",
+                "data": "sum_result"
+              },
+              "sink": {
+                "operation": "this",
+                "data": "Output"
+              },
+              "control_points": []
+            }
+          ]
+        },
+        {
+          "name": "Get True Negatives",
+          "type": "COMPOSITE_OPERATION",
+          "position": {
+            "x": 364,
+            "y": 537
+          },
+          "inputs": [
+            {
+              "name": "Pred",
+              "primitive_name": "Input"
+            },
+            {
+              "name": "Actual",
+              "primitive_name": "Input (1)"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "Output",
+              "primitive_name": "Output",
+              "flow_state": "UNBOUND"
+            }
+          ],
+          "operations": [
+            {
+              "name": "parse_boolean",
+              "primitive_name": "parse_boolean",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 322,
+                "y": 43
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "primitive_name": "input"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "primitive_name": "output",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "parse_boolean_1",
+              "primitive_name": "parse_boolean",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 312,
+                "y": 205
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "primitive_name": "input"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "primitive_name": "output",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "logical_not",
+              "primitive_name": "logical_not",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 655,
+                "y": 202
+              },
+              "inputs": [
+                {
+                  "name": "condition",
+                  "primitive_name": "condition"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "new_condition",
+                  "primitive_name": "new_condition",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "logical_not_1",
+              "primitive_name": "logical_not",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 680,
+                "y": 41
+              },
+              "inputs": [
+                {
+                  "name": "condition",
+                  "primitive_name": "condition"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "new_condition",
+                  "primitive_name": "new_condition",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "logical_and",
+              "primitive_name": "logical_and",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 1010,
+                "y": 43
+              },
+              "inputs": [
+                {
+                  "name": "condition_1",
+                  "primitive_name": "condition_1"
+                },
+                {
+                  "name": "condition_2",
+                  "primitive_name": "condition_2"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "new_condition",
+                  "primitive_name": "new_condition",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "count_occurrences",
+              "primitive_name": "count_occurrences",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 1400,
+                "y": 43
+              },
+              "inputs": [
+                {
+                  "name": "target",
+                  "primitive_name": "target"
+                },
+                {
+                  "name": "count_against",
+                  "data": [
+                    true
+                  ],
+                  "shape": [
+                    1
+                  ],
+                  "type": "BOOLEAN",
+                  "primitive_name": "count_against",
+                  "flow_state": "BOOT_SOURCE"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "occurrences",
+                  "primitive_name": "occurrences",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "sum",
+              "primitive_name": "sum",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 1858,
+                "y": 43
+              },
+              "inputs": [
+                {
+                  "name": "array",
+                  "primitive_name": "array"
+                },
+                {
+                  "name": "dimension_index",
+                  "data": 0,
+                  "shape": [],
+                  "type": "INTEGER",
+                  "primitive_name": "dimension_index",
+                  "flow_state": "BOOT_SOURCE"
+                },
+                {
+                  "name": "keep_dimension",
+                  "data": false,
+                  "shape": [],
+                  "type": "BOOLEAN",
+                  "primitive_name": "keep_dimension",
+                  "flow_state": "BOOT_SOURCE"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "sum_result",
+                  "primitive_name": "sum_result",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "source": {
+                "operation": "this",
+                "data": "Pred"
+              },
+              "sink": {
+                "operation": "parse_boolean",
+                "data": "input"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Actual"
+              },
+              "sink": {
+                "operation": "parse_boolean_1",
+                "data": "input"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "logical_and",
+                "data": "new_condition"
+              },
+              "sink": {
+                "operation": "count_occurrences",
+                "data": "target"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "count_occurrences",
+                "data": "occurrences"
+              },
+              "sink": {
+                "operation": "sum",
+                "data": "array"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "sum",
+                "data": "sum_result"
+              },
+              "sink": {
+                "operation": "this",
+                "data": "Output"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "parse_boolean_1",
+                "data": "output"
+              },
+              "sink": {
+                "operation": "logical_not",
+                "data": "condition"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "logical_not",
+                "data": "new_condition"
+              },
+              "sink": {
+                "operation": "logical_and",
+                "data": "condition_2"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "parse_boolean",
+                "data": "output"
+              },
+              "sink": {
+                "operation": "logical_not_1",
+                "data": "condition"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "logical_not_1",
+                "data": "new_condition"
+              },
+              "sink": {
+                "operation": "logical_and",
+                "data": "condition_1"
+              },
+              "control_points": []
+            }
+          ]
+        },
+        {
+          "name": "Get False Positives",
+          "type": "COMPOSITE_OPERATION",
+          "position": {
+            "x": 820,
+            "y": 8
+          },
+          "inputs": [
+            {
+              "name": "Pred",
+              "primitive_name": "Input"
+            },
+            {
+              "name": "TP",
+              "primitive_name": "Input"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "Output",
+              "primitive_name": "Output",
+              "flow_state": "UNBOUND"
+            }
+          ],
+          "operations": [
+            {
+              "name": "sum",
+              "primitive_name": "sum",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 344,
+                "y": 37
+              },
+              "inputs": [
+                {
+                  "name": "array",
+                  "primitive_name": "array"
+                },
+                {
+                  "name": "dimension_index",
+                  "data": 0,
+                  "shape": [],
+                  "type": "INTEGER",
+                  "primitive_name": "dimension_index",
+                  "flow_state": "BOOT_SOURCE"
+                },
+                {
+                  "name": "keep_dimension",
+                  "data": true,
+                  "shape": [],
+                  "type": "BOOLEAN",
+                  "primitive_name": "keep_dimension",
+                  "flow_state": "BOOT_SOURCE"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "sum_result",
+                  "primitive_name": "sum_result",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "expand_one_dimension",
+              "primitive_name": "expand_one_dimension",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 259,
+                "y": 252
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "primitive_name": "input"
+                },
+                {
+                  "name": "dimension_index",
+                  "data": 0,
+                  "shape": [],
+                  "type": "INTEGER",
+                  "primitive_name": "dimension_index",
+                  "flow_state": "BOOT_SOURCE"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "primitive_name": "output",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "subtract",
+              "primitive_name": "subtract",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 906,
+                "y": 74
+              },
+              "inputs": [
+                {
+                  "name": "left_operand",
+                  "primitive_name": "left_operand"
+                },
+                {
+                  "name": "right_operand",
+                  "primitive_name": "right_operand"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "subtracted_result",
+                  "primitive_name": "subtracted_result",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "source": {
+                "operation": "this",
+                "data": "Pred"
+              },
+              "sink": {
+                "operation": "sum",
+                "data": "array"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "sum",
+                "data": "sum_result"
+              },
+              "sink": {
+                "operation": "subtract",
+                "data": "left_operand"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "TP"
+              },
+              "sink": {
+                "operation": "expand_one_dimension",
+                "data": "input"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "expand_one_dimension",
+                "data": "output"
+              },
+              "sink": {
+                "operation": "subtract",
+                "data": "right_operand"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "subtract",
+                "data": "subtracted_result"
+              },
+              "sink": {
+                "operation": "this",
+                "data": "Output"
+              },
+              "control_points": []
+            }
+          ]
+        },
+        {
+          "name": "Get False Negatives",
+          "type": "COMPOSITE_OPERATION",
+          "position": {
+            "x": 849,
+            "y": 354
+          },
+          "inputs": [
+            {
+              "name": "Pred",
+              "primitive_name": "Input"
+            },
+            {
+              "name": "TN",
+              "primitive_name": "Input"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "Output",
+              "primitive_name": "Output",
+              "flow_state": "UNBOUND"
+            }
+          ],
+          "operations": [
+            {
+              "name": "expand_one_dimension",
+              "primitive_name": "expand_one_dimension",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 653,
+                "y": 262
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "primitive_name": "input"
+                },
+                {
+                  "name": "dimension_index",
+                  "data": 0,
+                  "shape": [],
+                  "type": "INTEGER",
+                  "primitive_name": "dimension_index",
+                  "flow_state": "BOOT_SOURCE"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "primitive_name": "output",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "parse_boolean",
+              "primitive_name": "parse_boolean",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 283,
+                "y": 54
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "primitive_name": "input"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "primitive_name": "output",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "logical_not",
+              "primitive_name": "logical_not",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 685,
+                "y": 51
+              },
+              "inputs": [
+                {
+                  "name": "condition",
+                  "primitive_name": "condition"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "new_condition",
+                  "primitive_name": "new_condition",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "parse_integer",
+              "primitive_name": "parse_integer",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 1050,
+                "y": 47
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "primitive_name": "input"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "primitive_name": "output",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "sum",
+              "primitive_name": "sum",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 1565,
+                "y": 44
+              },
+              "inputs": [
+                {
+                  "name": "array",
+                  "primitive_name": "array"
+                },
+                {
+                  "name": "dimension_index",
+                  "data": 0,
+                  "shape": [],
+                  "type": "INTEGER",
+                  "primitive_name": "dimension_index",
+                  "flow_state": "BOOT_SOURCE"
+                },
+                {
+                  "name": "keep_dimension",
+                  "data": true,
+                  "shape": [],
+                  "type": "BOOLEAN",
+                  "primitive_name": "keep_dimension",
+                  "flow_state": "BOOT_SOURCE"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "sum_result",
+                  "primitive_name": "sum_result",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "subtract",
+              "primitive_name": "subtract",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 2145,
+                "y": 43
+              },
+              "inputs": [
+                {
+                  "name": "left_operand",
+                  "primitive_name": "left_operand"
+                },
+                {
+                  "name": "right_operand",
+                  "primitive_name": "right_operand"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "subtracted_result",
+                  "primitive_name": "subtracted_result",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "source": {
+                "operation": "sum",
+                "data": "sum_result"
+              },
+              "sink": {
+                "operation": "subtract",
+                "data": "left_operand"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "TN"
+              },
+              "sink": {
+                "operation": "expand_one_dimension",
+                "data": "input"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "expand_one_dimension",
+                "data": "output"
+              },
+              "sink": {
+                "operation": "subtract",
+                "data": "right_operand"
+              },
+              "control_points": [
+                {
+                  "x": 1777,
+                  "y": 324
+                }
+              ]
+            },
+            {
+              "source": {
+                "operation": "subtract",
+                "data": "subtracted_result"
+              },
+              "sink": {
+                "operation": "this",
+                "data": "Output"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Pred"
+              },
+              "sink": {
+                "operation": "parse_boolean",
+                "data": "input"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "parse_boolean",
+                "data": "output"
+              },
+              "sink": {
+                "operation": "logical_not",
+                "data": "condition"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "logical_not",
+                "data": "new_condition"
+              },
+              "sink": {
+                "operation": "parse_integer",
+                "data": "input"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "parse_integer",
+                "data": "output"
+              },
+              "sink": {
+                "operation": "sum",
+                "data": "array"
+              },
+              "control_points": []
+            }
+          ]
+        },
+        {
+          "name": "expand_one_dimension",
+          "primitive_name": "expand_one_dimension",
+          "type": "PRIMITIVE_OPERATION",
+          "position": {
+            "x": 858,
+            "y": 167
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "primitive_name": "input"
+            },
+            {
+              "name": "dimension_index",
+              "data": 0,
+              "shape": [],
+              "type": "INTEGER",
+              "primitive_name": "dimension_index",
+              "flow_state": "BOOT_SOURCE"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "primitive_name": "output",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "expand_one_dimension_1",
+          "primitive_name": "expand_one_dimension",
+          "type": "PRIMITIVE_OPERATION",
+          "position": {
+            "x": 1003,
+            "y": 533
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "primitive_name": "input"
+            },
+            {
+              "name": "dimension_index",
+              "data": 0,
+              "shape": [],
+              "type": "INTEGER",
+              "primitive_name": "dimension_index",
+              "flow_state": "BOOT_SOURCE"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "primitive_name": "output",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": {
+            "operation": "this",
+            "data": "Pred"
+          },
+          "sink": {
+            "operation": "Get True Positives",
+            "data": "Pred"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "Actual"
+          },
+          "sink": {
+            "operation": "Get True Positives",
+            "data": "Actual"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "Pred"
+          },
+          "sink": {
+            "operation": "Get True Negatives",
+            "data": "Pred"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "Actual"
+          },
+          "sink": {
+            "operation": "Get True Negatives",
+            "data": "Actual"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "Pred"
+          },
+          "sink": {
+            "operation": "Get False Positives",
+            "data": "Pred"
+          },
+          "control_points": [
+            {
+              "x": 346,
+              "y": 71
+            }
+          ]
+        },
+        {
+          "source": {
+            "operation": "Get True Positives",
+            "data": "Output"
+          },
+          "sink": {
+            "operation": "Get False Positives",
+            "data": "TP"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "Get True Negatives",
+            "data": "Output"
+          },
+          "sink": {
+            "operation": "Get False Negatives",
+            "data": "TN"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "Pred"
+          },
+          "sink": {
+            "operation": "Get False Negatives",
+            "data": "Pred"
+          },
+          "control_points": [
+            {
+              "x": 437,
+              "y": 416
+            }
+          ]
+        },
+        {
+          "source": {
+            "operation": "Get False Positives",
+            "data": "Output"
+          },
+          "sink": {
+            "operation": "this",
+            "data": "FP"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "Get False Negatives",
+            "data": "Output"
+          },
+          "sink": {
+            "operation": "this",
+            "data": "FN"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "Get True Positives",
+            "data": "Output"
+          },
+          "sink": {
+            "operation": "expand_one_dimension",
+            "data": "input"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "expand_one_dimension",
+            "data": "output"
+          },
+          "sink": {
+            "operation": "this",
+            "data": "TP"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "Get True Negatives",
+            "data": "Output"
+          },
+          "sink": {
+            "operation": "expand_one_dimension_1",
+            "data": "input"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "expand_one_dimension_1",
+            "data": "output"
+          },
+          "sink": {
+            "operation": "this",
+            "data": "TN"
+          },
+          "control_points": []
+        }
+      ]
+    },
+    {
+      "name": "Row for Positive Class",
+      "type": "COMPOSITE_OPERATION",
+      "position": {
+        "x": 764,
+        "y": 293
+      },
+      "inputs": [
+        {
+          "name": "TP",
+          "primitive_name": "Input"
+        },
+        {
+          "name": "FN",
+          "primitive_name": "Input (1)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Positive Row",
+          "primitive_name": "Output",
+          "flow_state": "UNBOUND"
+        }
+      ],
+      "operations": [
+        {
+          "name": "add",
+          "primitive_name": "add",
+          "type": "PRIMITIVE_OPERATION",
+          "position": {
+            "x": 275,
+            "y": 322
+          },
+          "inputs": [
+            {
+              "name": "left_operand",
+              "primitive_name": "left_operand"
+            },
+            {
+              "name": "right_operand",
+              "primitive_name": "right_operand"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "added_result",
+              "primitive_name": "added_result",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "parse_decimal",
+          "primitive_name": "parse_decimal",
+          "type": "PRIMITIVE_OPERATION",
+          "position": {
+            "x": 277,
+            "y": 17
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "primitive_name": "input"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "primitive_name": "output",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "parse_decimal_2",
+          "primitive_name": "parse_decimal",
+          "type": "PRIMITIVE_OPERATION",
+          "position": {
+            "x": 270,
+            "y": 169
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "primitive_name": "input"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "primitive_name": "output",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "equal",
+          "primitive_name": "equal",
+          "type": "PRIMITIVE_OPERATION",
+          "position": {
+            "x": 641,
+            "y": 324
+          },
+          "inputs": [
+            {
+              "name": "left_operand",
+              "primitive_name": "left_operand"
+            },
+            {
+              "name": "right_operand",
+              "data": [
+                0
+              ],
+              "shape": [
+                1
+              ],
+              "type": "INTEGER",
+              "primitive_name": "right_operand",
+              "flow_state": "BOOT_SOURCE"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "is_equal",
+              "primitive_name": "is_equal",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "reduce_one_dimension",
+          "primitive_name": "reduce_one_dimension",
+          "type": "PRIMITIVE_OPERATION",
+          "position": {
+            "x": 1019,
+            "y": 328
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "primitive_name": "input"
+            },
+            {
+              "name": "dimension_index",
+              "data": 0,
+              "shape": [],
+              "type": "INTEGER",
+              "primitive_name": "dimension_index",
+              "flow_state": "BOOT_SOURCE"
+            },
+            {
+              "name": "selected_index",
+              "data": 0,
+              "shape": [],
+              "type": "INTEGER",
+              "primitive_name": "selected_index",
+              "flow_state": "BOOT_SOURCE"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "primitive_name": "output",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "If Else",
+          "type": "CONDITIONAL_OPERATION",
+          "position": {
+            "x": 1460,
+            "y": 125
+          },
+          "inputs": [
+            {
+              "name": "Is True",
+              "primitive_name": "Is True"
+            },
+            {
+              "name": "TP",
+              "primitive_name": "Input"
+            },
+            {
+              "name": "FN",
+              "primitive_name": "Input (1)"
+            },
+            {
+              "name": "Add",
+              "primitive_name": "Input (2)"
+            }
+          ],
+          "input_order": [
+            1,
+            2,
+            3,
+            0
+          ],
+          "outputs": [
+            {
+              "name": "Output",
+              "primitive_name": "Output",
+              "flow_state": "UNBOUND"
+            }
+          ],
+          "operations_if_true": [
+            {
+              "name": "concatenate",
+              "primitive_name": "concatenate",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 548,
+                "y": 61
+              },
+              "inputs": [
+                {
+                  "name": "array_1",
+                  "data": [
+                    "N/A"
+                  ],
+                  "shape": [
+                    1
+                  ],
+                  "type": "TEXT",
+                  "primitive_name": "array_1",
+                  "flow_state": "BOOT_SOURCE"
+                },
+                {
+                  "name": "array_2",
+                  "data": [
+                    "N/A"
+                  ],
+                  "shape": [
+                    1
+                  ],
+                  "type": "TEXT",
+                  "primitive_name": "array_2",
+                  "flow_state": "BOOT_SOURCE"
+                },
+                {
+                  "name": "dimension_index",
+                  "data": 0,
+                  "shape": [],
+                  "type": "INTEGER",
+                  "primitive_name": "dimension_index",
+                  "flow_state": "BOOT_SOURCE"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "concatenated_array",
+                  "primitive_name": "concatenated_array",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "Transpose 1D and 2D",
+              "type": "COMPOSITE_OPERATION",
+              "position": {
+                "x": 1042,
+                "y": 67
+              },
+              "inputs": [
+                {
+                  "name": "Array",
+                  "primitive_name": "Array"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "Transposed Array",
+                  "primitive_name": "Transposed Array",
+                  "flow_state": "UNBOUND"
+                }
+              ],
+              "operations": [
+                {
+                  "name": "get_shape",
+                  "primitive_name": "get_shape",
+                  "type": "PRIMITIVE_OPERATION",
+                  "position": {
+                    "x": 416,
+                    "y": 195
+                  },
+                  "inputs": [
+                    {
+                      "name": "input",
+                      "primitive_name": "input"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "shape",
+                      "primitive_name": "shape",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "get_dimension_size",
+                  "primitive_name": "get_dimension_size",
+                  "type": "PRIMITIVE_OPERATION",
+                  "position": {
+                    "x": 874,
+                    "y": 196
+                  },
+                  "inputs": [
+                    {
+                      "name": "array",
+                      "primitive_name": "array"
+                    },
+                    {
+                      "name": "dimension_index",
+                      "data": 0,
+                      "shape": [],
+                      "type": "INTEGER",
+                      "primitive_name": "dimension_index",
+                      "flow_state": "BOOT_SOURCE"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "dimension_size",
+                      "primitive_name": "dimension_size",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "greater_than",
+                  "primitive_name": "greater_than",
+                  "type": "PRIMITIVE_OPERATION",
+                  "position": {
+                    "x": 1356,
+                    "y": 196
+                  },
+                  "inputs": [
+                    {
+                      "name": "left_operand",
+                      "primitive_name": "left_operand"
+                    },
+                    {
+                      "name": "right_operand",
+                      "data": 1,
+                      "shape": [],
+                      "type": "INTEGER",
+                      "primitive_name": "right_operand",
+                      "flow_state": "BOOT_SOURCE"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "is_greater_than",
+                      "primitive_name": "is_greater_than",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "Transpose",
+                  "type": "CONDITIONAL_OPERATION",
+                  "position": {
+                    "x": 1878,
+                    "y": 196
+                  },
+                  "inputs": [
+                    {
+                      "name": "Is True",
+                      "primitive_name": "Is True"
+                    },
+                    {
+                      "name": "Array",
+                      "primitive_name": "New Input"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "Output",
+                      "primitive_name": "Output",
+                      "flow_state": "UNBOUND"
+                    }
+                  ],
+                  "operations_if_true": [
+                    {
+                      "name": "swap_dimensions",
+                      "primitive_name": "swap_dimensions",
+                      "type": "PRIMITIVE_OPERATION",
+                      "position": {
+                        "x": 592,
+                        "y": 47
+                      },
+                      "inputs": [
+                        {
+                          "name": "array",
+                          "primitive_name": "array"
+                        },
+                        {
+                          "name": "dimension_index_1",
+                          "data": 0,
+                          "shape": [],
+                          "type": "INTEGER",
+                          "primitive_name": "dimension_index_1",
+                          "flow_state": "BOOT_SOURCE"
+                        },
+                        {
+                          "name": "dimension_index_2",
+                          "data": 1,
+                          "shape": [],
+                          "type": "INTEGER",
+                          "primitive_name": "dimension_index_2",
+                          "flow_state": "BOOT_SOURCE"
+                        }
+                      ],
+                      "outputs": [
+                        {
+                          "name": "swapped_array",
+                          "primitive_name": "swapped_array",
+                          "flow_state": "UNBOUND"
+                        }
+                      ]
+                    }
+                  ],
+                  "links_if_true": [
+                    {
+                      "source": {
+                        "operation": "this",
+                        "data": "Array"
+                      },
+                      "sink": {
+                        "operation": "swap_dimensions",
+                        "data": "array"
+                      },
+                      "control_points": []
+                    },
+                    {
+                      "source": {
+                        "operation": "swap_dimensions",
+                        "data": "swapped_array"
+                      },
+                      "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                      },
+                      "control_points": []
+                    }
+                  ],
+                  "operations_if_false": [
+                    {
+                      "name": "expand_one_dimension",
+                      "primitive_name": "expand_one_dimension",
+                      "type": "PRIMITIVE_OPERATION",
+                      "position": {
+                        "x": 534,
+                        "y": 47
+                      },
+                      "inputs": [
+                        {
+                          "name": "input",
+                          "primitive_name": "input"
+                        },
+                        {
+                          "name": "dimension_index",
+                          "data": 0,
+                          "shape": [],
+                          "type": "INTEGER",
+                          "primitive_name": "dimension_index",
+                          "flow_state": "BOOT_SOURCE"
+                        }
+                      ],
+                      "outputs": [
+                        {
+                          "name": "output",
+                          "primitive_name": "output",
+                          "flow_state": "UNBOUND"
+                        }
+                      ]
+                    }
+                  ],
+                  "links_if_false": [
+                    {
+                      "source": {
+                        "operation": "this",
+                        "data": "Array"
+                      },
+                      "sink": {
+                        "operation": "expand_one_dimension",
+                        "data": "input"
+                      },
+                      "control_points": []
+                    },
+                    {
+                      "source": {
+                        "operation": "expand_one_dimension",
+                        "data": "output"
+                      },
+                      "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                      },
+                      "control_points": []
+                    }
+                  ],
+                  "condition": {
+                    "name": "Is True"
+                  }
+                }
+              ],
+              "links": [
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Array"
+                  },
+                  "sink": {
+                    "operation": "get_shape",
+                    "data": "input"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "get_shape",
+                    "data": "shape"
+                  },
+                  "sink": {
+                    "operation": "get_dimension_size",
+                    "data": "array"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "Transpose",
+                    "data": "Output"
+                  },
+                  "sink": {
+                    "operation": "this",
+                    "data": "Transposed Array"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "get_dimension_size",
+                    "data": "dimension_size"
+                  },
+                  "sink": {
+                    "operation": "greater_than",
+                    "data": "left_operand"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "greater_than",
+                    "data": "is_greater_than"
+                  },
+                  "sink": {
+                    "operation": "Transpose",
+                    "data": "Is True"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Array"
+                  },
+                  "sink": {
+                    "operation": "Transpose",
+                    "data": "Array"
+                  },
+                  "control_points": [
+                    {
+                      "x": 344,
+                      "y": 432
+                    },
+                    {
+                      "x": 1756,
+                      "y": 432
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "links_if_true": [
+            {
+              "source": {
+                "operation": "concatenate",
+                "data": "concatenated_array"
+              },
+              "sink": {
+                "operation": "Transpose 1D and 2D",
+                "data": "Array"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "Transpose 1D and 2D",
+                "data": "Transposed Array"
+              },
+              "sink": {
+                "operation": "this",
+                "data": "Output"
+              },
+              "control_points": []
+            }
+          ],
+          "operations_if_false": [
+            {
+              "name": "Handle Non-Empty Case",
+              "type": "COMPOSITE_OPERATION",
+              "position": {
+                "x": 440,
+                "y": 82
+              },
+              "inputs": [
+                {
+                  "name": "TP",
+                  "primitive_name": "Input"
+                },
+                {
+                  "name": "FN",
+                  "primitive_name": "Input (1)"
+                },
+                {
+                  "name": "Add",
+                  "primitive_name": "Input (2)"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "Output",
+                  "primitive_name": "Output",
+                  "flow_state": "UNBOUND"
+                }
+              ],
+              "operations": [
+                {
+                  "name": "parse_decimal_1",
+                  "primitive_name": "parse_decimal",
+                  "type": "PRIMITIVE_OPERATION",
+                  "position": {
+                    "x": 310,
+                    "y": 277
+                  },
+                  "inputs": [
+                    {
+                      "name": "input",
+                      "primitive_name": "input"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "output",
+                      "primitive_name": "output",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "divide_1",
+                  "primitive_name": "divide",
+                  "type": "PRIMITIVE_OPERATION",
+                  "position": {
+                    "x": 1079,
+                    "y": 235
+                  },
+                  "inputs": [
+                    {
+                      "name": "left_operand",
+                      "primitive_name": "left_operand"
+                    },
+                    {
+                      "name": "right_operand",
+                      "primitive_name": "right_operand"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "divided_result",
+                      "primitive_name": "divided_result",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "divide",
+                  "primitive_name": "divide",
+                  "type": "PRIMITIVE_OPERATION",
+                  "position": {
+                    "x": 939,
+                    "y": 43
+                  },
+                  "inputs": [
+                    {
+                      "name": "left_operand",
+                      "primitive_name": "left_operand"
+                    },
+                    {
+                      "name": "right_operand",
+                      "primitive_name": "right_operand"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "divided_result",
+                      "primitive_name": "divided_result",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "concatenate",
+                  "primitive_name": "concatenate",
+                  "type": "PRIMITIVE_OPERATION",
+                  "position": {
+                    "x": 1476,
+                    "y": 92
+                  },
+                  "inputs": [
+                    {
+                      "name": "array_1",
+                      "primitive_name": "array_1"
+                    },
+                    {
+                      "name": "array_2",
+                      "primitive_name": "array_2"
+                    },
+                    {
+                      "name": "dimension_index",
+                      "data": 0,
+                      "shape": [],
+                      "type": "INTEGER",
+                      "primitive_name": "dimension_index",
+                      "flow_state": "BOOT_SOURCE"
+                    }
+                  ],
+                  "input_order": [
+                    1,
+                    0,
+                    2
+                  ],
+                  "outputs": [
+                    {
+                      "name": "concatenated_array",
+                      "primitive_name": "concatenated_array",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "Transpose 1D and 2D",
+                  "type": "COMPOSITE_OPERATION",
+                  "position": {
+                    "x": 1919,
+                    "y": 96
+                  },
+                  "inputs": [
+                    {
+                      "name": "Array",
+                      "primitive_name": "Array"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "Transposed Array",
+                      "primitive_name": "Transposed Array",
+                      "flow_state": "UNBOUND"
+                    }
+                  ],
+                  "operations": [
+                    {
+                      "name": "get_shape",
+                      "primitive_name": "get_shape",
+                      "type": "PRIMITIVE_OPERATION",
+                      "position": {
+                        "x": 416,
+                        "y": 195
+                      },
+                      "inputs": [
+                        {
+                          "name": "input",
+                          "primitive_name": "input"
+                        }
+                      ],
+                      "outputs": [
+                        {
+                          "name": "shape",
+                          "primitive_name": "shape",
+                          "flow_state": "UNBOUND"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "get_dimension_size",
+                      "primitive_name": "get_dimension_size",
+                      "type": "PRIMITIVE_OPERATION",
+                      "position": {
+                        "x": 874,
+                        "y": 196
+                      },
+                      "inputs": [
+                        {
+                          "name": "array",
+                          "primitive_name": "array"
+                        },
+                        {
+                          "name": "dimension_index",
+                          "data": 0,
+                          "shape": [],
+                          "type": "INTEGER",
+                          "primitive_name": "dimension_index",
+                          "flow_state": "BOOT_SOURCE"
+                        }
+                      ],
+                      "outputs": [
+                        {
+                          "name": "dimension_size",
+                          "primitive_name": "dimension_size",
+                          "flow_state": "UNBOUND"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "greater_than",
+                      "primitive_name": "greater_than",
+                      "type": "PRIMITIVE_OPERATION",
+                      "position": {
+                        "x": 1356,
+                        "y": 196
+                      },
+                      "inputs": [
+                        {
+                          "name": "left_operand",
+                          "primitive_name": "left_operand"
+                        },
+                        {
+                          "name": "right_operand",
+                          "data": 1,
+                          "shape": [],
+                          "type": "INTEGER",
+                          "primitive_name": "right_operand",
+                          "flow_state": "BOOT_SOURCE"
+                        }
+                      ],
+                      "outputs": [
+                        {
+                          "name": "is_greater_than",
+                          "primitive_name": "is_greater_than",
+                          "flow_state": "UNBOUND"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Transpose",
+                      "type": "CONDITIONAL_OPERATION",
+                      "position": {
+                        "x": 1878,
+                        "y": 196
+                      },
+                      "inputs": [
+                        {
+                          "name": "Is True",
+                          "primitive_name": "Is True"
+                        },
+                        {
+                          "name": "Array",
+                          "primitive_name": "New Input"
+                        }
+                      ],
+                      "outputs": [
+                        {
+                          "name": "Output",
+                          "primitive_name": "Output",
+                          "flow_state": "UNBOUND"
+                        }
+                      ],
+                      "operations_if_true": [
+                        {
+                          "name": "swap_dimensions",
+                          "primitive_name": "swap_dimensions",
+                          "type": "PRIMITIVE_OPERATION",
+                          "position": {
+                            "x": 592,
+                            "y": 47
+                          },
+                          "inputs": [
+                            {
+                              "name": "array",
+                              "primitive_name": "array"
+                            },
+                            {
+                              "name": "dimension_index_1",
+                              "data": 0,
+                              "shape": [],
+                              "type": "INTEGER",
+                              "primitive_name": "dimension_index_1",
+                              "flow_state": "BOOT_SOURCE"
+                            },
+                            {
+                              "name": "dimension_index_2",
+                              "data": 1,
+                              "shape": [],
+                              "type": "INTEGER",
+                              "primitive_name": "dimension_index_2",
+                              "flow_state": "BOOT_SOURCE"
+                            }
+                          ],
+                          "outputs": [
+                            {
+                              "name": "swapped_array",
+                              "primitive_name": "swapped_array",
+                              "flow_state": "UNBOUND"
+                            }
+                          ]
+                        }
+                      ],
+                      "links_if_true": [
+                        {
+                          "source": {
+                            "operation": "this",
+                            "data": "Array"
+                          },
+                          "sink": {
+                            "operation": "swap_dimensions",
+                            "data": "array"
+                          },
+                          "control_points": []
+                        },
+                        {
+                          "source": {
+                            "operation": "swap_dimensions",
+                            "data": "swapped_array"
+                          },
+                          "sink": {
+                            "operation": "this",
+                            "data": "Output"
+                          },
+                          "control_points": []
+                        }
+                      ],
+                      "operations_if_false": [
+                        {
+                          "name": "expand_one_dimension",
+                          "primitive_name": "expand_one_dimension",
+                          "type": "PRIMITIVE_OPERATION",
+                          "position": {
+                            "x": 534,
+                            "y": 47
+                          },
+                          "inputs": [
+                            {
+                              "name": "input",
+                              "primitive_name": "input"
+                            },
+                            {
+                              "name": "dimension_index",
+                              "data": 0,
+                              "shape": [],
+                              "type": "INTEGER",
+                              "primitive_name": "dimension_index",
+                              "flow_state": "BOOT_SOURCE"
+                            }
+                          ],
+                          "outputs": [
+                            {
+                              "name": "output",
+                              "primitive_name": "output",
+                              "flow_state": "UNBOUND"
+                            }
+                          ]
+                        }
+                      ],
+                      "links_if_false": [
+                        {
+                          "source": {
+                            "operation": "this",
+                            "data": "Array"
+                          },
+                          "sink": {
+                            "operation": "expand_one_dimension",
+                            "data": "input"
+                          },
+                          "control_points": []
+                        },
+                        {
+                          "source": {
+                            "operation": "expand_one_dimension",
+                            "data": "output"
+                          },
+                          "sink": {
+                            "operation": "this",
+                            "data": "Output"
+                          },
+                          "control_points": []
+                        }
+                      ],
+                      "condition": {
+                        "name": "Is True"
+                      }
+                    }
+                  ],
+                  "links": [
+                    {
+                      "source": {
+                        "operation": "this",
+                        "data": "Array"
+                      },
+                      "sink": {
+                        "operation": "get_shape",
+                        "data": "input"
+                      },
+                      "control_points": []
+                    },
+                    {
+                      "source": {
+                        "operation": "get_shape",
+                        "data": "shape"
+                      },
+                      "sink": {
+                        "operation": "get_dimension_size",
+                        "data": "array"
+                      },
+                      "control_points": []
+                    },
+                    {
+                      "source": {
+                        "operation": "Transpose",
+                        "data": "Output"
+                      },
+                      "sink": {
+                        "operation": "this",
+                        "data": "Transposed Array"
+                      },
+                      "control_points": []
+                    },
+                    {
+                      "source": {
+                        "operation": "get_dimension_size",
+                        "data": "dimension_size"
+                      },
+                      "sink": {
+                        "operation": "greater_than",
+                        "data": "left_operand"
+                      },
+                      "control_points": []
+                    },
+                    {
+                      "source": {
+                        "operation": "greater_than",
+                        "data": "is_greater_than"
+                      },
+                      "sink": {
+                        "operation": "Transpose",
+                        "data": "Is True"
+                      },
+                      "control_points": []
+                    },
+                    {
+                      "source": {
+                        "operation": "this",
+                        "data": "Array"
+                      },
+                      "sink": {
+                        "operation": "Transpose",
+                        "data": "Array"
+                      },
+                      "control_points": [
+                        {
+                          "x": 344,
+                          "y": 432
+                        },
+                        {
+                          "x": 1756,
+                          "y": 432
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "links": [
+                {
+                  "source": {
+                    "operation": "parse_decimal_1",
+                    "data": "output"
+                  },
+                  "sink": {
+                    "operation": "divide",
+                    "data": "right_operand"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "parse_decimal_1",
+                    "data": "output"
+                  },
+                  "sink": {
+                    "operation": "divide_1",
+                    "data": "right_operand"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "divide_1",
+                    "data": "divided_result"
+                  },
+                  "sink": {
+                    "operation": "concatenate",
+                    "data": "array_1"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "divide",
+                    "data": "divided_result"
+                  },
+                  "sink": {
+                    "operation": "concatenate",
+                    "data": "array_2"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "TP"
+                  },
+                  "sink": {
+                    "operation": "divide",
+                    "data": "left_operand"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "FN"
+                  },
+                  "sink": {
+                    "operation": "divide_1",
+                    "data": "left_operand"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Add"
+                  },
+                  "sink": {
+                    "operation": "parse_decimal_1",
+                    "data": "input"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "concatenate",
+                    "data": "concatenated_array"
+                  },
+                  "sink": {
+                    "operation": "Transpose 1D and 2D",
+                    "data": "Array"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "Transpose 1D and 2D",
+                    "data": "Transposed Array"
+                  },
+                  "sink": {
+                    "operation": "this",
+                    "data": "Output"
+                  },
+                  "control_points": []
+                }
+              ]
+            },
+            {
+              "name": "element_wise_multiply",
+              "primitive_name": "element_wise_multiply",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 934,
+                "y": 98
+              },
+              "inputs": [
+                {
+                  "name": "left_array",
+                  "primitive_name": "left_array"
+                },
+                {
+                  "name": "right_array",
+                  "data": [
+                    [
+                      100.0,
+                      100.0
+                    ]
+                  ],
+                  "shape": [
+                    1,
+                    2
+                  ],
+                  "type": "DECIMAL",
+                  "primitive_name": "right_array",
+                  "flow_state": "BOOT_SOURCE"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "multiplied_array",
+                  "primitive_name": "multiplied_array",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "parse_text",
+              "primitive_name": "parse_text",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 1329,
+                "y": 95
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "primitive_name": "input"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "primitive_name": "output",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            }
+          ],
+          "links_if_false": [
+            {
+              "source": {
+                "operation": "this",
+                "data": "TP"
+              },
+              "sink": {
+                "operation": "Handle Non-Empty Case",
+                "data": "TP"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "FN"
+              },
+              "sink": {
+                "operation": "Handle Non-Empty Case",
+                "data": "FN"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Add"
+              },
+              "sink": {
+                "operation": "Handle Non-Empty Case",
+                "data": "Add"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "Handle Non-Empty Case",
+                "data": "Output"
+              },
+              "sink": {
+                "operation": "element_wise_multiply",
+                "data": "left_array"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "element_wise_multiply",
+                "data": "multiplied_array"
+              },
+              "sink": {
+                "operation": "parse_text",
+                "data": "input"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "parse_text",
+                "data": "output"
+              },
+              "sink": {
+                "operation": "this",
+                "data": "Output"
+              },
+              "control_points": []
+            }
+          ],
+          "condition": {
+            "name": "Is True"
+          }
+        }
+      ],
+      "links": [
+        {
+          "source": {
+            "operation": "this",
+            "data": "TP"
+          },
+          "sink": {
+            "operation": "add",
+            "data": "left_operand"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "FN"
+          },
+          "sink": {
+            "operation": "add",
+            "data": "right_operand"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "TP"
+          },
+          "sink": {
+            "operation": "parse_decimal",
+            "data": "input"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "FN"
+          },
+          "sink": {
+            "operation": "parse_decimal_2",
+            "data": "input"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "add",
+            "data": "added_result"
+          },
+          "sink": {
+            "operation": "equal",
+            "data": "left_operand"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "equal",
+            "data": "is_equal"
+          },
+          "sink": {
+            "operation": "reduce_one_dimension",
+            "data": "input"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "reduce_one_dimension",
+            "data": "output"
+          },
+          "sink": {
+            "operation": "If Else",
+            "data": "Is True"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "parse_decimal",
+            "data": "output"
+          },
+          "sink": {
+            "operation": "If Else",
+            "data": "TP"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "parse_decimal_2",
+            "data": "output"
+          },
+          "sink": {
+            "operation": "If Else",
+            "data": "FN"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "add",
+            "data": "added_result"
+          },
+          "sink": {
+            "operation": "If Else",
+            "data": "Add"
+          },
+          "control_points": [
+            {
+              "x": 599,
+              "y": 271
+            }
+          ]
+        },
+        {
+          "source": {
+            "operation": "If Else",
+            "data": "Output"
+          },
+          "sink": {
+            "operation": "this",
+            "data": "Positive Row"
+          },
+          "control_points": []
+        }
+      ]
+    },
+    {
+      "name": "Row for Negative Class",
+      "type": "COMPOSITE_OPERATION",
+      "position": {
+        "x": 764,
+        "y": 3
+      },
+      "inputs": [
+        {
+          "name": "TN",
+          "primitive_name": "Input"
+        },
+        {
+          "name": "FP",
+          "primitive_name": "Input (1)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Negative Row",
+          "primitive_name": "Output",
+          "flow_state": "UNBOUND"
+        }
+      ],
+      "operations": [
+        {
+          "name": "add",
+          "primitive_name": "add",
+          "type": "PRIMITIVE_OPERATION",
+          "position": {
+            "x": 275,
+            "y": 322
+          },
+          "inputs": [
+            {
+              "name": "left_operand",
+              "primitive_name": "left_operand"
+            },
+            {
+              "name": "right_operand",
+              "primitive_name": "right_operand"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "added_result",
+              "primitive_name": "added_result",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "parse_decimal",
+          "primitive_name": "parse_decimal",
+          "type": "PRIMITIVE_OPERATION",
+          "position": {
+            "x": 277,
+            "y": 43
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "primitive_name": "input"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "primitive_name": "output",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "parse_decimal_2",
+          "primitive_name": "parse_decimal",
+          "type": "PRIMITIVE_OPERATION",
+          "position": {
+            "x": 270,
+            "y": 169
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "primitive_name": "input"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "primitive_name": "output",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "equal",
+          "primitive_name": "equal",
+          "type": "PRIMITIVE_OPERATION",
+          "position": {
+            "x": 641,
+            "y": 322
+          },
+          "inputs": [
+            {
+              "name": "left_operand",
+              "primitive_name": "left_operand"
+            },
+            {
+              "name": "right_operand",
+              "data": [
+                0
+              ],
+              "shape": [
+                1
+              ],
+              "type": "INTEGER",
+              "primitive_name": "right_operand",
+              "flow_state": "BOOT_SOURCE"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "is_equal",
+              "primitive_name": "is_equal",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "reduce_one_dimension",
+          "primitive_name": "reduce_one_dimension",
+          "type": "PRIMITIVE_OPERATION",
+          "position": {
+            "x": 1019,
+            "y": 322
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "primitive_name": "input"
+            },
+            {
+              "name": "dimension_index",
+              "data": 0,
+              "shape": [],
+              "type": "INTEGER",
+              "primitive_name": "dimension_index",
+              "flow_state": "BOOT_SOURCE"
+            },
+            {
+              "name": "selected_index",
+              "data": 0,
+              "shape": [],
+              "type": "INTEGER",
+              "primitive_name": "selected_index",
+              "flow_state": "BOOT_SOURCE"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "primitive_name": "output",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "If Else",
+          "type": "CONDITIONAL_OPERATION",
+          "position": {
+            "x": 1460,
+            "y": 127
+          },
+          "inputs": [
+            {
+              "name": "Is True",
+              "primitive_name": "Is True"
+            },
+            {
+              "name": "TN",
+              "primitive_name": "Input"
+            },
+            {
+              "name": "FP",
+              "primitive_name": "Input (1)"
+            },
+            {
+              "name": "Add",
+              "primitive_name": "Input (2)"
+            }
+          ],
+          "input_order": [
+            1,
+            2,
+            3,
+            0
+          ],
+          "outputs": [
+            {
+              "name": "Output",
+              "primitive_name": "Output",
+              "flow_state": "UNBOUND"
+            }
+          ],
+          "operations_if_true": [
+            {
+              "name": "concatenate",
+              "primitive_name": "concatenate",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 548,
+                "y": 61
+              },
+              "inputs": [
+                {
+                  "name": "array_1",
+                  "data": [
+                    "N/A"
+                  ],
+                  "shape": [
+                    1
+                  ],
+                  "type": "TEXT",
+                  "primitive_name": "array_1",
+                  "flow_state": "BOOT_SOURCE"
+                },
+                {
+                  "name": "array_2",
+                  "data": [
+                    "N/A"
+                  ],
+                  "shape": [
+                    1
+                  ],
+                  "type": "TEXT",
+                  "primitive_name": "array_2",
+                  "flow_state": "BOOT_SOURCE"
+                },
+                {
+                  "name": "dimension_index",
+                  "data": 0,
+                  "shape": [],
+                  "type": "INTEGER",
+                  "primitive_name": "dimension_index",
+                  "flow_state": "BOOT_SOURCE"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "concatenated_array",
+                  "primitive_name": "concatenated_array",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "Transpose 1D and 2D",
+              "type": "COMPOSITE_OPERATION",
+              "position": {
+                "x": 1042,
+                "y": 67
+              },
+              "inputs": [
+                {
+                  "name": "Array",
+                  "primitive_name": "Array"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "Transposed Array",
+                  "primitive_name": "Transposed Array",
+                  "flow_state": "UNBOUND"
+                }
+              ],
+              "operations": [
+                {
+                  "name": "get_shape",
+                  "primitive_name": "get_shape",
+                  "type": "PRIMITIVE_OPERATION",
+                  "position": {
+                    "x": 416,
+                    "y": 195
+                  },
+                  "inputs": [
+                    {
+                      "name": "input",
+                      "primitive_name": "input"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "shape",
+                      "primitive_name": "shape",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "get_dimension_size",
+                  "primitive_name": "get_dimension_size",
+                  "type": "PRIMITIVE_OPERATION",
+                  "position": {
+                    "x": 874,
+                    "y": 196
+                  },
+                  "inputs": [
+                    {
+                      "name": "array",
+                      "primitive_name": "array"
+                    },
+                    {
+                      "name": "dimension_index",
+                      "data": 0,
+                      "shape": [],
+                      "type": "INTEGER",
+                      "primitive_name": "dimension_index",
+                      "flow_state": "BOOT_SOURCE"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "dimension_size",
+                      "primitive_name": "dimension_size",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "greater_than",
+                  "primitive_name": "greater_than",
+                  "type": "PRIMITIVE_OPERATION",
+                  "position": {
+                    "x": 1356,
+                    "y": 196
+                  },
+                  "inputs": [
+                    {
+                      "name": "left_operand",
+                      "primitive_name": "left_operand"
+                    },
+                    {
+                      "name": "right_operand",
+                      "data": 1,
+                      "shape": [],
+                      "type": "INTEGER",
+                      "primitive_name": "right_operand",
+                      "flow_state": "BOOT_SOURCE"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "is_greater_than",
+                      "primitive_name": "is_greater_than",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "Transpose",
+                  "type": "CONDITIONAL_OPERATION",
+                  "position": {
+                    "x": 1878,
+                    "y": 196
+                  },
+                  "inputs": [
+                    {
+                      "name": "Is True",
+                      "primitive_name": "Is True"
+                    },
+                    {
+                      "name": "Array",
+                      "primitive_name": "New Input"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "Output",
+                      "primitive_name": "Output",
+                      "flow_state": "UNBOUND"
+                    }
+                  ],
+                  "operations_if_true": [
+                    {
+                      "name": "swap_dimensions",
+                      "primitive_name": "swap_dimensions",
+                      "type": "PRIMITIVE_OPERATION",
+                      "position": {
+                        "x": 592,
+                        "y": 47
+                      },
+                      "inputs": [
+                        {
+                          "name": "array",
+                          "primitive_name": "array"
+                        },
+                        {
+                          "name": "dimension_index_1",
+                          "data": 0,
+                          "shape": [],
+                          "type": "INTEGER",
+                          "primitive_name": "dimension_index_1",
+                          "flow_state": "BOOT_SOURCE"
+                        },
+                        {
+                          "name": "dimension_index_2",
+                          "data": 1,
+                          "shape": [],
+                          "type": "INTEGER",
+                          "primitive_name": "dimension_index_2",
+                          "flow_state": "BOOT_SOURCE"
+                        }
+                      ],
+                      "outputs": [
+                        {
+                          "name": "swapped_array",
+                          "primitive_name": "swapped_array",
+                          "flow_state": "UNBOUND"
+                        }
+                      ]
+                    }
+                  ],
+                  "links_if_true": [
+                    {
+                      "source": {
+                        "operation": "this",
+                        "data": "Array"
+                      },
+                      "sink": {
+                        "operation": "swap_dimensions",
+                        "data": "array"
+                      },
+                      "control_points": []
+                    },
+                    {
+                      "source": {
+                        "operation": "swap_dimensions",
+                        "data": "swapped_array"
+                      },
+                      "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                      },
+                      "control_points": []
+                    }
+                  ],
+                  "operations_if_false": [
+                    {
+                      "name": "expand_one_dimension",
+                      "primitive_name": "expand_one_dimension",
+                      "type": "PRIMITIVE_OPERATION",
+                      "position": {
+                        "x": 534,
+                        "y": 47
+                      },
+                      "inputs": [
+                        {
+                          "name": "input",
+                          "primitive_name": "input"
+                        },
+                        {
+                          "name": "dimension_index",
+                          "data": 0,
+                          "shape": [],
+                          "type": "INTEGER",
+                          "primitive_name": "dimension_index",
+                          "flow_state": "BOOT_SOURCE"
+                        }
+                      ],
+                      "outputs": [
+                        {
+                          "name": "output",
+                          "primitive_name": "output",
+                          "flow_state": "UNBOUND"
+                        }
+                      ]
+                    }
+                  ],
+                  "links_if_false": [
+                    {
+                      "source": {
+                        "operation": "this",
+                        "data": "Array"
+                      },
+                      "sink": {
+                        "operation": "expand_one_dimension",
+                        "data": "input"
+                      },
+                      "control_points": []
+                    },
+                    {
+                      "source": {
+                        "operation": "expand_one_dimension",
+                        "data": "output"
+                      },
+                      "sink": {
+                        "operation": "this",
+                        "data": "Output"
+                      },
+                      "control_points": []
+                    }
+                  ],
+                  "condition": {
+                    "name": "Is True"
+                  }
+                }
+              ],
+              "links": [
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Array"
+                  },
+                  "sink": {
+                    "operation": "get_shape",
+                    "data": "input"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "get_shape",
+                    "data": "shape"
+                  },
+                  "sink": {
+                    "operation": "get_dimension_size",
+                    "data": "array"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "Transpose",
+                    "data": "Output"
+                  },
+                  "sink": {
+                    "operation": "this",
+                    "data": "Transposed Array"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "get_dimension_size",
+                    "data": "dimension_size"
+                  },
+                  "sink": {
+                    "operation": "greater_than",
+                    "data": "left_operand"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "greater_than",
+                    "data": "is_greater_than"
+                  },
+                  "sink": {
+                    "operation": "Transpose",
+                    "data": "Is True"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Array"
+                  },
+                  "sink": {
+                    "operation": "Transpose",
+                    "data": "Array"
+                  },
+                  "control_points": [
+                    {
+                      "x": 344,
+                      "y": 432
+                    },
+                    {
+                      "x": 1756,
+                      "y": 432
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "links_if_true": [
+            {
+              "source": {
+                "operation": "concatenate",
+                "data": "concatenated_array"
+              },
+              "sink": {
+                "operation": "Transpose 1D and 2D",
+                "data": "Array"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "Transpose 1D and 2D",
+                "data": "Transposed Array"
+              },
+              "sink": {
+                "operation": "this",
+                "data": "Output"
+              },
+              "control_points": []
+            }
+          ],
+          "operations_if_false": [
+            {
+              "name": "Handle Non-Empty Case",
+              "type": "COMPOSITE_OPERATION",
+              "position": {
+                "x": 440,
+                "y": 43
+              },
+              "inputs": [
+                {
+                  "name": "TN",
+                  "primitive_name": "Input"
+                },
+                {
+                  "name": "FP",
+                  "primitive_name": "Input (1)"
+                },
+                {
+                  "name": "Add",
+                  "primitive_name": "Input (2)"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "Output",
+                  "primitive_name": "Output",
+                  "flow_state": "UNBOUND"
+                }
+              ],
+              "operations": [
+                {
+                  "name": "parse_decimal_1",
+                  "primitive_name": "parse_decimal",
+                  "type": "PRIMITIVE_OPERATION",
+                  "position": {
+                    "x": 310,
+                    "y": 277
+                  },
+                  "inputs": [
+                    {
+                      "name": "input",
+                      "primitive_name": "input"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "output",
+                      "primitive_name": "output",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "divide_1",
+                  "primitive_name": "divide",
+                  "type": "PRIMITIVE_OPERATION",
+                  "position": {
+                    "x": 1079,
+                    "y": 235
+                  },
+                  "inputs": [
+                    {
+                      "name": "left_operand",
+                      "primitive_name": "left_operand"
+                    },
+                    {
+                      "name": "right_operand",
+                      "primitive_name": "right_operand"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "divided_result",
+                      "primitive_name": "divided_result",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "divide",
+                  "primitive_name": "divide",
+                  "type": "PRIMITIVE_OPERATION",
+                  "position": {
+                    "x": 939,
+                    "y": 43
+                  },
+                  "inputs": [
+                    {
+                      "name": "left_operand",
+                      "primitive_name": "left_operand"
+                    },
+                    {
+                      "name": "right_operand",
+                      "primitive_name": "right_operand"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "divided_result",
+                      "primitive_name": "divided_result",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "concatenate",
+                  "primitive_name": "concatenate",
+                  "type": "PRIMITIVE_OPERATION",
+                  "position": {
+                    "x": 1476,
+                    "y": 92
+                  },
+                  "inputs": [
+                    {
+                      "name": "array_1",
+                      "primitive_name": "array_1"
+                    },
+                    {
+                      "name": "array_2",
+                      "primitive_name": "array_2"
+                    },
+                    {
+                      "name": "dimension_index",
+                      "data": 0,
+                      "shape": [],
+                      "type": "INTEGER",
+                      "primitive_name": "dimension_index",
+                      "flow_state": "BOOT_SOURCE"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "concatenated_array",
+                      "primitive_name": "concatenated_array",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "Transpose 1D and 2D",
+                  "type": "COMPOSITE_OPERATION",
+                  "position": {
+                    "x": 1919,
+                    "y": 92
+                  },
+                  "inputs": [
+                    {
+                      "name": "Array",
+                      "primitive_name": "Array"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "Transposed Array",
+                      "primitive_name": "Transposed Array",
+                      "flow_state": "UNBOUND"
+                    }
+                  ],
+                  "operations": [
+                    {
+                      "name": "get_shape",
+                      "primitive_name": "get_shape",
+                      "type": "PRIMITIVE_OPERATION",
+                      "position": {
+                        "x": 416,
+                        "y": 195
+                      },
+                      "inputs": [
+                        {
+                          "name": "input",
+                          "primitive_name": "input"
+                        }
+                      ],
+                      "outputs": [
+                        {
+                          "name": "shape",
+                          "primitive_name": "shape",
+                          "flow_state": "UNBOUND"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "get_dimension_size",
+                      "primitive_name": "get_dimension_size",
+                      "type": "PRIMITIVE_OPERATION",
+                      "position": {
+                        "x": 874,
+                        "y": 196
+                      },
+                      "inputs": [
+                        {
+                          "name": "array",
+                          "primitive_name": "array"
+                        },
+                        {
+                          "name": "dimension_index",
+                          "data": 0,
+                          "shape": [],
+                          "type": "INTEGER",
+                          "primitive_name": "dimension_index",
+                          "flow_state": "BOOT_SOURCE"
+                        }
+                      ],
+                      "outputs": [
+                        {
+                          "name": "dimension_size",
+                          "primitive_name": "dimension_size",
+                          "flow_state": "UNBOUND"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "greater_than",
+                      "primitive_name": "greater_than",
+                      "type": "PRIMITIVE_OPERATION",
+                      "position": {
+                        "x": 1356,
+                        "y": 196
+                      },
+                      "inputs": [
+                        {
+                          "name": "left_operand",
+                          "primitive_name": "left_operand"
+                        },
+                        {
+                          "name": "right_operand",
+                          "data": 1,
+                          "shape": [],
+                          "type": "INTEGER",
+                          "primitive_name": "right_operand",
+                          "flow_state": "BOOT_SOURCE"
+                        }
+                      ],
+                      "outputs": [
+                        {
+                          "name": "is_greater_than",
+                          "primitive_name": "is_greater_than",
+                          "flow_state": "UNBOUND"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Transpose",
+                      "type": "CONDITIONAL_OPERATION",
+                      "position": {
+                        "x": 1878,
+                        "y": 196
+                      },
+                      "inputs": [
+                        {
+                          "name": "Is True",
+                          "primitive_name": "Is True"
+                        },
+                        {
+                          "name": "Array",
+                          "primitive_name": "New Input"
+                        }
+                      ],
+                      "outputs": [
+                        {
+                          "name": "Output",
+                          "primitive_name": "Output",
+                          "flow_state": "UNBOUND"
+                        }
+                      ],
+                      "operations_if_true": [
+                        {
+                          "name": "swap_dimensions",
+                          "primitive_name": "swap_dimensions",
+                          "type": "PRIMITIVE_OPERATION",
+                          "position": {
+                            "x": 592,
+                            "y": 47
+                          },
+                          "inputs": [
+                            {
+                              "name": "array",
+                              "primitive_name": "array"
+                            },
+                            {
+                              "name": "dimension_index_1",
+                              "data": 0,
+                              "shape": [],
+                              "type": "INTEGER",
+                              "primitive_name": "dimension_index_1",
+                              "flow_state": "BOOT_SOURCE"
+                            },
+                            {
+                              "name": "dimension_index_2",
+                              "data": 1,
+                              "shape": [],
+                              "type": "INTEGER",
+                              "primitive_name": "dimension_index_2",
+                              "flow_state": "BOOT_SOURCE"
+                            }
+                          ],
+                          "outputs": [
+                            {
+                              "name": "swapped_array",
+                              "primitive_name": "swapped_array",
+                              "flow_state": "UNBOUND"
+                            }
+                          ]
+                        }
+                      ],
+                      "links_if_true": [
+                        {
+                          "source": {
+                            "operation": "this",
+                            "data": "Array"
+                          },
+                          "sink": {
+                            "operation": "swap_dimensions",
+                            "data": "array"
+                          },
+                          "control_points": []
+                        },
+                        {
+                          "source": {
+                            "operation": "swap_dimensions",
+                            "data": "swapped_array"
+                          },
+                          "sink": {
+                            "operation": "this",
+                            "data": "Output"
+                          },
+                          "control_points": []
+                        }
+                      ],
+                      "operations_if_false": [
+                        {
+                          "name": "expand_one_dimension",
+                          "primitive_name": "expand_one_dimension",
+                          "type": "PRIMITIVE_OPERATION",
+                          "position": {
+                            "x": 534,
+                            "y": 47
+                          },
+                          "inputs": [
+                            {
+                              "name": "input",
+                              "primitive_name": "input"
+                            },
+                            {
+                              "name": "dimension_index",
+                              "data": 0,
+                              "shape": [],
+                              "type": "INTEGER",
+                              "primitive_name": "dimension_index",
+                              "flow_state": "BOOT_SOURCE"
+                            }
+                          ],
+                          "outputs": [
+                            {
+                              "name": "output",
+                              "primitive_name": "output",
+                              "flow_state": "UNBOUND"
+                            }
+                          ]
+                        }
+                      ],
+                      "links_if_false": [
+                        {
+                          "source": {
+                            "operation": "this",
+                            "data": "Array"
+                          },
+                          "sink": {
+                            "operation": "expand_one_dimension",
+                            "data": "input"
+                          },
+                          "control_points": []
+                        },
+                        {
+                          "source": {
+                            "operation": "expand_one_dimension",
+                            "data": "output"
+                          },
+                          "sink": {
+                            "operation": "this",
+                            "data": "Output"
+                          },
+                          "control_points": []
+                        }
+                      ],
+                      "condition": {
+                        "name": "Is True"
+                      }
+                    }
+                  ],
+                  "links": [
+                    {
+                      "source": {
+                        "operation": "this",
+                        "data": "Array"
+                      },
+                      "sink": {
+                        "operation": "get_shape",
+                        "data": "input"
+                      },
+                      "control_points": []
+                    },
+                    {
+                      "source": {
+                        "operation": "get_shape",
+                        "data": "shape"
+                      },
+                      "sink": {
+                        "operation": "get_dimension_size",
+                        "data": "array"
+                      },
+                      "control_points": []
+                    },
+                    {
+                      "source": {
+                        "operation": "Transpose",
+                        "data": "Output"
+                      },
+                      "sink": {
+                        "operation": "this",
+                        "data": "Transposed Array"
+                      },
+                      "control_points": []
+                    },
+                    {
+                      "source": {
+                        "operation": "get_dimension_size",
+                        "data": "dimension_size"
+                      },
+                      "sink": {
+                        "operation": "greater_than",
+                        "data": "left_operand"
+                      },
+                      "control_points": []
+                    },
+                    {
+                      "source": {
+                        "operation": "greater_than",
+                        "data": "is_greater_than"
+                      },
+                      "sink": {
+                        "operation": "Transpose",
+                        "data": "Is True"
+                      },
+                      "control_points": []
+                    },
+                    {
+                      "source": {
+                        "operation": "this",
+                        "data": "Array"
+                      },
+                      "sink": {
+                        "operation": "Transpose",
+                        "data": "Array"
+                      },
+                      "control_points": [
+                        {
+                          "x": 344,
+                          "y": 432
+                        },
+                        {
+                          "x": 1756,
+                          "y": 432
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "links": [
+                {
+                  "source": {
+                    "operation": "parse_decimal_1",
+                    "data": "output"
+                  },
+                  "sink": {
+                    "operation": "divide",
+                    "data": "right_operand"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "parse_decimal_1",
+                    "data": "output"
+                  },
+                  "sink": {
+                    "operation": "divide_1",
+                    "data": "right_operand"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "TN"
+                  },
+                  "sink": {
+                    "operation": "divide",
+                    "data": "left_operand"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "FP"
+                  },
+                  "sink": {
+                    "operation": "divide_1",
+                    "data": "left_operand"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Add"
+                  },
+                  "sink": {
+                    "operation": "parse_decimal_1",
+                    "data": "input"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "concatenate",
+                    "data": "concatenated_array"
+                  },
+                  "sink": {
+                    "operation": "Transpose 1D and 2D",
+                    "data": "Array"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "Transpose 1D and 2D",
+                    "data": "Transposed Array"
+                  },
+                  "sink": {
+                    "operation": "this",
+                    "data": "Output"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "divide_1",
+                    "data": "divided_result"
+                  },
+                  "sink": {
+                    "operation": "concatenate",
+                    "data": "array_2"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "divide",
+                    "data": "divided_result"
+                  },
+                  "sink": {
+                    "operation": "concatenate",
+                    "data": "array_1"
+                  },
+                  "control_points": []
+                }
+              ]
+            },
+            {
+              "name": "element_wise_multiply",
+              "primitive_name": "element_wise_multiply",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 934,
+                "y": 98
+              },
+              "inputs": [
+                {
+                  "name": "left_array",
+                  "primitive_name": "left_array"
+                },
+                {
+                  "name": "right_array",
+                  "data": [
+                    [
+                      100.0,
+                      100.0
+                    ]
+                  ],
+                  "shape": [
+                    1,
+                    2
+                  ],
+                  "type": "DECIMAL",
+                  "primitive_name": "right_array",
+                  "flow_state": "BOOT_SOURCE"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "multiplied_array",
+                  "primitive_name": "multiplied_array",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "parse_text",
+              "primitive_name": "parse_text",
+              "type": "PRIMITIVE_OPERATION",
+              "position": {
+                "x": 1329,
+                "y": 98
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "primitive_name": "input"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "primitive_name": "output",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            }
+          ],
+          "links_if_false": [
+            {
+              "source": {
+                "operation": "this",
+                "data": "TN"
+              },
+              "sink": {
+                "operation": "Handle Non-Empty Case",
+                "data": "TN"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "FP"
+              },
+              "sink": {
+                "operation": "Handle Non-Empty Case",
+                "data": "FP"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Add"
+              },
+              "sink": {
+                "operation": "Handle Non-Empty Case",
+                "data": "Add"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "Handle Non-Empty Case",
+                "data": "Output"
+              },
+              "sink": {
+                "operation": "element_wise_multiply",
+                "data": "left_array"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "element_wise_multiply",
+                "data": "multiplied_array"
+              },
+              "sink": {
+                "operation": "parse_text",
+                "data": "input"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "parse_text",
+                "data": "output"
+              },
+              "sink": {
+                "operation": "this",
+                "data": "Output"
+              },
+              "control_points": []
+            }
+          ],
+          "condition": {
+            "name": "Is True"
+          }
+        }
+      ],
+      "links": [
+        {
+          "source": {
+            "operation": "this",
+            "data": "TN"
+          },
+          "sink": {
+            "operation": "add",
+            "data": "left_operand"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "FP"
+          },
+          "sink": {
+            "operation": "add",
+            "data": "right_operand"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "TN"
+          },
+          "sink": {
+            "operation": "parse_decimal",
+            "data": "input"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "FP"
+          },
+          "sink": {
+            "operation": "parse_decimal_2",
+            "data": "input"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "add",
+            "data": "added_result"
+          },
+          "sink": {
+            "operation": "equal",
+            "data": "left_operand"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "equal",
+            "data": "is_equal"
+          },
+          "sink": {
+            "operation": "reduce_one_dimension",
+            "data": "input"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "reduce_one_dimension",
+            "data": "output"
+          },
+          "sink": {
+            "operation": "If Else",
+            "data": "Is True"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "parse_decimal",
+            "data": "output"
+          },
+          "sink": {
+            "operation": "If Else",
+            "data": "TN"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "parse_decimal_2",
+            "data": "output"
+          },
+          "sink": {
+            "operation": "If Else",
+            "data": "FP"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "add",
+            "data": "added_result"
+          },
+          "sink": {
+            "operation": "If Else",
+            "data": "Add"
+          },
+          "control_points": [
+            {
+              "x": 599,
+              "y": 273
+            }
+          ]
+        },
+        {
+          "source": {
+            "operation": "If Else",
+            "data": "Output"
+          },
+          "sink": {
+            "operation": "this",
+            "data": "Negative Row"
+          },
+          "control_points": []
+        }
+      ]
+    },
+    {
+      "name": "concatenate",
+      "primitive_name": "concatenate",
+      "type": "PRIMITIVE_OPERATION",
+      "position": {
+        "x": 1231,
+        "y": 129
+      },
+      "inputs": [
+        {
+          "name": "array_1",
+          "primitive_name": "array_1"
+        },
+        {
+          "name": "array_2",
+          "primitive_name": "array_2"
+        },
+        {
+          "name": "dimension_index",
+          "data": 0,
+          "shape": [],
+          "type": "INTEGER",
+          "primitive_name": "dimension_index",
+          "flow_state": "BOOT_SOURCE"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "concatenated_array",
+          "primitive_name": "concatenated_array",
+          "flow_state": "UNBOUND"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "source": {
+        "operation": "Row for Positive Class",
+        "data": "Positive Row"
+      },
+      "sink": {
+        "operation": "concatenate",
+        "data": "array_2"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "Binary Confusion Matrix",
+        "data": "TP"
+      },
+      "sink": {
+        "operation": "Row for Positive Class",
+        "data": "TP"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "Binary Confusion Matrix",
+        "data": "FN"
+      },
+      "sink": {
+        "operation": "Row for Positive Class",
+        "data": "FN"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "this",
+        "data": "Pred Labels"
+      },
+      "sink": {
+        "operation": "Binary Confusion Matrix",
+        "data": "Pred"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "this",
+        "data": "Actual Labels"
+      },
+      "sink": {
+        "operation": "Binary Confusion Matrix",
+        "data": "Actual"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "concatenate",
+        "data": "concatenated_array"
+      },
+      "sink": {
+        "operation": "this",
+        "data": "Output"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "Binary Confusion Matrix",
+        "data": "TN"
+      },
+      "sink": {
+        "operation": "Row for Negative Class",
+        "data": "TN"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "Binary Confusion Matrix",
+        "data": "FP"
+      },
+      "sink": {
+        "operation": "Row for Negative Class",
+        "data": "FP"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "Row for Negative Class",
+        "data": "Negative Row"
+      },
+      "sink": {
+        "operation": "concatenate",
+        "data": "array_1"
+      },
+      "control_points": []
+    }
+  ],
+  "global_constants": [],
+  "description": [
+    "A confusion matrix that shows the proportions of true positives, false negatives, false positives, and true negatives, normalized by the actual classes. This helps in understanding how well the classifier performs for each class independently."
+  ]
+}

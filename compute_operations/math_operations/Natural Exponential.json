@@ -1,1 +1,177 @@
-{"name":"Natural Exponential","type":"COMPOSITE_OPERATION","inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":515,"y":45},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1040,"y":135},"inputs":[{"name":"target","data":2.71828,"shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SOURCE"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result"}]},{"name":"element_wise_exponentiate","primitive_name":"element_wise_exponentiate","type":"PRIMITIVE_OPERATION","aliases":["exp","pow","power"],"position":{"x":1601,"y":131},"inputs":[{"name":"base","primitive_name":"base"},{"name":"exponent","primitive_name":"exponent"}],"outputs":[{"name":"exponentiation","primitive_name":"exponentiation"}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"get_shape","data":"input"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"element_wise_exponentiate","data":"base"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"element_wise_exponentiate","data":"exponent"},"control_points":[{"x":451,"y":369},{"x":1491,"y":369}]},{"source":{"operation":"element_wise_exponentiate","data":"exponentiation"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]}
+{
+  "name": "Natural Exponential",
+  "type": "COMPOSITE_OPERATION",
+  "inputs": [
+    {
+      "name": "Input",
+      "primitive_name": "Input"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "Output",
+      "primitive_name": "Output"
+    }
+  ],
+  "operations": [
+    {
+      "name": "get_shape",
+      "primitive_name": "get_shape",
+      "type": "PRIMITIVE_OPERATION",
+      "aliases": [
+        "shape",
+        "size",
+        "get_size"
+      ],
+      "position": {
+        "x": 515,
+        "y": 45
+      },
+      "inputs": [
+        {
+          "name": "input",
+          "primitive_name": "input"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "shape",
+          "primitive_name": "shape"
+        }
+      ]
+    },
+    {
+      "name": "broadcast_to_shape",
+      "primitive_name": "broadcast_to_shape",
+      "type": "PRIMITIVE_OPERATION",
+      "aliases": [
+        "broadcast",
+        "tile",
+        "tile_to_shape"
+      ],
+      "position": {
+        "x": 1040,
+        "y": 135
+      },
+      "inputs": [
+        {
+          "name": "target",
+          "data": 2.71828,
+          "shape": [],
+          "type": "DECIMAL",
+          "primitive_name": "target",
+          "flow_state": "BOOT_SOURCE"
+        },
+        {
+          "name": "shape",
+          "primitive_name": "shape"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "primitive_name": "result"
+        }
+      ]
+    },
+    {
+      "name": "element_wise_exponentiate",
+      "primitive_name": "element_wise_exponentiate",
+      "type": "PRIMITIVE_OPERATION",
+      "aliases": [
+        "exp",
+        "pow",
+        "power"
+      ],
+      "position": {
+        "x": 1601,
+        "y": 131
+      },
+      "inputs": [
+        {
+          "name": "base",
+          "primitive_name": "base"
+        },
+        {
+          "name": "exponent",
+          "primitive_name": "exponent"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "exponentiation",
+          "primitive_name": "exponentiation"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "source": {
+        "operation": "this",
+        "data": "Input"
+      },
+      "sink": {
+        "operation": "get_shape",
+        "data": "input"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "get_shape",
+        "data": "shape"
+      },
+      "sink": {
+        "operation": "broadcast_to_shape",
+        "data": "shape"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "broadcast_to_shape",
+        "data": "result"
+      },
+      "sink": {
+        "operation": "element_wise_exponentiate",
+        "data": "base"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "this",
+        "data": "Input"
+      },
+      "sink": {
+        "operation": "element_wise_exponentiate",
+        "data": "exponent"
+      },
+      "control_points": [
+        {
+          "x": 451,
+          "y": 369
+        },
+        {
+          "x": 1491,
+          "y": 369
+        }
+      ]
+    },
+    {
+      "source": {
+        "operation": "element_wise_exponentiate",
+        "data": "exponentiation"
+      },
+      "sink": {
+        "operation": "this",
+        "data": "Output"
+      },
+      "control_points": []
+    }
+  ],
+  "description": [
+    "Returns a new tensor with e raised to the power of each input element"
+  ]
+}

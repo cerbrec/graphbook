@@ -1,1 +1,2468 @@
-{"name":"Binary Cross Entropy Loss","type":"COMPOSITE_OPERATION","inputs":[{"name":"Predicted","primitive_name":"Predicted Probs"},{"name":"Expected","primitive_name":"Expected Labels"}],"subgraph_input_order":[1,0],"outputs":[{"name":"Loss","primitive_name":"Loss","flow_state":"UNBOUND"}],"operations":[{"name":"Calculate 'y_true' and '(1 - y_true)'","type":"COMPOSITE_OPERATION","position":{"x":553,"y":46},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"y_true","primitive_name":"Output","flow_state":"UNBOUND"},{"name":"(1 - y_true)","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"Broadcast Target to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":383,"y":163},"inputs":[{"name":"Target","data":1.0,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":342},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":43},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"subtract","primitive_name":"subtract","type":"PRIMITIVE_OPERATION","aliases":["minus","decrement"],"position":{"x":974,"y":43},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"input_order":[1,0],"outputs":[{"name":"subtracted_result","primitive_name":"subtracted_result","flow_state":"UNBOUND"}]},{"name":"parse_decimal","primitive_name":"parse_decimal","type":"PRIMITIVE_OPERATION","aliases":["parse_to_decimal","convert_to_decimal","cast_to_decimal","parse_float","parse_to_float","convert_to_float","cast_to_float","parse_double","parse_to_double","convert_to_double","cast_to_double"],"position":{"x":1454,"y":43},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"identity","primitive_name":"identity","type":"PRIMITIVE_OPERATION","aliases":["same"],"position":{"x":630,"y":343},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"parse_decimal_1","primitive_name":"parse_decimal","type":"PRIMITIVE_OPERATION","aliases":["parse_to_decimal","convert_to_decimal","cast_to_decimal","parse_float","parse_to_float","convert_to_float","cast_to_float","parse_double","parse_to_double","convert_to_double","cast_to_double"],"position":{"x":1176,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"Broadcast Target to Shape of Array","data":"Output"},"sink":{"operation":"subtract","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"subtract","data":"right_operand"},"control_points":[]},{"source":{"operation":"parse_decimal","data":"output"},"sink":{"operation":"this","data":"(1 - y_true)"},"control_points":[]},{"source":{"operation":"parse_decimal_1","data":"output"},"sink":{"operation":"this","data":"y_true"},"control_points":[]},{"source":{"operation":"subtract","data":"subtracted_result"},"sink":{"operation":"parse_decimal","data":"input"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"identity","data":"input"},"control_points":[{"x":286,"y":405}]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Target to Shape of Array","data":"Array"},"control_points":[]},{"source":{"operation":"identity","data":"output"},"sink":{"operation":"parse_decimal_1","data":"input"},"control_points":[]}]},{"name":"Ln(1 - y_predicted)","type":"COMPOSITE_OPERATION","position":{"x":556,"y":233},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"Broadcast Target to Shape of Array","type":"COMPOSITE_OPERATION","position":{"x":264,"y":150},"inputs":[{"name":"Target","data":1.0,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"subtract","primitive_name":"subtract","type":"PRIMITIVE_OPERATION","aliases":["minus","decrement"],"position":{"x":667,"y":44},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"input_order":[1,0],"outputs":[{"name":"subtracted_result","primitive_name":"subtracted_result","flow_state":"UNBOUND"}]},{"name":"Create 'e' of Same Shape as Input","type":"COMPOSITE_OPERATION","position":{"x":621,"y":294},"inputs":[{"name":"Target","data":2.718281828459045,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"element_wise_logarithm","primitive_name":"element_wise_logarithm","type":"PRIMITIVE_OPERATION","aliases":["log","logarithm"],"position":{"x":1024,"y":42},"inputs":[{"name":"base","primitive_name":"base"},{"name":"argument","primitive_name":"argument"}],"input_order":[1,0],"outputs":[{"name":"exponent","primitive_name":"exponent","flow_state":"UNBOUND"}]},{"name":"Handle 'Inf' Values","type":"COMPOSITE_OPERATION","position":{"x":1453,"y":40},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"identity","primitive_name":"identity","type":"PRIMITIVE_OPERATION","aliases":["same"],"position":{"x":346,"y":439},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"Create 'Inf' Values","type":"COMPOSITE_OPERATION","position":{"x":398,"y":215},"inputs":[{"name":"Target","data":-1.0E40,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"equal","primitive_name":"equal","type":"PRIMITIVE_OPERATION","aliases":["eq"],"position":{"x":872,"y":43},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"is_equal","primitive_name":"is_equal","flow_state":"UNBOUND"}]},{"name":"Create Values to Replace with 'Inf'","type":"COMPOSITE_OPERATION","position":{"x":883,"y":211},"inputs":[{"name":"Target","data":-100.0,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"conditional_filter","primitive_name":"conditional_filter","type":"PRIMITIVE_OPERATION","aliases":["conditional_merge","replace","where"],"position":{"x":1499,"y":44},"inputs":[{"name":"condition","primitive_name":"condition"},{"name":"data_if_true","primitive_name":"data_if_true"},{"name":"data_if_false","primitive_name":"data_if_false"}],"outputs":[{"name":"output_data","primitive_name":"output_data","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"Create 'Inf' Values","data":"Output"},"sink":{"operation":"equal","data":"right_operand"},"control_points":[]},{"source":{"operation":"equal","data":"is_equal"},"sink":{"operation":"conditional_filter","data":"condition"},"control_points":[]},{"source":{"operation":"identity","data":"output"},"sink":{"operation":"Create Values to Replace with 'Inf'","data":"Array"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"equal","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"identity","data":"input"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Create 'Inf' Values","data":"Array"},"control_points":[]},{"source":{"operation":"Create Values to Replace with 'Inf'","data":"Output"},"sink":{"operation":"conditional_filter","data":"data_if_true"},"control_points":[{"x":1283,"y":151}]},{"source":{"operation":"identity","data":"output"},"sink":{"operation":"conditional_filter","data":"data_if_false"},"control_points":[{"x":1258,"y":501}]},{"source":{"operation":"conditional_filter","data":"output_data"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Broadcast Target to Shape of Array","data":"Array"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Create 'e' of Same Shape as Input","data":"Array"},"control_points":[{"x":289,"y":398}]},{"source":{"operation":"Broadcast Target to Shape of Array","data":"Output"},"sink":{"operation":"subtract","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"subtract","data":"right_operand"},"control_points":[]},{"source":{"operation":"Create 'e' of Same Shape as Input","data":"Output"},"sink":{"operation":"element_wise_logarithm","data":"base"},"control_points":[]},{"source":{"operation":"subtract","data":"subtracted_result"},"sink":{"operation":"element_wise_logarithm","data":"argument"},"control_points":[]},{"source":{"operation":"element_wise_logarithm","data":"exponent"},"sink":{"operation":"Handle 'Inf' Values","data":"Input"},"control_points":[]},{"source":{"operation":"Handle 'Inf' Values","data":"Output"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"Ln(y_predicted) ","type":"COMPOSITE_OPERATION","position":{"x":559,"y":372},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"Create 'e' of Same Shape as Input","type":"COMPOSITE_OPERATION","position":{"x":269,"y":200},"inputs":[{"name":"Target","data":2.718281828459045,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"element_wise_logarithm","primitive_name":"element_wise_logarithm","type":"PRIMITIVE_OPERATION","aliases":["log","logarithm"],"position":{"x":654,"y":43},"inputs":[{"name":"base","primitive_name":"base"},{"name":"argument","primitive_name":"argument"}],"input_order":[1,0],"outputs":[{"name":"exponent","primitive_name":"exponent","flow_state":"UNBOUND"}]},{"name":"Handle 'Inf' Values","type":"COMPOSITE_OPERATION","position":{"x":1098,"y":45},"inputs":[{"name":"Input","primitive_name":"Input"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"identity","primitive_name":"identity","type":"PRIMITIVE_OPERATION","aliases":["same"],"position":{"x":346,"y":439},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"output","primitive_name":"output","flow_state":"UNBOUND"}]},{"name":"Create 'Inf' Values","type":"COMPOSITE_OPERATION","position":{"x":398,"y":215},"inputs":[{"name":"Target","data":-1.0E40,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"equal","primitive_name":"equal","type":"PRIMITIVE_OPERATION","aliases":["eq"],"position":{"x":872,"y":43},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"is_equal","primitive_name":"is_equal","flow_state":"UNBOUND"}]},{"name":"Create Values to Replace with 'Inf'","type":"COMPOSITE_OPERATION","position":{"x":883,"y":211},"inputs":[{"name":"Target","data":-100.0,"shape":[],"type":"DECIMAL","primitive_name":"Target","flow_state":"BOOT_SOURCE"},{"name":"Array","primitive_name":"Array"}],"outputs":[{"name":"Output","primitive_name":"Output","flow_state":"UNBOUND"}],"operations":[{"name":"get_shape","primitive_name":"get_shape","type":"PRIMITIVE_OPERATION","aliases":["shape","size","get_size"],"position":{"x":601,"y":346},"inputs":[{"name":"input","primitive_name":"input"}],"outputs":[{"name":"shape","primitive_name":"shape","flow_state":"UNBOUND"}]},{"name":"broadcast_to_shape","primitive_name":"broadcast_to_shape","type":"PRIMITIVE_OPERATION","aliases":["broadcast","tile","tile_to_shape"],"position":{"x":1097,"y":42},"inputs":[{"name":"target","shape":[],"type":"DECIMAL","primitive_name":"target","flow_state":"BOOT_SINK"},{"name":"shape","primitive_name":"shape"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"this","data":"Array"},"sink":{"operation":"get_shape","data":"input"},"control_points":[{"x":427,"y":404}]},{"source":{"operation":"this","data":"Target"},"sink":{"operation":"broadcast_to_shape","data":"target"},"control_points":[]},{"source":{"operation":"get_shape","data":"shape"},"sink":{"operation":"broadcast_to_shape","data":"shape"},"control_points":[]},{"source":{"operation":"broadcast_to_shape","data":"result"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"conditional_filter","primitive_name":"conditional_filter","type":"PRIMITIVE_OPERATION","aliases":["conditional_merge","replace","where"],"position":{"x":1499,"y":44},"inputs":[{"name":"condition","primitive_name":"condition"},{"name":"data_if_true","primitive_name":"data_if_true"},{"name":"data_if_false","primitive_name":"data_if_false"}],"outputs":[{"name":"output_data","primitive_name":"output_data","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"Create 'Inf' Values","data":"Output"},"sink":{"operation":"equal","data":"right_operand"},"control_points":[]},{"source":{"operation":"equal","data":"is_equal"},"sink":{"operation":"conditional_filter","data":"condition"},"control_points":[]},{"source":{"operation":"identity","data":"output"},"sink":{"operation":"Create Values to Replace with 'Inf'","data":"Array"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"equal","data":"left_operand"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"identity","data":"input"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Create 'Inf' Values","data":"Array"},"control_points":[]},{"source":{"operation":"Create Values to Replace with 'Inf'","data":"Output"},"sink":{"operation":"conditional_filter","data":"data_if_true"},"control_points":[{"x":1283,"y":151}]},{"source":{"operation":"identity","data":"output"},"sink":{"operation":"conditional_filter","data":"data_if_false"},"control_points":[{"x":1258,"y":501}]},{"source":{"operation":"conditional_filter","data":"output_data"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]}],"links":[{"source":{"operation":"this","data":"Input"},"sink":{"operation":"Create 'e' of Same Shape as Input","data":"Array"},"control_points":[]},{"source":{"operation":"this","data":"Input"},"sink":{"operation":"element_wise_logarithm","data":"argument"},"control_points":[]},{"source":{"operation":"Create 'e' of Same Shape as Input","data":"Output"},"sink":{"operation":"element_wise_logarithm","data":"base"},"control_points":[]},{"source":{"operation":"element_wise_logarithm","data":"exponent"},"sink":{"operation":"Handle 'Inf' Values","data":"Input"},"control_points":[]},{"source":{"operation":"Handle 'Inf' Values","data":"Output"},"sink":{"operation":"this","data":"Output"},"control_points":[]}]},{"name":"element_wise_multiply","primitive_name":"element_wise_multiply","type":"PRIMITIVE_OPERATION","aliases":["times"],"position":{"x":1120,"y":43},"inputs":[{"name":"left_array","primitive_name":"left_array"},{"name":"right_array","primitive_name":"right_array"}],"outputs":[{"name":"multiplied_array","primitive_name":"multiplied_array","flow_state":"UNBOUND"}]},{"name":"element_wise_multiply_1","primitive_name":"element_wise_multiply","type":"PRIMITIVE_OPERATION","aliases":["times"],"position":{"x":1124,"y":310},"inputs":[{"name":"left_array","primitive_name":"left_array"},{"name":"right_array","primitive_name":"right_array"}],"outputs":[{"name":"multiplied_array","primitive_name":"multiplied_array","flow_state":"UNBOUND"}]},{"name":"add","primitive_name":"add","type":"PRIMITIVE_OPERATION","aliases":["plus","increment"],"position":{"x":1556,"y":178},"inputs":[{"name":"left_operand","primitive_name":"left_operand"},{"name":"right_operand","primitive_name":"right_operand"}],"outputs":[{"name":"added_result","primitive_name":"added_result","flow_state":"UNBOUND"}]},{"name":"mean","primitive_name":"mean","type":"PRIMITIVE_OPERATION","aliases":["avg","average","get_expected_value"],"position":{"x":1966,"y":176},"inputs":[{"name":"array","primitive_name":"array"},{"name":"dimension_index","data":0,"shape":[],"type":"INTEGER","primitive_name":"dimension_index","flow_state":"BOOT_SOURCE"},{"name":"keep_dimension","data":false,"shape":[],"type":"BOOLEAN","primitive_name":"keep_dimension","flow_state":"BOOT_SOURCE"}],"outputs":[{"name":"mean_result","primitive_name":"mean_result","flow_state":"UNBOUND"}]},{"name":"absolute_value","primitive_name":"absolute_value","type":"PRIMITIVE_OPERATION","aliases":["abs"],"position":{"x":2346,"y":175},"inputs":[{"name":"target","primitive_name":"target"}],"outputs":[{"name":"result","primitive_name":"result","flow_state":"UNBOUND"}]}],"links":[{"source":{"operation":"add","data":"added_result"},"sink":{"operation":"mean","data":"array"},"control_points":[]},{"source":{"operation":"mean","data":"mean_result"},"sink":{"operation":"absolute_value","data":"target"},"control_points":[]},{"source":{"operation":"absolute_value","data":"result"},"sink":{"operation":"this","data":"Loss"},"control_points":[]},{"source":{"operation":"Calculate 'y_true' and '(1 - y_true)'","data":"y_true"},"sink":{"operation":"element_wise_multiply","data":"left_array"},"control_points":[]},{"source":{"operation":"Calculate 'y_true' and '(1 - y_true)'","data":"(1 - y_true)"},"sink":{"operation":"element_wise_multiply_1","data":"left_array"},"control_points":[]},{"source":{"operation":"Ln(1 - y_predicted)","data":"Output"},"sink":{"operation":"element_wise_multiply_1","data":"right_array"},"control_points":[]},{"source":{"operation":"element_wise_multiply","data":"multiplied_array"},"sink":{"operation":"add","data":"left_operand"},"control_points":[]},{"source":{"operation":"element_wise_multiply_1","data":"multiplied_array"},"sink":{"operation":"add","data":"right_operand"},"control_points":[]},{"source":{"operation":"this","data":"Expected"},"sink":{"operation":"Calculate 'y_true' and '(1 - y_true)'","data":"Input"},"control_points":[]},{"source":{"operation":"this","data":"Predicted"},"sink":{"operation":"Ln(y_predicted) ","data":"Input"},"control_points":[{"x":348,"y":434}]},{"source":{"operation":"this","data":"Predicted"},"sink":{"operation":"Ln(1 - y_predicted)","data":"Input"},"control_points":[]},{"source":{"operation":"Ln(y_predicted) ","data":"Output"},"sink":{"operation":"element_wise_multiply","data":"right_array"},"control_points":[]}],"global_constants":[]}
+{
+  "name": "Binary Cross Entropy Loss",
+  "type": "COMPOSITE_OPERATION",
+  "inputs": [
+    {
+      "name": "Predicted",
+      "primitive_name": "Predicted Probs"
+    },
+    {
+      "name": "Expected",
+      "primitive_name": "Expected Labels"
+    }
+  ],
+  "subgraph_input_order": [
+    1,
+    0
+  ],
+  "outputs": [
+    {
+      "name": "Loss",
+      "primitive_name": "Loss",
+      "flow_state": "UNBOUND"
+    }
+  ],
+  "operations": [
+    {
+      "name": "Calculate 'y_true' and '(1 - y_true)'",
+      "type": "COMPOSITE_OPERATION",
+      "position": {
+        "x": 553,
+        "y": 46
+      },
+      "inputs": [
+        {
+          "name": "Input",
+          "primitive_name": "Input"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "y_true",
+          "primitive_name": "Output",
+          "flow_state": "UNBOUND"
+        },
+        {
+          "name": "(1 - y_true)",
+          "primitive_name": "Output",
+          "flow_state": "UNBOUND"
+        }
+      ],
+      "operations": [
+        {
+          "name": "Broadcast Target to Shape of Array",
+          "type": "COMPOSITE_OPERATION",
+          "position": {
+            "x": 383,
+            "y": 163
+          },
+          "inputs": [
+            {
+              "name": "Target",
+              "data": 1.0,
+              "shape": [],
+              "type": "DECIMAL",
+              "primitive_name": "Target",
+              "flow_state": "BOOT_SOURCE"
+            },
+            {
+              "name": "Array",
+              "primitive_name": "Array"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "Output",
+              "primitive_name": "Output",
+              "flow_state": "UNBOUND"
+            }
+          ],
+          "operations": [
+            {
+              "name": "get_shape",
+              "primitive_name": "get_shape",
+              "type": "PRIMITIVE_OPERATION",
+              "aliases": [
+                "shape",
+                "size",
+                "get_size"
+              ],
+              "position": {
+                "x": 601,
+                "y": 342
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "primitive_name": "input"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "shape",
+                  "primitive_name": "shape",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "broadcast_to_shape",
+              "primitive_name": "broadcast_to_shape",
+              "type": "PRIMITIVE_OPERATION",
+              "aliases": [
+                "broadcast",
+                "tile",
+                "tile_to_shape"
+              ],
+              "position": {
+                "x": 1097,
+                "y": 43
+              },
+              "inputs": [
+                {
+                  "name": "target",
+                  "shape": [],
+                  "type": "DECIMAL",
+                  "primitive_name": "target",
+                  "flow_state": "BOOT_SINK"
+                },
+                {
+                  "name": "shape",
+                  "primitive_name": "shape"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "result",
+                  "primitive_name": "result",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "source": {
+                "operation": "this",
+                "data": "Array"
+              },
+              "sink": {
+                "operation": "get_shape",
+                "data": "input"
+              },
+              "control_points": [
+                {
+                  "x": 427,
+                  "y": 404
+                }
+              ]
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Target"
+              },
+              "sink": {
+                "operation": "broadcast_to_shape",
+                "data": "target"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "get_shape",
+                "data": "shape"
+              },
+              "sink": {
+                "operation": "broadcast_to_shape",
+                "data": "shape"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "broadcast_to_shape",
+                "data": "result"
+              },
+              "sink": {
+                "operation": "this",
+                "data": "Output"
+              },
+              "control_points": []
+            }
+          ]
+        },
+        {
+          "name": "subtract",
+          "primitive_name": "subtract",
+          "type": "PRIMITIVE_OPERATION",
+          "aliases": [
+            "minus",
+            "decrement"
+          ],
+          "position": {
+            "x": 974,
+            "y": 43
+          },
+          "inputs": [
+            {
+              "name": "left_operand",
+              "primitive_name": "left_operand"
+            },
+            {
+              "name": "right_operand",
+              "primitive_name": "right_operand"
+            }
+          ],
+          "input_order": [
+            1,
+            0
+          ],
+          "outputs": [
+            {
+              "name": "subtracted_result",
+              "primitive_name": "subtracted_result",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "parse_decimal",
+          "primitive_name": "parse_decimal",
+          "type": "PRIMITIVE_OPERATION",
+          "aliases": [
+            "parse_to_decimal",
+            "convert_to_decimal",
+            "cast_to_decimal",
+            "parse_float",
+            "parse_to_float",
+            "convert_to_float",
+            "cast_to_float",
+            "parse_double",
+            "parse_to_double",
+            "convert_to_double",
+            "cast_to_double"
+          ],
+          "position": {
+            "x": 1454,
+            "y": 43
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "primitive_name": "input"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "primitive_name": "output",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "identity",
+          "primitive_name": "identity",
+          "type": "PRIMITIVE_OPERATION",
+          "aliases": [
+            "same"
+          ],
+          "position": {
+            "x": 630,
+            "y": 343
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "primitive_name": "input"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "primitive_name": "output",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "parse_decimal_1",
+          "primitive_name": "parse_decimal",
+          "type": "PRIMITIVE_OPERATION",
+          "aliases": [
+            "parse_to_decimal",
+            "convert_to_decimal",
+            "cast_to_decimal",
+            "parse_float",
+            "parse_to_float",
+            "convert_to_float",
+            "cast_to_float",
+            "parse_double",
+            "parse_to_double",
+            "convert_to_double",
+            "cast_to_double"
+          ],
+          "position": {
+            "x": 1176,
+            "y": 346
+          },
+          "inputs": [
+            {
+              "name": "input",
+              "primitive_name": "input"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "output",
+              "primitive_name": "output",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": {
+            "operation": "Broadcast Target to Shape of Array",
+            "data": "Output"
+          },
+          "sink": {
+            "operation": "subtract",
+            "data": "left_operand"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "Input"
+          },
+          "sink": {
+            "operation": "subtract",
+            "data": "right_operand"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "parse_decimal",
+            "data": "output"
+          },
+          "sink": {
+            "operation": "this",
+            "data": "(1 - y_true)"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "parse_decimal_1",
+            "data": "output"
+          },
+          "sink": {
+            "operation": "this",
+            "data": "y_true"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "subtract",
+            "data": "subtracted_result"
+          },
+          "sink": {
+            "operation": "parse_decimal",
+            "data": "input"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "Input"
+          },
+          "sink": {
+            "operation": "identity",
+            "data": "input"
+          },
+          "control_points": [
+            {
+              "x": 286,
+              "y": 405
+            }
+          ]
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "Input"
+          },
+          "sink": {
+            "operation": "Broadcast Target to Shape of Array",
+            "data": "Array"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "identity",
+            "data": "output"
+          },
+          "sink": {
+            "operation": "parse_decimal_1",
+            "data": "input"
+          },
+          "control_points": []
+        }
+      ]
+    },
+    {
+      "name": "Ln(1 - y_predicted)",
+      "type": "COMPOSITE_OPERATION",
+      "position": {
+        "x": 556,
+        "y": 233
+      },
+      "inputs": [
+        {
+          "name": "Input",
+          "primitive_name": "Input"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Output",
+          "primitive_name": "Output",
+          "flow_state": "UNBOUND"
+        }
+      ],
+      "operations": [
+        {
+          "name": "Broadcast Target to Shape of Array",
+          "type": "COMPOSITE_OPERATION",
+          "position": {
+            "x": 264,
+            "y": 150
+          },
+          "inputs": [
+            {
+              "name": "Target",
+              "data": 1.0,
+              "shape": [],
+              "type": "DECIMAL",
+              "primitive_name": "Target",
+              "flow_state": "BOOT_SOURCE"
+            },
+            {
+              "name": "Array",
+              "primitive_name": "Array"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "Output",
+              "primitive_name": "Output",
+              "flow_state": "UNBOUND"
+            }
+          ],
+          "operations": [
+            {
+              "name": "get_shape",
+              "primitive_name": "get_shape",
+              "type": "PRIMITIVE_OPERATION",
+              "aliases": [
+                "shape",
+                "size",
+                "get_size"
+              ],
+              "position": {
+                "x": 601,
+                "y": 346
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "primitive_name": "input"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "shape",
+                  "primitive_name": "shape",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "broadcast_to_shape",
+              "primitive_name": "broadcast_to_shape",
+              "type": "PRIMITIVE_OPERATION",
+              "aliases": [
+                "broadcast",
+                "tile",
+                "tile_to_shape"
+              ],
+              "position": {
+                "x": 1097,
+                "y": 42
+              },
+              "inputs": [
+                {
+                  "name": "target",
+                  "shape": [],
+                  "type": "DECIMAL",
+                  "primitive_name": "target",
+                  "flow_state": "BOOT_SINK"
+                },
+                {
+                  "name": "shape",
+                  "primitive_name": "shape"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "result",
+                  "primitive_name": "result",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "source": {
+                "operation": "this",
+                "data": "Array"
+              },
+              "sink": {
+                "operation": "get_shape",
+                "data": "input"
+              },
+              "control_points": [
+                {
+                  "x": 427,
+                  "y": 404
+                }
+              ]
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Target"
+              },
+              "sink": {
+                "operation": "broadcast_to_shape",
+                "data": "target"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "get_shape",
+                "data": "shape"
+              },
+              "sink": {
+                "operation": "broadcast_to_shape",
+                "data": "shape"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "broadcast_to_shape",
+                "data": "result"
+              },
+              "sink": {
+                "operation": "this",
+                "data": "Output"
+              },
+              "control_points": []
+            }
+          ]
+        },
+        {
+          "name": "subtract",
+          "primitive_name": "subtract",
+          "type": "PRIMITIVE_OPERATION",
+          "aliases": [
+            "minus",
+            "decrement"
+          ],
+          "position": {
+            "x": 667,
+            "y": 44
+          },
+          "inputs": [
+            {
+              "name": "left_operand",
+              "primitive_name": "left_operand"
+            },
+            {
+              "name": "right_operand",
+              "primitive_name": "right_operand"
+            }
+          ],
+          "input_order": [
+            1,
+            0
+          ],
+          "outputs": [
+            {
+              "name": "subtracted_result",
+              "primitive_name": "subtracted_result",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "Create 'e' of Same Shape as Input",
+          "type": "COMPOSITE_OPERATION",
+          "position": {
+            "x": 621,
+            "y": 294
+          },
+          "inputs": [
+            {
+              "name": "Target",
+              "data": 2.718281828459045,
+              "shape": [],
+              "type": "DECIMAL",
+              "primitive_name": "Target",
+              "flow_state": "BOOT_SOURCE"
+            },
+            {
+              "name": "Array",
+              "primitive_name": "Array"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "Output",
+              "primitive_name": "Output",
+              "flow_state": "UNBOUND"
+            }
+          ],
+          "operations": [
+            {
+              "name": "get_shape",
+              "primitive_name": "get_shape",
+              "type": "PRIMITIVE_OPERATION",
+              "aliases": [
+                "shape",
+                "size",
+                "get_size"
+              ],
+              "position": {
+                "x": 601,
+                "y": 346
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "primitive_name": "input"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "shape",
+                  "primitive_name": "shape",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "broadcast_to_shape",
+              "primitive_name": "broadcast_to_shape",
+              "type": "PRIMITIVE_OPERATION",
+              "aliases": [
+                "broadcast",
+                "tile",
+                "tile_to_shape"
+              ],
+              "position": {
+                "x": 1097,
+                "y": 42
+              },
+              "inputs": [
+                {
+                  "name": "target",
+                  "shape": [],
+                  "type": "DECIMAL",
+                  "primitive_name": "target",
+                  "flow_state": "BOOT_SINK"
+                },
+                {
+                  "name": "shape",
+                  "primitive_name": "shape"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "result",
+                  "primitive_name": "result",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "source": {
+                "operation": "this",
+                "data": "Array"
+              },
+              "sink": {
+                "operation": "get_shape",
+                "data": "input"
+              },
+              "control_points": [
+                {
+                  "x": 427,
+                  "y": 404
+                }
+              ]
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Target"
+              },
+              "sink": {
+                "operation": "broadcast_to_shape",
+                "data": "target"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "get_shape",
+                "data": "shape"
+              },
+              "sink": {
+                "operation": "broadcast_to_shape",
+                "data": "shape"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "broadcast_to_shape",
+                "data": "result"
+              },
+              "sink": {
+                "operation": "this",
+                "data": "Output"
+              },
+              "control_points": []
+            }
+          ]
+        },
+        {
+          "name": "element_wise_logarithm",
+          "primitive_name": "element_wise_logarithm",
+          "type": "PRIMITIVE_OPERATION",
+          "aliases": [
+            "log",
+            "logarithm"
+          ],
+          "position": {
+            "x": 1024,
+            "y": 42
+          },
+          "inputs": [
+            {
+              "name": "base",
+              "primitive_name": "base"
+            },
+            {
+              "name": "argument",
+              "primitive_name": "argument"
+            }
+          ],
+          "input_order": [
+            1,
+            0
+          ],
+          "outputs": [
+            {
+              "name": "exponent",
+              "primitive_name": "exponent",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "Handle 'Inf' Values",
+          "type": "COMPOSITE_OPERATION",
+          "position": {
+            "x": 1453,
+            "y": 40
+          },
+          "inputs": [
+            {
+              "name": "Input",
+              "primitive_name": "Input"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "Output",
+              "primitive_name": "Output",
+              "flow_state": "UNBOUND"
+            }
+          ],
+          "operations": [
+            {
+              "name": "identity",
+              "primitive_name": "identity",
+              "type": "PRIMITIVE_OPERATION",
+              "aliases": [
+                "same"
+              ],
+              "position": {
+                "x": 346,
+                "y": 439
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "primitive_name": "input"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "primitive_name": "output",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "Create 'Inf' Values",
+              "type": "COMPOSITE_OPERATION",
+              "position": {
+                "x": 398,
+                "y": 215
+              },
+              "inputs": [
+                {
+                  "name": "Target",
+                  "data": -1e+40,
+                  "shape": [],
+                  "type": "DECIMAL",
+                  "primitive_name": "Target",
+                  "flow_state": "BOOT_SOURCE"
+                },
+                {
+                  "name": "Array",
+                  "primitive_name": "Array"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "Output",
+                  "primitive_name": "Output",
+                  "flow_state": "UNBOUND"
+                }
+              ],
+              "operations": [
+                {
+                  "name": "get_shape",
+                  "primitive_name": "get_shape",
+                  "type": "PRIMITIVE_OPERATION",
+                  "aliases": [
+                    "shape",
+                    "size",
+                    "get_size"
+                  ],
+                  "position": {
+                    "x": 601,
+                    "y": 346
+                  },
+                  "inputs": [
+                    {
+                      "name": "input",
+                      "primitive_name": "input"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "shape",
+                      "primitive_name": "shape",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "broadcast_to_shape",
+                  "primitive_name": "broadcast_to_shape",
+                  "type": "PRIMITIVE_OPERATION",
+                  "aliases": [
+                    "broadcast",
+                    "tile",
+                    "tile_to_shape"
+                  ],
+                  "position": {
+                    "x": 1097,
+                    "y": 42
+                  },
+                  "inputs": [
+                    {
+                      "name": "target",
+                      "shape": [],
+                      "type": "DECIMAL",
+                      "primitive_name": "target",
+                      "flow_state": "BOOT_SINK"
+                    },
+                    {
+                      "name": "shape",
+                      "primitive_name": "shape"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "result",
+                      "primitive_name": "result",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                }
+              ],
+              "links": [
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Array"
+                  },
+                  "sink": {
+                    "operation": "get_shape",
+                    "data": "input"
+                  },
+                  "control_points": [
+                    {
+                      "x": 427,
+                      "y": 404
+                    }
+                  ]
+                },
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Target"
+                  },
+                  "sink": {
+                    "operation": "broadcast_to_shape",
+                    "data": "target"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "get_shape",
+                    "data": "shape"
+                  },
+                  "sink": {
+                    "operation": "broadcast_to_shape",
+                    "data": "shape"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "broadcast_to_shape",
+                    "data": "result"
+                  },
+                  "sink": {
+                    "operation": "this",
+                    "data": "Output"
+                  },
+                  "control_points": []
+                }
+              ]
+            },
+            {
+              "name": "equal",
+              "primitive_name": "equal",
+              "type": "PRIMITIVE_OPERATION",
+              "aliases": [
+                "eq"
+              ],
+              "position": {
+                "x": 872,
+                "y": 43
+              },
+              "inputs": [
+                {
+                  "name": "left_operand",
+                  "primitive_name": "left_operand"
+                },
+                {
+                  "name": "right_operand",
+                  "primitive_name": "right_operand"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "is_equal",
+                  "primitive_name": "is_equal",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "Create Values to Replace with 'Inf'",
+              "type": "COMPOSITE_OPERATION",
+              "position": {
+                "x": 883,
+                "y": 211
+              },
+              "inputs": [
+                {
+                  "name": "Target",
+                  "data": -100.0,
+                  "shape": [],
+                  "type": "DECIMAL",
+                  "primitive_name": "Target",
+                  "flow_state": "BOOT_SOURCE"
+                },
+                {
+                  "name": "Array",
+                  "primitive_name": "Array"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "Output",
+                  "primitive_name": "Output",
+                  "flow_state": "UNBOUND"
+                }
+              ],
+              "operations": [
+                {
+                  "name": "get_shape",
+                  "primitive_name": "get_shape",
+                  "type": "PRIMITIVE_OPERATION",
+                  "aliases": [
+                    "shape",
+                    "size",
+                    "get_size"
+                  ],
+                  "position": {
+                    "x": 601,
+                    "y": 346
+                  },
+                  "inputs": [
+                    {
+                      "name": "input",
+                      "primitive_name": "input"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "shape",
+                      "primitive_name": "shape",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "broadcast_to_shape",
+                  "primitive_name": "broadcast_to_shape",
+                  "type": "PRIMITIVE_OPERATION",
+                  "aliases": [
+                    "broadcast",
+                    "tile",
+                    "tile_to_shape"
+                  ],
+                  "position": {
+                    "x": 1097,
+                    "y": 42
+                  },
+                  "inputs": [
+                    {
+                      "name": "target",
+                      "shape": [],
+                      "type": "DECIMAL",
+                      "primitive_name": "target",
+                      "flow_state": "BOOT_SINK"
+                    },
+                    {
+                      "name": "shape",
+                      "primitive_name": "shape"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "result",
+                      "primitive_name": "result",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                }
+              ],
+              "links": [
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Array"
+                  },
+                  "sink": {
+                    "operation": "get_shape",
+                    "data": "input"
+                  },
+                  "control_points": [
+                    {
+                      "x": 427,
+                      "y": 404
+                    }
+                  ]
+                },
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Target"
+                  },
+                  "sink": {
+                    "operation": "broadcast_to_shape",
+                    "data": "target"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "get_shape",
+                    "data": "shape"
+                  },
+                  "sink": {
+                    "operation": "broadcast_to_shape",
+                    "data": "shape"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "broadcast_to_shape",
+                    "data": "result"
+                  },
+                  "sink": {
+                    "operation": "this",
+                    "data": "Output"
+                  },
+                  "control_points": []
+                }
+              ]
+            },
+            {
+              "name": "conditional_filter",
+              "primitive_name": "conditional_filter",
+              "type": "PRIMITIVE_OPERATION",
+              "aliases": [
+                "conditional_merge",
+                "replace",
+                "where"
+              ],
+              "position": {
+                "x": 1499,
+                "y": 44
+              },
+              "inputs": [
+                {
+                  "name": "condition",
+                  "primitive_name": "condition"
+                },
+                {
+                  "name": "data_if_true",
+                  "primitive_name": "data_if_true"
+                },
+                {
+                  "name": "data_if_false",
+                  "primitive_name": "data_if_false"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output_data",
+                  "primitive_name": "output_data",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "source": {
+                "operation": "Create 'Inf' Values",
+                "data": "Output"
+              },
+              "sink": {
+                "operation": "equal",
+                "data": "right_operand"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "equal",
+                "data": "is_equal"
+              },
+              "sink": {
+                "operation": "conditional_filter",
+                "data": "condition"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "identity",
+                "data": "output"
+              },
+              "sink": {
+                "operation": "Create Values to Replace with 'Inf'",
+                "data": "Array"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Input"
+              },
+              "sink": {
+                "operation": "equal",
+                "data": "left_operand"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Input"
+              },
+              "sink": {
+                "operation": "identity",
+                "data": "input"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Input"
+              },
+              "sink": {
+                "operation": "Create 'Inf' Values",
+                "data": "Array"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "Create Values to Replace with 'Inf'",
+                "data": "Output"
+              },
+              "sink": {
+                "operation": "conditional_filter",
+                "data": "data_if_true"
+              },
+              "control_points": [
+                {
+                  "x": 1283,
+                  "y": 151
+                }
+              ]
+            },
+            {
+              "source": {
+                "operation": "identity",
+                "data": "output"
+              },
+              "sink": {
+                "operation": "conditional_filter",
+                "data": "data_if_false"
+              },
+              "control_points": [
+                {
+                  "x": 1258,
+                  "y": 501
+                }
+              ]
+            },
+            {
+              "source": {
+                "operation": "conditional_filter",
+                "data": "output_data"
+              },
+              "sink": {
+                "operation": "this",
+                "data": "Output"
+              },
+              "control_points": []
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": {
+            "operation": "this",
+            "data": "Input"
+          },
+          "sink": {
+            "operation": "Broadcast Target to Shape of Array",
+            "data": "Array"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "Input"
+          },
+          "sink": {
+            "operation": "Create 'e' of Same Shape as Input",
+            "data": "Array"
+          },
+          "control_points": [
+            {
+              "x": 289,
+              "y": 398
+            }
+          ]
+        },
+        {
+          "source": {
+            "operation": "Broadcast Target to Shape of Array",
+            "data": "Output"
+          },
+          "sink": {
+            "operation": "subtract",
+            "data": "left_operand"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "Input"
+          },
+          "sink": {
+            "operation": "subtract",
+            "data": "right_operand"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "Create 'e' of Same Shape as Input",
+            "data": "Output"
+          },
+          "sink": {
+            "operation": "element_wise_logarithm",
+            "data": "base"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "subtract",
+            "data": "subtracted_result"
+          },
+          "sink": {
+            "operation": "element_wise_logarithm",
+            "data": "argument"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "element_wise_logarithm",
+            "data": "exponent"
+          },
+          "sink": {
+            "operation": "Handle 'Inf' Values",
+            "data": "Input"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "Handle 'Inf' Values",
+            "data": "Output"
+          },
+          "sink": {
+            "operation": "this",
+            "data": "Output"
+          },
+          "control_points": []
+        }
+      ]
+    },
+    {
+      "name": "Ln(y_predicted) ",
+      "type": "COMPOSITE_OPERATION",
+      "position": {
+        "x": 559,
+        "y": 372
+      },
+      "inputs": [
+        {
+          "name": "Input",
+          "primitive_name": "Input"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Output",
+          "primitive_name": "Output",
+          "flow_state": "UNBOUND"
+        }
+      ],
+      "operations": [
+        {
+          "name": "Create 'e' of Same Shape as Input",
+          "type": "COMPOSITE_OPERATION",
+          "position": {
+            "x": 269,
+            "y": 200
+          },
+          "inputs": [
+            {
+              "name": "Target",
+              "data": 2.718281828459045,
+              "shape": [],
+              "type": "DECIMAL",
+              "primitive_name": "Target",
+              "flow_state": "BOOT_SOURCE"
+            },
+            {
+              "name": "Array",
+              "primitive_name": "Array"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "Output",
+              "primitive_name": "Output",
+              "flow_state": "UNBOUND"
+            }
+          ],
+          "operations": [
+            {
+              "name": "get_shape",
+              "primitive_name": "get_shape",
+              "type": "PRIMITIVE_OPERATION",
+              "aliases": [
+                "shape",
+                "size",
+                "get_size"
+              ],
+              "position": {
+                "x": 601,
+                "y": 346
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "primitive_name": "input"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "shape",
+                  "primitive_name": "shape",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "broadcast_to_shape",
+              "primitive_name": "broadcast_to_shape",
+              "type": "PRIMITIVE_OPERATION",
+              "aliases": [
+                "broadcast",
+                "tile",
+                "tile_to_shape"
+              ],
+              "position": {
+                "x": 1097,
+                "y": 42
+              },
+              "inputs": [
+                {
+                  "name": "target",
+                  "shape": [],
+                  "type": "DECIMAL",
+                  "primitive_name": "target",
+                  "flow_state": "BOOT_SINK"
+                },
+                {
+                  "name": "shape",
+                  "primitive_name": "shape"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "result",
+                  "primitive_name": "result",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "source": {
+                "operation": "this",
+                "data": "Array"
+              },
+              "sink": {
+                "operation": "get_shape",
+                "data": "input"
+              },
+              "control_points": [
+                {
+                  "x": 427,
+                  "y": 404
+                }
+              ]
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Target"
+              },
+              "sink": {
+                "operation": "broadcast_to_shape",
+                "data": "target"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "get_shape",
+                "data": "shape"
+              },
+              "sink": {
+                "operation": "broadcast_to_shape",
+                "data": "shape"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "broadcast_to_shape",
+                "data": "result"
+              },
+              "sink": {
+                "operation": "this",
+                "data": "Output"
+              },
+              "control_points": []
+            }
+          ]
+        },
+        {
+          "name": "element_wise_logarithm",
+          "primitive_name": "element_wise_logarithm",
+          "type": "PRIMITIVE_OPERATION",
+          "aliases": [
+            "log",
+            "logarithm"
+          ],
+          "position": {
+            "x": 654,
+            "y": 43
+          },
+          "inputs": [
+            {
+              "name": "base",
+              "primitive_name": "base"
+            },
+            {
+              "name": "argument",
+              "primitive_name": "argument"
+            }
+          ],
+          "input_order": [
+            1,
+            0
+          ],
+          "outputs": [
+            {
+              "name": "exponent",
+              "primitive_name": "exponent",
+              "flow_state": "UNBOUND"
+            }
+          ]
+        },
+        {
+          "name": "Handle 'Inf' Values",
+          "type": "COMPOSITE_OPERATION",
+          "position": {
+            "x": 1098,
+            "y": 45
+          },
+          "inputs": [
+            {
+              "name": "Input",
+              "primitive_name": "Input"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "Output",
+              "primitive_name": "Output",
+              "flow_state": "UNBOUND"
+            }
+          ],
+          "operations": [
+            {
+              "name": "identity",
+              "primitive_name": "identity",
+              "type": "PRIMITIVE_OPERATION",
+              "aliases": [
+                "same"
+              ],
+              "position": {
+                "x": 346,
+                "y": 439
+              },
+              "inputs": [
+                {
+                  "name": "input",
+                  "primitive_name": "input"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output",
+                  "primitive_name": "output",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "Create 'Inf' Values",
+              "type": "COMPOSITE_OPERATION",
+              "position": {
+                "x": 398,
+                "y": 215
+              },
+              "inputs": [
+                {
+                  "name": "Target",
+                  "data": -1e+40,
+                  "shape": [],
+                  "type": "DECIMAL",
+                  "primitive_name": "Target",
+                  "flow_state": "BOOT_SOURCE"
+                },
+                {
+                  "name": "Array",
+                  "primitive_name": "Array"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "Output",
+                  "primitive_name": "Output",
+                  "flow_state": "UNBOUND"
+                }
+              ],
+              "operations": [
+                {
+                  "name": "get_shape",
+                  "primitive_name": "get_shape",
+                  "type": "PRIMITIVE_OPERATION",
+                  "aliases": [
+                    "shape",
+                    "size",
+                    "get_size"
+                  ],
+                  "position": {
+                    "x": 601,
+                    "y": 346
+                  },
+                  "inputs": [
+                    {
+                      "name": "input",
+                      "primitive_name": "input"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "shape",
+                      "primitive_name": "shape",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "broadcast_to_shape",
+                  "primitive_name": "broadcast_to_shape",
+                  "type": "PRIMITIVE_OPERATION",
+                  "aliases": [
+                    "broadcast",
+                    "tile",
+                    "tile_to_shape"
+                  ],
+                  "position": {
+                    "x": 1097,
+                    "y": 42
+                  },
+                  "inputs": [
+                    {
+                      "name": "target",
+                      "shape": [],
+                      "type": "DECIMAL",
+                      "primitive_name": "target",
+                      "flow_state": "BOOT_SINK"
+                    },
+                    {
+                      "name": "shape",
+                      "primitive_name": "shape"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "result",
+                      "primitive_name": "result",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                }
+              ],
+              "links": [
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Array"
+                  },
+                  "sink": {
+                    "operation": "get_shape",
+                    "data": "input"
+                  },
+                  "control_points": [
+                    {
+                      "x": 427,
+                      "y": 404
+                    }
+                  ]
+                },
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Target"
+                  },
+                  "sink": {
+                    "operation": "broadcast_to_shape",
+                    "data": "target"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "get_shape",
+                    "data": "shape"
+                  },
+                  "sink": {
+                    "operation": "broadcast_to_shape",
+                    "data": "shape"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "broadcast_to_shape",
+                    "data": "result"
+                  },
+                  "sink": {
+                    "operation": "this",
+                    "data": "Output"
+                  },
+                  "control_points": []
+                }
+              ]
+            },
+            {
+              "name": "equal",
+              "primitive_name": "equal",
+              "type": "PRIMITIVE_OPERATION",
+              "aliases": [
+                "eq"
+              ],
+              "position": {
+                "x": 872,
+                "y": 43
+              },
+              "inputs": [
+                {
+                  "name": "left_operand",
+                  "primitive_name": "left_operand"
+                },
+                {
+                  "name": "right_operand",
+                  "primitive_name": "right_operand"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "is_equal",
+                  "primitive_name": "is_equal",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            },
+            {
+              "name": "Create Values to Replace with 'Inf'",
+              "type": "COMPOSITE_OPERATION",
+              "position": {
+                "x": 883,
+                "y": 211
+              },
+              "inputs": [
+                {
+                  "name": "Target",
+                  "data": -100.0,
+                  "shape": [],
+                  "type": "DECIMAL",
+                  "primitive_name": "Target",
+                  "flow_state": "BOOT_SOURCE"
+                },
+                {
+                  "name": "Array",
+                  "primitive_name": "Array"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "Output",
+                  "primitive_name": "Output",
+                  "flow_state": "UNBOUND"
+                }
+              ],
+              "operations": [
+                {
+                  "name": "get_shape",
+                  "primitive_name": "get_shape",
+                  "type": "PRIMITIVE_OPERATION",
+                  "aliases": [
+                    "shape",
+                    "size",
+                    "get_size"
+                  ],
+                  "position": {
+                    "x": 601,
+                    "y": 346
+                  },
+                  "inputs": [
+                    {
+                      "name": "input",
+                      "primitive_name": "input"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "shape",
+                      "primitive_name": "shape",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                },
+                {
+                  "name": "broadcast_to_shape",
+                  "primitive_name": "broadcast_to_shape",
+                  "type": "PRIMITIVE_OPERATION",
+                  "aliases": [
+                    "broadcast",
+                    "tile",
+                    "tile_to_shape"
+                  ],
+                  "position": {
+                    "x": 1097,
+                    "y": 42
+                  },
+                  "inputs": [
+                    {
+                      "name": "target",
+                      "shape": [],
+                      "type": "DECIMAL",
+                      "primitive_name": "target",
+                      "flow_state": "BOOT_SINK"
+                    },
+                    {
+                      "name": "shape",
+                      "primitive_name": "shape"
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "result",
+                      "primitive_name": "result",
+                      "flow_state": "UNBOUND"
+                    }
+                  ]
+                }
+              ],
+              "links": [
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Array"
+                  },
+                  "sink": {
+                    "operation": "get_shape",
+                    "data": "input"
+                  },
+                  "control_points": [
+                    {
+                      "x": 427,
+                      "y": 404
+                    }
+                  ]
+                },
+                {
+                  "source": {
+                    "operation": "this",
+                    "data": "Target"
+                  },
+                  "sink": {
+                    "operation": "broadcast_to_shape",
+                    "data": "target"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "get_shape",
+                    "data": "shape"
+                  },
+                  "sink": {
+                    "operation": "broadcast_to_shape",
+                    "data": "shape"
+                  },
+                  "control_points": []
+                },
+                {
+                  "source": {
+                    "operation": "broadcast_to_shape",
+                    "data": "result"
+                  },
+                  "sink": {
+                    "operation": "this",
+                    "data": "Output"
+                  },
+                  "control_points": []
+                }
+              ]
+            },
+            {
+              "name": "conditional_filter",
+              "primitive_name": "conditional_filter",
+              "type": "PRIMITIVE_OPERATION",
+              "aliases": [
+                "conditional_merge",
+                "replace",
+                "where"
+              ],
+              "position": {
+                "x": 1499,
+                "y": 44
+              },
+              "inputs": [
+                {
+                  "name": "condition",
+                  "primitive_name": "condition"
+                },
+                {
+                  "name": "data_if_true",
+                  "primitive_name": "data_if_true"
+                },
+                {
+                  "name": "data_if_false",
+                  "primitive_name": "data_if_false"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "output_data",
+                  "primitive_name": "output_data",
+                  "flow_state": "UNBOUND"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "source": {
+                "operation": "Create 'Inf' Values",
+                "data": "Output"
+              },
+              "sink": {
+                "operation": "equal",
+                "data": "right_operand"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "equal",
+                "data": "is_equal"
+              },
+              "sink": {
+                "operation": "conditional_filter",
+                "data": "condition"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "identity",
+                "data": "output"
+              },
+              "sink": {
+                "operation": "Create Values to Replace with 'Inf'",
+                "data": "Array"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Input"
+              },
+              "sink": {
+                "operation": "equal",
+                "data": "left_operand"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Input"
+              },
+              "sink": {
+                "operation": "identity",
+                "data": "input"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "this",
+                "data": "Input"
+              },
+              "sink": {
+                "operation": "Create 'Inf' Values",
+                "data": "Array"
+              },
+              "control_points": []
+            },
+            {
+              "source": {
+                "operation": "Create Values to Replace with 'Inf'",
+                "data": "Output"
+              },
+              "sink": {
+                "operation": "conditional_filter",
+                "data": "data_if_true"
+              },
+              "control_points": [
+                {
+                  "x": 1283,
+                  "y": 151
+                }
+              ]
+            },
+            {
+              "source": {
+                "operation": "identity",
+                "data": "output"
+              },
+              "sink": {
+                "operation": "conditional_filter",
+                "data": "data_if_false"
+              },
+              "control_points": [
+                {
+                  "x": 1258,
+                  "y": 501
+                }
+              ]
+            },
+            {
+              "source": {
+                "operation": "conditional_filter",
+                "data": "output_data"
+              },
+              "sink": {
+                "operation": "this",
+                "data": "Output"
+              },
+              "control_points": []
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": {
+            "operation": "this",
+            "data": "Input"
+          },
+          "sink": {
+            "operation": "Create 'e' of Same Shape as Input",
+            "data": "Array"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "this",
+            "data": "Input"
+          },
+          "sink": {
+            "operation": "element_wise_logarithm",
+            "data": "argument"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "Create 'e' of Same Shape as Input",
+            "data": "Output"
+          },
+          "sink": {
+            "operation": "element_wise_logarithm",
+            "data": "base"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "element_wise_logarithm",
+            "data": "exponent"
+          },
+          "sink": {
+            "operation": "Handle 'Inf' Values",
+            "data": "Input"
+          },
+          "control_points": []
+        },
+        {
+          "source": {
+            "operation": "Handle 'Inf' Values",
+            "data": "Output"
+          },
+          "sink": {
+            "operation": "this",
+            "data": "Output"
+          },
+          "control_points": []
+        }
+      ]
+    },
+    {
+      "name": "element_wise_multiply",
+      "primitive_name": "element_wise_multiply",
+      "type": "PRIMITIVE_OPERATION",
+      "aliases": [
+        "times"
+      ],
+      "position": {
+        "x": 1120,
+        "y": 43
+      },
+      "inputs": [
+        {
+          "name": "left_array",
+          "primitive_name": "left_array"
+        },
+        {
+          "name": "right_array",
+          "primitive_name": "right_array"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "multiplied_array",
+          "primitive_name": "multiplied_array",
+          "flow_state": "UNBOUND"
+        }
+      ]
+    },
+    {
+      "name": "element_wise_multiply_1",
+      "primitive_name": "element_wise_multiply",
+      "type": "PRIMITIVE_OPERATION",
+      "aliases": [
+        "times"
+      ],
+      "position": {
+        "x": 1124,
+        "y": 310
+      },
+      "inputs": [
+        {
+          "name": "left_array",
+          "primitive_name": "left_array"
+        },
+        {
+          "name": "right_array",
+          "primitive_name": "right_array"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "multiplied_array",
+          "primitive_name": "multiplied_array",
+          "flow_state": "UNBOUND"
+        }
+      ]
+    },
+    {
+      "name": "add",
+      "primitive_name": "add",
+      "type": "PRIMITIVE_OPERATION",
+      "aliases": [
+        "plus",
+        "increment"
+      ],
+      "position": {
+        "x": 1556,
+        "y": 178
+      },
+      "inputs": [
+        {
+          "name": "left_operand",
+          "primitive_name": "left_operand"
+        },
+        {
+          "name": "right_operand",
+          "primitive_name": "right_operand"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "added_result",
+          "primitive_name": "added_result",
+          "flow_state": "UNBOUND"
+        }
+      ]
+    },
+    {
+      "name": "mean",
+      "primitive_name": "mean",
+      "type": "PRIMITIVE_OPERATION",
+      "aliases": [
+        "avg",
+        "average",
+        "get_expected_value"
+      ],
+      "position": {
+        "x": 1966,
+        "y": 176
+      },
+      "inputs": [
+        {
+          "name": "array",
+          "primitive_name": "array"
+        },
+        {
+          "name": "dimension_index",
+          "data": 0,
+          "shape": [],
+          "type": "INTEGER",
+          "primitive_name": "dimension_index",
+          "flow_state": "BOOT_SOURCE"
+        },
+        {
+          "name": "keep_dimension",
+          "data": false,
+          "shape": [],
+          "type": "BOOLEAN",
+          "primitive_name": "keep_dimension",
+          "flow_state": "BOOT_SOURCE"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "mean_result",
+          "primitive_name": "mean_result",
+          "flow_state": "UNBOUND"
+        }
+      ]
+    },
+    {
+      "name": "absolute_value",
+      "primitive_name": "absolute_value",
+      "type": "PRIMITIVE_OPERATION",
+      "aliases": [
+        "abs"
+      ],
+      "position": {
+        "x": 2346,
+        "y": 175
+      },
+      "inputs": [
+        {
+          "name": "target",
+          "primitive_name": "target"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "result",
+          "primitive_name": "result",
+          "flow_state": "UNBOUND"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "source": {
+        "operation": "add",
+        "data": "added_result"
+      },
+      "sink": {
+        "operation": "mean",
+        "data": "array"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "mean",
+        "data": "mean_result"
+      },
+      "sink": {
+        "operation": "absolute_value",
+        "data": "target"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "absolute_value",
+        "data": "result"
+      },
+      "sink": {
+        "operation": "this",
+        "data": "Loss"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "Calculate 'y_true' and '(1 - y_true)'",
+        "data": "y_true"
+      },
+      "sink": {
+        "operation": "element_wise_multiply",
+        "data": "left_array"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "Calculate 'y_true' and '(1 - y_true)'",
+        "data": "(1 - y_true)"
+      },
+      "sink": {
+        "operation": "element_wise_multiply_1",
+        "data": "left_array"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "Ln(1 - y_predicted)",
+        "data": "Output"
+      },
+      "sink": {
+        "operation": "element_wise_multiply_1",
+        "data": "right_array"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "element_wise_multiply",
+        "data": "multiplied_array"
+      },
+      "sink": {
+        "operation": "add",
+        "data": "left_operand"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "element_wise_multiply_1",
+        "data": "multiplied_array"
+      },
+      "sink": {
+        "operation": "add",
+        "data": "right_operand"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "this",
+        "data": "Expected"
+      },
+      "sink": {
+        "operation": "Calculate 'y_true' and '(1 - y_true)'",
+        "data": "Input"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "this",
+        "data": "Predicted"
+      },
+      "sink": {
+        "operation": "Ln(y_predicted) ",
+        "data": "Input"
+      },
+      "control_points": [
+        {
+          "x": 348,
+          "y": 434
+        }
+      ]
+    },
+    {
+      "source": {
+        "operation": "this",
+        "data": "Predicted"
+      },
+      "sink": {
+        "operation": "Ln(1 - y_predicted)",
+        "data": "Input"
+      },
+      "control_points": []
+    },
+    {
+      "source": {
+        "operation": "Ln(y_predicted) ",
+        "data": "Output"
+      },
+      "sink": {
+        "operation": "element_wise_multiply",
+        "data": "right_array"
+      },
+      "control_points": []
+    }
+  ],
+  "global_constants": [],
+  "description": [
+    "Binary Cross Entropy, also known as Log Loss, quantifies the difference between predicted probabilities and actual binary outcomes. It penalizes incorrect classifications by assigning higher loss values to predictions that are far from the actual labels."
+  ]
+}
